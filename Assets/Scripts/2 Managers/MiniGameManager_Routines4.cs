@@ -1352,120 +1352,172 @@ public partial class MiniGameManager : MonoBehaviour
     // 14. SkimATM (Skim ATM Card Data)
     // ==========================================
     private Label saTimerLabel;
-    private Label saConnectionLabel;
-    
-    private void SetupSkimATM()
+    private    private void SetupSkimATM()
     {
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 10f;
         saConnections = 0;
-        saActiveNode = null;
+        saIsDraggingWire = false;
+        saActiveWire = null;
+        saStartNode = null;
         
         if (saContainer != null)
         {
-            saTimerLabel = saContainer.Q<Label>("SaTimerText");
-            saConnectionLabel = saContainer.Q<Label>("SaConnectionText");
-
+            saTimerLabel = saContainer.Q<UnityEngine.UIElements.Label>("SaTimerText");
+            saConnectionLabel = saContainer.Q<UnityEngine.UIElements.Label>("SaConnectionText");
             if (saTimerLabel != null) saTimerLabel.text = $"TIME: {timer:F1}s";
             if (saConnectionLabel != null) saConnectionLabel.text = "LINKS: 0/4";
 
-            VisualElement leftCol = saContainer.Q<VisualElement>("SaLeftPanel");
-            VisualElement rightCol = saContainer.Q<VisualElement>("SaRightPanel");
+            UnityEngine.UIElements.VisualElement leftCol = saContainer.Q<UnityEngine.UIElements.VisualElement>("SaLeftPanel");
+            UnityEngine.UIElements.VisualElement rightCol = saContainer.Q<UnityEngine.UIElements.VisualElement>("SaRightPanel");
 
             if (leftCol != null) leftCol.Clear();
             if (rightCol != null) rightCol.Clear();
+            if (saWireContainer != null) {
+                saWireContainer.Clear();
+                // Ensure wire container receives events across its whole area
+                saWireContainer.pickingMode = UnityEngine.UIElements.PickingMode.Position;
+                // Clean up previous event listeners just in case
+                saWireContainer.UnregisterCallback<UnityEngine.UIElements.PointerMoveEvent>(OnSaPointerMove);
+                saWireContainer.UnregisterCallback<UnityEngine.UIElements.PointerUpEvent>(OnSaPointerUp);
+                saWireContainer.UnregisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(OnSaPointerUp);
+                
+                saWireContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(OnSaPointerMove);
+                saWireContainer.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(OnSaPointerUp);
+                saWireContainer.RegisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(OnSaPointerUp);
+            }
             
             saLeftNodes.Clear();
             saRightNodes.Clear();
             
-            Color[] colors = { Color.red, Color.blue, Color.green, Color.yellow };
-            Color[] rightColors = { Color.red, Color.blue, Color.green, Color.yellow };
+            UnityEngine.Color[] colors = { UnityEngine.Color.red, UnityEngine.Color.blue, UnityEngine.Color.green, UnityEngine.Color.yellow };
+            UnityEngine.Color[] rightColors = { UnityEngine.Color.red, UnityEngine.Color.blue, UnityEngine.Color.green, UnityEngine.Color.yellow };
             
-            // Shuffle rightColors
             for(int i = 0; i < rightColors.Length; i++) {
                 int r = UnityEngine.Random.Range(i, rightColors.Length);
-                Color temp = rightColors[i];
+                UnityEngine.Color temp = rightColors[i];
                 rightColors[i] = rightColors[r];
                 rightColors[r] = temp;
             }
             
             for (int i = 0; i < 4; i++)
             {
-                Button lBtn = new Button();
-                lBtn.style.width = 50; lBtn.style.height = 50; 
-                lBtn.style.marginTop = 10; lBtn.style.marginBottom = 10; lBtn.style.marginLeft = 10; lBtn.style.marginRight = 10;
-                lBtn.style.backgroundColor = new StyleColor(colors[i]);
-                lBtn.style.borderTopWidth = 3; lBtn.style.borderBottomWidth = 3; lBtn.style.borderLeftWidth = 3; lBtn.style.borderRightWidth = 3;
-                lBtn.style.borderTopColor = new StyleColor(Color.clear); lBtn.style.borderBottomColor = new StyleColor(Color.clear); 
-                lBtn.style.borderLeftColor = new StyleColor(Color.clear); lBtn.style.borderRightColor = new StyleColor(Color.clear);
-                lBtn.style.borderTopLeftRadius = 8; lBtn.style.borderTopRightRadius = 8; lBtn.style.borderBottomLeftRadius = 8; lBtn.style.borderBottomRightRadius = 8;
+                UnityEngine.UIElements.VisualElement lBtn = new UnityEngine.UIElements.VisualElement();
+                lBtn.style.width = 40; lBtn.style.height = 40; 
+                lBtn.style.marginTop = 15; lBtn.style.marginBottom = 15;
+                lBtn.style.backgroundColor = new UnityEngine.UIElements.StyleColor(colors[i]);
+                lBtn.style.borderTopLeftRadius = 20; lBtn.style.borderTopRightRadius = 20; lBtn.style.borderBottomLeftRadius = 20; lBtn.style.borderBottomRightRadius = 20;
                 
-                lBtn.clicked += () => { 
-                    if(isPlaying && lBtn.enabledSelf) 
-                    {
-                        if (saActiveNode != null) saActiveNode.style.borderTopColor = new StyleColor(Color.clear);
-                        saActiveNode = lBtn; 
-                        saActiveNode.style.borderTopColor = new StyleColor(Color.white);
-                        saActiveNode.style.borderBottomColor = new StyleColor(Color.white);
-                        saActiveNode.style.borderLeftColor = new StyleColor(Color.white);
-                        saActiveNode.style.borderRightColor = new StyleColor(Color.white);
-                    }
-                };
+                lBtn.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnSaNodePointerDown(ev, lBtn));
                 saLeftNodes.Add(lBtn);
                 if (leftCol != null) leftCol.Add(lBtn);
                 
-                Button rBtn = new Button();
-                rBtn.style.width = 50; rBtn.style.height = 50; 
-                rBtn.style.marginTop = 10; rBtn.style.marginBottom = 10; rBtn.style.marginLeft = 10; rBtn.style.marginRight = 10;
-                rBtn.style.backgroundColor = new StyleColor(rightColors[i]);
-                rBtn.style.borderTopWidth = 3; rBtn.style.borderBottomWidth = 3; rBtn.style.borderLeftWidth = 3; rBtn.style.borderRightWidth = 3;
-                rBtn.style.borderTopLeftRadius = 8; rBtn.style.borderTopRightRadius = 8; rBtn.style.borderBottomLeftRadius = 8; rBtn.style.borderBottomRightRadius = 8;
+                UnityEngine.UIElements.VisualElement rBtn = new UnityEngine.UIElements.VisualElement();
+                rBtn.style.width = 40; rBtn.style.height = 40; 
+                rBtn.style.marginTop = 15; rBtn.style.marginBottom = 15;
+                rBtn.style.backgroundColor = new UnityEngine.UIElements.StyleColor(rightColors[i]);
+                rBtn.style.borderTopLeftRadius = 20; rBtn.style.borderTopRightRadius = 20; rBtn.style.borderBottomLeftRadius = 20; rBtn.style.borderBottomRightRadius = 20;
                 
-                rBtn.clicked += () => {
-                    if (isPlaying && saActiveNode != null && rBtn.enabledSelf)
-                    {
-                        if (saActiveNode.style.backgroundColor.value == rBtn.style.backgroundColor.value)
-                        {
-                            saActiveNode.enabledSelf = false;
-                            rBtn.enabledSelf = false;
-                            
-                            saActiveNode.style.backgroundColor = new StyleColor(Color.gray);
-                            saActiveNode.text = "✓";
-                            saActiveNode.style.color = new StyleColor(Color.white);
-                            saActiveNode.style.fontSize = 20;
-                            
-                            rBtn.style.backgroundColor = new StyleColor(Color.gray);
-                            rBtn.text = "✓";
-                            rBtn.style.color = new StyleColor(Color.white);
-                            rBtn.style.fontSize = 20;
-
-                            saConnections++;
-                            if (saConnectionLabel != null) saConnectionLabel.text = $"LINKS: {saConnections}/4";
-                            
-                            saActiveNode.style.borderTopColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderBottomColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderLeftColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderRightColor = new StyleColor(Color.clear);
-                            saActiveNode = null;
-                            
-                            if (saConnections >= 4) EndGame(true);
-                        }
-                        else
-                        {
-                            // Penalty
-                            timer -= 2f;
-                            saActiveNode.style.borderTopColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderBottomColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderLeftColor = new StyleColor(Color.clear);
-                            saActiveNode.style.borderRightColor = new StyleColor(Color.clear);
-                            saActiveNode = null;
-                        }
-                    }
-                };
                 saRightNodes.Add(rBtn);
                 if (rightCol != null) rightCol.Add(rBtn);
             }
         }
+
         activeGameRoutine = StartCoroutine(SkimATMRoutine());
+    }
+
+    private void OnSaNodePointerDown(UnityEngine.UIElements.PointerDownEvent ev, UnityEngine.UIElements.VisualElement node) {
+        if (!isPlaying || currentConfig?.type != GameType.SkimATM || !node.enabledSelf || saWireContainer == null) return;
+        saIsDraggingWire = true;
+        saStartNode = node;
+        
+        saActiveWire = new UnityEngine.UIElements.VisualElement();
+        saActiveWire.style.position = UnityEngine.UIElements.Position.Absolute;
+        saActiveWire.style.height = 8; // Wire thickness
+        saActiveWire.style.backgroundColor = node.style.backgroundColor;
+        saActiveWire.style.borderTopLeftRadius = 4;
+        saActiveWire.style.borderBottomLeftRadius = 4;
+        saActiveWire.style.transformOrigin = new UnityEngine.UIElements.TransformOrigin(0, UnityEngine.UIElements.LengthUnit.Percent, 50, UnityEngine.UIElements.LengthUnit.Percent);
+        saActiveWire.pickingMode = UnityEngine.UIElements.PickingMode.Ignore; // Crucial so it doesn't block PointerUp
+        
+        // Calculate center of start node relative to saWireContainer
+        UnityEngine.Vector2 nodeCenter = node.worldBound.center;
+        UnityEngine.Vector2 localCenter = saWireContainer.WorldToLocal(nodeCenter);
+        
+        saActiveWire.style.left = localCenter.x;
+        saActiveWire.style.top = localCenter.y - 4; // offset by half height
+        
+        saWireContainer.Add(saActiveWire);
+        
+        // Ensure the container captures the pointer so we can drag outside the initial element
+        saWireContainer.CapturePointer(ev.pointerId);
+    }
+    
+    private void OnSaPointerMove(UnityEngine.UIElements.PointerMoveEvent ev) {
+        if (!saIsDraggingWire || saActiveWire == null || saStartNode == null || saWireContainer == null) return;
+        
+        UnityEngine.Vector2 startPos = saWireContainer.WorldToLocal(saStartNode.worldBound.center);
+        UnityEngine.Vector2 mousePos = saWireContainer.WorldToLocal(ev.position);
+        
+        UnityEngine.Vector2 dir = mousePos - startPos;
+        float distance = dir.magnitude;
+        float angle = UnityEngine.Mathf.Atan2(dir.y, dir.x) * UnityEngine.Mathf.Rad2Deg;
+        
+        saActiveWire.style.width = distance;
+        saActiveWire.style.rotate = new UnityEngine.UIElements.Rotate(new UnityEngine.UIElements.Angle(angle, UnityEngine.UIElements.AngleUnit.Degree));
+    }
+    
+    private void OnSaPointerUp(UnityEngine.UIElements.EventBase ev) {
+        if (!saIsDraggingWire || saWireContainer == null) return;
+        saIsDraggingWire = false;
+        
+        UnityEngine.UIElements.IPointerEvent pointerEv = ev as UnityEngine.UIElements.IPointerEvent;
+        if (pointerEv != null && saWireContainer.HasPointerCapture(pointerEv.pointerId)) {
+            saWireContainer.ReleasePointer(pointerEv.pointerId);
+        }
+        
+        if (saActiveWire == null || saStartNode == null) return;
+        
+        if (pointerEv == null) return;
+        
+        UnityEngine.Vector2 mousePos = pointerEv.position;
+        UnityEngine.UIElements.VisualElement targetNode = null;
+        
+        foreach (var rBtn in saRightNodes) {
+            if (rBtn.enabledSelf && rBtn.worldBound.Contains(mousePos)) {
+                targetNode = rBtn;
+                break;
+            }
+        }
+        
+        if (targetNode != null && targetNode.style.backgroundColor.value == saStartNode.style.backgroundColor.value) {
+            // Success snap
+            UnityEngine.Vector2 startPos = saWireContainer.WorldToLocal(saStartNode.worldBound.center);
+            UnityEngine.Vector2 targetPos = saWireContainer.WorldToLocal(targetNode.worldBound.center);
+            UnityEngine.Vector2 dir = targetPos - startPos;
+            
+            saActiveWire.style.width = dir.magnitude;
+            saActiveWire.style.rotate = new UnityEngine.UIElements.Rotate(new UnityEngine.UIElements.Angle(UnityEngine.Mathf.Atan2(dir.y, dir.x) * UnityEngine.Mathf.Rad2Deg, UnityEngine.UIElements.AngleUnit.Degree));
+            
+            saStartNode.enabledSelf = false;
+            targetNode.enabledSelf = false;
+            
+            saConnections++;
+            if (saConnectionLabel != null) saConnectionLabel.text = $"LINKS: {saConnections}/4";
+            
+            if (saConnections >= 4) EndGame(true);
+        } else {
+            // Snap back / Destroy
+            if (saWireContainer.Contains(saActiveWire)) {
+                saWireContainer.Remove(saActiveWire);
+            }
+            if (targetNode != null && targetNode.style.backgroundColor.value != saStartNode.style.backgroundColor.value) {
+                // Penalty for connecting wrong colors
+                timer -= 2f;
+            }
+        }
+        
+        saActiveWire = null;
+        saStartNode = null;
     }
 
     private IEnumerator SkimATMRoutine()
