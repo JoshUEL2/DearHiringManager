@@ -648,10 +648,15 @@ public partial class MiniGameManager : MonoBehaviour
             {
                 var btn = new Button();
                 btn.style.flexGrow = 1;
-                btn.style.marginTop = 2; btn.style.marginBottom = 2; btn.style.marginLeft = 2; btn.style.marginRight = 2;
+                btn.style.marginTop = 1; btn.style.marginBottom = 1; btn.style.marginLeft = 1; btn.style.marginRight = 1;
                 btn.style.fontSize = 32;
                 btn.style.color = Color.white;
                 btn.style.unityFontStyleAndWeight = FontStyle.Bold;
+                
+                // Remove default button border styling for a clean flat look
+                btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
+                btn.style.borderTopLeftRadius = 4; btn.style.borderTopRightRadius = 4; btn.style.borderBottomLeftRadius = 4; btn.style.borderBottomRightRadius = 4;
+                
                 gridCells[x,y] = btn;
                 row.Add(btn);
             }
@@ -672,24 +677,24 @@ public partial class MiniGameManager : MonoBehaviour
                 btn.text = "";
                 
                 if (!gridPathCells.Contains((x,y))) 
-                    btn.style.backgroundColor = new StyleColor(new Color(0.1f, 0.4f, 0.8f));
+                    btn.style.backgroundColor = new StyleColor(new Color(0.08f, 0.32f, 0.17f)); // Dark green hedge (#14532D)
                 else 
-                    btn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.8f, 0.2f));
+                    btn.style.backgroundColor = new StyleColor(new Color(0.83f, 0.76f, 0.65f)); // Dirt path (#D4C3A6)
                 
                 if (x == currentConfig.gridSize - 1 && y == currentConfig.gridSize - 1)
                 {
-                    btn.text = "★";
-                    btn.style.backgroundColor = new StyleColor(Color.yellow);
+                    btn.text = "⛲"; // Fountain goal
+                    btn.style.backgroundColor = new StyleColor(new Color(0.38f, 0.65f, 0.98f)); // Cyan water pool
                 }
 
                 if (x == gridPlayerX && y == gridPlayerY)
                 {
                     if (currentGame.name == "Empty waste bin") btn.text = "🗑️";
-                    else if (currentGame.name == "Walk in the Park") btn.text = "🧍";
+                    else if (currentGame.name == "Walk in the Park") btn.text = "🚶‍♂️";
                     else if (currentGame.name == "Carry tungsten girders") btn.text = "🏗️";
                     else btn.text = "P";
                     
-                    btn.style.backgroundColor = new StyleColor(Color.white);
+                    btn.style.backgroundColor = new StyleColor(new Color(0.95f, 0.95f, 0.95f));
                     btn.style.color = Color.black;
                 }
             }

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="GridDodgeContainer" style="display: none; align-items: center; margin-bottom: 30px;">
-                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
-                        <ui:Label name="GridHealthText" text="❤️ 3" style="font-size: 28px; color: #E74C3C; -unity-font-style: bold;" />
-                        <ui:Label name="GridMoveText" text="Moves: 0" style="font-size: 28px; color: #94A3B8; -unity-font-style: bold;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="GridDodgeGrid" style="flex-direction: column; flex-wrap: nowrap; justify-content: center; width: 100%; height: 400px;">
-                        <!-- 25 cells generated dynamically -->
-                    </ui:VisualElement>
-                </ui:VisualElement>
+    <ui:VisualElement name="GridDodgeContainer" style="display: none; align-items: center; margin-bottom: 20px; width: 100%; flex-direction: column;">
+        
+        <!-- Top HUD -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 350px; margin-bottom: 15px; background-color: rgba(0,0,0,0.1); padding: 10px; border-radius: 12px;">
+            <ui:VisualElement style="background-color: #EF4444; padding: 5px 15px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                <ui:Label name="GridHealthText" text="❤️ 3" style="font-size: 20px; color: white; -unity-font-style: bold; margin: 0; padding: 0;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="background-color: #3B82F6; padding: 5px 15px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                <ui:Label name="GridMoveText" text="MOVES: 0" style="font-size: 16px; color: white; -unity-font-style: bold; margin: 0; padding: 0; margin-top: 2px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- The Grid (Fixed 350x350 to ensure square cells) -->
+        <ui:VisualElement name="GridDodgeGrid" style="flex-direction: column; width: 350px; height: 350px; background-color: #166534; border-radius: 8px; border-width: 4px; border-color: #14532D; box-shadow: 0 10px 20px rgba(0,0,0,0.3); overflow: hidden;">
+            <!-- 25 cells generated dynamically -->
+        </ui:VisualElement>
+
+    </ui:VisualElement>
 </ui:UXML>
