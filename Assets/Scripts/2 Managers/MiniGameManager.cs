@@ -957,8 +957,10 @@ public partial class MiniGameManager : MonoBehaviour
                 rrObstacleElements[i] = rrContainer.Q<UnityEngine.UIElements.Label>($"RrObs{i}");
             }
 
-            if (btnRrLeft != null) btnRrLeft.clicked += () => { if (isPlaying && rrCurrentLane > 0) rrCurrentLane--; };
-            if (btnRrRight != null) btnRrRight.clicked += () => { if (isPlaying && rrCurrentLane < 2) rrCurrentLane++; };
+            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(OnRrPointerDown);
+            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(OnRrPointerMove);
+            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => rrIsDragging = false);
+            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(ev => rrIsDragging = false);
         }
 
         // Footer

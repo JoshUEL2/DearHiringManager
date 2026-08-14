@@ -471,7 +471,8 @@ public partial class MiniGameManager : MonoBehaviour
     private UnityEngine.Vector2[] rrObstaclePos = new UnityEngine.Vector2[8]; // x = lane (0,1,2), y = progress (0 to 1)
     private int rrBlocks = 0;
     private float rrDistanceTimer = 0f;
-    private int rrCurrentLane = 1; // 0=left, 1=center, 2=right
+    private bool rrIsDragging = false;
+    private float rrTargetLeft = 50f;
 
     private float atSuiteProgress = 0f;
     private ActiveMiniGame currentGame;

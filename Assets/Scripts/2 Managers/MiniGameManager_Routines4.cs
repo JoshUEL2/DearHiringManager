@@ -1183,12 +1183,31 @@ public partial class MiniGameManager : MonoBehaviour
     // 13. RetroRacer (Deliver Fast Food Order)
     // ==========================================
 
+    private void OnRrPointerDown(UnityEngine.UIElements.PointerDownEvent ev) {
+        if (!isPlaying || currentGame?.config.type != GameType.RetroRacer) return;
+        rrIsDragging = true;
+        UpdateRrPlayerPos(ev.localPosition.x);
+    }
+
+    private void OnRrPointerMove(UnityEngine.UIElements.PointerMoveEvent ev) {
+        if (!rrIsDragging || !isPlaying || currentGame?.config.type != GameType.RetroRacer) return;
+        UpdateRrPlayerPos(ev.localPosition.x);
+    }
+
+    private void UpdateRrPlayerPos(float mouseX) {
+        if (rrContainer == null) return;
+        float width = rrContainer.worldBound.width;
+        if (width <= 0f) return;
+        float pct = (mouseX / width) * 100f;
+        rrTargetLeft = UnityEngine.Mathf.Clamp(pct, 15f, 85f);
+    }
+
     private void SetupRetroRacer()
     {
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 20f;
         rrBlocks = 0;
         rrDistanceTimer = 0f;
-        rrCurrentLane = 1;
+        rrTargetLeft = 50f;
         
         if (rrDistanceLabel != null) rrDistanceLabel.text = "DISTANCE: 0";
         if (rrTimeLabel != null) rrTimeLabel.text = $"TIME: {UnityEngine.Mathf.CeilToInt(timer)}";
@@ -1254,12 +1273,11 @@ public partial class MiniGameManager : MonoBehaviour
                 }
             }
 
-            // Smoothly move player to current lane (Player is always at bottom)
+            // Smoothly move player to target position
             if (rrPlayer != null)
             {
-                float targetLeft = laneTargets[rrCurrentLane];
                 float currentLeft = rrPlayer.style.left.value.value;
-                float newLeft = UnityEngine.Mathf.Lerp(currentLeft, targetLeft, UnityEngine.Time.deltaTime * 10f);
+                float newLeft = UnityEngine.Mathf.Lerp(currentLeft, rrTargetLeft, UnityEngine.Time.deltaTime * 15f);
                 rrPlayer.style.left = new UnityEngine.UIElements.Length(newLeft, UnityEngine.UIElements.LengthUnit.Percent);
             }
 
@@ -1291,15 +1309,20 @@ public partial class MiniGameManager : MonoBehaviour
                 pos.y += UnityEngine.Time.deltaTime * speed * 0.8f; // Linear progress
                 rrObstaclePos[i] = pos;
 
-                if (pos.y >= 1f)
+                if (pos.y >= 0.9f && pos.y <= 1.0f && rrPlayer != null)
                 {
-                    // Collision Check
-                    if ((int)pos.x == rrCurrentLane)
+                    // Dynamic Collision Check
+                    float laneTargetX = laneTargets[(int)pos.x];
+                    float playerX = rrPlayer.style.left.value.value;
+                    if (UnityEngine.Mathf.Abs(playerX - laneTargetX) < 12f)
                     {
                         AbortGame(); // Hit obstacle
                         yield break;
                     }
+                }
 
+                if (pos.y >= 1f)
+                {
                     rrObstacleActive[i] = false;
                     if (rrObstacleElements[i] != null) rrObstacleElements[i].style.display = UnityEngine.UIElements.DisplayStyle.None;
                 }
