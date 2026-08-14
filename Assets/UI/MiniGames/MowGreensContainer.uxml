@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="MowGreensContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #064E3B; border-radius: 10px; border-width: 6px; border-color: #8B5A2B; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: center;">
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 100%; height: 100%; justify-content: center; align-content: center;"></ui:VisualElement>
-                    <ui:Label text="DRAG TO MOW!" style="font-size: 32px; color: white; -unity-font-style: bold; position: absolute; pointer-events: none;" />
-                </ui:VisualElement>
+    <!-- Main Container -->
+    <ui:VisualElement name="MowGreensContainer" style="display: none; width: 100%; min-width: 400px; height: 550px; flex-direction: column; background-color: #065F46; border-radius: 12px; border-width: 8px; border-color: #8B5A2B; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; padding: 10px;">
+        
+        <!-- Header Info Area -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; padding: 10px; background-color: rgba(0,0,0,0.5); border-radius: 8px; margin-bottom: 10px;">
+            <ui:Label name="MgTimeText" text="TIME: 15.0s" style="font-size: 24px; color: #F87171; -unity-font-style: bold;" />
+            <ui:Label name="MgProgressLabel" text="MOWED: 0/31" style="font-size: 24px; color: #34D399; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        
+        <ui:Label text="DRAG TO MOW! AVOID OBSTACLES!" style="font-size: 20px; color: white; -unity-font-style: bold; margin-bottom: 15px; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
+
+        <!-- 6x6 Grid Container -->
+        <!-- Fixed size to exactly 360x360 so each 6x6 tile is 60x60 -->
+        <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 360px; height: 360px; background-color: #111827; border-radius: 8px; border-width: 4px; border-color: #1F2937; overflow: hidden; align-content: flex-start; justify-content: flex-start;">
+            <!-- Tiles will be spawned dynamically in C# -->
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
 </ui:UXML>

@@ -292,8 +292,12 @@ public partial class MiniGameManager : MonoBehaviour
     // Mow Greens
     private UnityEngine.UIElements.VisualElement mgContainer;
     private UnityEngine.UIElements.VisualElement mgGrid;
+    private UnityEngine.UIElements.Label mgTimeLabel;
+    private UnityEngine.UIElements.Label mgProgressLabel;
     private int mgTilesCut = 0;
-    private bool[] mgCutStatus;
+    private bool[] mgCutStatus = new bool[36];
+    private bool[] mgIsObstacle = new bool[36];
+    private bool mgIsDragging = false;
 
     // Walk Dogs
     private UnityEngine.UIElements.VisualElement wdContainer;

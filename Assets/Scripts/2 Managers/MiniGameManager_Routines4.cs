@@ -998,62 +998,132 @@ public partial class MiniGameManager : MonoBehaviour
     {
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
         mgTilesCut = 0;
-        mgCutStatus = new bool[25];
+        mgCutStatus = new bool[36];
+        mgIsObstacle = new bool[36];
+        mgIsDragging = false;
         
         if (mgContainer != null)
         {
-            mgContainer.Clear();
-
-            mgProgressLabel = new Label("MOWED: 0/25");
-            mgProgressLabel.style.color = new StyleColor(Color.white);
-            mgProgressLabel.style.fontSize = 24;
-            mgProgressLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
-            mgProgressLabel.style.marginBottom = 10;
-            mgContainer.Add(mgProgressLabel);
-
-            mgGrid = new VisualElement();
-            mgGrid.style.flexDirection = FlexDirection.Row;
-            mgGrid.style.flexWrap = Wrap.Wrap;
-            mgGrid.style.width = 300;
-            mgGrid.style.height = 300;
-            mgGrid.style.alignSelf = Align.Center;
-            mgContainer.Add(mgGrid);
+            mgTimeLabel = mgContainer.Q<Label>("MgTimeText");
+            mgProgressLabel = mgContainer.Q<Label>("MgProgressLabel");
+            mgGrid = mgContainer.Q<VisualElement>("MgGrid");
             
-            for (int i = 0; i < 25; i++)
-            {
-                VisualElement tile = new VisualElement();
-                tile.style.width = 58;
-                tile.style.height = 58;
-                tile.style.marginTop = 1;
-                tile.style.marginBottom = 1;
-                tile.style.marginLeft = 1;
-                tile.style.marginRight = 1;
-                tile.style.backgroundColor = new StyleColor(Color.green);
-                int idx = i;
-                
-                System.Action cutGrass = () => {
-                    if (isPlaying && !mgCutStatus[idx])
-                    {
-                        mgCutStatus[idx] = true;
-                        tile.style.backgroundColor = new StyleColor(new Color(0.4f, 0.25f, 0.1f)); // Brown
-                        tile.style.borderTopColor = new StyleColor(new Color(0.3f, 0.2f, 0.05f)); // Subtle stripe
-                        tile.style.borderTopWidth = 5;
-                        mgTilesCut++;
-                        mgProgressLabel.text = $"MOWED: {mgTilesCut}/25";
-                        if (mgTilesCut >= 25) EndGame(true);
-                    }
-                };
+            if (mgTimeLabel != null) mgTimeLabel.text = $"TIME: {timer:F1}s";
+            if (mgProgressLabel != null) mgProgressLabel.text = "MOWED: 0/31";
 
-                tile.RegisterCallback<PointerEnterEvent>(ev => {
-                    if ((ev.pressedButtons & 1) != 0) cutGrass();
+            if (mgGrid != null)
+            {
+                mgGrid.Clear();
+                
+                // Randomly place 5 obstacles
+                System.Collections.Generic.List<int> obstacleIndices = new System.Collections.Generic.List<int>();
+                while (obstacleIndices.Count < 5)
+                {
+                    int rand = UnityEngine.Random.Range(0, 36);
+                    if (!obstacleIndices.Contains(rand))
+                    {
+                        obstacleIndices.Add(rand);
+                        mgIsObstacle[rand] = true;
+                    }
+                }
+
+                for (int i = 0; i < 36; i++)
+                {
+                    VisualElement tile = new VisualElement();
+                    tile.style.width = 60;
+                    tile.style.height = 60;
+                    tile.style.borderTopWidth = 2;
+                    tile.style.borderBottomWidth = 2;
+                    tile.style.borderLeftWidth = 2;
+                    tile.style.borderRightWidth = 2;
+                    tile.style.borderColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
+                    
+                    if (mgIsObstacle[i])
+                    {
+                        tile.style.backgroundColor = new StyleColor(new Color(0.08f, 0.5f, 0.3f)); // Dark grass
+                        Label icon = new Label(UnityEngine.Random.value > 0.5f ? "☕" : "📄");
+                        icon.style.fontSize = 32;
+                        icon.style.unityTextAlign = TextAnchor.MiddleCenter;
+                        icon.style.position = Position.Absolute;
+                        icon.style.top = 0; icon.style.bottom = 0; icon.style.left = 0; icon.style.right = 0;
+                        tile.Add(icon);
+                    }
+                    else
+                    {
+                        tile.style.backgroundColor = new StyleColor(new Color(0.08f, 0.6f, 0.3f)); // Uncut grass
+                        Label icon = new Label("🌿");
+                        icon.style.fontSize = 24;
+                        icon.style.unityTextAlign = TextAnchor.MiddleCenter;
+                        icon.style.position = Position.Absolute;
+                        icon.style.top = 0; icon.style.bottom = 0; icon.style.left = 0; icon.style.right = 0;
+                        tile.Add(icon);
+                    }
+
+                    mgGrid.Add(tile);
+                }
+                
+                // Register drag events on the grid itself
+                mgGrid.RegisterCallback<PointerDownEvent>(ev => {
+                    mgIsDragging = true;
+                    mgGrid.CapturePointer(ev.pointerId);
+                    HandleMowInteraction(ev.localPosition);
                 });
-                tile.RegisterCallback<ClickEvent>(ev => {
-                    cutGrass();
+                
+                mgGrid.RegisterCallback<PointerMoveEvent>(ev => {
+                    if (mgIsDragging && isPlaying) {
+                        HandleMowInteraction(ev.localPosition);
+                    }
                 });
-                mgGrid.Add(tile);
+                
+                mgGrid.RegisterCallback<PointerUpEvent>(ev => {
+                    mgIsDragging = false;
+                    mgGrid.ReleasePointer(ev.pointerId);
+                });
+                
+                mgGrid.RegisterCallback<PointerLeaveEvent>(ev => {
+                    // Optional: stop dragging if left grid completely
+                    // mgIsDragging = false; 
+                });
             }
         }
         activeGameRoutine = StartCoroutine(MowGreensRoutine());
+    }
+
+    private void HandleMowInteraction(Vector2 localPos)
+    {
+        if (mgGrid == null || !isPlaying) return;
+        
+        // Grid is 360x360, each tile is 60x60
+        int col = (int)(localPos.x / 60f);
+        int row = (int)(localPos.y / 60f);
+        
+        if (col >= 0 && col < 6 && row >= 0 && row < 6)
+        {
+            int index = row * 6 + col;
+            
+            if (mgIsObstacle[index])
+            {
+                // Hit obstacle!
+                mgGrid.ElementAt(index).style.backgroundColor = new StyleColor(Color.red);
+                EndGame(false);
+            }
+            else if (!mgCutStatus[index])
+            {
+                // Mow grass!
+                mgCutStatus[index] = true;
+                VisualElement tile = mgGrid.ElementAt(index);
+                tile.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Bright cut grass
+                tile.Clear(); // Remove 🌿 emoji
+                
+                mgTilesCut++;
+                if (mgProgressLabel != null) mgProgressLabel.text = $"MOWED: {mgTilesCut}/31";
+                
+                if (mgTilesCut >= 31)
+                {
+                    EndGame(true);
+                }
+            }
+        }
     }
 
     private IEnumerator MowGreensRoutine()
@@ -1062,6 +1132,8 @@ public partial class MiniGameManager : MonoBehaviour
         while (isPlaying)
         {
             timer -= Time.deltaTime;
+            if (mgTimeLabel != null) mgTimeLabel.text = $"TIME: {Mathf.Max(0, timer):F1}s";
+            
             if (timer <= 0f)
             {
                 EndGame(false);
