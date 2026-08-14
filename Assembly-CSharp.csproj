@@ -92,19 +92,16 @@
     <None Include="Assets/UI/MiniGames/WalkDogsContainer.uxml" />
     <None Include="Assets/UI/CV.uxml" />
     <None Include="Assets/UI/MiniGames/CorporateGolfContainer.uxml" />
-    <None Include="Assets/UI/MiniGames/CcLineContainer.uxml" />
     <None Include="Assets/UI/MiniGames/AcidRainContainer.uxml" />
     <None Include="Assets/UI/EducationUI.uxml" />
     <None Include="Assets/UI/MiniGames/SizeMatchContainer.uxml" />
     <None Include="Assets/UI/EventPopup.uxml" />
-    <None Include="Assets/UI/MiniGames/RbItemsContainer.uxml" />
     <None Include="Assets/UI/LuckStatsUI.uxml" />
     <None Include="Assets/UI/MiniGames/NightShiftContainer.uxml" />
     <None Include="Assets/UI/MigrationUI.uxml" />
     <None Include="Assets/UI/MiniGames/FormatDashboardContainer.uxml" />
     <None Include="Assets/UI/MiniGames/QATriageContainer.uxml" />
     <None Include="Assets/UI/MiniGames/AutomatedTestsContainer.uxml" />
-    <None Include="Assets/UI/MiniGames/PumpHoldTimerContainer.uxml" />
     <None Include="Assets/UI/MiniGames/SweepFloorContainer.uxml" />
     <None Include="Assets/UI/MiniGame.uxml" />
     <None Include="Assets/UI/MiniGames/SnatchBriefcaseContainer.uxml" />
@@ -113,7 +110,6 @@
     <None Include="Assets/UI/MiniGames/KanbanContainer.uxml" />
     <None Include="Assets/UI/MiniGames/SprintLaneContainer.uxml" />
     <None Include="Assets/UI/MiniGames/StealthInjectContainer.uxml" />
-    <None Include="Assets/UI/MiniGames/AcidDropContainer.uxml" />
     <None Include="Assets/UI/MiniGames/TimingRingContainer.uxml" />
     <None Include="Assets/UI/CareersUI.uxml" />
     <None Include="Assets/UI/MiniGames/UnitTestContainer.uxml" />
@@ -144,7 +140,6 @@
     <None Include="Assets/UI/MiniGames/CoffeeWorkContainer.uxml" />
     <None Include="Assets/UI/MiniGames/StartupPitchContainer.uxml" />
     <None Include="Assets/UI/MiniGames/VideoCallContainer.uxml" />
-    <None Include="Assets/UI/MiniGames/PumpDialContainer.uxml" />
     <None Include="Assets/UI/MiniGames/FileSorterContainer.uxml" />
     <None Include="Assets/UI/MiniGames/TicketSwipeContainer.uxml" />
     <None Include="Assets/UI/MiniGames/GridDodgeContainer.uxml" />

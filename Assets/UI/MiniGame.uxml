@@ -59,6 +59,7 @@
     <ui:Template name="TetrisContainer" src="MiniGames/TetrisContainer.uxml" />
     <ui:Template name="TicketSwipeContainer" src="MiniGames/TicketSwipeContainer.uxml" />
     <ui:Template name="TimingRingContainer" src="MiniGames/TimingRingContainer.uxml" />
+    <ui:Template name="TwoPhaseHeistContainer" src="MiniGames/TwoPhaseHeistContainer.uxml" />
     <ui:Template name="UnitTestContainer" src="MiniGames/UnitTestContainer.uxml" />
     <ui:Template name="VideoCallContainer" src="MiniGames/VideoCallContainer.uxml" />
     <ui:Template name="VrArcadeContainer" src="MiniGames/VrArcadeContainer.uxml" />
@@ -137,6 +138,7 @@
                 <ui:Instance template="TetrisContainer" />
                 <ui:Instance template="TicketSwipeContainer" />
                 <ui:Instance template="TimingRingContainer" />
+                <ui:Instance template="TwoPhaseHeistContainer" />
                 <ui:Instance template="UnitTestContainer" />
                 <ui:Instance template="VideoCallContainer" />
                 <ui:Instance template="VrArcadeContainer" />

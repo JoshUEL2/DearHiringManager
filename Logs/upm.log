@@ -671,3 +671,17 @@ params: {
   "packageId": "com.unity.collab-proxy"
 }
 [2026-08-14T15:51:00.979Z][INFO] packages:get-packageinfo --> 200 (351 ms)
+[2026-08-14T15:54:07.067Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T15:54:07.146Z][INFO] project:list-packages --> 200 (79 ms)
+[2026-08-14T15:54:07.355Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T15:54:07.434Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-08-14T15:54:07.437Z][INFO] project:list-packages --> 200 (82 ms)
+[2026-08-14T15:54:07.438Z][INFO] config:project:get-registries --> 200 (4 ms)
+[2026-08-14T15:54:09.093Z][INFO] packages:get-packageinfo <-- Request received
+params: {
+  "packageId": "com.unity.collab-proxy"
+}
+[2026-08-14T15:54:09.457Z][INFO] packages:get-packageinfo --> 200 (364 ms)
