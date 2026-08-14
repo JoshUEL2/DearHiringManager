@@ -809,7 +809,13 @@ public partial class MiniGameManager : MonoBehaviour
         
         for (int i=0; i<3; i++) {
             sbTargetNums[i] = UnityEngine.Random.Range(0, 10);
-            if (sbDials[i] != null) sbDials[i].style.color = UnityEngine.Color.black;
+            sbCurrentDialNums[i] = UnityEngine.Random.Range(0, 10);
+            
+            if (sbDialsTop[i] != null) sbDialsTop[i].text = ((sbCurrentDialNums[i] + 1) % 10).ToString();
+            if (sbDialsMid[i] != null) sbDialsMid[i].text = sbCurrentDialNums[i].ToString();
+            if (sbDialsBot[i] != null) sbDialsBot[i].text = ((sbCurrentDialNums[i] - 1 + 10) % 10).ToString();
+            
+            if (sbDialsMid[i] != null) sbDialsMid[i].style.color = UnityEngine.Color.black;
         }
         if (sbTargetText != null) sbTargetText.text = $"TARGET: {sbTargetNums[0]} - {sbTargetNums[1]} - {sbTargetNums[2]}";
         
@@ -820,9 +826,9 @@ public partial class MiniGameManager : MonoBehaviour
     {
         if (!isPlaying || sbCurrentDial >= 3) return;
         
-        int currentNum = int.Parse(sbDials[sbCurrentDial].text);
+        int currentNum = sbCurrentDialNums[sbCurrentDial];
         if (currentNum == sbTargetNums[sbCurrentDial]) {
-            sbDials[sbCurrentDial].style.color = new UnityEngine.Color(0.18f, 0.8f, 0.44f); // Green
+            if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new UnityEngine.Color(0.18f, 0.8f, 0.44f); // Green
             sbCurrentDial++;
             if (sbCurrentDial >= 3) {
                 sbStopBtn.text = "UNLOCKED!";
@@ -831,7 +837,7 @@ public partial class MiniGameManager : MonoBehaviour
                 sbStopBtn.text = $"STOP DIAL {sbCurrentDial + 1}";
             }
         } else {
-            sbDials[sbCurrentDial].style.color = new UnityEngine.Color(0.9f, 0.3f, 0.23f); // Red
+            if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new UnityEngine.Color(0.9f, 0.3f, 0.23f); // Red
             sbStopBtn.text = "WRONG PIN!";
             AbortGame();
         }
@@ -845,17 +851,18 @@ public partial class MiniGameManager : MonoBehaviour
             timer -= UnityEngine.Time.deltaTime;
             sbSpinTimer += UnityEngine.Time.deltaTime;
             
-            // Speed starts at 0.1 (half of old 0.05). Gets faster with each lock cracked.
-            float currentSpeed = 0.1f - (sbCurrentDial * 0.035f); 
-            if (currentSpeed < 0.02f) currentSpeed = 0.02f;
+            // Speed starts at 0.1. Gets faster with each lock cracked.
+            float currentSpeed = 0.12f - (sbCurrentDial * 0.035f); 
+            if (currentSpeed < 0.03f) currentSpeed = 0.03f;
             
             if (sbSpinTimer > currentSpeed) {
                 sbSpinTimer = 0f;
                 for (int i = sbCurrentDial; i < 3; i++) {
-                    if (sbDials[i] != null) {
-                        int currentNum = int.Parse(sbDials[i].text);
-                        sbDials[i].text = ((currentNum + 1) % 10).ToString();
-                    }
+                    sbCurrentDialNums[i] = (sbCurrentDialNums[i] - 1 + 10) % 10;
+                    
+                    if (sbDialsTop[i] != null) sbDialsTop[i].text = ((sbCurrentDialNums[i] + 1) % 10).ToString();
+                    if (sbDialsMid[i] != null) sbDialsMid[i].text = sbCurrentDialNums[i].ToString();
+                    if (sbDialsBot[i] != null) sbDialsBot[i].text = ((sbCurrentDialNums[i] - 1 + 10) % 10).ToString();
                 }
             }
 

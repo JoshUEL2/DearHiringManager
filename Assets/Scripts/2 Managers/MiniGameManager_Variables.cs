@@ -303,13 +303,16 @@ public partial class MiniGameManager : MonoBehaviour
 
     // Recycle Bottles (Removed)
     
-    // Snatch Briefcase
-    private UnityEngine.UIElements.VisualElement sbContainer;
-    private UnityEngine.UIElements.Label[] sbDials = new UnityEngine.UIElements.Label[3];
+    // Snatch Briefcase Variables
+    private UnityEngine.UIElements.VisualElement snatchBriefcaseContainer;
+    private UnityEngine.UIElements.Label[] sbDialsTop = new UnityEngine.UIElements.Label[3];
+    private UnityEngine.UIElements.Label[] sbDialsMid = new UnityEngine.UIElements.Label[3];
+    private UnityEngine.UIElements.Label[] sbDialsBot = new UnityEngine.UIElements.Label[3];
     private UnityEngine.UIElements.Label sbTargetText;
     private UnityEngine.UIElements.Button sbStopBtn;
-    private int[] sbTargetNums = new int[3];
     private int sbCurrentDial = 0;
+    private int[] sbTargetNums = new int[3];
+    private int[] sbCurrentDialNums = new int[3];
     private float sbSpinTimer = 0f;
 
     // Skim ATM
