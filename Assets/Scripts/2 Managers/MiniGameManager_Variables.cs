@@ -294,6 +294,7 @@ public partial class MiniGameManager : MonoBehaviour
     private UnityEngine.UIElements.VisualElement mgGrid;
     private UnityEngine.UIElements.Label mgTimeLabel;
     private UnityEngine.UIElements.Label mgProgressLabel;
+    private UnityEngine.UIElements.Label mgTractor;
     private int mgTilesCut = 0;
     private bool[] mgCutStatus = new bool[36];
     private bool[] mgIsObstacle = new bool[36];

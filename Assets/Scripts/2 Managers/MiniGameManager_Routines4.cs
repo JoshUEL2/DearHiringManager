@@ -1006,13 +1006,19 @@ public partial class MiniGameManager : MonoBehaviour
             mgTimeLabel = mgContainer.Q<Label>("MgTimeText");
             mgProgressLabel = mgContainer.Q<Label>("MgProgressLabel");
             mgGrid = mgContainer.Q<VisualElement>("MgGrid");
+            mgTractor = mgContainer.Q<Label>("MgTractor");
             
             if (mgTimeLabel != null) mgTimeLabel.text = $"TIME: {timer:F1}s";
             if (mgProgressLabel != null) mgProgressLabel.text = "MOWED: 0/31";
 
             if (mgGrid != null)
             {
-                mgGrid.Clear();
+                // Clear grid tiles (but don't remove MgTractor!)
+                var children = new System.Collections.Generic.List<VisualElement>(mgGrid.Children());
+                foreach (var child in children)
+                {
+                    if (child != mgTractor) mgGrid.Remove(child);
+                }
                 
                 // Randomly place 5 obstacles
                 System.Collections.Generic.List<int> obstacleIndices = new System.Collections.Generic.List<int>();
@@ -1061,24 +1067,37 @@ public partial class MiniGameManager : MonoBehaviour
                         tile.Add(icon);
                     }
 
-                    mgGrid.Add(tile);
+                    // Insert before the tractor so the tractor stays on top
+                    mgGrid.Insert(mgGrid.childCount - 1, tile);
                 }
                 
                 // Register drag events on the grid itself
                 mgGrid.RegisterCallback<PointerDownEvent>(ev => {
                     mgIsDragging = true;
                     mgGrid.CapturePointer(ev.pointerId);
-                    HandleMowInteraction(mgGrid.WorldToLocal(ev.position));
+                    Vector2 localPos = mgGrid.WorldToLocal(ev.position);
+                    if (mgTractor != null) {
+                        mgTractor.style.display = DisplayStyle.Flex;
+                        mgTractor.style.left = localPos.x;
+                        mgTractor.style.top = localPos.y;
+                    }
+                    HandleMowInteraction(localPos);
                 });
                 
                 mgGrid.RegisterCallback<PointerMoveEvent>(ev => {
                     if (mgIsDragging && isPlaying) {
-                        HandleMowInteraction(mgGrid.WorldToLocal(ev.position));
+                        Vector2 localPos = mgGrid.WorldToLocal(ev.position);
+                        if (mgTractor != null) {
+                            mgTractor.style.left = localPos.x;
+                            mgTractor.style.top = localPos.y;
+                        }
+                        HandleMowInteraction(localPos);
                     }
                 });
                 
                 mgGrid.RegisterCallback<PointerUpEvent>(ev => {
                     mgIsDragging = false;
+                    if (mgTractor != null) mgTractor.style.display = DisplayStyle.None;
                     mgGrid.ReleasePointer(ev.pointerId);
                 });
                 

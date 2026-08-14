@@ -13,8 +13,9 @@
 
         <!-- 6x6 Grid Container -->
         <!-- Fixed size to exactly 368x368 so the inner content is 360x360 (6x6 tiles of 60px) -->
-        <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 368px; height: 368px; background-color: #111827; border-radius: 8px; border-width: 4px; border-color: #1F2937; overflow: hidden; align-content: flex-start; justify-content: flex-start;">
+        <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 368px; height: 368px; background-color: #111827; border-radius: 8px; border-width: 4px; border-color: #1F2937; overflow: hidden; align-content: flex-start; justify-content: flex-start; position: relative;">
             <!-- Tiles will be spawned dynamically in C# -->
+            <ui:Label name="MgTractor" text="🚜" style="font-size: 50px; position: absolute; display: none; picking-mode: Ignore; translate: -50% -50%; z-index: 100;" />
         </ui:VisualElement>
         
     </ui:VisualElement>
