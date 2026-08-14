@@ -2172,3 +2172,65 @@ Memory consumption went from 407.3 MB to 400.3 MB.
 Total: 10.803125 ms (FindLiveObjects: 0.698125 ms CreateObjectMapping: 1.635917 ms MarkObjects: 5.310458 ms  DeleteObjects: 3.157875 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6437 unused Assets / (6.5 MB). Loaded Objects now: 7417.
+Memory consumption went from 401.7 MB to 395.2 MB.
+Total: 22.560708 ms (FindLiveObjects: 2.147500 ms CreateObjectMapping: 2.064958 ms MarkObjects: 14.336625 ms  DeleteObjects: 4.009791 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+[Licensing::Client] Successfully resolved entitlement details
+Begin MonoManager ReloadAssembly
+Thread 0x16fe23000 may have been prematurely finalized
+Native extension for iOS target not found
+2026-08-14 16:49:21.719 Unity[95083:12845605] [XcodeApplications] Expected com.apple.dt.Xcode CFBundleIdentifier but found com.microsoft.VSCode in /Applications/Visual Studio Code.app/Contents/Info.plist
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.600 seconds
+Domain Reload Profiling: 1292ms
+	BeginReloadAssembly (195ms)
+		DisableScriptedObjects (8ms)
+		CreateAndSetChildDomain (48ms)
+	RebuildCommonClasses (6ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (45ms)
+	LoadAllAssembliesAndSetupDomain (431ms)
+		LoadAssemblies (253ms)
+		AnalyzeDomain (148ms)
+			TypeCache.Refresh (15ms)
+			BuildScriptInfoCaches (126ms)
+			ResolveRequiredComponents (5ms)
+	FinalizeReload (601ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (14ms)
+			BeforeProcessingInitializeOnLoad (62ms)
+			ProcessInitializeOnLoadAttributes (293ms)
+			ProcessInitializeOnLoadMethodAttributes (74ms)
+		AwakeInstancesAfterBackupRestoration (13ms)
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6448 unused Assets / (4.9 MB). Loaded Objects now: 7420.
+Memory consumption went from 412.2 MB to 407.3 MB.
+Total: 9.097875 ms (FindLiveObjects: 0.416708 ms CreateObjectMapping: 1.493000 ms MarkObjects: 5.379875 ms  DeleteObjects: 1.807875 ms)
+
+Prepare: number of updated asset objects reloaded= 0

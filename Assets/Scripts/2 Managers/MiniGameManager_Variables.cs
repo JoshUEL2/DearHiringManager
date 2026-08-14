@@ -12,6 +12,7 @@ public partial class MiniGameManager : MonoBehaviour
     public UIDocument miniGameDocument;
 
     private VisualElement overlay;
+    private UnityEngine.UIElements.Button btnAbortMinigame;
     private Label operationNameText, instructionsText;
     private Button btnAbort;
 

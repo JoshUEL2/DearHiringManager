@@ -28,7 +28,6 @@
     <ui:Template name="FormatDashboardContainer" src="MiniGames/FormatDashboardContainer.uxml" />
     <ui:Template name="FranticBackspaceContainer" src="MiniGames/FranticBackspaceContainer.uxml" />
     <ui:Template name="GalacticCouncilContainer" src="MiniGames/GalacticCouncilContainer.uxml" />
-    <ui:Template name="GcProjectileContainer" src="MiniGames/GcProjectileContainer.uxml" />
     <ui:Template name="GridDodgeContainer" src="MiniGames/GridDodgeContainer.uxml" />
     <ui:Template name="HospitalityGalaContainer" src="MiniGames/HospitalityGalaContainer.uxml" />
     <ui:Template name="HotStoneContainer" src="MiniGames/HotStoneContainer.uxml" />
@@ -112,7 +111,6 @@
                 <ui:Instance template="FormatDashboardContainer" />
                 <ui:Instance template="FranticBackspaceContainer" />
                 <ui:Instance template="GalacticCouncilContainer" />
-                <ui:Instance template="GcProjectileContainer" />
                 <ui:Instance template="GridDodgeContainer" />
                 <ui:Instance template="HospitalityGalaContainer" />
                 <ui:Instance template="HotStoneContainer" />
