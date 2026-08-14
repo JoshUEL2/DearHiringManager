@@ -12,6 +12,8 @@ public partial class MiniGameManager : MonoBehaviour
         root.pickingMode = PickingMode.Ignore;
 
         overlay = root.Q<VisualElement>("Overlay");
+        btnAbortMinigame = root.Q<UnityEngine.UIElements.Button>("BtnAbortMinigame");
+        if (btnAbortMinigame != null) btnAbortMinigame.clicked += AbortGame;
         operationNameText = root.Q<Label>("OperationNameText");
         instructionsText = root.Q<Label>("InstructionsText");
 

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="YesManContainer" style="display: none;">
-        <ui:Label text="YesManContainer (Under Construction)" style="font-size: 24px; color: white;" />
-    </ui:VisualElement>
+<ui:VisualElement name="YesManContainer" style="display: none; width: 100%; height: 400px; flex-direction: column; background-color: #F3F4F6; border-radius: 10px; border-width: 2px; border-color: #D1D5DB; margin-bottom: 20px; overflow: hidden; position: relative;">
+                    
+                    <!-- Top: Robot Executive -->
+                    <ui:VisualElement style="width: 100%; height: 100px; background-color: #1F2937; align-items: center; justify-content: center;">
+                        <ui:VisualElement style="width: 60px; height: 60px; background-color: #EF4444; border-radius: 30px; align-items: center; justify-content: center;">
+                            <ui:Label text="🤖" style="font-size: 40px;" />
+                        </ui:VisualElement>
+                        <ui:Label text="AI EXECUTIVE" style="font-size: 14px; color: #9CA3AF; margin-top: 5px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+
+                    <!-- Middle: Speech Bubbles Area -->
+                    <ui:VisualElement style="flex-grow: 1; padding: 20px; justify-content: center; align-items: center; background-color: #E5E7EB;">
+                        <ui:VisualElement name="YmBossBubble" style="background-color: white; padding: 20px; border-radius: 15px; border-width: 2px; border-color: #EF4444; max-width: 80%; display: none;">
+                            <ui:Label name="YmBossText" text="SYNERGY IS DOWN 4%!" style="font-size: 24px; color: #1F2937; -unity-font-style: bold; white-space: normal; -unity-text-align: middle-center;" />
+                        </ui:VisualElement>
+
+                        <ui:VisualElement name="YmPlayerBubble" style="background-color: #10B981; padding: 15px; border-radius: 15px; border-width: 0; margin-top: 20px; display: none;">
+                            <ui:Label text="Absolutely, sir!" style="font-size: 20px; color: white; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Bottom: Instructions & Swipe Zone -->
+                    <ui:VisualElement name="YmSwipeZone" style="width: 100%; height: 100px; background-color: #374151; align-items: center; justify-content: center;">
+                        <ui:Label text="↕ SWIPE UP AND DOWN TO NOD" style="font-size: 24px; color: white; -unity-font-style: bold;" />
+                        <ui:VisualElement style="position: absolute; width: 100%; height: 100%;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
 </ui:UXML>

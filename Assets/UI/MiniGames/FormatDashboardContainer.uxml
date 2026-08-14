@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="FormatDashboardContainer" style="display: none;">
-        <ui:Label text="FormatDashboardContainer (Under Construction)" style="font-size: 24px; color: white;" />
-    </ui:VisualElement>
+<ui:VisualElement name="FormatDashboardContainer" style="display: none; width: 100%; flex-direction: column; background-color: #1F2937; padding: 20px; border-radius: 10px; border-width: 2px; border-color: #374151; margin-bottom: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 15px; align-items: center;">
+                        <ui:Label text="FORMAT DASHBOARD" style="font-size: 20px; color: white; -unity-font-style: bold;" />
+                        <ui:Label name="FdTimerText" text="15.0s" style="font-size: 18px; color: #9CA3AF; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Progress Bar (Lock-in) -->
+                    <ui:VisualElement style="width: 100%; height: 20px; background-color: #374151; border-radius: 10px; margin-bottom: 20px; overflow: hidden; border-width: 2px; border-color: #4B5563;">
+                        <ui:VisualElement name="FdProgressFill" style="width: 0%; height: 100%; background-color: #10B981; transition-property: width; transition-duration: 0.1s;" />
+                    </ui:VisualElement>
+
+                    <!-- Dummy Visual Dashboard -->
+                    <ui:VisualElement style="width: 100%; height: 120px; background-color: #111827; border-radius: 10px; margin-bottom: 20px; padding: 10px; flex-direction: row; align-items: flex-end; justify-content: space-around; overflow: hidden;">
+                        <ui:VisualElement name="FdBar1" style="width: 40px; height: 30%; background-color: #3B82F6; border-radius: 5px; transition-property: height; transition-duration: 0.1s;" />
+                        <ui:VisualElement name="FdBar2" style="width: 40px; height: 70%; background-color: #EF4444; border-radius: 5px; transition-property: height; transition-duration: 0.1s;" />
+                        <ui:VisualElement name="FdBar3" style="width: 40px; height: 50%; background-color: #F59E0B; border-radius: 5px; transition-property: height; transition-duration: 0.1s;" />
+                        <ui:VisualElement name="FdBar4" style="width: 40px; height: 90%; background-color: #10B981; border-radius: 5px; transition-property: height; transition-duration: 0.1s;" />
+                    </ui:VisualElement>
+
+                    <!-- Sliders Area -->
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around; height: 250px;">
+                        <!-- Slider 1: Synergy -->
+                        <ui:VisualElement style="width: 80px; align-items: center; justify-content: flex-start; height: 100%;">
+                            <ui:Label text="SYNERGY" style="font-size: 14px; color: #9CA3AF; margin-bottom: 10px; -unity-font-style: bold;" />
+                            <ui:VisualElement name="FdTrack1" style="width: 40px; height: 200px; background-color: #374151; border-radius: 20px; align-items: center; justify-content: flex-start; padding: 5px;">
+                                <ui:VisualElement name="FdHandle1" style="width: 30px; height: 30px; background-color: #3B82F6; border-radius: 15px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Slider 2: Pop Factor -->
+                        <ui:VisualElement style="width: 80px; align-items: center; justify-content: flex-start; height: 100%;">
+                            <ui:Label text="POP" style="font-size: 14px; color: #9CA3AF; margin-bottom: 10px; -unity-font-style: bold;" />
+                            <ui:VisualElement name="FdTrack2" style="width: 40px; height: 200px; background-color: #374151; border-radius: 20px; align-items: center; justify-content: flex-start; padding: 5px;">
+                                <ui:VisualElement name="FdHandle2" style="width: 30px; height: 30px; background-color: #F59E0B; border-radius: 15px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Slider 3: Obfuscation -->
+                        <ui:VisualElement style="width: 80px; align-items: center; justify-content: flex-start; height: 100%;">
+                            <ui:Label text="OBFUSCATE" style="font-size: 14px; color: #9CA3AF; margin-bottom: 10px; -unity-font-style: bold;" />
+                            <ui:VisualElement name="FdTrack3" style="width: 40px; height: 200px; background-color: #374151; border-radius: 20px; align-items: center; justify-content: flex-start; padding: 5px;">
+                                <ui:VisualElement name="FdHandle3" style="width: 30px; height: 30px; background-color: #EF4444; border-radius: 15px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
 </ui:UXML>

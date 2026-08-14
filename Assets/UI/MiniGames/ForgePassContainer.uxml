@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="ForgePassContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #111827; border-radius: 10px; border-width: 6px; border-color: #4B5563; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-end; padding-bottom: 20px;">
+                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+                    <!-- Conveyor Belt Background -->
+                    <ui:VisualElement style="position: absolute; top: 120px; width: 100%; height: 120px; background-color: #374151; border-width: 2px; border-color: #1F2937;" />
+                    
+                    <!-- The Moving Pass -->
+                    <ui:VisualElement name="FpMovingPass" style="position: absolute; top: 130px; left: -200px; width: 160px; height: 100px; background-color: #F3F4F6; border-radius: 8px; justify-content: center; align-items: center;">
+                        <ui:Label text="TRANSIT" style="font-size: 20px; color: #374151; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- The Holographic Stamp Zone -->
+                    <ui:VisualElement name="FpStampZone" style="position: absolute; top: 125px; left: 50%; translate: -50% 0; width: 170px; height: 110px; border-width: 4px; border-color: #10B981; border-radius: 10px; background-color: rgba(16, 185, 129, 0.2);" />
+                    
+                    <ui:Button name="BtnFpStamp" text="STAMP NOW!" class="popup-button" style="background-color: #10B981; color: white; font-size: 32px; padding: 15px 40px; border-radius: 15px; -unity-font-style: bold; margin-bottom: 10px;" />
+                </ui:VisualElement>
+</ui:UXML>

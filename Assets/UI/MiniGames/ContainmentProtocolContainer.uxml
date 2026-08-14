@@ -8,15 +8,19 @@
                     
                     <ui:Label text="1. SEVER HARDLINES" style="font-size: 18px; color: #CCCCCC; margin-bottom: 10px; -unity-font-style: bold;" />
                     <ui:VisualElement style="flex-direction: row; justify-content: space-around; height: 120px; margin-bottom: 20px;">
-"""
-
-for i in range(4):
-    new_xml += f"""                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
-                            <ui:VisualElement name="CpSwitch_{i}" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
+                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="CpSwitch_0" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
                         </ui:VisualElement>
-"""
-
-new_xml += """                    </ui:VisualElement>
+                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="CpSwitch_1" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="CpSwitch_2" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="CpSwitch_3" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                     
                     <ui:Label text="2. INITIATE PROTOCOL" style="font-size: 18px; color: #CCCCCC; margin-bottom: 10px; -unity-font-style: bold;" />
                     <ui:VisualElement style="align-items: center; justify-content: center; height: 180px;">

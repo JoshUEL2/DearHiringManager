@@ -9,7 +9,7 @@ with open(cs_path, "r") as f:
 
 containers = set(re.findall(r'Q<VisualElement>\("([^"]+Container)"\)', cs_content))
 
-files_to_search = ["recovered_uxml.txt"]
+files_to_search = ["filesforremakingminigames/MiniGame.uxml"]
 for root, dirs, files in os.walk("_PythonGenerators"):
     for file in files:
         if file.endswith(".py") or file.endswith(".txt"):

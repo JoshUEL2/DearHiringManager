@@ -1272,7 +1272,7 @@ public partial class MiniGameManager : MonoBehaviour
 
         overlay.style.display = DisplayStyle.None;
 
-        if (currentGame != null && currentGame.category == "hustle")
+        if (currentGame != null && currentGame.category == "side_hustle")
         {
             int jailWeeks = 0;
             if (currentGame.name == "Forge Transit Passes") jailWeeks = 1;

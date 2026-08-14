@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="NeuralAlignerContainer" style="display: none;">
-        <ui:Label text="NeuralAlignerContainer (Under Construction)" style="font-size: 24px; color: white;" />
-    </ui:VisualElement>
+<ui:VisualElement name="NeuralAlignerContainer" style="display: none; width: 100%; flex-direction: column; background-color: #0F172A; padding: 20px; border-radius: 10px; border-width: 4px; border-color: #334155; margin-bottom: 20px;">
+                    <ui:VisualElement style="align-items: center; margin-bottom: 30px;">
+                        <ui:Label name="NaStatusText" text="STABILITY: CRITICAL (98% ERROR)" style="font-size: 28px; color: #EF4444; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
+                        <ui:Label text="MORAL COMPASS" style="font-size: 18px; color: #CBD5E1; width: 180px; -unity-font-style: bold;" />
+                        <ui:Slider name="NaMoralSlider" low-value="0" high-value="100" style="flex-grow: 1; margin-right: 15px;" />
+                        <ui:VisualElement name="NaMoralLight" style="width: 25px; height: 25px; border-radius: 12px; background-color: #EF4444;" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
+                        <ui:Label text="LOGIC DAMPENER" style="font-size: 18px; color: #CBD5E1; width: 180px; -unity-font-style: bold;" />
+                        <ui:Slider name="NaLogicSlider" low-value="0" high-value="100" style="flex-grow: 1; margin-right: 15px;" />
+                        <ui:VisualElement name="NaLogicLight" style="width: 25px; height: 25px; border-radius: 12px; background-color: #EF4444;" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
+                        <ui:Label text="EMPATHY MATRIX" style="font-size: 18px; color: #CBD5E1; width: 180px; -unity-font-style: bold;" />
+                        <ui:Slider name="NaEmpathySlider" low-value="0" high-value="100" style="flex-grow: 1; margin-right: 15px;" />
+                        <ui:VisualElement name="NaEmpathyLight" style="width: 25px; height: 25px; border-radius: 12px; background-color: #EF4444;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
 </ui:UXML>

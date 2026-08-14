@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="FranticBackspaceContainer" style="display: none;">
-        <ui:Label text="FranticBackspaceContainer (Under Construction)" style="font-size: 24px; color: white;" />
-    </ui:VisualElement>
+<ui:VisualElement name="FranticBackspaceContainer" style="display: none; width: 100%; flex-direction: column; background-color: #F3F4F6; padding: 20px; border-radius: 10px; border-width: 2px; border-color: #D1D5DB; margin-bottom: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px; align-items: center;">
+                        <ui:Label text="Urgent Message" style="font-size: 20px; color: #374151; -unity-font-style: bold;" />
+                        <ui:VisualElement style="background-color: #FEE2E2; padding: 5px 10px; border-radius: 15px;">
+                            <ui:Label name="FbTimerText" text="AUTO-SEND: 6.0s" style="font-size: 16px; color: #DC2626; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Chat Area -->
+                    <ui:VisualElement style="width: 100%; height: 250px; background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; justify-content: flex-end;">
+                        <!-- Supervisor Bubble -->
+                        <ui:VisualElement style="background-color: #E5E7EB; padding: 15px; border-radius: 15px; border-bottom-left-radius: 2px; align-self: flex-start; max-width: 80%; margin-bottom: 20px;">
+                            <ui:Label text="I need you to come in this Saturday to align our synergy deliverables. It's urgent." style="font-size: 18px; color: #1F2937; white-space: normal;" />
+                        </ui:VisualElement>
+                        
+                        <!-- Player Bubble -->
+                        <ui:VisualElement style="background-color: #3B82F6; padding: 15px; border-radius: 15px; border-bottom-right-radius: 2px; align-self: flex-end; max-width: 80%;">
+                            <ui:Label name="FbPlayerText" text="Are you out of your mind? I am absolutely not doing your job for you on my weekend!" style="font-size: 18px; color: white; white-space: normal;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Backspace Button -->
+                    <ui:Button name="FbBackspaceBtn" text="⌫ BACKSPACE" style="height: 80px; font-size: 32px; background-color: #EF4444; color: white; border-radius: 10px; -unity-font-style: bold; border-width: 0;" />
+                </ui:VisualElement>
 </ui:UXML>

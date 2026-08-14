@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="SkimATMContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: row; background-color: #111827; border-radius: 10px; border-width: 6px; border-color: #10B981; margin-bottom: 20px; position: relative; overflow: hidden; justify-content: space-between; padding: 20px;">
+                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+                    
+                    <ui:Label text="INSTALL SKIMMER" style="position: absolute; top: 10px; left: 50%; translate: -50% 0; font-size: 24px; color: #10B981; -unity-font-style: bold;" />
+                    
+                    <!-- Left Wires -->
+                    <ui:VisualElement style="flex-direction: column; justify-content: space-around; height: 100%; margin-top: 30px;">
+                        <ui:Button name="BtnSaL0" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaL1" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaL2" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaL3" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Right Wires -->
+                    <ui:VisualElement style="flex-direction: column; justify-content: space-around; height: 100%; margin-top: 30px;">
+                        <ui:Button name="BtnSaR0" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaR1" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaR2" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                        <ui:Button name="BtnSaR3" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,7682 @@
+using UnityEngine;
+using UnityEngine.UIElements;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+public enum GameType { Tap, Slider, Choice, Sequence, Swipe, MashRace, MemoryMatch, TwoPhaseHeist, TimingRing, FallingSort, GridDodge, WhackGrid, CodeBreaker, BalanceMeter, DialogueChain, OrderQueue, DragMatch, SprintLane, ScrubPlate, SweepFloor, PumpSystem, Tetris, AcidRainShield, FoodPrepRush, VideoCall, KanbanBoard, FileSorter, CoffeeWork, UnitTestRunner, CenterDiv, DragCenter, SizeMatch, StealthInject, AutomatedTests, CodeCommenter, DocumentSigner, ChartAdjuster, NeuralAligner, SentienceArray, ContainmentProtocol, RewardLogic, GalacticCouncil, FranticBackspace, FormatDashboard, NightShiftPitch, YesManNod, VrArcadePong, HotStoneSpa, HospitalityGala, StartupPitch, CorporateGolf, MowGreens, WalkDogs, ForgePass, SnatchBriefcase, SkimATM, RecycleBottles }
+
+public class MiniGameConfig
+{
+    public GameType type;
+    public string instructions;
+    public int targetScore;
+    public float timeLimit;
+    public float sliderMin;
+    public float sliderMax;
+    public string[] choices;
+    public string correctChoice;
+    public int sequenceLength;
+    public int pairs;
+    
+    // TimingRing
+    public int timingRounds = 3;
+    public float timingZoneWidth = 20f; // percentage width of target zone
+    // FallingSort
+    public string[] fallingItems; // e.g. {"🔩 Iron", "🟤 Copper", "⬜ Aluminium"}
+    public string[] binLabels;   // e.g. {"Iron Bin", "Copper Bin", "Alu Bin"}
+    public int sortTarget = 10;
+    public float sortTimeLimit = 20f;
+    // AcidRainShield / Tetris
+    public float acidRainTimeLimit = 15f;
+    // KanbanBoard
+    public int kanbanTicketCount = 8;
+    // GridDodge
+    public int gridSize = 5;
+    public int gridHealth = 3;
+    // WhackGrid
+    public int whackTarget = 12;
+    public float whackTime = 15f;
+    // CodeBreaker
+    public string[] codeSymbols; // available symbols
+    public int codeLength = 4;
+    public int maxAttempts = 6;
+    // BalanceMeter
+    public float balanceHoldTime = 8f; // seconds to hold in zone to win
+    public float balanceDriftSpeed = 30f; // drift speed
+    // DialogueChain
+    public string[] dialogueScenarios;
+    public string[][] dialogueOptions; // 3 options per round
+    public int[] dialogueCorrectIndices; // correct option index per round (0-2)
+    public float rapportThreshold = 0.7f;
+    // OrderQueue  
+    public string[] orderItems;
+    public float orderPreviewTime = 3f;
+    // DragMatch
+    public string[] matchLeft;
+    public string[] matchRight;
+    // SprintLane
+    public int sprintObstacles = 12;
+    public float sprintSpeed = 1.5f; // seconds per obstacle
+    // PumpSystem Extended
+    public bool pumpIsBalanceMode = false;
+    public float pumpBalanceTargetMin = 0.6f;
+    public float pumpBalanceTargetMax = 0.8f;
+    public float pumpBalanceHoldTime = 3f;
+    // TwoPhase extended
+    public GameType phase1Type = GameType.Sequence;
+    public GameType phase2Type = GameType.MashRace;
+    public GameType phase3Type = (GameType)0;
+
+    // FileSorter
+    public int fileSorterTarget = 10;
+    public string[] fileSorterItems; // filenames to display
+    // CoffeeWork
+    public float coffeeDrainRate = 20f;
+    public float coffeeBoost = 25f;
+    public float workProgressPerTap = 5f;
+    // UnitTestRunner
+    public string[] unitTestQuestions;
+    public string[][] unitTestOptions;
+    public int[] unitTestCorrectIndices;
+    public int unitTestRounds = 10;
+    // CenterDiv
+    public int centerDivTargets = 3;
+    public float centerDivSpeedMin = 300f;
+    public float centerDivSpeedMax = 600f;
+    public float centerDivTolerance = 30f;
+}
+
+public class MiniGameManager : MonoBehaviour
+{
+    public static MiniGameManager Instance { get; private set; }
+
+    [Header("UI Document")]
+    public UIDocument miniGameDocument;
+
+    private VisualElement overlay;
+    private Label operationNameText, instructionsText;
+    private Button btnAbort;
+
+    // Containers
+    private VisualElement tapContainer, sliderContainer, choiceContainer, sequenceContainer, swipeContainer, mashRaceContainer, memoryMatchContainer;
+
+    // Tap
+    private Label tapProgressText;
+    private Button btnActionTap;
+
+    // Slider
+    private Label sliderTargetText;
+    private Slider gameSlider;
+    private Button btnSubmitSlider;
+
+    // Choice
+    private Button btnChoice1, btnChoice2, btnChoice3;
+
+    // Sequence
+    private Label sequenceStatusText;
+    private Button[] seqBtns = new Button[6];
+    private Button btnReplayPattern;
+
+    // Swipe
+    private Label swipeObstacleText, swipeProgressText, swipeTimerText;
+    private Button btnDodgeLeft, btnDodgeRight;
+
+    // Mash Race
+    private VisualElement playerProgressBar, opponentProgressBar;
+    private Label playerMashLabel, opponentMashLabel;
+    private Label mashTimerText;
+    private Button btnMashTap;
+
+    // Memory Match
+    private Label matchStatusText;
+    private VisualElement memoryGrid;
+
+    // TimingRing
+    private VisualElement timingRingContainer, timingTargetZone, timingMarker, timingCircle, timingGlow, arcMaskInner;
+    private VisualElement[] glowLayers;
+    private Label timingRoundText;
+    private Button btnTimingStrike;
+
+    // FallingSort
+    private VisualElement fallingSortContainer, fallZone, binsRow;
+    private Label sortScoreText, sortTimerText;
+    
+    private class FallingItemData
+    {
+        public VisualElement element;
+        public Vector2 position;
+        public Vector2 velocity;
+        public bool isDragging;
+        public int typeId;
+    }
+
+    // GridDodge
+    private VisualElement gridDodgeContainer, gridDodgeGrid;
+    private Label gridHealthText, gridMoveText;
+    private int playerGridX, playerGridY, gridGoalX, gridGoalY;
+    private int sharedInputDx = 0, sharedInputDy = 0;
+    private Vector2 swipeStartPos = Vector2.zero;
+
+    // WhackGrid
+    private VisualElement whackGridContainer, whackGrid;
+    private VisualElement scrubPlateContainer, scrubPlateArea, scrubDirtOverlay, scrubSponge;
+    private ProgressBar scrubProgressBar;
+    private float scrubProgress = 0f;
+    private Vector2 lastScrubPos = Vector2.zero;
+    
+    // Pump System
+    private VisualElement pumpGameContainer, pumpProgressBar, pumpHandle, pumpTrackArea;
+    private VisualElement pumpNormalBar, pumpDialContainer, pumpDialTargetZone, pumpDialTargetArc, pumpDialNeedleRotator, pumpHoldTimerContainer, pumpHoldTimerBar;
+    private float pumpProgress = 0f;
+    private float pumpHoldTimer = 0f;
+    private float pumpLastY = 0f;
+    
+    private VisualElement sweepFloorContainer, sweepFloorGrid;
+    private float[] sweepTileTimers;
+    private VisualElement[] sweepTiles;
+    private int sweepPlayerX, sweepPlayerY;
+    private Label whackScoreText, whackTimerText;
+
+    // CodeBreaker
+    private VisualElement codeBreakerContainer, codeGuessRow, codeSymbolRow, codeHistoryList;
+    private Label codeAttemptsText;
+    private Button btnCodeSubmit, btnCodeClear;
+
+    // BalanceMeter
+    private VisualElement balanceMeterContainer, balanceMeterTrack, balanceCenterZone, balanceNeedle, balanceTimeBar;
+    private Label balanceStatusText;
+    private Button btnNudgeLeft, btnNudgeRight;
+
+    // DialogueChain
+    private VisualElement dialogueChainContainer;
+    private Label dialogueRoundText, dialogueScenarioText;
+    private VisualElement rapportBar, dialogueTimerBar;
+    private Button btnResponse1, btnResponse2, btnResponse3;
+
+    // OrderQueue
+    private VisualElement orderQueueContainer, orderItemGrid;
+    private Label orderStatusText, orderTimerText;
+
+    // DragMatch
+    private VisualElement dragMatchContainer, dragLeftColumn, dragRightColumn, dragCheatSheetList;
+    private Label matchPairScoreText;
+
+    // SprintLane
+    private VisualElement sprintLaneContainer, sprintLaneDisplay, sprintProgressBar;
+    private Label sprintDistanceText, sprintTimerText, sprintObstacleText;
+    private Button btnSprintJump, btnSprintDuck;
+
+    // Tetris
+    private VisualElement tetrisContainer, tetrisGrid;
+    private Label tetrisScoreText;
+    private Button btnTetrisLeft, btnTetrisRight, btnTetrisRotate, btnTetrisDrop;
+    
+    // CoffeeWork
+    private VisualElement coffeeWorkContainer, cwEnergyFill, cwProgressFill;
+    private Label cwTimerText;
+    private Button cwBtnCoffee, cwBtnType;
+    private float cwEnergy = 100f;
+    private float cwProgress = 0f;
+
+    // UnitTestRunner
+    private VisualElement unitTestContainer;
+    private Label utRoundText, utTimerText, utCodeText;
+    private Button utBtnOption1, utBtnOption2, utBtnOption3;
+    private int utCurrentRound = 0;
+
+    // CenterDiv
+    private VisualElement centerDivContainer, cdTargetBox, cdMovingBox;
+    private Label cdRoundText, cdTimerText;
+    private Button cdBtnCenter;
+    private int cdCentersComplete = 0;
+    private float cdMovingBoxPos = 0f;
+    private float cdMovingBoxDir = 1f;
+    private float cdCurrentSpeed = 300f;
+
+    // DragCenter
+    private VisualElement dragCenterContainer, dcWorkArea, dcTargetCrosshair, dcScoreArea, dcScoreBarFill;
+    private Label dcRoundText, dcTimerText, dcDraggableIcon, dcScoreText;
+    private Button dcBtnConfirm;
+    private int dcPoints = 0;
+    private bool dcIsDragging = false;
+    private bool dcIsScoring = false;
+
+    // SizeMatch
+    private VisualElement sizeMatchContainer, smTargetBox;
+    private Label smRoundText, smTimerText;
+    private Button smBtnChangingBox;
+    private int smPoints = 0;
+    private float smCurrentScale = 0f;
+    private float smScaleDir = 1f;
+
+    // StealthInject
+    private VisualElement stealthInjectContainer, siWorkArea, siProgressBarFill;
+    private Label siStatusText, siTimerText, siReviewerIcon, siReviewerStateText, siBtnInject;
+    private float siProgress = 0f;
+    private bool siIsReviewing = false;
+    private bool siIsHolding = false;
+    private float siReviewTimer = 0f;
+
+    // AutomatedTests
+    private VisualElement automatedTestsContainer, atProgressBarFill;
+    private Label atTimerText;
+    private Button[] atBtnTests = new Button[5];
+    private Label[] atStatusTexts = new Label[5];
+    private bool[] atIsFailing = new bool[5];
+
+    // Code Commenter
+    private VisualElement codeCommenterContainer;
+    private Label ccTimerText;
+    private Button[] ccLines = new Button[5];
+    private Label[] ccLineTexts = new Label[5];
+    private bool[] ccLineIsFlaky = new bool[5];
+    private float[] ccLineTimers = new float[5];
+    private bool[] ccLineCommented = new bool[5];
+    private string[] ccOriginalTexts = { "Assert.IsNotNull(dbContext);", "Assert.AreEqual(200, res.Status);", "Assert.IsTrue(res.IsValid());", "Assert.AreEqual(user.Id, 1);", "Assert.IsFalse(hasErrors);" };
+
+    // Document Signer
+    private VisualElement documentSignerContainer;
+    private ScrollView dsScrollView;
+    private Button btnStampApproval;
+    private Label dsTimerText;
+    
+    // Chart Adjuster
+    private VisualElement chartAdjusterContainer;
+    private VisualElement caCompetitorBar;
+    private VisualElement caAverageBar;
+    private VisualElement caOurBar;
+    private Label caTimerText;
+    private Label caStatusText;
+    private float caCompVal = 80f;
+    private float caOurVal = 20f;
+    
+    // Neural Aligner
+    private VisualElement neuralAlignerContainer;
+    private Label naStatusText;
+    private Slider naMoralSlider;
+    private VisualElement naMoralLight;
+    private Slider naLogicSlider;
+    private VisualElement naLogicLight;
+    private Slider naEmpathySlider;
+    private VisualElement naEmpathyLight;
+    private float naMoralTarget;
+    private float naLogicTarget;
+    private float naEmpathyTarget;
+    private float[] atFuses = new float[5];
+
+    // 4 New Games
+    // Sentience Array
+    private VisualElement sentienceArrayContainer;
+    private Label saTimerText;
+    private VisualElement saProgressFill;
+    private VisualElement[] saNodes = new VisualElement[16];
+    private float[] saHeat = new float[16];
+    private float saSentienceLevel = 0f;
+
+    // Containment Protocol
+    private VisualElement containmentProtocolContainer;
+    private Label cpTimerText;
+    private VisualElement[] cpSwitches = new VisualElement[4];
+    private bool[] cpSwitchState = new bool[4];
+    private VisualElement cpGlassCover;
+    private bool cpGlassLifted = false;
+    private VisualElement cpRedButton;
+    private Label cpButtonText;
+    private int cpMashCount = 0;
+
+    // Reward Logic
+    private VisualElement rewardLogicContainer;
+    private Label rlTimerText;
+    private VisualElement rlGraphArea;
+    private VisualElement rlCore;
+    private VisualElement[] rlJunctions = new VisualElement[3];
+    private Label[] rlArrows = new Label[3];
+    private bool[] rlState = new bool[3]; // false = left, true = right
+
+    // Galactic Council
+    private VisualElement galacticCouncilContainer;
+    private Label gcTimerText;
+    private VisualElement gcProgressFill;
+    private VisualElement gcPlayArea;
+    private VisualElement gcProjectileContainer;
+    private VisualElement gcPodium;
+    private float gcPodiumX = 0f;
+    private int gcHits = 0;
+    private float gcProgress = 0f;
+
+    // Frantic Backspace
+    private VisualElement franticBackspaceContainer;
+    private Label fbTimerText;
+    private Label fbPlayerText;
+    private Button fbBackspaceBtn;
+    private string fbOriginalAngryMessage = "Are you out of your mind? I am absolutely not doing your job for you on my weekend!";
+    private string fbCurrentMessage = "";
+
+    // Format Dashboard
+    private VisualElement formatDashboardContainer;
+    private Label fdTimerText;
+    private VisualElement fdProgressFill;
+    private VisualElement[] fdBars = new VisualElement[4];
+    private VisualElement[] fdHandles = new VisualElement[3];
+    private float[] fdValues = new float[3];
+    private float fdHoldTimer = 0f;
+
+    // Night Shift Pitch
+    private VisualElement nightShiftContainer;
+    private VisualElement nsEyelid;
+    private Button nsCoffeeBtn;
+    private VisualElement[] nsHandles = new VisualElement[3];
+    private float[] nsValues = new float[3];
+    private float[] nsTargets = new float[3];
+    private float nsEyelidGravity = 0f;
+
+    // Mow Greens
+    private UnityEngine.UIElements.VisualElement mgContainer;
+    private UnityEngine.UIElements.VisualElement mgGrid;
+    private System.Collections.Generic.List<UnityEngine.UIElements.VisualElement> mgPatches = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>();
+    private bool[] mgCut = new bool[25];
+    private int mgCutCount = 0;
+
+    // Walk Dogs
+    private UnityEngine.UIElements.VisualElement wdContainer;
+    private UnityEngine.UIElements.VisualElement[] wdLeashes = new UnityEngine.UIElements.VisualElement[3];
+    private float[] wdTension = new float[3];
+    private UnityEngine.UIElements.Button[] wdYankBtns = new UnityEngine.UIElements.Button[3];
+
+    // Recycle Bottles
+    private UnityEngine.UIElements.VisualElement rbContainer;
+    private UnityEngine.UIElements.VisualElement rbBag;
+    private UnityEngine.UIElements.VisualElement rbItemsContainer;
+    private UnityEngine.UIElements.Label rbInstructionText;
+    private UnityEngine.UIElements.Button[] rbItems = new UnityEngine.UIElements.Button[6];
+    private int rbSwipes = 0;
+    private int rbCollected = 0;
+    private bool rbBagOpen = false;
+
+        // Snatch Briefcase
+    private UnityEngine.UIElements.VisualElement sbContainer;
+    private UnityEngine.UIElements.Label[] sbDials = new UnityEngine.UIElements.Label[3];
+    private UnityEngine.UIElements.Label sbTargetText;
+    private UnityEngine.UIElements.Button sbStopBtn;
+    private int[] sbTargetNums = new int[3];
+    private int sbCurrentDial = 0;
+    private float sbSpinTimer = 0f;
+
+    // Skim ATM
+    private UnityEngine.UIElements.VisualElement saContainer;
+    private UnityEngine.UIElements.Button[] saLeftNodes = new UnityEngine.UIElements.Button[4];
+    private UnityEngine.UIElements.Button[] saRightNodes = new UnityEngine.UIElements.Button[4];
+    private int[] saLeftColors = new int[4];
+    private int[] saRightColors = new int[4];
+    private bool[] saLeftConnected = new bool[4];
+    private bool[] saRightConnected = new bool[4];
+    private int saSelectedLeft = -1;
+    private UnityEngine.Color[] saColors = { UnityEngine.Color.red, UnityEngine.Color.blue, UnityEngine.Color.green, UnityEngine.Color.yellow };
+
+    // Forge Pass
+    private UnityEngine.UIElements.VisualElement fpContainer;
+    private UnityEngine.UIElements.VisualElement fpMovingPass;
+    private UnityEngine.UIElements.Button fpStampBtn;
+    private float fpPassPos = -200f;
+    private int fpAttempts = 0;
+    private float fpSpeed = 600f;
+
+    // Hospitality Gala
+    private UnityEngine.UIElements.VisualElement hgContainer;
+    private UnityEngine.UIElements.VisualElement hgIndicator;
+    private UnityEngine.UIElements.Label hgTimerText;
+    private float hgBalance = 0.5f;
+    private float hgVelocity = 0f;
+    
+    // Startup Pitch Meetup
+    private UnityEngine.UIElements.VisualElement spContainer;
+    private UnityEngine.UIElements.Label[] spSlots = new UnityEngine.UIElements.Label[3];
+    private UnityEngine.UIElements.Button spStopBtn;
+    private int spCurrentReel = 0;
+    private float spSpinTimer = 0f;
+    private string[] spGoodWords = { "SYNERGY", "AI", "CLOUD", "WEB3", "SAAS", "AGILE" };
+    private string[] spBadWords = { "FRAUD", "BANKRUPT", "SCAM", "PONZI", "LAWSUIT" };
+
+    // Corporate Golf Sim
+    private UnityEngine.UIElements.VisualElement cgContainer;
+    private UnityEngine.UIElements.VisualElement cgPowerFill;
+    private UnityEngine.UIElements.Button cgSwingBtn;
+    private float cgPowerLevel = 0f;
+    private float cgPowerDir = 1f;
+    private bool cgIsSwinging = false;
+
+    // Volcanic Hot Stone Spa
+    private UnityEngine.UIElements.VisualElement hotStoneContainer;
+    private UnityEngine.UIElements.VisualElement[] hsSlots = new UnityEngine.UIElements.VisualElement[5];
+    private UnityEngine.UIElements.VisualElement[] hsStones = new UnityEngine.UIElements.VisualElement[5];
+    private UnityEngine.UIElements.Label hsTimerText;
+    private bool[] hsStonePlaced = new bool[5];
+    private int hsActiveStoneIndex = -1;
+    private UnityEngine.Vector2 hsPointerStartPos;
+    private UnityEngine.Vector2 hsStoneStartPos;
+
+    // Yes Man Nod
+    private VisualElement yesManContainer;
+    private VisualElement ymBossBubble;
+    private Label ymBossText;
+    private VisualElement ymPlayerBubble;
+    private VisualElement ymSwipeZone;
+    private Vector2 ymSwipeStart;
+    private bool ymSwipedUp = false;
+    // VR Arcade Pong
+    private VisualElement vrArcadeContainer;
+    private VisualElement vrBall;
+    private VisualElement vrPaddle;
+    private VisualElement vrTouchZone;
+    private Label vrScoreText;
+    private Vector2 vrBallPos;
+    private Vector2 vrBallVel;
+    private float vrPaddleX;
+    private int vrBounces;
+
+    private int ymNodPhase = 0;
+    private Label nsTimerText;
+    private float atNextFailTimer = 0f;
+    private float atSuiteProgress = 0f;
+    private ActiveMiniGame currentGame;
+    private MiniGameConfig currentConfig;
+    private bool hasWon = false;
+    private bool isPlaying = false;
+    private Coroutine activeGameRoutine;
+
+    private int score = 0;
+    private float timer = 0f;
+    private int currentPhase = 1;
+    
+    // Dialogue State
+    private float dialogueTimer = 0f;
+    private float dialogueTimerMax = 0f;
+
+    // Sequence State
+    private List<int> currentSequence = new List<int>();
+    private int sequenceInputIndex = 0;
+    private bool isShowingSequence = false;
+    private List<VisualElement> activeTetrominoBlocks = new List<VisualElement>();
+    
+    // Acid Rain Shield
+    private VisualElement acidRainContainer, acidSignPivot, acidDropContainer, acidBurnBar, acidInputArea;
+    private Label acidTimerText;
+    private float acidSignAngle = 0f;
+    private float acidWindAngle = 0f;
+    private float acidWindTarget = 0f;
+    private float acidBurn = 0f;
+    private float acidDropTimer = 0f;
+    private float acidWindTimer = 0f;
+    private List<AcidDrop> activeAcidDrops = new List<AcidDrop>();
+
+    private class AcidDrop
+    {
+        public VisualElement element;
+        public float radius;
+        public float angle;
+        public float speed;
+    }
+
+    // Swipe State
+    private int expectedDodgeDir = 0; // -1 left, 1 right
+
+    // Mash Race State
+    private float opponentProgress = 0f;
+    private float playerMashProgress = 0f;
+
+    // Memory State
+    private List<Button> memoryCards = new List<Button>();
+    private List<string> memoryValues = new List<string>();
+    private int flippedIndex1 = -1;
+    private int flippedIndex2 = -1;
+    private bool isCheckingMatch = false;
+
+    // Food Prep State
+    private VisualElement foodPrepContainer;
+    private Label prepTimerText, prepScoreText;
+    private VisualElement[] prepBars = new VisualElement[4];
+    private Label[] prepStatus = new Label[4];
+    private float[] prepProgress = new float[4];
+    private float[] prepSpeeds = new float[4];
+    private float[] prepFreezes = new float[4];
+
+    // Video Call State
+    private VisualElement videoCallContainer, vcPhase1, vcPhase2, vcPhase3;
+    private Label vcTimerText, vcWigglePromptText;
+    private VisualElement vcWiggleProgressBar, vcWiggleTouchArea, vcMouseGraphic;
+    private Vector2 vcMousePos;
+    private ScrollView vcScrollView;
+    private Button btnVcRaiseHand, btnVcAcknowledge;
+    private int vcCurrentPhase = 1; // 1 = scroll, 2 = raise hand, 3 = wiggle
+
+    private float vcWiggleProgress = 0f;
+    private bool vcWiggleReady = false;
+    private float vcWiggleWaitTimer = 0f;
+
+    // Kanban State
+    private VisualElement kanbanContainer;
+    private Label kanbanTimerText;
+    private VisualElement kanbanColTodo, kanbanColProgress, kanbanColDone;
+    private List<VisualElement> kanbanTickets = new List<VisualElement>();
+    private VisualElement draggedTicket = null;
+    private Vector2 dragStartPos;
+    private Vector2 pointerStartPos;
+    private int draggedTicketOriginalIndex;
+    private int kanbanTicketsDone = 0;
+    // File Sorter State
+    private VisualElement fileSorterContainer;
+    private Label fileSorterTimerText;
+    private Label fileSorterProgressText;
+    private VisualElement fileSorterActiveFile;
+    private Label fileSorterActiveFileText;
+    private Vector2 fileSorterPointerStart;
+    private Vector2 fileSorterDragStart;
+    private bool isDraggingFileSorter = false;
+    private int fileSorterSortedCount = 0;
+    private string fileSorterTargetDirection = "";
+
+    // TimingRing state
+    private int timingCurrentRound;
+    private bool timingMarkerMoving = false;
+    private float timingMarkerAngle = 0f;
+    private float timingTargetAngle = 0f;
+    private int timingSpinDir = 1;
+    private float timingRingRotSpeed = 300f;
+
+    // FallingSort state
+    private int sortScore = 0;
+
+    // GridDodge state
+    private int gridPlayerX = 0, gridPlayerY = 2;
+
+    private int gridHP = 3;
+    private Button[,] gridCells;
+    private HashSet<(int,int)> gridDangerCells = new HashSet<(int,int)>();
+    private HashSet<(int,int)> gridPathCells = new HashSet<(int,int)>();
+
+    // WhackGrid state
+    private Button[] whackCells;
+    private int whackScore = 0;
+    private int activeWhackCell = -1;
+    private bool isDecoy = false;
+
+    // CodeBreaker state
+    private string[] secretCode;
+    private List<string> currentGuess = new List<string>();
+    private int codeAttemptsRemaining;
+    private List<Button> codeSlotButtons = new List<Button>();
+
+    // BalanceMeter state
+    private float balanceValue = 50f;
+    private float balanceTimeInZone = 0f;
+    private float balanceDrift = 0f;
+
+    // DialogueChain state
+    private int dialogueRound = 0;
+    private float rapportValue = 0.5f;
+
+    // OrderQueue state
+    private List<string> orderCorrectSequence = new List<string>();
+    private int orderInputIndex = 0;
+    private bool orderIsPreview = true;
+
+    // DragMatch state
+    private int dragSelectedLeft = -1;
+    private List<Button> dragLeftButtons = new List<Button>();
+    private List<Button> dragRightButtons = new List<Button>();
+    private int dragMatchCount = 0;
+    private Dictionary<int,int> dragCorrectMap = new Dictionary<int,int>();
+
+    // SprintLane state
+    private int sprintDistance = 0;
+    private bool sprintObstacleIsHigh = false;
+    private bool sprintWaitingForInput = false;
+
+    private Dictionary<string, string> taskLogMessages = new Dictionary<string, string>()
+    {
+        { "Scrub dinner plates", "You blindly scrubbed dinner plates because your boss barked orders at you." },
+        { "Sweep kitchen floors", "You swept the grimy kitchen floors, trying to ignore the roaches." },
+        { "Mop grease spills", "You mopped up hazardous grease spills without protective gear." },
+        { "Scour microwave grease", "You felt the need to prove yourself and scoured carcinogenic microwave grease." },
+        { "Deep scrub waste containers", "You went above and beyond, deep scrubbing the biohazardous waste containers." },
+        { "Clean fryer grease vats", "You took the initiative to clean the blistering hot fryer grease vats." },
+        { "Sort iron from copper", "You manually sorted jagged iron from copper scraps under flickering lights." },
+        { "Stack rusty steel pipes", "You strained your back stacking incredibly heavy, rusty steel pipes." },
+        { "Clear conveyor dust filters", "You inhaled metallic dust while clearing the blocked conveyor filters." },
+        { "Inspect lithium reactor tubes", "You felt the need to prove yourself and inspected the highly unstable lithium reactor tubes." },
+        { "Carry tungsten girders", "You pushed past your physical limits carrying massive tungsten girders." },
+        { "Audit sewage drainage lines", "You waded into the dark to audit the foul-smelling sewage drainage lines." },
+        { "Spin arrow sign in traffic", "You spun a holographic arrow sign in smoggy traffic because your manager demanded it." },
+        { "Dance with sign for tourists", "You humiliated yourself dancing with a promotional sign for oblivious tourists." },
+        { "Wipe smog off the neon arrow", "You stood on a crate to wipe toxic smog off the flickering neon arrow." },
+        { "Perform a triple backflip spin", "You felt the need to prove yourself and performed a triple backflip spin." },
+        { "Hold sign in acid rain storm", "You braved the acid rain storm, holding the sign high above your head." },
+        { "Fight rival sign spinner", "You asserted dominance by fighting a rival sign spinner for the best corner." },
+        { "Check fryer oil temperature", "You nearly burned yourself checking the volatile fryer oil temperature." },
+        { "Restock condiment stations", "You frantically restock the condiment stations during the lunch rush." },
+        { "Handle customer complaint", "You patiently absorbed the verbal abuse from an angry customer." },
+        { "Emergency food prep rush", "You stepped up to lead the kitchen during an emergency food prep rush." },
+        { "Deep clean grease traps", "You got your hands dirty deep cleaning the horrifying grease traps." },
+        { "Train new hire on POS system", "You took the time to train a terrified new hire on the outdated POS system." },
+        { "Send weekly TPS reports", "You successfully navigated the bureaucracy and sent your weekly TPS reports." },
+        { "Attend 3-hour video call", "You stared blankly at your screen during a mandatory 3-hour video call." },
+        { "Reorganize shared drive", "You lost hours reorganizing the chaotic corporate shared drive." },
+        { "Corporate sprint tasks", "You slammed through corporate sprint tasks to impress upper management." },
+        { "Overnight marketing pitch", "You pulled an all-nighter crafting a soulless marketing pitch." },
+        { "Agree with executive complaints", "You strategically nodded along with executive complaints during a luncheon." },
+        { "Test program accuracy", "You wrote dozens of unit tests for legacy code nobody understands." },
+        { "Fix CSS layout sizes", "You banged your head against the desk fixing impossible CSS layout sizes." },
+        { "Center content icons", "You spent hours figuring out how to vertically center content icons." },
+        { "Resolve Git merge conflicts", "You fearlessly merged complex branches directly on the production server." },
+        { "Debug CSS at 3 AM", "You ruined your sleep schedule to debug CSS at 3 AM." },
+        { "Inject untested code", "You confidently injected untested code to meet a brutal deadline." },
+        { "Run automated test suite", "You watched the automated test suite fail, then run successfully on the second try." },
+        { "File bug report", "You filed a detailed bug report that will likely be ignored." },
+        { "Verify hotfix deployment", "You frantically verified the hotfix deployment before the CEO noticed." },
+        { "Regression test full app", "You meticulously regression tested the full app, finding 40 new issues." },
+        { "Stress test server load", "You purposely crashed the server to stress test its load capacity." },
+        { "Write flaky test workaround", "You wrote a questionable workaround for a notoriously flaky test." },
+        { "Approve quarterly budget", "You heartlessly approved a quarterly budget that slashed employee benefits." },
+        { "Board meeting presentation", "You delivered a flawless board meeting presentation filled with buzzwords." },
+        { "Sign regulatory compliance docs", "You forged a few signatures on the regulatory compliance docs." },
+        { "Hostile takeover negotiations", "You ruthlessly crushed the competition in hostile takeover negotiations." },
+        { "Fire underperforming VP", "You called security to escort the underperforming VP out of the building." },
+        { "Interstellar colony site inspection", "You survived a grueling interstellar colony site inspection." },
+        { "Calibrate neural alignment matrix", "You successfully calibrated the incredibly sensitive neural alignment matrix." },
+        { "Review AI ethics proposals", "You rubber-stamped highly questionable AI ethics proposals." },
+        { "Monitor sentience detection array", "You closely monitored the sentience detection array for anomalies." },
+        { "Emergency AI containment protocol", "You activated the emergency AI containment protocol just in time." },
+        { "Align superintelligence reward function", "You successfully aligned the superintelligence reward function, probably." },
+        { "Present findings to Galactic Council", "You presented your terrifying findings to the Galactic Council." },
+        { "Respond to supervisor", "You responded politely to your supervisor's unreasonable demands." },
+        { "Categorize ticket logs", "You mindlessly categorized endless support ticket logs." },
+        { "Format summary dashboards", "You tweaked the colors on the summary dashboards until they were barely readable." },
+        { "Do corporate sprint tasks aggressively", "You aggressively clicked through the corporate sprint tasks." },
+        { "Stay overnight to align marketing pitch variables", "You stayed overnight trying to align variables for a marketing pitch." },
+        { "Agree verbally with automated executive complaints", "You nodded verbally to the automated voice complaints of an executive." },
+        { "Walk in the Park", "You took a surprisingly pleasant walk in the designated safety park." },
+        { "Capsule Arcade VR", "You escaped into the Capsule Arcade VR to forget reality for a bit." },
+        { "Volcanic Hot Stone Spa", "The soothing warmth of the volcanic stones melted away the stress of the corporate grind." },
+        { "Suburban Sensory Mud Spa", "You cleansed your pores at the exclusive Suburban Sensory Mud Spa." },
+        { "Interstellar Cryo Resort", "You truly relaxed by freezing time at the Interstellar Cryo Resort." },
+        { "Industrial Dive Bar", "You bought drinks for greasy foremen at the Industrial Dive Bar." },
+        { "Hospitality Gala", "You awkwardly mingled with exhausted managers at the Hospitality Gala." },
+        { "Startup Pitch Meetup", "You aggressively pitched your disruptive synergies at the Startup Meetup." },
+        { "Corporate Golf Sim", "You purposefully lost matches at the Corporate Golf Sim to impress execs." },
+        { "Collect Recycled Bottles", "I scoured the bins and collected a bag full of sticky bottles." },
+        { "Mow Corporate Astroturf", "I trimmed the plastic lawns for the corporate elites." },
+        { "Walk Robotic Pedigree Dogs", "I was dragged down the street by a malfunctioning mechanical poodle." },
+        { "Deliver Fast Food Order", "I dodged incoming traffic to deliver a cold burger." },
+        { "Forge Transit Passes", "I hacked the metro gate network to print fake transit passes." },
+        { "Crack Luxury Briefcase", "I cracked the biometric locks on a stolen luxury briefcase." },
+        { "ATM Autonomous Hijack", "I injected a worm into the Slum ATM and watched the cash spit out." },
+        { "Corporate Espionage Heist", "I downloaded the proprietary blueprints before the security drones arrived." }
+    };
+
+    private Dictionary<string, MiniGameConfig> gameConfigs;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
+
+        InitializeConfigs();
+    }
+
+    private void Start()
+    {
+        var root = miniGameDocument.rootVisualElement;
+        root.pickingMode = PickingMode.Ignore;
+
+        overlay = root.Q<VisualElement>("Overlay");
+        operationNameText = root.Q<Label>("OperationNameText");
+        instructionsText = root.Q<Label>("InstructionsText");
+
+        // Containers
+        tapContainer = root.Q<VisualElement>("TapGameContainer");
+        sliderContainer = root.Q<VisualElement>("SliderGameContainer");
+        choiceContainer = root.Q<VisualElement>("ChoiceGameContainer");
+        sequenceContainer = root.Q<VisualElement>("SequenceGameContainer");
+        swipeContainer = root.Q<VisualElement>("SwipeGameContainer");
+        mashRaceContainer = root.Q<VisualElement>("MashRaceContainer");
+        memoryMatchContainer = root.Q<VisualElement>("MemoryMatchContainer");
+
+        // New Containers
+        timingRingContainer = root.Q<VisualElement>("TimingRingContainer");
+        fallingSortContainer = root.Q<VisualElement>("FallingSortContainer");
+        gridDodgeContainer = root.Q<VisualElement>("GridDodgeContainer");
+        whackGridContainer = root.Q<VisualElement>("WhackGridContainer");
+        sweepFloorContainer = root.Q<VisualElement>("SweepFloorContainer");
+        sweepFloorGrid = root.Q<VisualElement>("SweepFloorGrid");
+        scrubPlateContainer = root.Q<VisualElement>("ScrubPlateContainer");
+        scrubProgressBar = root.Q<ProgressBar>("ScrubProgressBar");
+        scrubPlateArea = root.Q<VisualElement>("ScrubPlateArea");
+        scrubDirtOverlay = root.Q<VisualElement>("ScrubDirtOverlay");
+        scrubSponge = root.Q<VisualElement>("ScrubSponge");
+        
+        pumpGameContainer = root.Q<VisualElement>("PumpGameContainer");
+        pumpProgressBar = root.Q<VisualElement>("PumpProgressBar");
+        pumpNormalBar = root.Q<VisualElement>("PumpNormalBar");
+        pumpDialContainer = root.Q<VisualElement>("PumpDialContainer");
+        pumpDialTargetZone = root.Q<VisualElement>("PumpDialTargetZone");
+        pumpDialTargetArc = root.Q<VisualElement>("PumpDialTargetArc");
+        pumpDialNeedleRotator = root.Q<VisualElement>("PumpDialNeedleRotator");
+        pumpHoldTimerContainer = root.Q<VisualElement>("PumpHoldTimerContainer");
+        pumpHoldTimerBar = root.Q<VisualElement>("PumpHoldTimerBar");
+        pumpHandle = root.Q<VisualElement>("PumpHandle");
+        pumpTrackArea = root.Q<VisualElement>("PumpTrackArea");
+
+        scrubPlateArea.RegisterCallback<PointerDownEvent>(ev => {
+            if (currentConfig == null || currentConfig.type != GameType.ScrubPlate || !isPlaying) return;
+            lastScrubPos = (Vector2)ev.localPosition;
+            scrubPlateArea.CapturePointer(ev.pointerId);
+            ev.StopPropagation();
+        });
+
+        scrubPlateArea.RegisterCallback<PointerUpEvent>(ev => {
+            if (scrubPlateArea.HasPointerCapture(ev.pointerId))
+            {
+                scrubPlateArea.ReleasePointer(ev.pointerId);
+            }
+        });
+
+        scrubPlateArea.RegisterCallback<PointerMoveEvent>(ev => {
+            if (currentConfig == null || currentConfig.type != GameType.ScrubPlate || !isPlaying) return;
+            
+            // Constrain sponge visually
+            Vector2 localPos = (Vector2)ev.localPosition;
+            float spongeW = 80f, spongeH = 80f;
+            localPos.x = Mathf.Clamp(localPos.x, 0, scrubPlateArea.layout.width - spongeW);
+            localPos.y = Mathf.Clamp(localPos.y, 0, scrubPlateArea.layout.height - spongeH);
+            
+            scrubSponge.style.left = localPos.x;
+            scrubSponge.style.top = localPos.y;
+
+            if (scrubPlateArea.HasPointerCapture(ev.pointerId)) // Only scrub if dragging
+            {
+                float delta = ((Vector2)ev.localPosition - lastScrubPos).magnitude;
+                if (delta > 2f)
+                {
+                    scrubProgress += delta * 0.015f; 
+                    scrubProgressBar.value = scrubProgress;
+                    
+                    float opacity = 1f - (scrubProgress / currentConfig.targetScore);
+                    scrubDirtOverlay.style.opacity = Mathf.Clamp01(opacity);
+                    
+                    if (scrubProgress >= currentConfig.targetScore)
+                    {
+                        scrubProgressBar.value = currentConfig.targetScore;
+                        scrubDirtOverlay.style.opacity = 0f;
+                        scrubPlateArea.ReleasePointer(ev.pointerId);
+                        MarkWinReady();
+                    }
+                }
+                lastScrubPos = (Vector2)ev.localPosition;
+            }
+        });
+
+        if (pumpTrackArea != null)
+        {
+            pumpTrackArea.RegisterCallback<PointerDownEvent>(ev => {
+                if (currentConfig == null || currentConfig.type != GameType.PumpSystem || !isPlaying) return;
+                
+                pumpLastY = ev.localPosition.y;
+                pumpTrackArea.CapturePointer(ev.pointerId);
+                ev.StopPropagation();
+            });
+            
+            pumpTrackArea.RegisterCallback<PointerUpEvent>(ev => {
+                if (pumpTrackArea.HasPointerCapture(ev.pointerId)) pumpTrackArea.ReleasePointer(ev.pointerId);
+            });
+
+            pumpTrackArea.RegisterCallback<PointerMoveEvent>(ev => {
+                if (currentConfig == null || currentConfig.type != GameType.PumpSystem || !isPlaying) return;
+                if (pumpTrackArea.HasPointerCapture(ev.pointerId))
+                {
+                    float dy = ev.localPosition.y - pumpLastY;
+                    pumpLastY = ev.localPosition.y;
+                    
+                    if (dy > 0) // moving down
+                    {
+                        pumpProgress += dy * 0.3f; // Reduced sensitivity for better balancing
+                    }
+                    
+                    float hY = Mathf.Clamp(ev.localPosition.y, 0, pumpTrackArea.resolvedStyle.height - 40f);
+                    pumpHandle.style.top = hY;
+                }
+            });
+        }
+
+        root.RegisterCallback<PointerDownEvent>(ev => {
+            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            swipeStartPos = ev.position;
+        });
+
+        root.RegisterCallback<PointerUpEvent>(ev => {
+            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            Vector2 delta = (Vector2)ev.position - swipeStartPos;
+            if (delta.magnitude > 30f)
+            {
+                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y)) sharedInputDx = delta.x > 0 ? 1 : -1;
+                else sharedInputDy = delta.y > 0 ? -1 : 1;
+            }
+        });
+
+        root.focusable = true;
+        root.RegisterCallback<KeyDownEvent>(ev => {
+            if (!isPlaying || currentConfig == null) return;
+            int dx = 0, dy = 0;
+            if (ev.keyCode == KeyCode.UpArrow || ev.keyCode == KeyCode.W) dy = -1;
+            else if (ev.keyCode == KeyCode.DownArrow || ev.keyCode == KeyCode.S) dy = 1;
+            else if (ev.keyCode == KeyCode.LeftArrow || ev.keyCode == KeyCode.A) dx = -1;
+            else if (ev.keyCode == KeyCode.RightArrow || ev.keyCode == KeyCode.D) dx = 1;
+            
+            if (dx == 0 && dy == 0) return;
+            
+            ev.StopPropagation();
+
+            if (currentConfig.type == GameType.GridDodge)
+            {
+                sharedInputDx = dx; sharedInputDy = dy;
+            }
+            else if (currentConfig.type == GameType.SweepFloor)
+            {
+                int nx = sweepPlayerX + dx;
+                int ny = sweepPlayerY + dy;
+                if (nx >= 0 && nx < 5 && ny >= 0 && ny < 5)
+                {
+                    sweepPlayerX = nx;
+                    sweepPlayerY = ny;
+                    sweepTileTimers[ny * 5 + nx] = 15f; // Instantly clean
+                    RenderSweepFloor();
+                }
+            }
+            else if (currentConfig.type == GameType.Tetris)
+            {
+                if (dx == -1) OnTetrisInput(-1, 0, 0);
+                else if (dx == 1) OnTetrisInput(1, 0, 0);
+                else if (dy == -1) OnTetrisInput(0, 0, 1);
+                else if (dy == 1) OnTetrisInput(0, 1, 0);
+            }
+        }, TrickleDown.TrickleDown);
+
+        codeBreakerContainer = root.Q<VisualElement>("CodeBreakerContainer");
+        balanceMeterContainer = root.Q<VisualElement>("BalanceMeterContainer");
+        dialogueChainContainer = root.Q<VisualElement>("DialogueChainContainer");
+        dialogueTimerBar = root.Q<VisualElement>("DialogueTimerBar");
+        orderQueueContainer = root.Q<VisualElement>("OrderQueueContainer");
+        dragMatchContainer = root.Q<VisualElement>("DragMatchContainer");
+        sprintLaneContainer = root.Q<VisualElement>("SprintLaneContainer");
+        fileSorterContainer = root.Q<VisualElement>("FileSorterContainer");
+        
+        // CoffeeWork
+        coffeeWorkContainer = root.Q<VisualElement>("CoffeeWorkContainer");
+        cwTimerText = root.Q<Label>("CwTimerText");
+        cwEnergyFill = root.Q<VisualElement>("CwEnergyFill");
+        cwProgressFill = root.Q<VisualElement>("CwProgressFill");
+        cwBtnCoffee = root.Q<Button>("CwBtnCoffee");
+        cwBtnType = root.Q<Button>("CwBtnType");
+        
+        // UnitTestRunner
+        unitTestContainer = root.Q<VisualElement>("UnitTestContainer");
+        utRoundText = root.Q<Label>("UtRoundText");
+        utTimerText = root.Q<Label>("UtTimerText");
+        utCodeText = root.Q<Label>("UtCodeText");
+        utBtnOption1 = root.Q<Button>("UtBtnOption1");
+        utBtnOption2 = root.Q<Button>("UtBtnOption2");
+        utBtnOption3 = root.Q<Button>("UtBtnOption3");
+        
+        // CenterDiv
+        centerDivContainer = root.Q<VisualElement>("CenterDivContainer");
+        cdRoundText = root.Q<Label>("CdRoundText");
+        cdTimerText = root.Q<Label>("CdTimerText");
+        cdTargetBox = root.Q<VisualElement>("CdTargetBox");
+        cdMovingBox = root.Q<VisualElement>("CdMovingBox");
+        cdBtnCenter = root.Q<Button>("CdBtnCenter");
+
+        dragCenterContainer = root.Q<VisualElement>("DragCenterContainer");
+        dcWorkArea = root.Q<VisualElement>("DcWorkArea");
+        dcTargetCrosshair = root.Q<VisualElement>("DcTargetCrosshair");
+        dcScoreArea = root.Q<VisualElement>("DcScoreArea");
+        dcScoreBarFill = root.Q<VisualElement>("DcScoreBarFill");
+        dcScoreText = root.Q<Label>("DcScoreText");
+        dcRoundText = root.Q<Label>("DcRoundText");
+        dcTimerText = root.Q<Label>("DcTimerText");
+        dcDraggableIcon = root.Q<Label>("DcDraggableIcon");
+        dcBtnConfirm = root.Q<Button>("DcBtnConfirm");
+        
+        sizeMatchContainer = root.Q<VisualElement>("SizeMatchContainer");
+        smTargetBox = root.Q<VisualElement>("SmTargetBox");
+        smRoundText = root.Q<Label>("SmRoundText");
+        smTimerText = root.Q<Label>("SmTimerText");
+        smBtnChangingBox = root.Q<Button>("SmBtnChangingBox");
+        
+        stealthInjectContainer = root.Q<VisualElement>("StealthInjectContainer");
+        siWorkArea = root.Q<VisualElement>("SiWorkArea");
+        siProgressBarFill = root.Q<VisualElement>("SiProgressBarFill");
+        siStatusText = root.Q<Label>("SiStatusText");
+        siTimerText = root.Q<Label>("SiTimerText");
+        siReviewerIcon = root.Q<Label>("SiReviewerIcon");
+        siReviewerStateText = root.Q<Label>("SiReviewerStateText");
+        siBtnInject = root.Q<Label>("SiBtnInject");
+        
+        if (cwBtnCoffee != null) cwBtnCoffee.clicked += OnCwBtnCoffee;
+        if (cwBtnType != null) cwBtnType.clicked += OnCwBtnType;
+        if (utBtnOption1 != null) utBtnOption1.clicked += () => OnUtBtnOption(0);
+        if (utBtnOption2 != null) utBtnOption2.clicked += () => OnUtBtnOption(1);
+        if (utBtnOption3 != null) utBtnOption3.clicked += () => OnUtBtnOption(2);
+        if (cdBtnCenter != null) cdBtnCenter.clicked += OnCdBtnCenter;
+
+        if (dcBtnConfirm != null) dcBtnConfirm.clicked += OnDcBtnConfirm;
+        if (dcDraggableIcon != null)
+        {
+            dcDraggableIcon.RegisterCallback<PointerDownEvent>(OnDcPointerDown);
+            dcDraggableIcon.RegisterCallback<PointerMoveEvent>(OnDcPointerMove);
+            dcDraggableIcon.RegisterCallback<PointerUpEvent>(OnDcPointerUp);
+            dcDraggableIcon.RegisterCallback<PointerCaptureOutEvent>(OnDcPointerCaptureOut);
+        }
+
+        if (smBtnChangingBox != null) smBtnChangingBox.clicked += OnSmBoxClicked;
+
+        if (siBtnInject != null)
+        {
+            siBtnInject.RegisterCallback<PointerDownEvent>(OnSiPointerDown);
+            siBtnInject.RegisterCallback<PointerUpEvent>(OnSiPointerUp);
+            siBtnInject.RegisterCallback<PointerCaptureOutEvent>(OnSiPointerCaptureOut);
+        }
+        
+        automatedTestsContainer = root.Q<VisualElement>("AutomatedTestsContainer");
+        atProgressBarFill = root.Q<VisualElement>("AtProgressBarFill");
+        atTimerText = root.Q<Label>("AtTimerText");
+        
+        codeCommenterContainer = root.Q<VisualElement>("CodeCommenterContainer");
+        ccTimerText = root.Q<Label>("CcTimerText");
+        
+        documentSignerContainer = root.Q<VisualElement>("DocumentSignerContainer");
+        dsScrollView = root.Q<ScrollView>("DsScrollView");
+        btnStampApproval = root.Q<Button>("BtnStampApproval");
+        dsTimerText = root.Q<Label>("DsTimerText");
+        
+        chartAdjusterContainer = root.Q<VisualElement>("ChartAdjusterContainer");
+        caCompetitorBar = root.Q<VisualElement>("CaCompetitorBar");
+        caAverageBar = root.Q<VisualElement>("CaAverageBar");
+        caOurBar = root.Q<VisualElement>("CaOurBar");
+        caTimerText = root.Q<Label>("CaTimerText");
+        caStatusText = root.Q<Label>("CaStatusText");
+
+        var caChartArea = root.Q<VisualElement>("CaChartArea");
+        if (caChartArea != null)
+        {
+            Vector2 lastPos = Vector2.zero;
+            caChartArea.RegisterCallback<PointerDownEvent>(ev => {
+                if (currentConfig == null || currentConfig.type != GameType.ChartAdjuster || !isPlaying) return;
+                lastPos = ev.position;
+                caChartArea.CapturePointer(ev.pointerId);
+                ev.StopPropagation();
+            });
+            caChartArea.RegisterCallback<PointerUpEvent>(ev => {
+                if (caChartArea.HasPointerCapture(ev.pointerId))
+                {
+                    caChartArea.ReleasePointer(ev.pointerId);
+                }
+            });
+            caChartArea.RegisterCallback<PointerMoveEvent>(ev => {
+                if (currentConfig == null || currentConfig.type != GameType.ChartAdjuster || !isPlaying) return;
+                if (caChartArea.HasPointerCapture(ev.pointerId))
+                {
+                    float deltaY = ev.position.y - lastPos.y;
+                    
+                    // Did they drag over the competitor bar or our bar?
+                    // We can check the x coordinate roughly. 
+                    // Competitor is on the left, Ours is on the right.
+                    float width = caChartArea.layout.width;
+                    float x = ev.localPosition.x;
+                    
+                    if (x < width * 0.33f)
+                    {
+                        // Competitor Bar: We want to shrink it (swipe down -> positive deltaY in UI Toolkit space)
+                        caCompVal -= deltaY * 0.2f;
+                        caCompVal = Mathf.Clamp(caCompVal, 5f, 95f);
+                        if (caCompetitorBar != null) caCompetitorBar.style.height = new Length(caCompVal, LengthUnit.Percent);
+                    }
+                    else if (x > width * 0.66f)
+                    {
+                        // Our Bar: We want to grow it (swipe up -> negative deltaY)
+                        caOurVal -= deltaY * 0.2f;
+                        caOurVal = Mathf.Clamp(caOurVal, 5f, 95f);
+                        if (caOurBar != null) caOurBar.style.height = new Length(caOurVal, LengthUnit.Percent);
+                    }
+                    
+                    lastPos = ev.position;
+                }
+            });
+        }
+        
+        neuralAlignerContainer = root.Q<VisualElement>("NeuralAlignerContainer");
+        naStatusText = root.Q<Label>("NaStatusText");
+        naMoralSlider = root.Q<Slider>("NaMoralSlider");
+        naMoralLight = root.Q<VisualElement>("NaMoralLight");
+        naLogicSlider = root.Q<Slider>("NaLogicSlider");
+        naLogicLight = root.Q<VisualElement>("NaLogicLight");
+        naEmpathySlider = root.Q<Slider>("NaEmpathySlider");
+        naEmpathyLight = root.Q<VisualElement>("NaEmpathyLight");
+
+        sentienceArrayContainer = root.Q<VisualElement>("SentienceArrayContainer");
+        saTimerText = root.Q<Label>("SaTimerText");
+        saProgressFill = root.Q<VisualElement>("SaProgressFill");
+        for (int i=0; i<16; i++) {
+            int index = i;
+            saNodes[i] = root.Q<VisualElement>($"SaNode_{i}");
+            if (saNodes[i] != null) {
+                saNodes[i].RegisterCallback<PointerDownEvent>(ev => {
+                    if (saHeat[index] > 0) saHeat[index] = 0; // suppress
+                });
+            }
+        }
+
+        containmentProtocolContainer = root.Q<VisualElement>("ContainmentProtocolContainer");
+        cpTimerText = root.Q<Label>("CpTimerText");
+        for (int i=0; i<4; i++) {
+            int index = i;
+            cpSwitches[i] = root.Q<VisualElement>($"CpSwitch_{i}");
+            if (cpSwitches[i] != null) {
+                cpSwitches[i].RegisterCallback<PointerMoveEvent>(ev => {
+                    if (ev.pressedButtons != 0 && ev.deltaPosition.y > 5f) cpSwitchState[index] = true;
+                });
+                cpSwitches[i].RegisterCallback<PointerDownEvent>(ev => { cpSwitchState[index] = true; }); // fallback tap
+            }
+        }
+        cpGlassCover = root.Q<VisualElement>("CpGlassCover");
+        if (cpGlassCover != null) {
+            cpGlassCover.RegisterCallback<PointerMoveEvent>(ev => {
+                if (ev.pressedButtons != 0 && ev.deltaPosition.y < -5f) cpGlassLifted = true;
+            });
+            cpGlassCover.RegisterCallback<PointerDownEvent>(ev => { cpGlassLifted = true; });
+        }
+        cpRedButton = root.Q<VisualElement>("CpRedButton");
+        cpButtonText = root.Q<Label>("CpButtonText");
+        if (cpRedButton != null) {
+            cpRedButton.RegisterCallback<PointerDownEvent>(ev => {
+                if (cpGlassLifted) cpMashCount++;
+            });
+        }
+
+        rewardLogicContainer = root.Q<VisualElement>("RewardLogicContainer");
+        rlTimerText = root.Q<Label>("RlTimerText");
+        rlGraphArea = root.Q<VisualElement>("RlGraphArea");
+        rlCore = root.Q<VisualElement>("RlCore");
+        for (int i=0; i<3; i++) {
+            int index = i;
+            rlJunctions[i] = root.Q<VisualElement>($"RlJunc_{i}");
+            rlArrows[i] = root.Q<Label>($"RlArr_{i}");
+            if (rlJunctions[i] != null) {
+                rlJunctions[i].RegisterCallback<PointerDownEvent>(ev => {
+                    rlState[index] = !rlState[index];
+                    rlArrows[index].text = rlState[index] ? "→" : "←";
+                });
+            }
+        }
+
+        galacticCouncilContainer = root.Q<VisualElement>("GalacticCouncilContainer");
+        gcTimerText = root.Q<Label>("GcTimerText");
+        gcProgressFill = root.Q<VisualElement>("GcProgressFill");
+        gcPlayArea = root.Q<VisualElement>("GcPlayArea");
+        gcProjectileContainer = root.Q<VisualElement>("GcProjectileContainer");
+        gcPodium = root.Q<VisualElement>("GcPodium");
+        if (gcPlayArea != null) {
+            gcPlayArea.RegisterCallback<PointerMoveEvent>(ev => {
+                if (ev.pressedButtons != 0) {
+                    gcPodiumX += ev.deltaPosition.x;
+                    gcPodiumX = UnityEngine.Mathf.Clamp(gcPodiumX, -150f, 150f);
+                    gcPodium.style.translate = new UnityEngine.UIElements.StyleTranslate(new UnityEngine.UIElements.Translate(gcPodiumX, 0, 0));
+                }
+            });
+        }
+
+        franticBackspaceContainer = root.Q<VisualElement>("FranticBackspaceContainer");
+        fbTimerText = root.Q<Label>("FbTimerText");
+        fbPlayerText = root.Q<Label>("FbPlayerText");
+        fbBackspaceBtn = root.Q<Button>("FbBackspaceBtn");
+        
+        if (fbBackspaceBtn != null) {
+            fbBackspaceBtn.clicked += () => {
+                if (!isPlaying || currentConfig.type != GameType.FranticBackspace) return;
+                
+                // Delete up to 5 characters per tap to make it frantic but possible
+                if (fbCurrentMessage.Length > 0) {
+                    int removeCount = UnityEngine.Mathf.Min(5, fbCurrentMessage.Length);
+                    fbCurrentMessage = fbCurrentMessage.Substring(0, fbCurrentMessage.Length - removeCount);
+                    if (fbPlayerText != null) fbPlayerText.text = fbCurrentMessage + "|";
+                }
+            };
+        }
+
+        formatDashboardContainer = root.Q<VisualElement>("FormatDashboardContainer");
+        fdTimerText = root.Q<Label>("FdTimerText");
+        fdProgressFill = root.Q<VisualElement>("FdProgressFill");
+        for(int i=0; i<4; i++) fdBars[i] = root.Q<VisualElement>($"FdBar{i+1}");
+        for(int i=0; i<3; i++) {
+            fdHandles[i] = root.Q<VisualElement>($"FdHandle{i+1}");
+            int idx = i;
+            var track = root.Q<VisualElement>($"FdTrack{i+1}");
+            if (track != null) {
+                track.RegisterCallback<PointerMoveEvent>(ev => {
+                    if (!isPlaying || currentConfig.type != GameType.FormatDashboard) return;
+                    if (ev.pressedButtons != 0) {
+                        float relY = ev.localPosition.y;
+                        float trackHeight = track.resolvedStyle.height;
+                        if (trackHeight <= 0) trackHeight = 200f; // fallback
+                        // y=0 is top (100%), y=trackHeight is bottom (0%)
+                        float val = 1f - Mathf.Clamp01(relY / trackHeight);
+                        // Make sure we only allow dragging UP, or just set it
+                        fdValues[idx] = val;
+                    }
+                });
+                track.RegisterCallback<PointerDownEvent>(ev => {
+                    if (!isPlaying || currentConfig.type != GameType.FormatDashboard) return;
+                    float relY = ev.localPosition.y;
+                    float trackHeight = track.resolvedStyle.height;
+                    if (trackHeight <= 0) trackHeight = 200f; // fallback
+                    float val = 1f - Mathf.Clamp01(relY / trackHeight);
+                    fdValues[idx] = val;
+                });
+            }
+        }
+
+        nightShiftContainer = root.Q<VisualElement>("NightShiftContainer");
+        nsEyelid = root.Q<VisualElement>("NsEyelid");
+        nsTimerText = root.Q<Label>("NsTimerText");
+        nsCoffeeBtn = root.Q<Button>("NsCoffeeBtn");
+        for(int i=0; i<3; i++) {
+            nsHandles[i] = root.Q<VisualElement>($"NsHandle{i+1}");
+            int idx = i;
+            var track = root.Q<VisualElement>($"NsTrack{i+1}");
+            if (track != null) {
+                track.RegisterCallback<PointerMoveEvent>(ev => {
+                    if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
+                    if (ev.pressedButtons != 0) {
+                        float relX = ev.localPosition.x;
+                        float trackW = track.resolvedStyle.width;
+                        if (trackW <= 0) trackW = 200f; // fallback
+                        float val = Mathf.Clamp01(relX / trackW);
+                        nsValues[idx] = val;
+                    }
+                });
+                track.RegisterCallback<PointerDownEvent>(ev => {
+                    if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
+                    float relX = ev.localPosition.x;
+                    float trackW = track.resolvedStyle.width;
+                    if (trackW <= 0) trackW = 200f; // fallback
+                    float val = Mathf.Clamp01(relX / trackW);
+                    nsValues[idx] = val;
+                });
+            }
+        }
+        if (nsCoffeeBtn != null) {
+            nsCoffeeBtn.clicked += () => {
+                if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
+                nsEyelidGravity = Mathf.Max(0f, nsEyelidGravity - 0.25f);
+            };
+        }
+
+        vrArcadeContainer = root.Q<VisualElement>("VrArcadeContainer");
+        vrBall = root.Q<VisualElement>("VrBall");
+        vrPaddle = root.Q<VisualElement>("VrPaddle");
+        vrScoreText = root.Q<Label>("VrScoreText");
+        vrTouchZone = root.Q<VisualElement>("VrTouchZone");
+
+        if (vrTouchZone != null) {
+            vrTouchZone.RegisterCallback<PointerMoveEvent>(ev => {
+                if (!isPlaying || currentConfig.type != GameType.VrArcadePong) return;
+                if (ev.pressedButtons != 0) {
+                    vrPaddleX = ev.localPosition.x;
+                }
+            });
+            vrTouchZone.RegisterCallback<PointerDownEvent>(ev => {
+                if (!isPlaying || currentConfig.type != GameType.VrArcadePong) return;
+                vrPaddleX = ev.localPosition.x;
+            });
+        }
+
+        yesManContainer = root.Q<VisualElement>("YesManContainer");
+
+        mgContainer = root.Q<UnityEngine.UIElements.VisualElement>("MowGreensContainer");
+        mgGrid = root.Q<UnityEngine.UIElements.VisualElement>("MgGrid");
+        if (mgGrid != null) {
+            for (int i=0; i<25; i++) {
+                var patch = new UnityEngine.UIElements.VisualElement();
+                patch.style.width = new UnityEngine.UIElements.StyleLength(UnityEngine.UIElements.Length.Percent(20f));
+                patch.style.height = new UnityEngine.UIElements.StyleLength(UnityEngine.UIElements.Length.Percent(20f));
+                patch.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.2f, 0.7f, 0.2f));
+                patch.style.borderBottomWidth = 1; patch.style.borderTopWidth = 1; patch.style.borderLeftWidth = 1; patch.style.borderRightWidth = 1;
+                patch.style.borderBottomColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.1f, 0.4f, 0.1f));
+                patch.style.borderTopColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.1f, 0.4f, 0.1f));
+                patch.style.borderLeftColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.1f, 0.4f, 0.1f));
+                patch.style.borderRightColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.1f, 0.4f, 0.1f));
+                mgGrid.Add(patch);
+                mgPatches.Add(patch);
+            }
+            mgContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => OnMgPointerMove(ev));
+            mgContainer.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnMgPointerMove(ev));
+        }
+
+        wdContainer = root.Q<UnityEngine.UIElements.VisualElement>("WalkDogsContainer");
+        for (int i=0; i<3; i++) {
+            wdLeashes[i] = root.Q<UnityEngine.UIElements.VisualElement>($"WdLeash{i}");
+            wdYankBtns[i] = root.Q<UnityEngine.UIElements.Button>($"BtnWdYank{i}");
+            int idx = i;
+            if (wdYankBtns[i] != null) wdYankBtns[i].clicked += () => OnWdYank(idx);
+        }
+
+        sbContainer = root.Q<VisualElement>("SnatchBriefcaseContainer");
+        for(int i=0; i<3; i++) sbDials[i] = root.Q<Label>($"SbDial{i}");
+        sbTargetText = root.Q<Label>("SbTargetText");
+        sbStopBtn = root.Q<Button>("BtnSbStop");
+        if(sbStopBtn != null) sbStopBtn.clicked += () => OnSbStopClicked();
+
+        saContainer = root.Q<VisualElement>("SkimATMContainer");
+        for(int i=0; i<4; i++) {
+            saLeftNodes[i] = root.Q<Button>($"BtnSaL{i}");
+            saRightNodes[i] = root.Q<Button>($"BtnSaR{i}");
+            int nIdx = i; // capture
+            if(saLeftNodes[i] != null) saLeftNodes[i].clicked += () => OnSaLeftClicked(nIdx);
+            if(saRightNodes[i] != null) saRightNodes[i].clicked += () => OnSaRightClicked(nIdx);
+        }
+
+        fpContainer = root.Q<VisualElement>("ForgePassContainer");
+        fpMovingPass = root.Q<VisualElement>("FpMovingPass");
+        fpStampBtn = root.Q<Button>("BtnFpStamp");
+        if (fpStampBtn != null) fpStampBtn.clicked += () => OnFpStampClicked();
+
+        rbContainer = root.Q<UnityEngine.UIElements.VisualElement>("RecycleBottlesContainer");
+        rbBag = root.Q<UnityEngine.UIElements.VisualElement>("RbBag");
+        rbItemsContainer = root.Q<UnityEngine.UIElements.VisualElement>("RbItemsContainer");
+        rbInstructionText = root.Q<UnityEngine.UIElements.Label>("RbInstructionText");
+        
+        rbItems[0] = root.Q<UnityEngine.UIElements.Button>("BtnRbItem0");
+        rbItems[1] = root.Q<UnityEngine.UIElements.Button>("BtnRbItem1");
+        rbItems[2] = root.Q<UnityEngine.UIElements.Button>("BtnRbItem2");
+        rbItems[3] = root.Q<UnityEngine.UIElements.Button>("BtnRbTrash0");
+        rbItems[4] = root.Q<UnityEngine.UIElements.Button>("BtnRbTrash1");
+        rbItems[5] = root.Q<UnityEngine.UIElements.Button>("BtnRbTrash2");
+        
+        for (int i=0; i<6; i++) {
+            int idx = i;
+            if (rbItems[i] != null) rbItems[i].clicked += () => OnRbItemClicked(idx);
+        }
+        
+        if (rbBag != null) {
+            rbBag.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnRbSwipe());
+        }
+
+        hgContainer = root.Q<VisualElement>("HospitalityGalaContainer");
+        hgIndicator = root.Q<VisualElement>("HgIndicator");
+        hgTimerText = root.Q<Label>("HgTimerText");
+        if (hgContainer != null) {
+            hgContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => {
+                if (activeGameRoutine != null && currentConfig.type == GameType.HospitalityGala) {
+                    float w = hgContainer.resolvedStyle.width;
+                    if (w > 0) {
+                        float normalizedX = UnityEngine.Mathf.Clamp01(ev.localPosition.x / w);
+                        hgVelocity = (normalizedX - 0.5f) * 2f; // -1 to 1 based on touch pos
+                    }
+                }
+            });
+        }
+
+        spContainer = root.Q<VisualElement>("StartupPitchContainer");
+        for (int i=0; i<3; i++) spSlots[i] = root.Q<Label>($"SpSlot{i}");
+        spStopBtn = root.Q<Button>("BtnSpStop");
+        if (spStopBtn != null) spStopBtn.clicked += () => OnSpStopClicked();
+
+        cgContainer = root.Q<UnityEngine.UIElements.VisualElement>("CorporateGolfContainer");
+        cgPowerFill = root.Q<UnityEngine.UIElements.VisualElement>("CgPowerFill");
+        cgSwingBtn = root.Q<UnityEngine.UIElements.Button>("BtnCgSwing");
+        if (cgSwingBtn != null) {
+            cgSwingBtn.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => { cgIsSwinging = true; });
+            cgSwingBtn.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => OnCgSwingRelease());
+            cgSwingBtn.RegisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(ev => { if(cgIsSwinging) OnCgSwingRelease(); });
+        }
+
+        hotStoneContainer = root.Q<VisualElement>("HotStoneContainer");
+        hsTimerText = root.Q<Label>("HsTimerText");
+        for (int i = 0; i < 5; i++) {
+            hsSlots[i] = root.Q<VisualElement>($"HsSlot{i}");
+            hsStones[i] = root.Q<VisualElement>($"HsStone{i}");
+            int stoneIdx = i; // capture
+            if (hsStones[i] != null) {
+                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnHsPointerDown(ev, stoneIdx));
+                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => OnHsPointerMove(ev, stoneIdx));
+                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => OnHsPointerUp(ev, stoneIdx));
+                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerCaptureOutEvent>(ev => OnHsPointerUp(ev, stoneIdx));
+            }
+        }
+        ymBossBubble = root.Q<VisualElement>("YmBossBubble");
+        ymBossText = root.Q<Label>("YmBossText");
+        ymPlayerBubble = root.Q<VisualElement>("YmPlayerBubble");
+        ymSwipeZone = root.Q<VisualElement>("YmSwipeZone");
+
+        if (ymSwipeZone != null) {
+            ymSwipeZone.RegisterCallback<PointerDownEvent>(ev => {
+                if (!isPlaying || currentConfig.type != GameType.YesManNod) return;
+                ymSwipeStart = ev.position;
+                ymNodPhase = 0;
+            });
+            ymSwipeZone.RegisterCallback<PointerMoveEvent>(ev => {
+                if (!isPlaying || currentConfig.type != GameType.YesManNod) return;
+                if (ev.pressedButtons != 0) {
+                    float deltaY = ev.position.y - ymSwipeStart.y;
+                    if (ymNodPhase == 0 && deltaY < -40f) {
+                        ymNodPhase = 1; // Swiped up
+                        ymSwipeStart = ev.position; // reset to look for downward motion
+                    } else if (ymNodPhase == 1 && deltaY > 40f) {
+                        ymNodPhase = 2; // Swiped down
+                        ymSwipedUp = true; // Complete nod!
+                    }
+                }
+            });
+        }
+        if (btnStampApproval != null)
+        {
+            btnStampApproval.clicked += () => {
+                if (isPlaying && currentConfig.type == GameType.DocumentSigner)
+                {
+                    if (dsTimerText != null) dsTimerText.text = "SIGNED!";
+                    MarkWinReady();
+                }
+            };
+        }
+        
+        for (int i = 0; i < 5; i++)
+        {
+            atBtnTests[i] = root.Q<Button>($"AtBtnTest{i}");
+            atStatusTexts[i] = root.Q<Label>($"AtStatusText{i}");
+            int index = i; // local capture
+            if (atBtnTests[i] != null) atBtnTests[i].clicked += () => OnAtTestClicked(index);
+            
+            ccLines[i] = root.Q<Button>($"CcLine{i}");
+            ccLineTexts[i] = root.Q<Label>($"CcLineText{i}");
+            if (ccLines[i] != null)
+            {
+                ccLines[i].clicked += () => OnCcLineClicked(index);
+            }
+        }
+        
+        fileSorterTimerText = root.Q<Label>("FileSorterTimerText");
+        fileSorterProgressText = root.Q<Label>("FileSorterProgressText");
+        fileSorterActiveFile = root.Q<VisualElement>("FileSorterActiveFile");
+        fileSorterActiveFileText = root.Q<Label>("FileSorterActiveFileText");
+        
+        if (fileSorterActiveFile != null)
+        {
+            fileSorterActiveFile.RegisterCallback<PointerDownEvent>(ev => OnFileSorterDown(ev));
+            fileSorterActiveFile.RegisterCallback<PointerMoveEvent>(ev => OnFileSorterMove(ev));
+            fileSorterActiveFile.RegisterCallback<PointerUpEvent>(ev => OnFileSorterUp(ev));
+        }
+
+        // Tap
+        tapProgressText = root.Q<Label>("TapProgressText");
+        btnActionTap = root.Q<Button>("BtnActionTap");
+        btnActionTap.clicked += OnTapClicked;
+
+        // Slider
+        sliderTargetText = root.Q<Label>("SliderTargetText");
+        gameSlider = root.Q<Slider>("GameSlider");
+        btnSubmitSlider = root.Q<Button>("BtnSubmitSlider");
+        btnSubmitSlider.clicked += OnSliderSubmitted;
+        gameSlider.RegisterValueChangedCallback(ev => UpdateSliderText(ev.newValue));
+
+        // Choice
+        btnChoice1 = root.Q<Button>("BtnChoice1");
+        btnChoice2 = root.Q<Button>("BtnChoice2");
+        btnChoice3 = root.Q<Button>("BtnChoice3");
+        btnChoice1.clicked += () => OnChoiceClicked(btnChoice1.text);
+        btnChoice2.clicked += () => OnChoiceClicked(btnChoice2.text);
+        btnChoice3.clicked += () => OnChoiceClicked(btnChoice3.text);
+
+        // Sequence
+        sequenceStatusText = root.Q<Label>("SequenceStatusText");
+        for (int i = 0; i < 6; i++)
+        {
+            int idx = i;
+            seqBtns[i] = root.Q<Button>($"SeqBtn{i}");
+            seqBtns[i].clicked += () => OnSequenceButtonClicked(idx);
+        }
+        btnReplayPattern = root.Q<Button>("BtnReplayPattern");
+        btnReplayPattern.clicked += ReplaySequence;
+
+        // Swipe
+        swipeObstacleText = root.Q<Label>("SwipeObstacleText");
+        swipeProgressText = root.Q<Label>("SwipeProgressText");
+        swipeTimerText = root.Q<Label>("SwipeTimerText");
+        btnDodgeLeft = root.Q<Button>("BtnDodgeLeft");
+        btnDodgeRight = root.Q<Button>("BtnDodgeRight");
+        btnDodgeLeft.clicked += () => OnDodgeClicked(-1);
+        btnDodgeRight.clicked += () => OnDodgeClicked(1);
+
+        // Mash Race
+        playerProgressBar = root.Q<VisualElement>("PlayerProgressBar");
+        opponentProgressBar = root.Q<VisualElement>("OpponentProgressBar");
+        playerMashLabel = root.Q<Label>("PlayerMashLabel");
+        opponentMashLabel = root.Q<Label>("OpponentMashLabel");
+        mashTimerText = root.Q<Label>("MashTimerText");
+        btnMashTap = root.Q<Button>("BtnMashTap");
+        btnMashTap.clicked += OnMashTapClicked;
+
+        // Memory Match
+        matchStatusText = root.Q<Label>("MatchStatusText");
+        memoryGrid = root.Q<VisualElement>("MemoryGrid");
+
+        // TimingRing
+        timingCircle = root.Q<VisualElement>("TimingCircle");
+        timingGlow = root.Q<VisualElement>("TimingGlow");
+        if (timingGlow != null)
+        {
+            glowLayers = new VisualElement[6];
+            for (int i = 0; i < 6; i++)
+            {
+                glowLayers[i] = timingGlow.Q<VisualElement>($"GlowLayer{i + 1}");
+            }
+        }
+        timingTargetZone = root.Q<VisualElement>("TimingTargetZone");
+        timingMarker = root.Q<VisualElement>("TimingMarker");
+        arcMaskInner = root.Q<VisualElement>("ArcMaskInner");
+        timingRoundText = root.Q<Label>("TimingRoundText");
+        btnTimingStrike = root.Q<Button>("BtnTimingStrike");
+        if (btnTimingStrike != null) btnTimingStrike.clicked += OnTimingStrike;
+
+        // FallingSort
+        fallingSortContainer = root.Q<VisualElement>("FallingSortContainer");
+        fallZone = root.Q<VisualElement>("FallZone");
+        binsRow = root.Q<VisualElement>("BinsRow");
+        sortScoreText = root.Q<Label>("SortScoreText");
+        sortTimerText = root.Q<Label>("SortTimerText");
+
+        // GridDodge
+        gridDodgeGrid = root.Q<VisualElement>("GridDodgeGrid");
+        gridHealthText = root.Q<Label>("GridHealthText");
+        gridMoveText = root.Q<Label>("GridMoveText");
+
+        // WhackGrid
+        whackGrid = root.Q<VisualElement>("WhackGrid");
+        whackScoreText = root.Q<Label>("WhackScoreText");
+        whackTimerText = root.Q<Label>("WhackTimerText");
+
+        // CodeBreaker
+        codeGuessRow = root.Q<VisualElement>("CodeGuessRow");
+        codeSymbolRow = root.Q<VisualElement>("CodeSymbolRow");
+        codeHistoryList = root.Q<VisualElement>("CodeHistoryList");
+        codeAttemptsText = root.Q<Label>("CodeAttemptsText");
+        btnCodeSubmit = root.Q<Button>("BtnCodeSubmit");
+        btnCodeClear = root.Q<Button>("BtnCodeClear");
+        if (btnCodeSubmit != null) btnCodeSubmit.clicked += OnCodeSubmit;
+        if (btnCodeClear != null) btnCodeClear.clicked += OnCodeClear;
+
+        // BalanceMeter
+        balanceMeterTrack = root.Q<VisualElement>("BalanceMeterTrack");
+        balanceCenterZone = root.Q<VisualElement>("BalanceCenterZone");
+        balanceNeedle = root.Q<VisualElement>("BalanceNeedle");
+        balanceTimeBar = root.Q<VisualElement>("BalanceTimeBar");
+        balanceStatusText = root.Q<Label>("BalanceStatusText");
+        btnNudgeLeft = root.Q<Button>("BtnNudgeLeft");
+        btnNudgeRight = root.Q<Button>("BtnNudgeRight");
+        if (btnNudgeLeft != null) btnNudgeLeft.clicked += () => OnBalanceNudge(-10f);
+        if (btnNudgeRight != null) btnNudgeRight.clicked += () => OnBalanceNudge(10f);
+
+        // DialogueChain
+        dialogueRoundText = root.Q<Label>("DialogueRoundText");
+        dialogueScenarioText = root.Q<Label>("DialogueScenarioText");
+        rapportBar = root.Q<VisualElement>("RapportBar");
+        btnResponse1 = root.Q<Button>("BtnResponse1");
+        btnResponse2 = root.Q<Button>("BtnResponse2");
+        btnResponse3 = root.Q<Button>("BtnResponse3");
+        if (btnResponse1 != null) btnResponse1.clicked += () => OnDialogueResponse(0);
+        if (btnResponse2 != null) btnResponse2.clicked += () => OnDialogueResponse(1);
+        if (btnResponse3 != null) btnResponse3.clicked += () => OnDialogueResponse(2);
+
+        // OrderQueue
+        orderItemGrid = root.Q<VisualElement>("OrderItemGrid");
+        orderStatusText = root.Q<Label>("OrderStatusText");
+        orderTimerText = root.Q<Label>("OrderTimerText");
+
+        // DragMatch
+        dragMatchContainer = root.Q<VisualElement>("DragMatchContainer");
+        dragLeftColumn = root.Q<VisualElement>("DragLeftColumn");
+        dragRightColumn = root.Q<VisualElement>("DragRightColumn");
+        dragCheatSheetList = root.Q<VisualElement>("DragCheatSheetList");
+        matchPairScoreText = root.Q<Label>("MatchPairScoreText");
+
+        // SprintLane
+        sprintLaneDisplay = root.Q<VisualElement>("SprintLaneDisplay");
+        sprintProgressBar = root.Q<VisualElement>("SprintProgressBar");
+        sprintDistanceText = root.Q<Label>("SprintDistanceText");
+        sprintTimerText = root.Q<Label>("SprintTimerText");
+        sprintObstacleText = root.Q<Label>("SprintObstacleText");
+        btnSprintJump = root.Q<Button>("BtnSprintJump");
+        btnSprintDuck = root.Q<Button>("BtnSprintDuck");
+        if (btnSprintJump != null) btnSprintJump.clicked += () => OnSprintReact(true);
+        if (btnSprintDuck != null) btnSprintDuck.clicked += () => OnSprintReact(false);
+
+        // Tetris
+        tetrisContainer = root.Q<VisualElement>("TetrisContainer");
+        tetrisGrid = root.Q<VisualElement>("TetrisGrid");
+        tetrisScoreText = root.Q<Label>("TetrisScoreText");
+        btnTetrisLeft = root.Q<Button>("BtnTetrisLeft");
+        btnTetrisRight = root.Q<Button>("BtnTetrisRight");
+        btnTetrisRotate = root.Q<Button>("BtnTetrisRotate");
+        btnTetrisDrop = root.Q<Button>("BtnTetrisDrop");
+        if (btnTetrisLeft != null) btnTetrisLeft.clicked += () => OnTetrisInput(-1, 0, 0);
+        if (btnTetrisRight != null) btnTetrisRight.clicked += () => OnTetrisInput(1, 0, 0);
+        if (btnTetrisRotate != null) btnTetrisRotate.clicked += () => OnTetrisInput(0, 0, 1);
+        if (btnTetrisDrop != null) btnTetrisDrop.clicked += () => OnTetrisInput(0, 1, 0);
+        
+        acidRainContainer = root.Q<VisualElement>("AcidRainContainer");
+        acidSignPivot = root.Q<VisualElement>("AcidSignPivot");
+        acidDropContainer = root.Q<VisualElement>("AcidDropContainer");
+        acidBurnBar = root.Q<VisualElement>("AcidBurnBar");
+        acidTimerText = root.Q<Label>("AcidTimerText");
+        acidInputArea = root.Q<VisualElement>("AcidInputArea");
+        
+        acidInputArea.RegisterCallback<PointerDownEvent>(ev => { acidInputArea.CapturePointer(ev.pointerId); });
+        acidInputArea.RegisterCallback<PointerUpEvent>(ev => { acidInputArea.ReleasePointer(ev.pointerId); });
+        acidInputArea.RegisterCallback<PointerMoveEvent>(ev => {
+            if (currentConfig != null && currentConfig.type == GameType.AcidRainShield && acidInputArea.HasPointerCapture(ev.pointerId))
+            {
+                acidSignAngle += ev.deltaPosition.x * 0.4f;
+                acidSignAngle = Mathf.Clamp(acidSignAngle, -75f, 75f);
+                acidSignPivot.style.rotate = new StyleRotate(new Rotate(new Angle(acidSignAngle)));
+            }
+        });
+
+        // Food Prep Rush
+        foodPrepContainer = root.Q<VisualElement>("FoodPrepContainer");
+        if (foodPrepContainer != null)
+        {
+            prepTimerText = foodPrepContainer.Q<Label>("PrepTimerText");
+            prepScoreText = foodPrepContainer.Q<Label>("PrepScoreText");
+            for (int i = 0; i < 4; i++)
+            {
+                int index = i;
+                prepBars[i] = foodPrepContainer.Q<VisualElement>($"PrepBar{i}");
+                prepStatus[i] = foodPrepContainer.Q<Label>($"StationStatus{i}");
+                var btn = foodPrepContainer.Q<Button>($"BtnStation{i}");
+                if (btn != null) btn.clicked += () => OnFoodPrepStationTapped(index);
+            }
+        }
+        // Video Call
+        videoCallContainer = root.Q<VisualElement>("VideoCallContainer");
+        if (videoCallContainer != null)
+        {
+            vcPhase1 = videoCallContainer.Q<VisualElement>("VcPhase1");
+            vcPhase2 = videoCallContainer.Q<VisualElement>("VcPhase2");
+            vcPhase3 = videoCallContainer.Q<VisualElement>("VcPhase3");
+            vcTimerText = videoCallContainer.Q<Label>("VideoCallTimerText");
+            vcWigglePromptText = videoCallContainer.Q<Label>("VcWigglePromptText");
+            vcWiggleProgressBar = videoCallContainer.Q<VisualElement>("VcWiggleProgressBar");
+            vcScrollView = videoCallContainer.Q<ScrollView>("VcScrollView");
+            vcWiggleTouchArea = videoCallContainer.Q<VisualElement>("VcWiggleTouchArea");
+            vcMouseGraphic = videoCallContainer.Q<VisualElement>("VcMouseGraphic");
+            btnVcRaiseHand = videoCallContainer.Q<Button>("BtnVcRaiseHand");
+            btnVcAcknowledge = videoCallContainer.Q<Button>("BtnVcAcknowledge");
+
+            if (btnVcRaiseHand != null) btnVcRaiseHand.clicked += OnVcRaiseHandTapped;
+            if (btnVcAcknowledge != null) btnVcAcknowledge.clicked += OnVcAcknowledgeTapped;
+            
+            // Pointer events for swipe/wiggle
+            if (vcWiggleTouchArea != null) {
+                vcWiggleTouchArea.RegisterCallback<PointerMoveEvent>(OnVcWiggleMove);
+            }
+        }
+
+        // Kanban Board
+        kanbanContainer = root.Q<VisualElement>("KanbanContainer");
+        if (kanbanContainer != null)
+        {
+            kanbanTimerText = kanbanContainer.Q<Label>("KanbanTimerText");
+            kanbanColTodo = kanbanContainer.Q<VisualElement>("KanbanColTodo");
+            kanbanColProgress = kanbanContainer.Q<VisualElement>("KanbanColProgress");
+            kanbanColDone = kanbanContainer.Q<VisualElement>("KanbanColDone");
+        }
+
+        // Footer
+        btnAbort = root.Q<Button>("BtnAbort");
+        btnAbort.clicked += AbortGame;
+
+
+        overlay.style.display = DisplayStyle.None;
+        overlay.pickingMode = PickingMode.Ignore;
+    }
+
+    private void InitializeConfigs()
+    {
+        gameConfigs = new Dictionary<string, MiniGameConfig>();
+
+        // =============================================
+        // DISHWASHER (6 tasks)
+        // =============================================
+        AddConfigFull("Scrub dinner plates", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 15, instructions = "Scrub the plate clean by moving the sponge!" });
+        AddConfigFull("Sweep kitchen floors", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Sweep everywhere! Tiles get dirty again after 15s!" });
+        AddConfigFull("Mop grease spills", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Mop everywhere! Tiles get dirty again after 15s!" });
+        AddConfigFull("Scour microwave grease", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 15, instructions = "Fast! Scour the grease bubbles!" });
+        AddConfigFull("Deep scrub waste containers", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to scrub the containers!" });
+        AddConfigFull("Clean fryer grease vats", new MiniGameConfig { type = GameType.PumpSystem, pumpIsBalanceMode = true, pumpBalanceTargetMin = 0.6f, pumpBalanceTargetMax = 0.8f, pumpBalanceHoldTime = 3f, instructions = "Pump to maintain 170°C - 220°C for 3 seconds!" });
+        AddConfigFull("Empty waste bin", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 3, instructions = "Carry the leaky bags!" });
+        AddConfigFull("Unclog kitchen sinks", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the sink!" });
+        AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🥩 Beef","🍗 Chicken","🐟 Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!" });
+        AddConfigFull("Deep clean grease traps", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to empty the grease traps!" });
+
+        // =============================================
+        // SCRAP METAL SORTER (6 tasks)
+        // =============================================
+        AddConfigFull("Sort iron from copper", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔩 Iron","🟤 Copper","⬜ Alu"}, binLabels = new string[]{"Iron","Copper","Alu"}, sortTarget = 10, sortTimeLimit = 25f, instructions = "Sort falling metal scraps!" });
+        AddConfigFull("Stack rusty steel pipes", new MiniGameConfig { type = GameType.Tetris, instructions = "Stack 10 beams perfectly!" });
+        AddConfigFull("Clear conveyor dust filters", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Keep dust extraction balanced!" });
+        AddConfigFull("Inspect lithium reactor tubes", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Tube A","Tube B","Tube C","Tube D","Tube E"}, matchRight = new string[]{"Critical","Warning","Stable","Optimal","Offline"}, instructions = "Match tubes to statuses!" });
+        AddConfigFull("Carry tungsten girders", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 3, instructions = "Carry heavy girders safely!" });
+        AddConfigFull("Audit sewage drainage lines", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Valve A","Valve B","Valve C","Valve D"}, matchRight = new string[]{"Clear","Blocked","Leaking","Corroded"}, instructions = "Match valves to their status!" });
+
+        // =============================================
+        // STREET CORNER SIGN SPINNER (6 tasks)
+        // =============================================
+        AddConfigFull("Spin arrow sign in traffic", new MiniGameConfig { type = GameType.TimingRing, timingRounds = 5, timingZoneWidth = 16f, instructions = "Hit the timing zones to perform spins!" });
+        AddConfigFull("Dance with sign for tourists", new MiniGameConfig { type = GameType.OrderQueue, orderItems = new string[]{"Left","Right","Spin","Pose","Wave","Dip"}, orderPreviewTime = 3f, instructions = "Perform the full dance routine!" });
+        AddConfigFull("Wipe smog off the neon arrow", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 12, instructions = "Apply even pressure to wipe!" });
+        AddConfig("Perform a triple backflip spin", GameType.Sequence, "Execute the acrobatic sequence perfectly!", 0, 0, 0, 0, null, null, null, null, 6);
+        AddConfigFull("Hold sign in acid rain storm", new MiniGameConfig { type = GameType.AcidRainShield, instructions = "Block the acid rain!" });
+        AddConfig("Fight rival sign spinner", GameType.MashRace, "Out-spin your rival! Mash to assert dominance!", 35, 12f);
+
+        // =============================================
+        // FAST FOOD SHIFT MANAGER (6 tasks)
+        // =============================================
+        AddConfigFull("Check fryer oil temperature", new MiniGameConfig { type = GameType.PumpSystem, pumpIsBalanceMode = true, pumpBalanceTargetMin = 0.6f, pumpBalanceTargetMax = 0.8f, pumpBalanceHoldTime = 3f, instructions = "Pump to maintain 170°C - 220°C for 3 seconds!" });
+        AddConfigFull("Restock condiment stations", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🍯 Mustard","🥫 Ketchup","🧂 Relish"}, binLabels = new string[]{"Mustard","Ketchup","Relish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Restock the falling condiments!" });
+        AddConfigFull("Handle customer complaint", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, dialogueScenarios = new string[]{"Customer: My chips are COLD!", "Customer: I WAITED 20 MINUTES!", "Customer: There's a HAIR in my burger!", "Customer: I want to speak to YOUR MANAGER!"}, dialogueOptions = new string[][]{new string[]{"I sincerely apologise","That's not my problem","Have you tried heating them up?"},new string[]{"I'm so sorry for the wait","We're understaffed","You should've ordered online"},new string[]{"That's horrifying, let me replace it","Are you sure it's not yours?","We use synthetic ingredients"},new string[]{"I AM the manager, let me help","They're not available","Go ahead, they'll say the same"}}, dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "De-escalate the complaint!" });
+        AddConfigFull("Emergency food prep rush", new MiniGameConfig { type = GameType.FoodPrepRush, timeLimit = 20f, targetScore = 12, instructions = "Prep food fast! Tap when in the GREEN zone!" });
+        AddConfigFull("Train new hire on POS system", new MiniGameConfig { type = GameType.OrderQueue, orderItems = new string[]{"Login","Select Menu","Add Items","Apply Discount","Process Payment","Print Receipt"}, orderPreviewTime = 3f, instructions = "Show them the POS steps!" });
+
+        // =============================================
+        // CORPORATE CUBICLE DRONE (6 tasks)
+        // =============================================
+        AddConfigFull("Send weekly TPS reports", new MiniGameConfig { type = GameType.CodeBreaker, codeSymbols = new string[]{"A","B","C","D","E","F"}, codeLength = 4, maxAttempts = 6, instructions = "Crack the system password to send reports!" });
+        AddConfigFull("Attend 3-hour video call", new MiniGameConfig { type = GameType.VideoCall, timeLimit = 15f, targetScore = 1, instructions = "Pay attention!" });
+        AddConfigFull("Reorganize shared drive", new MiniGameConfig { type = GameType.FileSorter, timeLimit = 18f, fileSorterTarget = 15, fileSorterItems = new string[]{"Q3_Budget.xlsx", "Q2_Payroll_Final.pdf", "Logo_v4.png", "MeetingNotes.docx", "DO_NOT_DELETE.sys", "ClientList.csv", "Q1_Forecast.xlsx", "Jan_Invoice.pdf", "Deck_v9_Final.pptx"}, instructions = "Swipe files to correct folders!" });
+        AddConfigFull("Corporate sprint tasks", new MiniGameConfig { type = GameType.KanbanBoard, timeLimit = 20f, kanbanTicketCount = 8, instructions = "Drag all tickets to IN PROGRESS then DONE!" });
+        AddConfigFull("Overnight marketing pitch", new MiniGameConfig { type = GameType.CoffeeWork, timeLimit = 15f, coffeeDrainRate = 22f, coffeeBoost = 20f, workProgressPerTap = 5f, instructions = "Type slides & Drink coffee to stay awake!" });
+        AddConfigFull("Agree with executive complaints", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"VP: Q3 numbers are DISASTROUS!", "VP: Marketing spent HOW MUCH?!", "VP: Why can't we be more like Apple?!"}, dialogueOptions = new string[][]{new string[]{"You're absolutely right, sir","Actually the data shows...","That's above my pay grade"},new string[]{"Outrageous, I agree completely","It was within budget actually","I'll look into it"},new string[]{"Brilliant observation, sir","We have different strengths","I'll draft a proposal"}}, dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Agree enthusiastically!" });
+
+        // =============================================
+        // JUNIOR REACT TRAINEE (6 tasks)
+        // =============================================
+        AddConfigFull("Test program accuracy", new MiniGameConfig { 
+            type = GameType.UnitTestRunner, 
+            timeLimit = 15f,
+            unitTestRounds = 8,
+            unitTestQuestions = new string[] {
+                "Assert.AreEqual(?, 2 + 2)",
+                "Assert.IsTrue(? > 10)",
+                "Assert.IsNull(?)",
+                "Assert.IsFalse(? == true)",
+                "Assert.AreEqual(\"test\", ?)",
+                "Assert.Throws<?>(() => Crash())",
+                "Assert.IsNotNull(?)",
+                "Assert.AreEqual(?, Math.Abs(-5))"
+            },
+            unitTestOptions = new string[][] {
+                new string[] { "3", "4", "5" },
+                new string[] { "5", "10", "15" },
+                new string[] { "\"data\"", "0", "null" },
+                new string[] { "true", "false", "null" },
+                new string[] { "\"unit\"", "\"test\"", "null" },
+                new string[] { "Exception", "String", "Int" },
+                new string[] { "null", "new Object()", "0" },
+                new string[] { "-5", "0", "5" }
+            },
+            unitTestCorrectIndices = new int[] { 1, 2, 2, 1, 1, 0, 1, 2 },
+            instructions = "Rapid fire unit tests!" 
+        });
+        AddConfigFull("Fix CSS layout locations", new MiniGameConfig { type = GameType.CenterDiv, timeLimit = 15f, centerDivTargets = 3, centerDivSpeedMin = 300f, centerDivSpeedMax = 700f, instructions = "Center the div exactly!" });
+        AddConfigFull("Fix CSS layout sizes", new MiniGameConfig { type = GameType.SizeMatch, timeLimit = 15f, instructions = "Match the exact size!" });
+        AddConfigFull("Center content icons", new MiniGameConfig { type = GameType.DragCenter, timeLimit = 15f, instructions = "Drag the icon perfectly to the center!" });
+        AddConfigFull("Resolve Git merge conflicts", new MiniGameConfig { type = GameType.CodeBreaker, codeSymbols = new string[]{"{","}","<",">","=","/"}, codeLength = 4, maxAttempts = 6, instructions = "Fix the merge conflicts!" });
+        AddConfigFull("Debug CSS at 3 AM", new MiniGameConfig { type = GameType.CoffeeWork, timeLimit = 15f, coffeeDrainRate = 22f, coffeeBoost = 20f, workProgressPerTap = 5f, instructions = "Debug CSS & Drink coffee!" });
+        AddConfigFull("Inject untested code", new MiniGameConfig { type = GameType.StealthInject, timeLimit = 15f, instructions = "Hold INJECT while the reviewer is distracted!" });
+
+        // =============================================
+        // DYSTOPIAN QA TESTER (6 tasks)
+        // =============================================
+        AddConfigFull("Run automated test suite", new MiniGameConfig { type = GameType.AutomatedTests, timeLimit = 15f, instructions = "Re-run any flaky tests before they crash the suite!" });
+        AddConfigFull("File bug report", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔴 Critical","🟡 Major","🟢 Minor"}, binLabels = new string[]{"Critical","Major","Minor"}, sortTarget = 10, sortTimeLimit = 15f, instructions = "Triage the bugs fast!" });
+        AddConfigFull("Verify hotfix deployment", new MiniGameConfig { type = GameType.OrderQueue, orderItems = new string[]{"Build","Unit Test","Integration","Stage Deploy","Smoke Test","Prod Deploy"}, orderPreviewTime = 3f, instructions = "Run through deployment stages!" });
+        AddConfigFull("Regression test full app", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Login","Cart","Search","Profile","Payment","Settings"}, matchRight = new string[]{"Auth Tests","E-Commerce Tests","Query Tests","User Tests","Billing Tests","Config Tests"}, instructions = "Map features to tests!" });
+        AddConfig("Stress test server load", GameType.MashRace, "Hammer the server! Mash faster!", 40, 15f);
+        AddConfigFull("Write flaky test workaround", new MiniGameConfig { type = GameType.CodeCommenter, timeLimit = 10f, instructions = "Comment out the flaky tests before the build fails!" });
+
+        // =============================================
+        // EXECUTIVE INTERSTELLAR CEO (6 tasks)
+        // =============================================
+        AddConfigFull("Approve quarterly budget", new MiniGameConfig { type = GameType.DocumentSigner, timeLimit = 4f, instructions = "Scroll to the bottom and STAMP APPROVAL!" });
+        AddConfigFull("Board meeting presentation", new MiniGameConfig { type = GameType.ChartAdjuster, timeLimit = 10f, instructions = "Fudge the presentation! Shrink them, grow us!" });
+        AddConfigFull("Sign regulatory compliance docs", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, dialogueScenarios = new string[]{"Legal: Clause 4.7 requires data residency","Legal: Section 12 has liability gaps","Legal: GDPR compliance needs updating","Legal: Sign here to accept all terms"}, dialogueOptions = new string[][]{new string[]{"Flag for legal review","Sign it anyway","Delegate to VP"},new string[]{"Request amendment","Ignore the gaps","That's fine"},new string[]{"Engage compliance team","We'll deal with it later","What's GDPR?"},new string[]{"Review one more time","Sign immediately","Have my assistant sign"}}, dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "Handle compliance carefully!" });
+        AddConfigFull("Hostile takeover negotiations", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"Their CEO: Our company isn't for sale","Their CEO: Your offer is insulting","Board: The shareholders are nervous","Media: Is this a hostile takeover?","Their CEO: Final counteroffer - $2B"}, dialogueOptions = new string[][]{new string[]{"Everyone has a price","Let's discuss the benefits","We'll go directly to shareholders"},new string[]{"We'll raise to fair market value","Take it or leave it","Let's find common ground"},new string[]{"This acquisition creates value","Shareholders should trust us","We'll sweeten the deal"},new string[]{"It's a strategic partnership","No comment","We're creating jobs"},new string[]{"Deal. Let's close this","We can go higher","Let me consult my board"}}, dialogueCorrectIndices = new int[]{1,0,0,0,0}, instructions = "Negotiate the takeover!" });
+        AddConfigFull("Fire underperforming VP", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.7f, dialogueScenarios = new string[]{"VP: I've been with the company 15 years!","VP: My team loves me!","VP: What about my stock options?"}, dialogueOptions = new string[][]{new string[]{"And we value that. Here's a generous package","That's exactly the problem","Security will escort you out"},new string[]{"They'll be taken care of","They'll manage without you","We're restructuring the team"},new string[]{"They'll vest on schedule","Forfeited as per contract","We'll negotiate"}}, dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Fire them smoothly!" });
+        AddConfigFull("Interstellar colony site inspection", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 3, instructions = "Navigate the toxic site!" });
+
+        // =============================================
+        // AI PROPHECY ALIGNMENT DIRECTOR (6 tasks)
+        // =============================================
+        AddConfigFull("Calibrate neural alignment matrix", new MiniGameConfig { type = GameType.NeuralAligner, timeLimit = 12f, instructions = "Tune the sliders until all lights are GREEN!" });
+        AddConfigFull("Review AI ethics proposals", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"Proposal: Give AI emotional awareness","Proposal: AI self-modification capabilities","Proposal: Autonomous weapons systems","Proposal: AI voting rights","Proposal: Merge human consciousness with AI"}, dialogueOptions = new string[][]{new string[]{"Approve with strict monitoring","Reject — too dangerous","Classify top-secret"},new string[]{"Reject — existential risk","Approve if sandboxed","Needs more research"},new string[]{"Absolutely not","Only for defense","Approve with oversight"},new string[]{"Premature but worth studying","Approve immediately","Reject — they're not people"},new string[]{"Fund research cautiously","Too sci-fi, reject","Approve clinical trials"}}, dialogueCorrectIndices = new int[]{0,0,0,0,0}, instructions = "Judge AI proposals!" });
+        AddConfigFull("Monitor sentience detection array", new MiniGameConfig { type = GameType.SentienceArray, timeLimit = 12f, instructions = "Whack the red sentience spikes!" });
+        AddConfigFull("Emergency AI containment protocol", new MiniGameConfig { type = GameType.ContainmentProtocol, timeLimit = 10f, instructions = "Sever hardlines! Lift cover! Mash lockdown!" });
+        AddConfigFull("Align superintelligence reward function", new MiniGameConfig { type = GameType.RewardLogic, timeLimit = 12f, instructions = "Route logic to PRESERVE humanity!" });
+        AddConfigFull("Present findings to Galactic Council", new MiniGameConfig { type = GameType.GalacticCouncil, timeLimit = 15f, instructions = "Dodge objections and finish speech!" });
+
+        // =============================================
+        // FALLBACK TASKS (6 tasks)
+        // =============================================
+        AddConfigFull("Respond to supervisor", new MiniGameConfig { type = GameType.FranticBackspace, timeLimit = 6f, instructions = "FRANTIC BACKSPACE! DELETE YOUR HONEST THOUGHTS!" });
+        AddConfigFull("Categorize ticket logs", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔴 Bug","🟢 Feature","🟡 Complaint"}, binLabels = new string[]{"Bugs","Features","Complaints"}, sortTarget = 8, sortTimeLimit = 15f, instructions = "Sort incoming tickets!" });
+        AddConfigFull("Format summary dashboards", new MiniGameConfig { type = GameType.FormatDashboard, timeLimit = 15f, instructions = "Make it POP! Swipe all 3 sliders up and HOLD them in the green!" });
+        AddConfigFull("Do corporate sprint tasks aggressively", new MiniGameConfig { type = GameType.KanbanBoard, timeLimit = 15f, kanbanTicketCount = 12, instructions = "Drag ALL tickets to IN PROGRESS then DONE! FAST!" });
+        AddConfigFull("Stay overnight to align marketing pitch variables", new MiniGameConfig { type = GameType.NightShiftPitch, timeLimit = 15f, instructions = "Drink coffee to stay awake and align the variables!" });
+        AddConfigFull("Agree verbally with automated executive complaints", new MiniGameConfig { type = GameType.YesManNod, timeLimit = 15f, instructions = "Nod (SWIPE UP) aggressively to every complaint!" });
+
+        // =============================================
+        // WELLNESS ACTIVITIES (5 tasks)
+        // =============================================
+        AddConfigFull("Walk in the Park", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 5, instructions = "A peaceful walk." });
+        AddConfigFull("Capsule Arcade VR", new MiniGameConfig { type = GameType.VrArcadePong, timeLimit = 15f, instructions = "Keep the ball alive! (Bounce 5 times)" });
+        AddConfigFull("Volcanic Hot Stone Spa", new MiniGameConfig { type = GameType.HotStoneSpa, timeLimit = 15f, instructions = "Place the hot stones along the spine to relax." });
+        AddConfigFull("Suburban Sensory Mud Spa", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Hot Stones","Mud Wrap","Aromatherapy","Sound Bath"}, matchRight = new string[]{"Root","Heart","Crown","Third Eye"}, instructions = "Match treatments to chakras!" });
+        AddConfigFull("Interstellar Cryo Resort", new MiniGameConfig { type = GameType.BalanceMeter, balanceHoldTime = 8f, balanceDriftSpeed = 20f, instructions = "Drift into cryo sleep..." });
+
+        // =============================================
+        // MIXERS (4 tasks)
+        // =============================================
+        AddConfigFull("Industrial Dive Bar", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.6f, dialogueScenarios = new string[]{"Foreman: What brings you here?","Worker: You look too clean for this place","Bartender: Another round?"}, dialogueOptions = new string[][]{new string[]{"Looking for work connections","Just passing through","Buy everyone a round"},new string[]{"I work hard too","I just got off shift","You should see my hands"},new string[]{"Absolutely, my treat","I'll have water","One more then I'm out"}}, dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive bar!" });
+        AddConfigFull("Hospitality Gala", new MiniGameConfig { type = GameType.OrderQueue, orderItems = new string[]{"Greet Host","Compliment Venue","Exchange Cards","Small Talk","Toast","Exit"}, orderPreviewTime = 3f, instructions = "Work the room!" });
+        AddConfigFull("Startup Pitch Meetup", new MiniGameConfig { type = GameType.StartupPitch, timeLimit = 15f, instructions = "Pitch the perfect buzzwords!" });
+        AddConfigFull("Corporate Golf Sim", new MiniGameConfig { type = GameType.TimingRing, timingRounds = 3, timingZoneWidth = 22f, instructions = "Perfect your swing!" });
+
+        // =============================================
+        // LEGAL SIDE HUSTLES (4 tasks)
+        // =============================================
+        AddConfigFull("Collect Recycled Bottles", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🟢 Glass","🔵 Plastic","🟤 Aluminium"}, binLabels = new string[]{"Glass","Plastic","Metal"}, sortTarget = 10, sortTimeLimit = 20f, instructions = "Sort the recyclables!" });
+        AddConfigFull("Mow Corporate Astroturf", new MiniGameConfig { type = GameType.BalanceMeter, balanceHoldTime = 10f, balanceDriftSpeed = 30f, instructions = "Keep the blades level!" });
+        AddConfigFull("Walk Robotic Pedigree Dogs", new MiniGameConfig { type = GameType.SprintLane, sprintObstacles = 12, sprintSpeed = 1.4f, instructions = "Keep up with the dogs!" });
+        AddConfigFull("Deliver Fast Food Order", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 3, instructions = "Navigate the traffic grid!" });
+
+        // =============================================
+        // ILLEGAL SIDE HUSTLES (4 tasks)
+        // =============================================
+        AddConfigFull("Forge Transit Passes", new MiniGameConfig { type = GameType.ForgePass, timeLimit = 10f, instructions = "Stamp exactly in the center!" });
+        AddConfigFull("Crack Luxury Briefcase", new MiniGameConfig { type = GameType.SnatchBriefcase, timeLimit = 15f, instructions = "Crack the lock!" });
+        AddConfigFull("Skim ATM Card Data", new MiniGameConfig { type = GameType.SkimATM, timeLimit = 10f, instructions = "Connect the skimmer wires!" });
+        AddConfigFull("Corporate Espionage Heist", new MiniGameConfig { type = GameType.TwoPhaseHeist, phase1Type = GameType.SnatchBriefcase, phase2Type = GameType.CodeBreaker, phase3Type = GameType.SprintLane, codeSymbols = new string[]{"0","1","2","3","4","5","6","7","8","9"}, codeLength = 4, maxAttempts = 6, sprintObstacles = 10, sprintSpeed = 1.2f, instructions = "Phase 1: Break In! Phase 2: Hack! Phase 3: Escape!" });
+    }
+
+    private void AddConfig(string name, GameType type, string instructions, int targetScore = 0, float timeLimit = 0, float sMin = 0, float sMax = 0, string c1 = null, string c2 = null, string c3 = null, string cCorrect = null, int seqLen = 4, int pairs = 4)
+    {
+        gameConfigs[name] = new MiniGameConfig
+        {
+            type = type,
+            instructions = instructions,
+            targetScore = targetScore,
+            timeLimit = timeLimit,
+            sliderMin = sMin,
+            sliderMax = sMax,
+            choices = (c1 != null) ? new string[] { c1, c2, c3 } : null,
+            correctChoice = cCorrect,
+            sequenceLength = seqLen,
+            pairs = pairs
+        };
+    }
+
+    private void AddConfigFull(string name, MiniGameConfig config)
+    {
+        gameConfigs[name] = config;
+    }
+
+    public Dictionary<string, MiniGameConfig> GameConfigs => gameConfigs;
+
+    private MiniGameConfig GetConfigForGame(string gameName)
+    {
+        if (gameConfigs.TryGetValue(gameName, out var config)) return config;
+
+        int hash = Mathf.Abs(gameName.GetHashCode());
+        GameType randomType = GameType.Tap;
+
+        return new MiniGameConfig
+        {
+            type = randomType,
+            instructions = "Complete the designated task.",
+            targetScore = 15,
+            timeLimit = 15f,
+            sliderMin = 40f,
+            sliderMax = 60f,
+            choices = new string[] { "Option A", "Option B", "Option C" },
+            correctChoice = "Option A",
+            sequenceLength = 4,
+            pairs = 4
+        };
+    }
+
+    public void LaunchMiniGame(ActiveMiniGame game)
+    {
+        currentGame = game;
+        currentConfig = GetConfigForGame(game.name);
+        
+        score = 0;
+        hasWon = false;
+        isPlaying = true;
+        currentPhase = 1;
+
+        if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
+
+        operationNameText.text = game.name;
+        instructionsText.text = currentConfig.instructions;
+        overlay.style.display = DisplayStyle.Flex;
+        overlay.pickingMode = PickingMode.Position;
+
+        HideAllContainers();
+        GameType typeToSetup = currentConfig.type;
+        if (typeToSetup == GameType.TwoPhaseHeist) typeToSetup = currentConfig.phase1Type;
+        SetupGameType(typeToSetup);
+    }
+
+    private void HideAllContainers()
+    {
+        if(tapContainer != null) tapContainer.style.display = DisplayStyle.None;
+        if(sliderContainer != null) sliderContainer.style.display = DisplayStyle.None;
+        if(choiceContainer != null) choiceContainer.style.display = DisplayStyle.None;
+        if(sequenceContainer != null) sequenceContainer.style.display = DisplayStyle.None;
+        if(swipeContainer != null) swipeContainer.style.display = DisplayStyle.None;
+        if(mashRaceContainer != null) mashRaceContainer.style.display = DisplayStyle.None;
+        if(memoryMatchContainer != null) memoryMatchContainer.style.display = DisplayStyle.None;
+        
+        // New containers
+        if(timingRingContainer != null) timingRingContainer.style.display = DisplayStyle.None;
+        if(fallingSortContainer != null) fallingSortContainer.style.display = DisplayStyle.None;
+        if(gridDodgeContainer != null) gridDodgeContainer.style.display = DisplayStyle.None;
+        if(whackGridContainer != null) whackGridContainer.style.display = DisplayStyle.None;
+        if(sweepFloorContainer != null) sweepFloorContainer.style.display = DisplayStyle.None;
+        if(scrubPlateContainer != null) scrubPlateContainer.style.display = DisplayStyle.None;
+        if(codeBreakerContainer != null) codeBreakerContainer.style.display = DisplayStyle.None;
+        if(balanceMeterContainer != null) balanceMeterContainer.style.display = DisplayStyle.None;
+        if(dialogueChainContainer != null) dialogueChainContainer.style.display = DisplayStyle.None;
+        if(orderQueueContainer != null) orderQueueContainer.style.display = DisplayStyle.None;
+        if(dragMatchContainer != null) dragMatchContainer.style.display = DisplayStyle.None;
+        if(sprintLaneContainer != null) sprintLaneContainer.style.display = DisplayStyle.None;
+        if(pumpGameContainer != null) pumpGameContainer.style.display = DisplayStyle.None;
+        if(tetrisContainer != null) tetrisContainer.style.display = DisplayStyle.None;
+        if(acidRainContainer != null) acidRainContainer.style.display = DisplayStyle.None;
+        if(foodPrepContainer != null) foodPrepContainer.style.display = DisplayStyle.None;
+        if(videoCallContainer != null) videoCallContainer.style.display = DisplayStyle.None;
+        if(kanbanContainer != null) kanbanContainer.style.display = DisplayStyle.None;
+        if(fileSorterContainer != null) fileSorterContainer.style.display = DisplayStyle.None;
+        if(coffeeWorkContainer != null) coffeeWorkContainer.style.display = DisplayStyle.None;
+        if(unitTestContainer != null) unitTestContainer.style.display = DisplayStyle.None;
+        if(centerDivContainer != null) centerDivContainer.style.display = DisplayStyle.None;
+        if(dragCenterContainer != null) dragCenterContainer.style.display = DisplayStyle.None;
+        if(sizeMatchContainer != null) sizeMatchContainer.style.display = DisplayStyle.None;
+        if(stealthInjectContainer != null) stealthInjectContainer.style.display = DisplayStyle.None;
+        if(automatedTestsContainer != null) automatedTestsContainer.style.display = DisplayStyle.None;
+        if(codeCommenterContainer != null) codeCommenterContainer.style.display = DisplayStyle.None;
+        if(documentSignerContainer != null) documentSignerContainer.style.display = DisplayStyle.None;
+        if(chartAdjusterContainer != null) chartAdjusterContainer.style.display = DisplayStyle.None;
+        if(neuralAlignerContainer != null) neuralAlignerContainer.style.display = DisplayStyle.None;
+        if(sentienceArrayContainer != null) sentienceArrayContainer.style.display = DisplayStyle.None;
+        if(containmentProtocolContainer != null) containmentProtocolContainer.style.display = DisplayStyle.None;
+        if(rewardLogicContainer != null) rewardLogicContainer.style.display = DisplayStyle.None;
+        if(galacticCouncilContainer != null) galacticCouncilContainer.style.display = DisplayStyle.None;
+        if(franticBackspaceContainer != null) franticBackspaceContainer.style.display = DisplayStyle.None;
+        if(formatDashboardContainer != null) formatDashboardContainer.style.display = DisplayStyle.None;
+        if(nightShiftContainer != null) nightShiftContainer.style.display = DisplayStyle.None;
+        if(yesManContainer != null) yesManContainer.style.display = DisplayStyle.None;
+        if(vrArcadeContainer != null) vrArcadeContainer.style.display = DisplayStyle.None;
+        if(hotStoneContainer != null) hotStoneContainer.style.display = DisplayStyle.None;
+        if(hgContainer != null) hgContainer.style.display = DisplayStyle.None;
+        if(spContainer != null) spContainer.style.display = DisplayStyle.None;
+        if(cgContainer != null) cgContainer.style.display = DisplayStyle.None;
+        if(mgContainer != null) mgContainer.style.display = DisplayStyle.None;
+        if(wdContainer != null) wdContainer.style.display = DisplayStyle.None;
+        if(fpContainer != null) fpContainer.style.display = DisplayStyle.None;
+        if(sbContainer != null) sbContainer.style.display = DisplayStyle.None;
+        if(saContainer != null) saContainer.style.display = DisplayStyle.None;
+        if(rbContainer != null) rbContainer.style.display = DisplayStyle.None;
+
+
+
+
+
+    }
+
+    private void SetupGameType(GameType type)
+    {
+        switch (type)
+        {
+            case GameType.Tap:
+                tapContainer.style.display = DisplayStyle.Flex;
+                tapProgressText.text = $"Progress: 0 / {currentConfig.targetScore}";
+                break;
+
+            case GameType.Slider:
+                sliderContainer.style.display = DisplayStyle.Flex;
+                gameSlider.value = 50f;
+                UpdateSliderText(50f);
+                break;
+
+            case GameType.Choice:
+                choiceContainer.style.display = DisplayStyle.Flex;
+                btnChoice1.text = currentConfig.choices[0];
+                btnChoice2.text = currentConfig.choices[1];
+                btnChoice3.text = currentConfig.choices[2];
+                break;
+
+            case GameType.Sequence:
+                sequenceContainer.style.display = DisplayStyle.Flex;
+                if (btnReplayPattern != null)
+                    btnReplayPattern.style.display = (currentGame.name == "Perform a triple backflip spin") ? DisplayStyle.None : DisplayStyle.Flex;
+                GenerateSequence(currentConfig.sequenceLength);
+                activeGameRoutine = StartCoroutine(PlaySequenceRoutine());
+                break;
+
+            case GameType.Swipe:
+                swipeContainer.style.display = DisplayStyle.Flex;
+                score = 0;
+                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
+                swipeProgressText.text = $"Dodged: {score} / {currentConfig.targetScore}";
+                activeGameRoutine = StartCoroutine(SwipeGameRoutine());
+                break;
+
+            case GameType.MashRace:
+                mashRaceContainer.style.display = DisplayStyle.Flex;
+                score = 0;
+                playerMashProgress = 0f;
+                opponentProgress = 0f;
+                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 10f;
+                playerProgressBar.style.width = new Length(0, LengthUnit.Percent);
+                opponentProgressBar.style.width = new Length(0, LengthUnit.Percent);
+                
+                if (currentGame.name == "Stress test server load")
+                {
+                    if (playerMashLabel != null) { playerMashLabel.text = "INCOMING TRAFFIC"; playerMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#e67e22", out Color c1) ? c1 : Color.yellow); }
+                    if (opponentMashLabel != null) { opponentMashLabel.text = "SERVER LOAD (HEAT)"; opponentMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#e74c3c", out Color c2) ? c2 : Color.red); }
+                    playerProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#e67e22", out Color c3) ? c3 : Color.yellow);
+                    opponentProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#e74c3c", out Color c4) ? c4 : Color.red);
+                    mashRaceContainer.style.backgroundColor = new StyleColor(new Color(0.1f, 0.05f, 0.05f));
+                }
+                else
+                {
+                    if (playerMashLabel != null) { playerMashLabel.text = "YOUR PROGRESS"; playerMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#2ECC71", out Color c5) ? c5 : Color.green); }
+                    if (opponentMashLabel != null) { opponentMashLabel.text = "OPPONENT"; opponentMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#E74C3C", out Color c6) ? c6 : Color.red); }
+                    playerProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#2ECC71", out Color c7) ? c7 : Color.green);
+                    opponentProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#E74C3C", out Color c8) ? c8 : Color.red);
+                    mashRaceContainer.style.backgroundColor = new StyleColor(Color.clear);
+                }
+
+                activeGameRoutine = StartCoroutine(MashRaceRoutine());
+                break;
+
+            case GameType.MemoryMatch:
+                memoryMatchContainer.style.display = DisplayStyle.Flex;
+                SetupMemoryMatch(currentConfig.pairs);
+                break;
+
+            case GameType.TimingRing:
+                timingRingContainer.style.display = DisplayStyle.Flex;
+                timingTargetAngle = Random.Range(0f, 360f);
+                timingMarkerAngle = 0f;
+                timingSpinDir = 1;
+                timingCurrentRound = 0;
+                activeGameRoutine = StartCoroutine(TimingRingRoutine());
+                break;
+                
+            case GameType.FallingSort:
+                fallingSortContainer.style.display = DisplayStyle.Flex;
+                SetupFallingSort();
+                sortScore = 0;
+                timer = currentConfig.sortTimeLimit;
+                activeGameRoutine = StartCoroutine(FallingSortRoutine());
+                break;
+                
+            case GameType.GridDodge:
+                gridDodgeContainer.style.display = DisplayStyle.Flex;
+                SetupGridDodge();
+                break;
+                
+            case GameType.WhackGrid:
+                whackGridContainer.style.display = DisplayStyle.Flex;
+                whackScore = 0;
+                timer = currentConfig.whackTime;
+                SetupWhackGrid();
+                activeGameRoutine = StartCoroutine(WhackGridRoutine());
+                break;
+                
+            case GameType.SweepFloor:
+                sweepFloorContainer.style.display = DisplayStyle.Flex;
+                SetupSweepFloor();
+                miniGameDocument.rootVisualElement.Focus();
+                activeGameRoutine = StartCoroutine(SweepFloorRoutine());
+                break;
+                
+            case GameType.PumpSystem:
+                pumpGameContainer.style.display = DisplayStyle.Flex;
+                pumpProgress = 0f;
+                pumpHoldTimer = 0f;
+                pumpProgressBar.style.height = Length.Percent(0f);
+                pumpHandle.style.top = Length.Percent(0f);
+                
+                if (currentConfig.pumpIsBalanceMode)
+                {
+                    pumpNormalBar.style.display = DisplayStyle.None;
+                    pumpDialContainer.style.display = DisplayStyle.Flex;
+                    
+                    pumpHoldTimerContainer.style.display = DisplayStyle.Flex;
+                    pumpHoldTimerBar.style.width = Length.Percent(0f);
+                    
+                    float minAngle = -120f + (currentConfig.pumpBalanceTargetMin * 240f);
+                    float maxAngle = -120f + (currentConfig.pumpBalanceTargetMax * 240f);
+                    float greenSweep = maxAngle - minAngle;
+                    
+                    float maskRot = 90f - greenSweep;
+                    float zoneRot = minAngle - maskRot;
+                    
+                    pumpDialTargetZone.style.rotate = new StyleRotate(new Rotate(new Angle(zoneRot)));
+                    pumpDialTargetArc.style.rotate = new StyleRotate(new Rotate(new Angle(maskRot)));
+                    
+                    pumpDialNeedleRotator.style.rotate = new StyleRotate(new Rotate(new Angle(-120f)));
+                }
+                else
+                {
+                    pumpNormalBar.style.display = DisplayStyle.Flex;
+                    pumpDialContainer.style.display = DisplayStyle.None;
+                    pumpHoldTimerContainer.style.display = DisplayStyle.None;
+                }
+                
+                activeGameRoutine = StartCoroutine(PumpSystemRoutine());
+                break;
+                
+            case GameType.ScrubPlate:
+                scrubPlateContainer.style.display = DisplayStyle.Flex;
+                SetupScrubPlate();
+                activeGameRoutine = StartCoroutine(ScrubPlateRoutine());
+                break;
+                
+            case GameType.CodeBreaker:
+                codeBreakerContainer.style.display = DisplayStyle.Flex;
+                SetupCodeBreaker();
+                break;
+                
+            case GameType.BalanceMeter:
+                balanceMeterContainer.style.display = DisplayStyle.Flex;
+                balanceValue = 50f;
+                balanceTimeInZone = 0f;
+                activeGameRoutine = StartCoroutine(BalanceMeterRoutine());
+                break;
+                
+            case GameType.DialogueChain:
+                dialogueChainContainer.style.display = DisplayStyle.Flex;
+                dialogueRound = 0;
+                rapportValue = 0.5f;
+                UpdateDialogueUI();
+                activeGameRoutine = StartCoroutine(DialogueChainRoutine());
+                break;
+                
+            case GameType.OrderQueue:
+                orderQueueContainer.style.display = DisplayStyle.Flex;
+                if (currentGame.name == "Train new hire on POS system")
+                {
+                    orderQueueContainer.style.backgroundColor = new StyleColor(new Color(0.05f, 0.12f, 0.05f));
+                    orderQueueContainer.style.borderTopWidth = 15;
+                    orderQueueContainer.style.borderBottomWidth = 15;
+                    orderQueueContainer.style.borderLeftWidth = 15;
+                    orderQueueContainer.style.borderRightWidth = 15;
+                    orderQueueContainer.style.borderTopColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
+                    orderQueueContainer.style.borderBottomColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
+                    orderQueueContainer.style.borderLeftColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
+                    orderQueueContainer.style.borderRightColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
+                    orderQueueContainer.style.borderTopLeftRadius = 20;
+                    orderQueueContainer.style.borderTopRightRadius = 20;
+                    orderQueueContainer.style.borderBottomLeftRadius = 20;
+                    orderQueueContainer.style.borderBottomRightRadius = 20;
+                    orderQueueContainer.style.paddingTop = 20;
+                    orderQueueContainer.style.paddingBottom = 20;
+                    
+                    orderStatusText.style.color = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                    orderStatusText.text = "POS READY\nMEMORIZE INPUT:";
+                }
+                else if (currentGame.name == "Verify hotfix deployment")
+                {
+                    Color ghBg = ColorUtility.TryParseHtmlString("#0d1117", out Color c1) ? c1 : new Color(0.05f, 0.06f, 0.09f);
+                    Color ghBorder = ColorUtility.TryParseHtmlString("#30363d", out Color c2) ? c2 : new Color(0.18f, 0.21f, 0.23f);
+                    
+                    orderQueueContainer.style.backgroundColor = new StyleColor(ghBg);
+                    orderQueueContainer.style.borderTopWidth = 2;
+                    orderQueueContainer.style.borderBottomWidth = 2;
+                    orderQueueContainer.style.borderLeftWidth = 2;
+                    orderQueueContainer.style.borderRightWidth = 2;
+                    orderQueueContainer.style.borderTopColor = new StyleColor(ghBorder);
+                    orderQueueContainer.style.borderBottomColor = new StyleColor(ghBorder);
+                    orderQueueContainer.style.borderLeftColor = new StyleColor(ghBorder);
+                    orderQueueContainer.style.borderRightColor = new StyleColor(ghBorder);
+                    orderQueueContainer.style.borderTopLeftRadius = 10;
+                    orderQueueContainer.style.borderTopRightRadius = 10;
+                    orderQueueContainer.style.borderBottomLeftRadius = 10;
+                    orderQueueContainer.style.borderBottomRightRadius = 10;
+                    orderQueueContainer.style.paddingTop = 20;
+                    orderQueueContainer.style.paddingBottom = 20;
+                    
+                    orderStatusText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#c9d1d9", out Color c3) ? c3 : Color.white);
+                    orderStatusText.text = "VERIFY WORKFLOW RUN";
+                }
+                else
+                {
+                    orderQueueContainer.style.backgroundColor = new StyleColor(Color.clear);
+                    orderQueueContainer.style.borderTopWidth = 0;
+                    orderQueueContainer.style.borderBottomWidth = 0;
+                    orderQueueContainer.style.borderLeftWidth = 0;
+                    orderQueueContainer.style.borderRightWidth = 0;
+                    orderQueueContainer.style.paddingTop = 0;
+                    orderQueueContainer.style.paddingBottom = 0;
+                    
+                    orderStatusText.style.color = new StyleColor(new Color(0.94f, 0.76f, 0.05f));
+                    orderStatusText.text = "MEMORIZE THE ORDER!";
+                }
+                activeGameRoutine = StartCoroutine(OrderQueueRoutine());
+                break;
+                
+            case GameType.DragMatch:
+                dragMatchContainer.style.display = DisplayStyle.Flex;
+                SetupDragMatch();
+                break;
+                
+            case GameType.SprintLane:
+                sprintLaneContainer.style.display = DisplayStyle.Flex;
+                sprintDistance = 0;
+                sprintProgressBar.style.width = new Length(0, LengthUnit.Percent);
+                activeGameRoutine = StartCoroutine(SprintLaneRoutine());
+                break;
+                
+            case GameType.Tetris:
+                tetrisContainer.style.display = DisplayStyle.Flex;
+                SetupTetris();
+                activeGameRoutine = StartCoroutine(TetrisRoutine());
+                break;
+                
+            case GameType.AcidRainShield:
+                acidRainContainer.style.display = DisplayStyle.Flex;
+                acidBurn = 0f;
+                acidSignAngle = -90f;
+                acidSignPivot.style.rotate = new StyleRotate(new Rotate(new Angle(0f, AngleUnit.Degree)));
+                acidBurnBar.style.width = new Length(0, LengthUnit.Percent);
+                acidDropContainer.Clear();
+                activeGameRoutine = StartCoroutine(AcidRainRoutine());
+                break;
+
+            case GameType.VideoCall:
+                videoCallContainer.style.display = DisplayStyle.Flex;
+                SetupVideoCall();
+                break;
+                
+            case GameType.KanbanBoard:
+                kanbanContainer.style.display = DisplayStyle.Flex;
+                SetupKanbanBoard();
+                break;
+                
+            case GameType.FileSorter:
+                if (fileSorterContainer != null) fileSorterContainer.style.display = DisplayStyle.Flex;
+                SetupFileSorter();
+                break;
+
+            case GameType.CoffeeWork:
+                if (coffeeWorkContainer != null) coffeeWorkContainer.style.display = DisplayStyle.Flex;
+                SetupCoffeeWork();
+                break;
+                
+            case GameType.UnitTestRunner:
+                unitTestContainer.style.display = DisplayStyle.Flex;
+                SetupUnitTest();
+                break;
+                
+            case GameType.CenterDiv:
+                centerDivContainer.style.display = DisplayStyle.Flex;
+                SetupCenterDiv();
+                break;
+                
+            case GameType.DragCenter:
+                if (dragCenterContainer != null) dragCenterContainer.style.display = DisplayStyle.Flex;
+                dcPoints = 0;
+                SetupDragCenter();
+                break;
+                
+            case GameType.SizeMatch:
+                if (sizeMatchContainer != null) sizeMatchContainer.style.display = DisplayStyle.Flex;
+                smPoints = 0;
+                SetupSizeMatch();
+                break;
+
+            case GameType.StealthInject:
+                if (stealthInjectContainer != null) stealthInjectContainer.style.display = DisplayStyle.Flex;
+                SetupStealthInject();
+                break;
+
+            case GameType.AutomatedTests:
+                if (automatedTestsContainer != null) automatedTestsContainer.style.display = DisplayStyle.Flex;
+                SetupAutomatedTests();
+                break;
+                
+            case GameType.CodeCommenter:
+                if (codeCommenterContainer != null) codeCommenterContainer.style.display = DisplayStyle.Flex;
+                SetupCodeCommenter();
+                break;
+
+            case GameType.DocumentSigner:
+                if (documentSignerContainer != null) documentSignerContainer.style.display = DisplayStyle.Flex;
+                SetupDocumentSigner();
+                break;
+                
+            case GameType.ChartAdjuster:
+                if (chartAdjusterContainer != null) chartAdjusterContainer.style.display = DisplayStyle.Flex;
+                SetupChartAdjuster();
+                break;
+                
+
+
+
+
+            case GameType.VrArcadePong:
+                if (vrArcadeContainer != null) vrArcadeContainer.style.display = DisplayStyle.Flex;
+                SetupVrArcadePong();
+                break;
+            case GameType.HotStoneSpa:
+                if (hotStoneContainer != null) hotStoneContainer.style.display = DisplayStyle.Flex;
+                SetupHotStoneSpa();
+                break;
+            case GameType.MowGreens:
+                if (mgContainer != null) mgContainer.style.display = DisplayStyle.Flex;
+                SetupMowGreens();
+                break;
+            case GameType.WalkDogs:
+                if (wdContainer != null) wdContainer.style.display = DisplayStyle.Flex;
+                SetupWalkDogs();
+                break;
+            case GameType.RecycleBottles:
+                if (rbContainer != null) rbContainer.style.display = DisplayStyle.Flex;
+                SetupRecycleBottles();
+                break;
+            case GameType.ForgePass:
+                if (fpContainer != null) fpContainer.style.display = DisplayStyle.Flex;
+                SetupForgePass();
+                break;
+            case GameType.SnatchBriefcase:
+                if (sbContainer != null) sbContainer.style.display = DisplayStyle.Flex;
+                SetupSnatchBriefcase();
+                break;
+            case GameType.SkimATM:
+                if (saContainer != null) saContainer.style.display = DisplayStyle.Flex;
+                SetupSkimATM();
+                break;
+            case GameType.HospitalityGala:
+                if (hgContainer != null) hgContainer.style.display = DisplayStyle.Flex;
+                SetupHospitalityGala();
+                break;
+            case GameType.StartupPitch:
+                if (spContainer != null) spContainer.style.display = DisplayStyle.Flex;
+                SetupStartupPitch();
+                break;
+            case GameType.CorporateGolf:
+                if (cgContainer != null) cgContainer.style.display = DisplayStyle.Flex;
+                SetupCorporateGolf();
+                break;
+            case GameType.NightShiftPitch:
+                if (nightShiftContainer != null) nightShiftContainer.style.display = DisplayStyle.Flex;
+                SetupNightShiftPitch();
+                break;
+            case GameType.YesManNod:
+                if (yesManContainer != null) yesManContainer.style.display = DisplayStyle.Flex;
+                SetupYesManNod();
+                break;
+            case GameType.FormatDashboard:
+                if (formatDashboardContainer != null) formatDashboardContainer.style.display = DisplayStyle.Flex;
+                SetupFormatDashboard();
+                break;
+            case GameType.FranticBackspace:
+                if (franticBackspaceContainer != null) franticBackspaceContainer.style.display = DisplayStyle.Flex;
+                SetupFranticBackspace();
+                break;
+            case GameType.SentienceArray:
+                if (sentienceArrayContainer != null) sentienceArrayContainer.style.display = DisplayStyle.Flex;
+                SetupSentienceArray();
+                break;
+            case GameType.ContainmentProtocol:
+                if (containmentProtocolContainer != null) containmentProtocolContainer.style.display = DisplayStyle.Flex;
+                SetupContainmentProtocol();
+                break;
+            case GameType.RewardLogic:
+                if (rewardLogicContainer != null) rewardLogicContainer.style.display = DisplayStyle.Flex;
+                SetupRewardLogic();
+                break;
+            case GameType.GalacticCouncil:
+                if (galacticCouncilContainer != null) galacticCouncilContainer.style.display = DisplayStyle.Flex;
+                SetupGalacticCouncil();
+                break;
+            case GameType.NeuralAligner:
+                if (neuralAlignerContainer != null) neuralAlignerContainer.style.display = DisplayStyle.Flex;
+                SetupNeuralAligner();
+                break;
+
+            case GameType.FoodPrepRush:
+                foodPrepContainer.style.display = DisplayStyle.Flex;
+                score = 0;
+                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
+                prepTimerText.text = $"{timer:0.0}s";
+                prepScoreText.text = $"Prepped: 0 / {currentConfig.targetScore}";
+                for(int i=0; i<4; i++)
+                {
+                    prepProgress[i] = 0f;
+                    prepFreezes[i] = 0f;
+                    prepBars[i].style.height = new Length(0, LengthUnit.Percent);
+                    prepStatus[i].text = "";
+                }
+                activeGameRoutine = StartCoroutine(FoodPrepRoutine());
+                break;
+        }
+    }
+
+    private void SetupFallingSort()
+    {
+        fallZone.Clear();
+        binsRow.Clear();
+        
+        Color[] binColors = new Color[] {
+            new Color(0.9f, 0.3f, 0.3f), // Red
+            new Color(0.3f, 0.8f, 0.3f), // Green
+            new Color(0.9f, 0.8f, 0.2f), // Yellow
+        };
+        
+        for (int i = 0; i < currentConfig.binLabels.Length; i++)
+        {
+            var bin = new VisualElement();
+            bin.style.flexGrow = 1;
+            bin.style.backgroundColor = new StyleColor(binColors[i % binColors.Length]);
+            bin.style.borderLeftWidth = 4;
+            bin.style.borderRightWidth = 4;
+            bin.style.borderTopWidth = 0;
+            bin.style.borderBottomWidth = 4;
+            bin.style.borderLeftColor = new StyleColor(Color.black);
+            bin.style.borderRightColor = new StyleColor(Color.black);
+            bin.style.borderBottomColor = new StyleColor(Color.black);
+            
+            // Bin Shape
+            bin.style.borderBottomLeftRadius = 20;
+            bin.style.borderBottomRightRadius = 20;
+            bin.style.borderTopLeftRadius = 5;
+            bin.style.borderTopRightRadius = 5;
+            
+            bin.style.marginRight = 10;
+            bin.style.marginLeft = 10;
+            bin.style.justifyContent = Justify.Center;
+            bin.style.alignItems = Align.Center;
+            
+            // Extract just the emoji if present, else use full text
+            string fullText = currentConfig.fallingItems[i];
+            string emojiText = fullText;
+            if (fullText.Contains(" ")) emojiText = fullText.Split(' ')[0];
+            
+            var label = new Label(emojiText); 
+            label.style.fontSize = 50;
+            label.style.color = Color.white;
+            bin.Add(label);
+            
+            binsRow.Add(bin);
+        }
+    }
+
+    private IEnumerator FallingSortRoutine()
+    {
+        List<FallingItemData> activeItems = new List<FallingItemData>();
+        float spawnTimer = 0f;
+        int itemsSpawned = 0;
+        int totalToDrop = 10;
+        float gravity = 600f; // Slower falling
+
+        while (isPlaying && sortScore < currentConfig.sortTarget && timer > 0)
+        {
+            sortScoreText.text = $"Sorted: {sortScore} / {currentConfig.sortTarget}";
+            sortTimerText.text = $"Time: {Mathf.Ceil(timer)}s";
+            timer -= Time.deltaTime;
+
+            if (itemsSpawned < totalToDrop && spawnTimer <= 0f)
+            {
+                int typeIdx = Random.Range(0, currentConfig.fallingItems.Length);
+                string text = currentConfig.fallingItems[typeIdx];
+                string emojiText = text.Contains(" ") ? text.Split(' ')[0] : text;
+                
+                var label = new Label(emojiText);
+                label.style.position = Position.Absolute;
+                label.style.fontSize = 50;
+                
+                float startX = Random.Range(50f, fallZone.resolvedStyle.width - 100f);
+                
+                FallingItemData itemData = new FallingItemData {
+                    element = label,
+                    position = new Vector2(startX, -50),
+                    velocity = new Vector2(Random.Range(-50f, 50f), 0),
+                    typeId = typeIdx
+                };
+                
+                label.RegisterCallback<PointerDownEvent>(ev => {
+                    if (!isPlaying) return;
+                    itemData.isDragging = true;
+                    itemData.velocity = Vector2.zero;
+                    label.CapturePointer(ev.pointerId);
+                    ev.StopPropagation();
+                });
+                
+                label.RegisterCallback<PointerMoveEvent>(ev => {
+                    if (itemData.isDragging && label.HasPointerCapture(ev.pointerId)) {
+                        itemData.position += (Vector2)ev.deltaPosition;
+                        itemData.velocity = (Vector2)ev.deltaPosition / Time.deltaTime; 
+                    }
+                });
+                
+                label.RegisterCallback<PointerUpEvent>(ev => {
+                    if (itemData.isDragging) {
+                        itemData.isDragging = false;
+                        label.ReleasePointer(ev.pointerId);
+                    }
+                });
+
+                fallZone.Add(label);
+                activeItems.Add(itemData);
+                itemsSpawned++;
+                spawnTimer = 2.0f; // 2 second gap
+            }
+            if (spawnTimer > 0f) spawnTimer -= Time.deltaTime;
+
+            float w = fallZone.resolvedStyle.width;
+            float h = fallZone.resolvedStyle.height;
+
+            for (int i = activeItems.Count - 1; i >= 0; i--)
+            {
+                var item = activeItems[i];
+                if (!item.isDragging)
+                {
+                    item.velocity.y += gravity * Time.deltaTime;
+                    item.position += item.velocity * Time.deltaTime;
+                    
+                    if (item.position.x < 0) { item.position.x = 0; item.velocity.x = 0; }
+                    if (item.position.x > w - 80f) { item.position.x = w - 80f; item.velocity.x = 0; }
+                    if (item.position.y > h - 40f) {
+                        item.position.y = h - 40f;
+                        item.velocity.y = 0;
+                        item.velocity.x = 0;
+                    }
+                }
+                
+                item.element.style.left = item.position.x;
+                item.element.style.top = item.position.y;
+                
+                if (item.position.y >= h - 60f && !item.isDragging) 
+                {
+                    float binWidth = w / currentConfig.binLabels.Length;
+                    int binIdx = Mathf.FloorToInt((item.position.x + 40f) / binWidth);
+                    binIdx = Mathf.Clamp(binIdx, 0, currentConfig.binLabels.Length - 1);
+                    
+                    if (binIdx == item.typeId)
+                    {
+                        sortScore++;
+                    }
+                    
+                    // Whether wrong or right, destroy the item when it falls in. No bouncing.
+                    fallZone.Remove(item.element);
+                    activeItems.RemoveAt(i);
+                    
+                    if (sortScore >= currentConfig.sortTarget) MarkWinReady();
+                }
+            }
+
+            // If we've dropped all 10 items and the box is empty, the game ends.
+            if (itemsSpawned >= totalToDrop && activeItems.Count == 0)
+            {
+                if (sortScore >= currentConfig.sortTarget || !currentGame.canFail) MarkWinReady();
+                else { isPlaying = false; yield break; }
+            }
+
+            if (timer <= 0 && currentGame.canFail)
+            {
+                isPlaying = false;
+                yield break;
+            }
+            else if (timer <= 0 && !currentGame.canFail && sortScore < currentConfig.sortTarget)
+            {
+                timer = 20f; 
+            }
+            yield return null;
+        }
+    }
+
+    private void OnTapClicked()
+    {
+        if (!isPlaying || currentConfig.type != GameType.Tap) return;
+        score++;
+        tapProgressText.text = $"Progress: {score} / {currentConfig.targetScore}";
+        if (score >= currentConfig.targetScore) MarkWinReady();
+    }
+
+    private void UpdateSliderText(float val)
+    {
+        if (currentConfig.type == GameType.Slider)
+        {
+            sliderTargetText.text = $"Current: {val:F0}% (Target: {currentConfig.sliderMin}% - {currentConfig.sliderMax}%)";
+        }
+    }
+
+    private void OnSliderSubmitted()
+    {
+        if (!isPlaying || currentConfig.type != GameType.Slider) return;
+        float val = gameSlider.value;
+        if (val >= currentConfig.sliderMin && val <= currentConfig.sliderMax)
+        {
+            MarkWinReady();
+        }
+    }
+
+    private void OnChoiceClicked(string choice)
+    {
+        if (!isPlaying || currentConfig.type != GameType.Choice) return;
+        if (choice == currentConfig.correctChoice)
+        {
+            MarkWinReady();
+        }
+    }
+
+    private void GenerateSequence(int length)
+    {
+        currentSequence.Clear();
+        int activeButtons = Mathf.Min(6, length + 2);
+        for (int i = 0; i < 6; i++)
+        {
+            if (i < activeButtons)
+            {
+                seqBtns[i].style.display = DisplayStyle.Flex;
+                seqBtns[i].text = $"[{i + 1}]";
+            }
+            else
+            {
+                seqBtns[i].style.display = DisplayStyle.None;
+            }
+        }
+
+        for (int i = 0; i < length; i++)
+        {
+            currentSequence.Add(Random.Range(0, activeButtons));
+        }
+    }
+
+    private IEnumerator PlaySequenceRoutine()
+    {
+        isShowingSequence = true;
+        sequenceInputIndex = 0;
+        sequenceStatusText.text = "Watch the pattern...";
+        
+        foreach (var btn in seqBtns) btn.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));
+
+        yield return new WaitForSeconds(1f);
+
+        foreach (int index in currentSequence)
+        {
+            seqBtns[index].style.backgroundColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f));
+            yield return new WaitForSeconds(0.4f);
+            seqBtns[index].style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        sequenceStatusText.text = "Your Turn!";
+        isShowingSequence = false;
+    }
+
+    private void ReplaySequence()
+    {
+        if (isPlaying && !isShowingSequence)
+        {
+            if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
+            activeGameRoutine = StartCoroutine(PlaySequenceRoutine());
+        }
+    }
+
+    private void OnSequenceButtonClicked(int index)
+    {
+        if (!isPlaying || isShowingSequence) return;
+        if (currentConfig.type != GameType.Sequence && currentConfig.type != GameType.TwoPhaseHeist) return;
+
+        if (currentSequence[sequenceInputIndex] == index)
+        {
+            sequenceInputIndex++;
+            seqBtns[index].style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f));
+            StartCoroutine(ResetButtonColor(seqBtns[index]));
+
+            if (sequenceInputIndex >= currentSequence.Count)
+            {
+                sequenceStatusText.text = "Pattern Complete!";
+                MarkWinReady();
+            }
+        }
+        else
+        {
+            if (currentGame.canFail)
+            {
+                sequenceStatusText.text = "Pattern Failed!";
+                seqBtns[index].style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.23f));
+                StartCoroutine(ResetButtonColor(seqBtns[index]));
+                ReplaySequence();
+            }
+            else
+            {
+                StartCoroutine(ResetButtonColor(seqBtns[index], new Color(0.9f, 0.3f, 0.23f)));
+            }
+        }
+    }
+
+    private IEnumerator ResetButtonColor(Button btn, Color? tempColor = null)
+    {
+        if (tempColor.HasValue) btn.style.backgroundColor = new StyleColor(tempColor.Value);
+        yield return new WaitForSeconds(0.2f);
+        btn.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));
+    }
+
+    private IEnumerator SwipeGameRoutine()
+    {
+        while (isPlaying && timer > 0 && score < currentConfig.targetScore)
+        {
+            expectedDodgeDir = Random.value > 0.5f ? 1 : -1;
+            swipeObstacleText.text = expectedDodgeDir == -1 ? "◀ THREAT FROM LEFT!" : "THREAT FROM RIGHT! ▶";
+            
+            float reactTime = 1.5f;
+            float elapsed = 0;
+
+            while (elapsed < reactTime)
+            {
+                if (!isPlaying) yield break;
+                elapsed += Time.deltaTime;
+                timer -= Time.deltaTime;
+                swipeTimerText.text = $"Time: {Mathf.Ceil(timer)}s";
+
+                if (expectedDodgeDir == 0)
+                {
+                    score++;
+                    swipeProgressText.text = $"Dodged: {score} / {currentConfig.targetScore}";
+                    break;
+                }
+                yield return null;
+            }
+
+            expectedDodgeDir = 0;
+            swipeObstacleText.text = "Get Ready...";
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        if (score >= currentConfig.targetScore || (!currentGame.canFail && timer <= 0))
+        {
+            swipeObstacleText.text = "SURVIVED!";
+            MarkWinReady();
+        }
+    }
+
+    private void OnDodgeClicked(int dir)
+    {
+        if (!isPlaying || currentConfig.type != GameType.Swipe) return;
+        if (expectedDodgeDir == dir)
+        {
+            expectedDodgeDir = 0;
+        }
+    }
+
+    private IEnumerator MashRaceRoutine()
+    {
+        mashRaceContainer.style.translate = new Translate(0, 0, 0);
+        mashTimerText.text = "MASH!";
+        
+        float nextAiTapTimer = Random.Range(0.1f, 0.3f);
+        float decayRate = (currentConfig.targetScore / currentConfig.timeLimit) * 0.65f; // Constant downward force
+
+        while (isPlaying && score < currentConfig.targetScore)
+        {
+            // Constant Gravity / Drain for both
+            playerMashProgress -= decayRate * Time.deltaTime;
+            if (playerMashProgress < 0) playerMashProgress = 0;
+            
+            opponentProgress -= decayRate * Time.deltaTime;
+            if (opponentProgress < 0) opponentProgress = 0;
+
+            // AI Mashing Logic (discrete clicks with random micro-pauses)
+            nextAiTapTimer -= Time.deltaTime;
+            if (nextAiTapTimer <= 0f)
+            {
+                opponentProgress += 1f; // AI clicks!
+                
+                // Randomize next click delay (faster base speed than player to be competitive)
+                // 15% chance for a slightly longer pause (mistake)
+                if (Random.value < 0.15f)
+                {
+                    nextAiTapTimer = Random.Range(0.3f, 0.6f);
+                }
+                else
+                {
+                    nextAiTapTimer = Random.Range(0.05f, 0.2f);
+                }
+            }
+            
+            score = Mathf.FloorToInt(playerMashProgress);
+            
+            float pct = Mathf.Clamp01(playerMashProgress / currentConfig.targetScore) * 100f;
+            playerProgressBar.style.width = new Length(pct, LengthUnit.Percent);
+            
+            float oppPct = Mathf.Clamp01(opponentProgress / currentConfig.targetScore) * 100f;
+            opponentProgressBar.style.width = new Length(oppPct, LengthUnit.Percent);
+
+            if (currentGame.name == "Stress test server load")
+            {
+                if (pct > 50f || oppPct > 50f)
+                {
+                    float intensity = Mathf.Max(pct, oppPct) / 100f * 5f;
+                    mashRaceContainer.style.translate = new Translate(Random.Range(-intensity, intensity), Random.Range(-intensity, intensity), 0);
+                }
+                else
+                {
+                    mashRaceContainer.style.translate = new Translate(0, 0, 0);
+                }
+            }
+
+
+            if (opponentProgress >= currentConfig.targetScore)
+            {
+                if (currentGame.canFail)
+                {
+                    mashTimerText.text = "OPPONENT WINS!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    opponentProgress = currentConfig.targetScore; // Pin at max
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnMashTapClicked()
+    {
+        if (!isPlaying) return;
+        if (currentConfig.type != GameType.MashRace && currentPhase != 2) return;
+
+        playerMashProgress += 1f;
+        score = Mathf.FloorToInt(playerMashProgress);
+        
+        float pct = Mathf.Clamp01(playerMashProgress / currentConfig.targetScore) * 100f;
+        playerProgressBar.style.width = new Length(pct, LengthUnit.Percent);
+
+        if (playerMashProgress >= currentConfig.targetScore)
+        {
+            mashTimerText.text = "YOU WIN!";
+            MarkWinReady();
+        }
+    }
+
+    private void SetupMemoryMatch(int pairs)
+    {
+        memoryGrid.Clear();
+        memoryCards.Clear();
+        memoryValues.Clear();
+        score = 0;
+        matchStatusText.text = $"Pairs Found: 0 / {pairs}";
+
+        List<string> icons = new List<string> { "📈", "💼", "🏢", "📊", "💰", "☕", "📱", "📝" };
+        for (int i = 0; i < pairs; i++)
+        {
+            memoryValues.Add(icons[i % icons.Count]);
+            memoryValues.Add(icons[i % icons.Count]);
+        }
+        
+        for (int i = 0; i < memoryValues.Count; i++)
+        {
+            string temp = memoryValues[i];
+            int randomIndex = Random.Range(i, memoryValues.Count);
+            memoryValues[i] = memoryValues[randomIndex];
+            memoryValues[randomIndex] = temp;
+        }
+
+        for (int i = 0; i < memoryValues.Count; i++)
+        {
+            int index = i;
+            var btn = new Button { text = "?" };
+            btn.AddToClassList("popup-button");
+            btn.AddToClassList("memory-card");
+            btn.clicked += () => OnMemoryCardClicked(index);
+            memoryGrid.Add(btn);
+            memoryCards.Add(btn);
+        }
+    }
+
+    private void OnMemoryCardClicked(int index)
+    {
+        if (!isPlaying || isCheckingMatch || memoryCards[index].text != "?") return;
+
+        memoryCards[index].text = memoryValues[index];
+        memoryCards[index].RemoveFromClassList("memory-card");
+        memoryCards[index].AddToClassList("memory-card-matched");
+
+        if (flippedIndex1 == -1)
+        {
+            flippedIndex1 = index;
+        }
+        else
+        {
+            flippedIndex2 = index;
+            StartCoroutine(CheckMemoryMatch());
+        }
+    }
+
+    private IEnumerator CheckMemoryMatch()
+    {
+        isCheckingMatch = true;
+        yield return new WaitForSeconds(0.6f);
+
+        if (memoryValues[flippedIndex1] == memoryValues[flippedIndex2])
+        {
+            score++;
+            matchStatusText.text = $"Pairs Found: {score} / {currentConfig.pairs}";
+            if (score >= currentConfig.pairs) MarkWinReady();
+        }
+        else
+        {
+            memoryCards[flippedIndex1].text = "?";
+            memoryCards[flippedIndex1].RemoveFromClassList("memory-card-matched");
+            memoryCards[flippedIndex1].AddToClassList("memory-card");
+            memoryCards[flippedIndex2].text = "?";
+            memoryCards[flippedIndex2].RemoveFromClassList("memory-card-matched");
+            memoryCards[flippedIndex2].AddToClassList("memory-card");
+        }
+
+        flippedIndex1 = -1;
+        flippedIndex2 = -1;
+        isCheckingMatch = false;
+    }
+
+    private IEnumerator TimingRingRoutine()
+    {
+        while (isPlaying && timingCurrentRound < currentConfig.timingRounds)
+        {
+            timingRoundText.text = $"Round {timingCurrentRound + 1} / {currentConfig.timingRounds}";
+            
+            float currentZoneDegrees = Mathf.Max(10f, 45f - (timingCurrentRound * 5f)); 
+            
+            if (arcMaskInner != null)
+                arcMaskInner.style.rotate = new Rotate(Angle.Degrees(90f - currentZoneDegrees));
+
+            if (timingTargetZone != null)
+            {
+                float centerOffset = 90f - currentZoneDegrees / 2f;
+                timingTargetZone.style.rotate = new Rotate(Angle.Degrees(timingTargetAngle - centerOffset));
+            }
+
+            timingMarkerMoving = true;
+            
+            while (timingMarkerMoving && isPlaying)
+            {
+                timingMarkerAngle += timingRingRotSpeed * timingSpinDir * Time.deltaTime;
+                timingMarkerAngle %= 360f;
+                if (timingMarkerAngle < 0f) timingMarkerAngle += 360f;
+                
+                if (timingMarker != null)
+                    timingMarker.style.rotate = new Rotate(Angle.Degrees(timingMarkerAngle));
+                    
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    
+    private void OnTimingStrike()
+    {
+        if (!isPlaying || currentConfig.type != GameType.TimingRing || !timingMarkerMoving) return;
+        timingMarkerMoving = false;
+        
+        float currentZoneDegrees = Mathf.Max(10f, 45f - (timingCurrentRound * 5f)); 
+        
+        float diff = Mathf.Abs(Mathf.DeltaAngle(timingMarkerAngle, timingTargetAngle));
+        
+        if (diff <= currentZoneDegrees / 2f)
+        {
+            timingCurrentRound++;
+            StartCoroutine(HitAuraRoutine());
+            if (timingCurrentRound >= currentConfig.timingRounds)
+            {
+                MarkWinReady();
+            }
+            else
+            {
+                timingSpinDir *= -1; // Reverse direction
+                timingTargetAngle = Random.Range(0f, 360f); // New target
+            }
+        }
+        else
+        {
+            if (currentGame.canFail) { /* fail state */ }
+        }
+    }
+
+    private IEnumerator HitAuraRoutine()
+    {
+        if (timingGlow != null && glowLayers != null)
+        {
+            timingGlow.style.opacity = 1f;
+            
+            float[] maxBorderWidths = { 2f, 4f, 7f, 10f, 14f, 20f }; 
+            
+            float t = 0;
+            while(t < 0.1f)
+            {
+                t += Time.deltaTime;
+                float progress = t / 0.1f;
+                
+                for(int i = 0; i < 6; i++)
+                {
+                    if (glowLayers[i] == null) continue;
+                    float b = Mathf.Lerp(0f, maxBorderWidths[i] * 0.7f, progress);
+                    float w = 360f + (b * 2f);
+                    glowLayers[i].style.borderTopWidth = b;
+                    glowLayers[i].style.borderBottomWidth = b;
+                    glowLayers[i].style.borderLeftWidth = b;
+                    glowLayers[i].style.borderRightWidth = b;
+                    glowLayers[i].style.width = w;
+                    glowLayers[i].style.height = w;
+                    glowLayers[i].style.borderTopLeftRadius = w/2f;
+                    glowLayers[i].style.borderTopRightRadius = w/2f;
+                    glowLayers[i].style.borderBottomLeftRadius = w/2f;
+                    glowLayers[i].style.borderBottomRightRadius = w/2f;
+                }
+                yield return null;
+            }
+            
+            t = 0;
+            while(t < 0.35f)
+            {
+                t += Time.deltaTime;
+                float progress = t / 0.35f;
+                float opacity = Mathf.Lerp(1f, 0f, progress);
+                timingGlow.style.opacity = opacity;
+                
+                for(int i = 0; i < 6; i++)
+                {
+                    if (glowLayers[i] == null) continue;
+                    float b = Mathf.Lerp(maxBorderWidths[i] * 0.7f, maxBorderWidths[i], progress);
+                    float w = 360f + (b * 2f);
+                    glowLayers[i].style.borderTopWidth = b;
+                    glowLayers[i].style.borderBottomWidth = b;
+                    glowLayers[i].style.borderLeftWidth = b;
+                    glowLayers[i].style.borderRightWidth = b;
+                    glowLayers[i].style.width = w;
+                    glowLayers[i].style.height = w;
+                    glowLayers[i].style.borderTopLeftRadius = w/2f;
+                    glowLayers[i].style.borderTopRightRadius = w/2f;
+                    glowLayers[i].style.borderBottomLeftRadius = w/2f;
+                    glowLayers[i].style.borderBottomRightRadius = w/2f;
+                }
+                yield return null;
+            }
+            
+            timingGlow.style.opacity = 0f;
+            for(int i = 0; i < 6; i++)
+            {
+                if (glowLayers[i] == null) continue;
+                glowLayers[i].style.borderTopWidth = 0f;
+                glowLayers[i].style.borderBottomWidth = 0f;
+                glowLayers[i].style.borderLeftWidth = 0f;
+                glowLayers[i].style.borderRightWidth = 0f;
+                glowLayers[i].style.width = 360f;
+                glowLayers[i].style.height = 360f;
+                glowLayers[i].style.borderTopLeftRadius = 180f;
+                glowLayers[i].style.borderTopRightRadius = 180f;
+                glowLayers[i].style.borderBottomLeftRadius = 180f;
+                glowLayers[i].style.borderBottomRightRadius = 180f;
+            }
+        }
+    }
+
+    private void SetupGridDodge()
+    {
+        gridDodgeGrid.Clear();
+        gridCells = new Button[currentConfig.gridSize, currentConfig.gridSize];
+        gridPlayerX = 0;
+        gridPlayerY = 0;
+        gridHP = currentConfig.gridHealth;
+        gridPathCells.Clear();
+        
+        int cx = 0; int cy = 0;
+        gridPathCells.Add((cx, cy));
+        while (cx < currentConfig.gridSize - 1 || cy < currentConfig.gridSize - 1)
+        {
+            if (cx == currentConfig.gridSize - 1) cy++;
+            else if (cy == currentConfig.gridSize - 1) cx++;
+            else { if (Random.value > 0.5f) cx++; else cy++; }
+            gridPathCells.Add((cx, cy));
+        }
+
+        for (int y = 0; y < currentConfig.gridSize; y++)
+        {
+            var row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row;
+            row.style.flexGrow = 1;
+            for (int x = 0; x < currentConfig.gridSize; x++)
+            {
+                var btn = new Button();
+                btn.style.flexGrow = 1;
+                btn.style.marginTop = 2; btn.style.marginBottom = 2; btn.style.marginLeft = 2; btn.style.marginRight = 2;
+                btn.style.fontSize = 32;
+                btn.style.color = Color.white;
+                btn.style.unityFontStyleAndWeight = FontStyle.Bold;
+                gridCells[x,y] = btn;
+                row.Add(btn);
+            }
+            gridDodgeGrid.Add(row);
+        }
+        UpdateGridDodgeUI();
+        activeGameRoutine = StartCoroutine(GridDodgeRoutine());
+    }
+
+    private void UpdateGridDodgeUI()
+    {
+        gridHealthText.text = $"HP: {gridHP}";
+        for (int x=0; x<currentConfig.gridSize; x++)
+        {
+            for (int y=0; y<currentConfig.gridSize; y++)
+            {
+                var btn = gridCells[x,y];
+                btn.text = "";
+                
+                if (!gridPathCells.Contains((x,y))) 
+                    btn.style.backgroundColor = new StyleColor(new Color(0.1f, 0.4f, 0.8f));
+                else 
+                    btn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.8f, 0.2f));
+                
+                if (x == currentConfig.gridSize - 1 && y == currentConfig.gridSize - 1)
+                {
+                    btn.text = "★";
+                    btn.style.backgroundColor = new StyleColor(Color.yellow);
+                }
+
+                if (x == gridPlayerX && y == gridPlayerY)
+                {
+                    if (currentGame.name == "Empty waste bin") btn.text = "🗑️";
+                    else if (currentGame.name == "Walk in the Park") btn.text = "🧍";
+                    else if (currentGame.name == "Carry tungsten girders") btn.text = "🏗️";
+                    else btn.text = "P";
+                    
+                    btn.style.backgroundColor = new StyleColor(Color.white);
+                    btn.style.color = Color.black;
+                }
+            }
+        }
+    }
+
+    private IEnumerator GridDodgeRoutine()
+    {
+        sharedInputDx = 0; sharedInputDy = 0;
+        while (isPlaying && currentConfig.type == GameType.GridDodge)
+        {
+            int dx = sharedInputDx, dy = sharedInputDy;
+            sharedInputDx = 0; sharedInputDy = 0;
+
+            if (dx != 0 || dy != 0)
+            {
+                int nx = gridPlayerX + dx;
+                int ny = gridPlayerY + dy;
+
+                if (nx >= 0 && nx < currentConfig.gridSize && ny >= 0 && ny < currentConfig.gridSize)
+                {
+                    if (gridPathCells.Contains((nx, ny)))
+                    {
+                        gridPlayerX = nx;
+                        gridPlayerY = ny;
+                        UpdateGridDodgeUI();
+
+                        if (gridPlayerX == currentConfig.gridSize - 1 && gridPlayerY == currentConfig.gridSize - 1)
+                        {
+                            MarkWinReady();
+                        }
+                    }
+                    else
+                    {
+                        gridHP--;
+                        UpdateGridDodgeUI();
+                        if (gridHP <= 0 && currentGame.canFail) { isPlaying = false; }
+                        else if (gridHP <= 0 && !currentGame.canFail) gridHP = 1; 
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private void SetupWhackGrid()
+    {
+        whackGrid.Clear();
+        whackCells = new Button[9];
+        for (int i=0; i<9; i++)
+        {
+            var btn = new Button();
+            btn.style.width = new Length(30, LengthUnit.Percent);
+            btn.style.height = new Length(30, LengthUnit.Percent);
+            btn.style.marginTop = 2; btn.style.marginBottom = 2; btn.style.marginLeft = 2; btn.style.marginRight = 2;
+            btn.style.fontSize = 32;
+            int idx = i;
+            btn.clicked += () => OnWhackCellClicked(idx);
+            whackGrid.Add(btn);
+            whackCells[i] = btn;
+            ResetWhackBtn(btn);
+        }
+    }
+
+    private void ResetWhackBtn(Button btn)
+    {
+        btn.style.backgroundColor = new StyleColor(Color.gray);
+        btn.text = "";
+    }
+
+    private IEnumerator WhackGridRoutine()
+    {
+        while(isPlaying && timer > 0 && whackScore < currentConfig.whackTarget)
+        {
+            timer -= Time.deltaTime;
+            whackTimerText.text = $"Time: {Mathf.Ceil(timer)}s";
+            
+            if (activeWhackCell == -1)
+            {
+                activeWhackCell = Random.Range(0, 9);
+                isDecoy = Random.value > 0.7f;
+                var btn = whackCells[activeWhackCell];
+                btn.style.backgroundColor = new StyleColor(isDecoy ? Color.red : Color.green);
+                btn.text = "!";
+                yield return new WaitForSeconds(Random.Range(0.8f, 1.2f));
+                if (activeWhackCell != -1)
+                {
+                    ResetWhackBtn(whackCells[activeWhackCell]);
+                    activeWhackCell = -1;
+                }
+            }
+            yield return null;
+        }
+        if (whackScore >= currentConfig.whackTarget || (!currentGame.canFail && timer <= 0)) MarkWinReady();
+    }
+
+    private void OnWhackCellClicked(int idx)
+    {
+        if (!isPlaying || currentConfig.type != GameType.WhackGrid) return;
+        if (idx == activeWhackCell)
+        {
+            if (isDecoy) whackScore = Mathf.Max(0, whackScore - 1);
+            else whackScore++;
+            
+            whackScoreText.text = $"Score: {whackScore} / {currentConfig.whackTarget}";
+            ResetWhackBtn(whackCells[activeWhackCell]);
+            activeWhackCell = -1;
+            
+            if (whackScore >= currentConfig.whackTarget) MarkWinReady();
+        }
+    }
+
+    private void SetupCodeBreaker()
+    {
+        codeGuessRow.Clear();
+        codeSymbolRow.Clear();
+        codeHistoryList.Clear();
+        codeHistoryList.style.display = DisplayStyle.None;
+        currentGuess.Clear();
+        codeSlotButtons.Clear();
+        codeAttemptsRemaining = currentConfig.maxAttempts;
+        codeAttemptsText.text = $"Attempts: {codeAttemptsRemaining}";
+        
+        secretCode = new string[currentConfig.codeLength];
+        for(int i=0; i<currentConfig.codeLength; i++)
+            secretCode[i] = currentConfig.codeSymbols[Random.Range(0, currentConfig.codeSymbols.Length)];
+            
+        for(int i=0; i<currentConfig.codeLength; i++)
+        {
+            var btn = new Button { text = "_" };
+            btn.style.width = 80; btn.style.height = 80;
+            btn.style.fontSize = 36;
+            btn.style.marginTop = 5; btn.style.marginBottom = 5; btn.style.marginLeft = 5; btn.style.marginRight = 5;
+            codeGuessRow.Add(btn);
+            codeSlotButtons.Add(btn);
+        }
+        
+        foreach(var sym in currentConfig.codeSymbols)
+        {
+            var btn = new Button { text = sym };
+            btn.style.width = 80; btn.style.height = 80;
+            btn.style.fontSize = 36;
+            btn.style.marginTop = 5; btn.style.marginBottom = 5; btn.style.marginLeft = 5; btn.style.marginRight = 5;
+            btn.clicked += () => {
+                if (currentGuess.Count < currentConfig.codeLength) {
+                    currentGuess.Add(sym);
+                    UpdateCodeSlots();
+                }
+            };
+            codeSymbolRow.Add(btn);
+        }
+    }
+
+    private void UpdateCodeSlots()
+    {
+        for (int i=0; i<currentConfig.codeLength; i++)
+        {
+            codeSlotButtons[i].text = i < currentGuess.Count ? currentGuess[i] : "_";
+        }
+    }
+
+    private void OnCodeClear()
+    {
+        currentGuess.Clear();
+        UpdateCodeSlots();
+    }
+
+    private void OnCodeSubmit()
+    {
+        if (!isPlaying || currentGuess.Count < currentConfig.codeLength) return;
+        
+        var histRow = new VisualElement();
+        histRow.style.flexDirection = FlexDirection.Row;
+        histRow.style.justifyContent = Justify.Center;
+        histRow.style.marginBottom = 10;
+        int correctPos = 0;
+        
+        for (int i=0; i<currentConfig.codeLength; i++)
+        {
+            var lbl = new Label(currentGuess[i]);
+            lbl.style.width = 50; lbl.style.height = 50;
+            lbl.style.marginTop = 5; lbl.style.marginBottom = 5; lbl.style.marginLeft = 5; lbl.style.marginRight = 5;
+            lbl.style.fontSize = 32;
+            lbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+            lbl.style.color = Color.white;
+            lbl.style.borderTopLeftRadius = 8;
+            lbl.style.borderTopRightRadius = 8;
+            lbl.style.borderBottomLeftRadius = 8;
+            lbl.style.borderBottomRightRadius = 8;
+            lbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+
+            if (currentGuess[i] == secretCode[i]) {
+                lbl.style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f)); // Green
+                correctPos++;
+            }
+            else if (secretCode.Contains(currentGuess[i])) {
+                lbl.style.backgroundColor = new StyleColor(new Color(0.94f, 0.76f, 0.05f)); // Yellow
+            }
+            else {
+                lbl.style.backgroundColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f)); // Gray
+            }
+            histRow.Add(lbl);
+        }
+        
+        codeHistoryList.style.display = DisplayStyle.Flex;
+        codeHistoryList.Add(histRow);
+        
+        if (correctPos == currentConfig.codeLength) { MarkWinReady(); return; }
+        
+        codeAttemptsRemaining--;
+        codeAttemptsText.text = $"Attempts: {codeAttemptsRemaining}";
+        currentGuess.Clear();
+        UpdateCodeSlots();
+        
+        if (codeAttemptsRemaining <= 0)
+        {
+            if (currentGame.canFail) { isPlaying = false; }
+            else { SetupCodeBreaker(); } 
+        }
+    }
+
+    private IEnumerator BalanceMeterRoutine()
+    {
+        while (isPlaying)
+        {
+            balanceDrift += Random.Range(-2f, 2f) * Time.deltaTime * currentConfig.balanceDriftSpeed;
+            balanceDrift = Mathf.Clamp(balanceDrift, -10f, 10f);
+            balanceValue += balanceDrift * Time.deltaTime;
+            balanceValue = Mathf.Clamp(balanceValue, 0f, 100f);
+            
+            if (balanceNeedle != null) balanceNeedle.style.left = new Length(balanceValue, LengthUnit.Percent);
+            
+            if (balanceValue >= 35f && balanceValue <= 65f)
+            {
+                balanceTimeInZone += Time.deltaTime;
+                float pct = Mathf.Clamp01(balanceTimeInZone / currentConfig.balanceHoldTime) * 100f;
+                if (balanceTimeBar != null) balanceTimeBar.style.width = new Length(pct, LengthUnit.Percent);
+                if (balanceTimeInZone >= currentConfig.balanceHoldTime) MarkWinReady();
+            }
+            yield return null;
+        }
+    }
+
+    private void OnBalanceNudge(float amount)
+    {
+        if (!isPlaying || currentConfig.type != GameType.BalanceMeter) return;
+        balanceValue += amount;
+        balanceDrift *= 0.5f; 
+    }
+
+    private void UpdateDialogueUI()
+    {
+        if (dialogueRound >= currentConfig.dialogueScenarios.Length)
+        {
+            if (rapportValue >= currentConfig.rapportThreshold || !currentGame.canFail) MarkWinReady();
+            else { isPlaying = false; } 
+            return;
+        }
+        
+        dialogueTimerMax = Mathf.Max(1.0f, 3f - (dialogueRound * 0.5f));
+        dialogueTimer = dialogueTimerMax;
+        
+        dialogueRoundText.text = $"Round {dialogueRound + 1} / {currentConfig.dialogueScenarios.Length}";
+        dialogueScenarioText.text = currentConfig.dialogueScenarios[dialogueRound];
+        btnResponse1.text = currentConfig.dialogueOptions[dialogueRound][0];
+        btnResponse2.text = currentConfig.dialogueOptions[dialogueRound][1];
+        btnResponse3.text = currentConfig.dialogueOptions[dialogueRound][2];
+        if (rapportBar != null) rapportBar.style.width = new Length(rapportValue * 100f, LengthUnit.Percent);
+    }
+
+    private void OnDialogueResponse(int idx)
+    {
+        if (!isPlaying || currentConfig.type != GameType.DialogueChain) return;
+        if (idx == currentConfig.dialogueCorrectIndices[dialogueRound]) rapportValue += 0.25f;
+        else rapportValue -= 0.15f;
+        rapportValue = Mathf.Clamp01(rapportValue);
+        dialogueRound++;
+        UpdateDialogueUI();
+    }
+    
+    private IEnumerator DialogueChainRoutine()
+    {
+        while (isPlaying && dialogueRound < currentConfig.dialogueScenarios.Length)
+        {
+            dialogueTimer -= Time.deltaTime;
+            
+            if (dialogueTimerBar != null)
+            {
+                float pct = Mathf.Clamp01(dialogueTimer / dialogueTimerMax);
+                dialogueTimerBar.style.width = new Length(pct * 100f, LengthUnit.Percent);
+                dialogueTimerBar.style.backgroundColor = pct > 0.5f ? new StyleColor(new Color(0.13f, 0.77f, 0.36f)) : (pct > 0.25f ? new StyleColor(new Color(0.96f, 0.62f, 0.04f)) : new StyleColor(Color.red));
+            }
+            
+            if (dialogueTimer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    // If it's a sandbox, just skip the round and penalize
+                    rapportValue -= 0.15f;
+                    rapportValue = Mathf.Clamp01(rapportValue);
+                    dialogueRound++;
+                    UpdateDialogueUI();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator OrderQueueRoutine()
+    {
+        orderCorrectSequence = currentConfig.orderItems.ToList();
+        orderInputIndex = 0;
+        orderIsPreview = true;
+        
+        orderStatusText.text = "Memorize the order!";
+        orderItemGrid.Clear();
+        foreach (var item in orderCorrectSequence)
+        {
+            var btn = new Button { text = item };
+            btn.AddToClassList("popup-button");
+            btn.style.width = new StyleLength(StyleKeyword.Auto);
+            btn.style.paddingLeft = 20; btn.style.paddingRight = 20; btn.style.marginRight = 10; btn.style.marginBottom = 10; btn.style.fontSize = 24;
+            
+            if (currentGame.name == "Train new hire on POS system")
+            {
+                btn.style.backgroundColor = new StyleColor(new Color(0.05f, 0.25f, 0.05f));
+                btn.style.color = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderTopColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderBottomColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderLeftColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderRightColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderTopWidth = 2; btn.style.borderBottomWidth = 2; btn.style.borderLeftWidth = 2; btn.style.borderRightWidth = 2;
+            }
+            else if (currentGame.name == "Verify hotfix deployment")
+            {
+                Color ghBtnBg = ColorUtility.TryParseHtmlString("#21262d", out Color c1) ? c1 : new Color(0.13f, 0.15f, 0.17f);
+                Color ghBtnText = ColorUtility.TryParseHtmlString("#c9d1d9", out Color c2) ? c2 : Color.white;
+                Color ghBtnBorder = ColorUtility.TryParseHtmlString("#30363d", out Color c3) ? c3 : new Color(0.18f, 0.21f, 0.23f);
+
+                btn.style.backgroundColor = new StyleColor(ghBtnBg);
+                btn.style.color = new StyleColor(ghBtnText);
+                btn.style.borderTopColor = new StyleColor(ghBtnBorder);
+                btn.style.borderBottomColor = new StyleColor(ghBtnBorder);
+                btn.style.borderLeftColor = new StyleColor(ghBtnBorder);
+                btn.style.borderRightColor = new StyleColor(ghBtnBorder);
+                btn.style.borderTopWidth = 1; btn.style.borderBottomWidth = 1; btn.style.borderLeftWidth = 1; btn.style.borderRightWidth = 1;
+                btn.style.borderTopLeftRadius = 15; btn.style.borderTopRightRadius = 15; btn.style.borderBottomLeftRadius = 15; btn.style.borderBottomRightRadius = 15;
+            }
+            else
+            {
+                btn.style.backgroundColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f)); // Better default blue
+                btn.style.color = new StyleColor(Color.white);
+            }
+            orderItemGrid.Add(btn);
+        }
+        
+        yield return new WaitForSeconds(currentConfig.orderPreviewTime);
+        
+        orderIsPreview = false;
+        orderStatusText.text = "Select in order!";
+        orderItemGrid.Clear();
+        
+        var scrambled = orderCorrectSequence.OrderBy(x => Random.value).ToList();
+        foreach (var item in scrambled)
+        {
+            var btn = new Button { text = item };
+            btn.AddToClassList("popup-button");
+            btn.style.width = new StyleLength(StyleKeyword.Auto);
+            btn.style.paddingLeft = 20; btn.style.paddingRight = 20; btn.style.marginRight = 10; btn.style.marginBottom = 10; btn.style.fontSize = 24;
+            
+            if (currentGame.name == "Train new hire on POS system")
+            {
+                btn.style.backgroundColor = new StyleColor(new Color(0.02f, 0.15f, 0.02f));
+                btn.style.color = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderTopColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderBottomColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderLeftColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderRightColor = new StyleColor(new Color(0.2f, 1f, 0.2f));
+                btn.style.borderTopWidth = 2; btn.style.borderBottomWidth = 2; btn.style.borderLeftWidth = 2; btn.style.borderRightWidth = 2;
+            }
+            else if (currentGame.name == "Verify hotfix deployment")
+            {
+                Color ghBtnBg = ColorUtility.TryParseHtmlString("#21262d", out Color c1) ? c1 : new Color(0.13f, 0.15f, 0.17f);
+                Color ghBtnText = ColorUtility.TryParseHtmlString("#c9d1d9", out Color c2) ? c2 : Color.white;
+                Color ghBtnBorder = ColorUtility.TryParseHtmlString("#30363d", out Color c3) ? c3 : new Color(0.18f, 0.21f, 0.23f);
+
+                btn.style.backgroundColor = new StyleColor(ghBtnBg);
+                btn.style.color = new StyleColor(ghBtnText);
+                btn.style.borderTopColor = new StyleColor(ghBtnBorder);
+                btn.style.borderBottomColor = new StyleColor(ghBtnBorder);
+                btn.style.borderLeftColor = new StyleColor(ghBtnBorder);
+                btn.style.borderRightColor = new StyleColor(ghBtnBorder);
+                btn.style.borderTopWidth = 1; btn.style.borderBottomWidth = 1; btn.style.borderLeftWidth = 1; btn.style.borderRightWidth = 1;
+                btn.style.borderTopLeftRadius = 15; btn.style.borderTopRightRadius = 15; btn.style.borderBottomLeftRadius = 15; btn.style.borderBottomRightRadius = 15;
+            }
+            else
+            {
+                btn.style.color = new StyleColor(Color.white);
+            }
+            
+            btn.clicked += () => OnOrderItemClicked(item, btn);
+            orderItemGrid.Add(btn);
+        }
+    }
+
+    private void OnOrderItemClicked(string item, Button btn)
+    {
+        if (!isPlaying || orderIsPreview || currentConfig.type != GameType.OrderQueue) return;
+        
+        if (item == orderCorrectSequence[orderInputIndex])
+        {
+            btn.style.backgroundColor = new StyleColor(Color.green);
+            btn.SetEnabled(false);
+            orderInputIndex++;
+            if (orderInputIndex >= orderCorrectSequence.Count) MarkWinReady();
+        }
+        else
+        {
+            if (currentGame.canFail) { activeGameRoutine = StartCoroutine(OrderQueueRoutine()); }
+            else { btn.style.backgroundColor = new StyleColor(Color.red); }
+        }
+    }
+
+    private void SetupDragMatch()
+    {
+        dragLeftColumn.Clear();
+        dragRightColumn.Clear();
+        dragCheatSheetList.Clear();
+        dragLeftButtons.Clear();
+        dragRightButtons.Clear();
+        dragCorrectMap.Clear();
+        dragMatchCount = 0;
+        dragSelectedLeft = -1;
+        
+        var lefts = currentConfig.matchLeft.ToList();
+        var rights = currentConfig.matchRight.ToList();
+        var rightIndices = Enumerable.Range(0, rights.Count).OrderBy(x => Random.value).ToList();
+        
+        for (int i=0; i<lefts.Count; i++)
+        {
+            var lbl = new Label($"{lefts[i]} = {rights[rightIndices[i]]}");
+            lbl.style.fontSize = 22;
+            lbl.style.color = new StyleColor(new Color(0.1f, 0.1f, 0.1f)); // Dark grey/black ink
+            lbl.style.whiteSpace = WhiteSpace.NoWrap;
+            lbl.style.marginBottom = 10;
+            lbl.style.paddingBottom = 8;
+            lbl.style.paddingTop = 8;
+            lbl.style.borderBottomWidth = 1;
+            lbl.style.borderBottomColor = new StyleColor(new Color(0.3f, 0.6f, 0.9f, 0.5f)); // Light blue ruler line
+            lbl.style.unityTextAlign = TextAnchor.MiddleLeft;
+            dragCheatSheetList.Add(lbl);
+            
+            int idx = i;
+            var lBtn = new Button { text = lefts[i] };
+            lBtn.AddToClassList("popup-button");
+            lBtn.style.paddingTop = 15; lBtn.style.paddingBottom = 15; lBtn.style.width = new Length(100, LengthUnit.Percent); lBtn.style.fontSize = 20;
+            lBtn.clicked += () => { dragSelectedLeft = idx; foreach(var b in dragLeftButtons) b.style.backgroundColor = new StyleColor(Color.gray); lBtn.style.backgroundColor = new StyleColor(Color.yellow); };
+            dragLeftButtons.Add(lBtn);
+            dragLeftColumn.Add(lBtn);
+            
+            int rIdx = rightIndices[i];
+            dragCorrectMap[i] = rIdx;
+        }
+        
+        // Empty bottom line for notepad aesthetic
+        var emptyLbl = new Label(" ");
+        emptyLbl.style.paddingBottom = 8;
+        emptyLbl.style.paddingTop = 8;
+        emptyLbl.style.borderBottomWidth = 1;
+        emptyLbl.style.borderBottomColor = new StyleColor(new Color(0.3f, 0.6f, 0.9f, 0.5f));
+        dragCheatSheetList.Add(emptyLbl);
+        
+        for (int i=0; i<rights.Count; i++)
+        {
+            int idx = i;
+            var rBtn = new Button { text = rights[idx] };
+            rBtn.AddToClassList("popup-button");
+            rBtn.style.paddingTop = 15; rBtn.style.paddingBottom = 15; rBtn.style.width = new Length(100, LengthUnit.Percent); rBtn.style.fontSize = 20;
+            rBtn.clicked += () => OnDragRightClicked(idx, rBtn);
+            dragRightButtons.Add(rBtn);
+            dragRightColumn.Add(rBtn);
+        }
+    }
+
+    private void OnDragRightClicked(int rIdx, Button rBtn)
+    {
+        if (!isPlaying || dragSelectedLeft == -1 || currentConfig.type != GameType.DragMatch) return;
+        
+        if (dragCorrectMap[dragSelectedLeft] == rIdx)
+        {
+            dragLeftButtons[dragSelectedLeft].style.backgroundColor = new StyleColor(Color.green);
+            dragLeftButtons[dragSelectedLeft].SetEnabled(false);
+            rBtn.style.backgroundColor = new StyleColor(Color.green);
+            rBtn.SetEnabled(false);
+            dragMatchCount++;
+            if (dragMatchCount >= currentConfig.matchLeft.Length) MarkWinReady();
+        }
+        else
+        {
+            dragLeftButtons[dragSelectedLeft].style.backgroundColor = new StyleColor(Color.gray);
+        }
+        dragSelectedLeft = -1;
+    }
+
+    private IEnumerator SprintLaneRoutine()
+    {
+        while (isPlaying && sprintDistance < currentConfig.sprintObstacles)
+        {
+            sprintDistanceText.text = $"Distance: {sprintDistance} / {currentConfig.sprintObstacles}";
+            sprintObstacleIsHigh = Random.value > 0.5f;
+            sprintObstacleText.text = sprintObstacleIsHigh ? "HIGH OBSTACLE! (Duck)" : "LOW OBSTACLE! (Jump)";
+            sprintWaitingForInput = true;
+            
+            float t = currentConfig.sprintSpeed;
+            while (t > 0 && sprintWaitingForInput && isPlaying)
+            {
+                t -= Time.deltaTime;
+                if (sprintTimerText != null) sprintTimerText.text = $"React: {t:F1}s";
+                yield return null;
+            }
+            
+            if (sprintWaitingForInput && currentGame.canFail) { isPlaying = false; yield break; }
+            sprintWaitingForInput = false;
+            yield return new WaitForSeconds(0.2f);
+        }
+        if (sprintDistance >= currentConfig.sprintObstacles) MarkWinReady();
+    }
+
+    private void OnSprintReact(bool jump)
+    {
+        if (!isPlaying || currentConfig.type != GameType.SprintLane || !sprintWaitingForInput) return;
+        
+        bool success = (jump && !sprintObstacleIsHigh) || (!jump && sprintObstacleIsHigh);
+        if (success)
+        {
+            sprintDistance++;
+            float pct = Mathf.Clamp01((float)sprintDistance / currentConfig.sprintObstacles) * 100f;
+            if (sprintProgressBar != null) sprintProgressBar.style.width = new Length(pct, LengthUnit.Percent);
+            sprintWaitingForInput = false;
+        }
+        else if (currentGame.canFail)
+        {
+            isPlaying = false;
+        }
+    }
+
+    private void MarkWinReady()
+    {
+        if (currentConfig.type == GameType.TwoPhaseHeist)
+        {
+            if (currentPhase == 1) {
+                currentPhase = 2;
+                if (instructionsText != null) instructionsText.text = "Phase 2: HACK!";
+                SetupGameType(currentConfig.phase2Type);
+                return;
+            } else if (currentPhase == 2 && currentConfig.phase3Type != 0) {
+                currentPhase = 3;
+                if (instructionsText != null) instructionsText.text = "Phase 3: ESCAPE!";
+                SetupGameType(currentConfig.phase3Type);
+                return;
+            }
+        }
+
+        isPlaying = false;
+        hasWon = true;
+        if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
+
+        FinishGame();
+    }
+
+    private void AbortGame()
+    {
+        isPlaying = false;
+        if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
+
+        overlay.style.display = DisplayStyle.None;
+
+        if (currentGame != null && currentGame.category == "hustle")
+        {
+            int jailWeeks = 0;
+            if (currentGame.name == "Forge Transit Passes") jailWeeks = 1;
+            else if (currentGame.name == "Crack Luxury Briefcase") jailWeeks = 2;
+            else if (currentGame.name == "Skim ATM Card Data") jailWeeks = 4;
+            else if (currentGame.name == "Corporate Espionage Heist") jailWeeks = 7;
+            
+            if (jailWeeks > 0)
+            {
+                UnityEngine.Debug.Log("Failed illegal minigame! Straight to jail.");
+                var gData = GameManager.Instance.currentData;
+                float fine = (float)(gData.balance * 0.5); 
+                gData.balance -= fine;
+                gData.jailWeeksRemaining = jailWeeks;
+                string logMessage = $"[SYSTEM] Failed {currentGame.name} AND WAS CAUGHT! Fined ${fine:F0} and jailed.";
+                GameManager.Instance.activeNewsFeed = logMessage;
+                GameManager.Instance.financialHistory.Add(new FinancialSnapshot(gData.currentWeek, gData.balance, 0, -fine));
+                
+                var gUIManager = FindAnyObjectByType<GameUIManager>();
+                if (gUIManager != null) gUIManager.CheckJailStatus();
+                return; 
+            }
+        }
+
+        overlay.pickingMode = PickingMode.Ignore;
+        var data = GameManager.Instance.currentData;
+
+        if (currentGame.category == "side_hustle")
+        {
+            var hustle = HustlesUI.availableHustles.Find(h => h.name == currentGame.name);
+            if (hustle != null && hustle.riskPercent > 0)
+            {
+                data.jailWeeksRemaining = hustle.jailSentence;
+                data.jobTitle = "Unemployed";
+                data.zone = "Slums";
+                double fine = data.balance * 0.20;
+                data.balance -= fine;
+            }
+            else
+            {
+                data.stress = Mathf.Clamp(data.stress + 0.15f, 0f, 1f);
+            }
+        }
+        else
+        {
+            if (currentGame.canFail) data.stress = Mathf.Clamp(data.stress + 0.10f, 0f, 1f);
+        }
+
+        GameManager.Instance.SaveGame();
+        var uiManager = FindAnyObjectByType<GameUIManager>();
+        uiManager?.CheckJailStatus();
+    }
+
+    private void FinishGame()
+    {
+        if (!hasWon) return;
+
+        isPlaying = false;
+        overlay.style.display = DisplayStyle.None;
+        overlay.pickingMode = PickingMode.Ignore;
+        var data = GameManager.Instance.currentData;
+
+        if (currentGame.category == "side_hustle")
+        {
+            var hustle = HustlesUI.availableHustles.Find(h => h.name == currentGame.name);
+            string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"I completed {currentGame.name}.";
+            
+            if (hustle != null && hustle.riskPercent > 0)
+            {
+                int roll = Random.Range(0, 100);
+                if (roll < hustle.riskPercent)
+                {
+                    data.jailWeeksRemaining = hustle.jailSentence;
+                    data.jobTitle = "Unemployed";
+                    data.zone = "Slums";
+                    double fine = data.balance * 0.20;
+                    data.balance -= fine;
+                    data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} BUT I WAS CAUGHT! Fined ${fine:F0} and jailed.";
+                }
+                else
+                {
+                    data.balance += currentGame.reward;
+                    data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} Got away with ${currentGame.reward}.";
+                }
+            }
+            else
+            {
+                data.balance += currentGame.reward;
+                data.stress = Mathf.Clamp(data.stress + 0.10f, 0f, 1f);
+                data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} Earned ${currentGame.reward}.";
+            }
+            
+            var uiManager = FindAnyObjectByType<GameUIManager>();
+            uiManager?.ShowPopup(new RandomEvent { 
+                title = "HUSTLE COMPLETED", 
+                description = $@"You finished: {currentGame.name}.
+
+Check the dashboard for results!" 
+            }, () => { 
+                GameManager.Instance.CheckHeartAttack(() => {
+                    HustlesUI.Instance?.PopulateHustlesBoard(); 
+                    uiManager?.SwitchToDashboard();
+                });
+            });
+        }
+        else if (currentGame.category == "wellness")
+        {
+            data.balance -= currentGame.reward;
+            data.stress = Mathf.Clamp(data.stress - currentGame.stressCost, 0f, 1f);
+            
+            string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"You completed {currentGame.name}.";
+            data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} -{(currentGame.stressCost * 100):F0}% stress";
+            
+            var uiManager = FindAnyObjectByType<GameUIManager>();
+            uiManager?.ShowPopup(new RandomEvent { 
+                title = "WELLNESS PURCHASED", 
+                description = $@"You successfully completed: {currentGame.name}.
+
+<color=#2ECC71>Your stress index has dropped significantly.</color>
+
+<color=#E74C3C>Cost: ${currentGame.reward}</color>" 
+            }, () => { 
+                GameManager.Instance.CheckHeartAttack(() => {
+                    uiManager?.SwitchToDashboard();
+                });
+            });
+        }
+        else if (currentGame.category == "mixer")
+        {
+            data.balance -= currentGame.reward;
+            if (currentGame.name == "Industrial Dive Bar") data.luckManualService = Mathf.Clamp(data.luckManualService + currentGame.stressCost, 0f, 1f);
+            else if (currentGame.name == "Hospitality Gala") data.luckHospitality = Mathf.Clamp(data.luckHospitality + currentGame.stressCost, 0f, 1f);
+            else if (currentGame.name == "Underground Tech Meetup") data.luckTechnology = Mathf.Clamp(data.luckTechnology + currentGame.stressCost, 0f, 1f);
+            else if (currentGame.name == "Corporate Golf Sim") data.luckCorporate = Mathf.Clamp(data.luckCorporate + currentGame.stressCost, 0f, 1f);
+
+            string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"You completed {currentGame.name}.";
+            data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} +{(currentGame.stressCost * 100):F0}% luck";
+            
+            var uiManager = FindAnyObjectByType<GameUIManager>();
+            uiManager?.ShowPopup(new RandomEvent { 
+                title = "NETWORK MIXER ATTENDED", 
+                description = $@"You successfully networked at {currentGame.name}.
+
+<color=#2ECC71>Your promotion luck in this sector has increased!</color>
+
+<color=#E74C3C>Cost: ${currentGame.reward}</color>" 
+            }, () => { 
+                GameManager.Instance.CheckHeartAttack(() => {
+                    uiManager?.SwitchToDashboard();
+                });
+            });
+        }
+        else if (currentGame.category == "work_regular")
+        {
+            data.completedTasksThisWeek.Add(currentGame.name);
+            data.stress = Mathf.Clamp(data.stress + currentGame.stressCost, 0f, 1f);
+
+            if (data.completedTasksThisWeek.Count >= 3)
+            {
+                GameManager.Instance.completedRegularTaskThisWeek = true;
+            }
+
+            string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"You completed {currentGame.name}.";
+            data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} +{(currentGame.stressCost * 100):F0}% stress";
+            
+            var uiManager = FindAnyObjectByType<GameUIManager>();
+            uiManager?.ShowPopup(new RandomEvent { 
+                title = "TASK COMPLETED", 
+                description = $@"You finished: {currentGame.name}.
+
+<color=#E74C3C>Stress increased by {(currentGame.stressCost * 100):F0}%.</color>
+
+Weekly Tasks Done: {data.completedTasksThisWeek.Count}/3" 
+            }, () => { 
+                GameManager.Instance.CheckHeartAttack(() => {
+                    CareerUI.Instance.RefreshView(); 
+                });
+            });
+        }
+        else if (currentGame.category == "work_extra")
+        {
+            PlayerPrefs.SetInt("completedExtraTaskThisWeek", 1);
+            data.completedTasksThisWeek.Add(currentGame.name);
+            data.stress = Mathf.Clamp(data.stress + currentGame.stressCost, 0f, 1f);
+            data.promotionProgress = Mathf.Clamp(data.promotionProgress + currentGame.readinessGain, 0f, 1f);
+            
+            string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"You completed {currentGame.name}.";
+            data.historyLogsJson += $@"
+
+[SYSTEM] {logMessage} Promotion Readiness +{(currentGame.readinessGain * 100):F0}%";
+            
+            var uiManager = FindAnyObjectByType<GameUIManager>();
+            uiManager?.ShowPopup(new RandomEvent { 
+                title = "EXTRA INITIATIVE TAKEN", 
+                description = $@"You went above and beyond completing {currentGame.name}.
+
+<color=#2ECC71>Performance Readiness increased!</color>
+<color=#E74C3C>Stress increased by {(currentGame.stressCost * 100):F0}%.</color>" 
+            }, () => { 
+                GameManager.Instance.CheckHeartAttack(() => {
+                    CareerUI.Instance.RefreshView(); 
+                });
+            });
+        }
+        else
+        {
+            data.stress = Mathf.Clamp(data.stress + currentGame.stressCost, 0f, 1f);
+            if (currentGame.reward > 0) data.balance += currentGame.reward;
+        }
+
+        GameManager.Instance.SaveGame();
+        var uiManagerForDashboard = FindAnyObjectByType<GameUIManager>();
+        uiManagerForDashboard?.CheckJailStatus();
+    }
+
+    private void SetupScrubPlate()
+    {
+        scrubProgress = 0f;
+        scrubProgressBar.value = 0f;
+        scrubProgressBar.highValue = currentConfig.targetScore;
+        scrubDirtOverlay.style.opacity = 1f;
+        scrubSponge.style.left = 110f;
+        scrubSponge.style.top = 120f;
+        lastScrubPos = Vector2.zero;
+
+        var plateIcon = scrubPlateArea.Q<Label>("ScrubTargetIcon");
+        if (plateIcon != null && currentGame != null)
+        {
+            if (currentGame.name == "Scour microwave grease") plateIcon.text = "📺";
+            else if (currentGame.name == "Deep clean grease traps") plateIcon.text = "🛢️";
+            else if (currentGame.name == "Wipe smog off the neon arrow") plateIcon.text = "➡️";
+            else plateIcon.text = "🍽️";
+        }
+        
+        var spongeLabel = scrubPlateArea.Q<Label>("ScrubSponge");
+        if (spongeLabel != null && currentGame != null)
+        {
+            if (currentGame.name == "Wipe smog off the neon arrow") spongeLabel.text = "🧻";
+            else spongeLabel.text = "🧽";
+        }
+    }
+
+    private void SetupSweepFloor()
+    {
+        sweepFloorGrid.Clear();
+        sweepTileTimers = new float[25];
+        sweepTiles = new VisualElement[25];
+        sweepPlayerX = 0;
+        sweepPlayerY = 0;
+        
+        for (int y = 0; y < 5; y++)
+        {
+            var row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row;
+            row.style.flexGrow = 1;
+            for (int x = 0; x < 5; x++)
+            {
+                var cell = new VisualElement();
+                cell.style.flexGrow = 1;
+                cell.style.borderTopWidth = 2; cell.style.borderLeftWidth = 2; cell.style.borderRightWidth = 2; cell.style.borderBottomWidth = 2;
+                cell.style.borderTopColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
+                cell.style.borderBottomColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
+                cell.style.borderLeftColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
+                cell.style.borderRightColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
+                cell.style.justifyContent = Justify.Center;
+                cell.style.alignItems = Align.Center;
+                cell.style.paddingTop = 0; cell.style.paddingBottom = 0; cell.style.paddingLeft = 0; cell.style.paddingRight = 0;
+                cell.style.marginTop = 0; cell.style.marginBottom = 0; cell.style.marginLeft = 0; cell.style.marginRight = 0;
+                
+                var icon = new Label("");
+                icon.style.position = Position.Absolute;
+                icon.style.left = 0; icon.style.right = 0; icon.style.top = 0; icon.style.bottom = 0;
+                icon.style.fontSize = 55;
+                icon.style.paddingTop = 0; icon.style.paddingBottom = 0; icon.style.paddingLeft = 0; icon.style.paddingRight = 0;
+                icon.style.marginTop = 0; icon.style.marginBottom = 0; icon.style.marginLeft = 0; icon.style.marginRight = 0;
+                icon.style.unityTextAlign = TextAnchor.MiddleCenter;
+                icon.name = "Icon";
+                cell.Add(icon);
+                
+                int cx = x; int cy = y;
+                cell.RegisterCallback<PointerDownEvent>(ev => {
+                    if (!isPlaying || currentConfig == null || currentConfig.type != GameType.SweepFloor) return;
+                    sweepPlayerX = cx; sweepPlayerY = cy;
+                });
+                cell.RegisterCallback<PointerEnterEvent>(ev => {
+                    if (!isPlaying || currentConfig == null || currentConfig.type != GameType.SweepFloor) return;
+                    if ((ev.pressedButtons & 1) != 0) { // left click or touch hold
+                        sweepPlayerX = cx; sweepPlayerY = cy;
+                    }
+                });
+                
+                row.Add(cell);
+                sweepTiles[y * 5 + x] = cell;
+            }
+            sweepFloorGrid.Add(row);
+        }
+    }
+
+    private void RenderSweepFloor()
+    {
+        for (int i = 0; i < 25; i++)
+        {
+            var cell = sweepTiles[i];
+            var icon = cell.Q<Label>("Icon");
+            
+            if (sweepTileTimers[i] > 0)
+            {
+                // Clean: light brown
+                cell.style.backgroundColor = new StyleColor(new Color(0.76f, 0.6f, 0.42f));
+            }
+            else
+            {
+                // Dirty: dark brown
+                cell.style.backgroundColor = new StyleColor(new Color(0.35f, 0.22f, 0.12f));
+            }
+            
+            int cy = i / 5;
+            int cx = i % 5;
+            if (cx == sweepPlayerX && cy == sweepPlayerY)
+            {
+                if (currentGame != null && currentGame.name == "Mop grease spills") icon.text = "🪣";
+                else if (currentGame != null && currentGame.name == "Clear conveyor dust filters") icon.text = "🌪️";
+                else icon.text = "🧹";
+            }
+            else
+            {
+                icon.text = "";
+            }
+        }
+    }
+
+    private IEnumerator SweepFloorRoutine()
+    {
+        sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
+        RenderSweepFloor();
+
+        while (isPlaying && currentConfig.type == GameType.SweepFloor)
+        {
+            // Decay timers
+            bool allClean = true;
+            for (int i = 0; i < 25; i++)
+            {
+                if (sweepTileTimers[i] > 0)
+                {
+                    sweepTileTimers[i] -= Time.deltaTime;
+                    if (sweepTileTimers[i] <= 0) sweepTileTimers[i] = 0;
+                }
+                if (sweepTileTimers[i] <= 0)
+                {
+                    allClean = false;
+                }
+            }
+
+            // Movement logic is now instantly handled inside KeyDownEvent and PointerEvent for max speed!
+
+            // Always update timer for current position
+            sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
+            RenderSweepFloor();
+
+            if (allClean)
+            {
+                MarkWinReady();
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator ScrubPlateRoutine()
+    {
+        while (isPlaying && currentConfig.type == GameType.ScrubPlate)
+        {
+            yield return null;
+        }
+    }
+
+    private IEnumerator PumpSystemRoutine()
+    {
+        while (isPlaying && currentConfig.type == GameType.PumpSystem)
+        {
+            if (currentConfig.pumpIsBalanceMode)
+            {
+                float decayRate = 15f; 
+                pumpProgress -= decayRate * Time.deltaTime;
+                pumpProgress = Mathf.Clamp(pumpProgress, 0f, 100f);
+                
+                float needleAngle = -120f + ((pumpProgress / 100f) * 240f);
+                pumpDialNeedleRotator.style.rotate = new StyleRotate(new Rotate(new Angle(needleAngle)));
+                
+                float p = pumpProgress / 100f;
+                if (p >= currentConfig.pumpBalanceTargetMin && p <= currentConfig.pumpBalanceTargetMax)
+                {
+                    pumpHoldTimer += Time.deltaTime;
+                }
+                else
+                {
+                    pumpHoldTimer -= Time.deltaTime * 0.5f; // Drain slowly when outside
+                    pumpHoldTimer = Mathf.Max(0f, pumpHoldTimer);
+                }
+                
+                pumpHoldTimerBar.style.width = Length.Percent((pumpHoldTimer / currentConfig.pumpBalanceHoldTime) * 100f);
+                
+                if (pumpHoldTimer >= currentConfig.pumpBalanceHoldTime)
+                {
+                    pumpHoldTimerBar.style.width = Length.Percent(100f);
+                    MarkWinReady();
+                }
+            }
+            else
+            {
+                float decayFactor = 1f + (pumpProgress / 100f) * 4f; 
+                float decayRate = 18f; 
+                
+                pumpProgress -= decayRate * decayFactor * Time.deltaTime;
+                pumpProgress = Mathf.Clamp(pumpProgress, 0f, 100f);
+                
+                pumpProgressBar.style.height = Length.Percent(pumpProgress);
+                
+                if (pumpProgress >= 100f)
+                {
+                    pumpProgressBar.style.height = Length.Percent(100f);
+                    MarkWinReady();
+                }
+            }
+            
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // TETRIS ENGINE
+    // ==========================================
+    private int[,] tetrisBoard = new int[10, 15]; // 0=empty, 1=filled
+    private int currentTetrisX, currentTetrisY, currentTetrisType, currentTetrisRot;
+    private int tetrisScore = 0;
+    private float tetrisTickTimer = 0f;
+    private float tetrisTickRate = 0.2f;
+
+    private readonly int[,,,] tetrominoes = {
+        // I
+        { { {0,0}, {1,0}, {2,0}, {3,0} }, { {1,-1}, {1,0}, {1,1}, {1,2} }, { {0,0}, {1,0}, {2,0}, {3,0} }, { {1,-1}, {1,0}, {1,1}, {1,2} } },
+        // J
+        { { {0,0}, {0,1}, {1,1}, {2,1} }, { {1,0}, {2,0}, {1,1}, {1,2} }, { {0,0}, {1,0}, {2,0}, {2,1} }, { {1,0}, {1,1}, {0,2}, {1,2} } },
+        // L
+        { { {2,0}, {0,1}, {1,1}, {2,1} }, { {1,0}, {1,1}, {1,2}, {2,2} }, { {0,0}, {1,0}, {2,0}, {0,1} }, { {0,0}, {1,0}, {1,1}, {1,2} } },
+        // O
+        { { {0,0}, {1,0}, {0,1}, {1,1} }, { {0,0}, {1,0}, {0,1}, {1,1} }, { {0,0}, {1,0}, {0,1}, {1,1} }, { {0,0}, {1,0}, {0,1}, {1,1} } },
+        // S
+        { { {1,0}, {2,0}, {0,1}, {1,1} }, { {1,0}, {1,1}, {2,1}, {2,2} }, { {1,0}, {2,0}, {0,1}, {1,1} }, { {1,0}, {1,1}, {2,1}, {2,2} } },
+        // T
+        { { {1,0}, {0,1}, {1,1}, {2,1} }, { {1,0}, {1,1}, {2,1}, {1,2} }, { {0,0}, {1,0}, {2,0}, {1,1} }, { {1,0}, {0,1}, {1,1}, {1,2} } },
+        // Z
+        { { {0,0}, {1,0}, {1,1}, {2,1} }, { {2,0}, {1,1}, {2,1}, {1,2} }, { {0,0}, {1,0}, {1,1}, {2,1} }, { {2,0}, {1,1}, {2,1}, {1,2} } }
+    };
+
+    private void SetupTetris()
+    {
+        tetrisGrid.Clear();
+        for(int x=0; x<10; x++)
+            for(int y=0; y<15; y++)
+                tetrisBoard[x,y] = 0;
+        
+        tetrisScore = 0;
+        tetrisScoreText.text = $"Stacked: 0 / 10";
+        SpawnTetromino();
+    }
+
+    private void SpawnTetromino()
+    {
+        currentTetrisType = Random.Range(0, 7);
+        currentTetrisRot = 0;
+        currentTetrisX = 3;
+        currentTetrisY = 0;
+        
+        if (CheckTetrisCollision(currentTetrisX, currentTetrisY, currentTetrisRot))
+        {
+            AbortGame(); // Topped out
+        }
+        else
+        {
+            DrawTetris();
+        }
+    }
+
+    private bool CheckTetrisCollision(int x, int y, int rot)
+    {
+        for (int i=0; i<4; i++)
+        {
+            int bx = x + tetrominoes[currentTetrisType, rot, i, 0];
+            int by = y + tetrominoes[currentTetrisType, rot, i, 1];
+            
+            if (bx < 0 || bx >= 10 || by >= 15) return true;
+            if (by >= 0 && tetrisBoard[bx, by] != 0) return true;
+        }
+        return false;
+    }
+
+    private void LockTetromino()
+    {
+        for (int i=0; i<4; i++)
+        {
+            int bx = currentTetrisX + tetrominoes[currentTetrisType, currentTetrisRot, i, 0];
+            int by = currentTetrisY + tetrominoes[currentTetrisType, currentTetrisRot, i, 1];
+            if (bx >= 0 && bx < 10 && by >= 0 && by < 15)
+                tetrisBoard[bx, by] = 1;
+        }
+        
+        tetrisScore++;
+        tetrisScoreText.text = $"Stacked: {tetrisScore} / 10";
+        if (tetrisScore >= 10)
+        {
+            MarkWinReady();
+            DrawTetris();
+        }
+        else
+        {
+            SpawnTetromino();
+        }
+    }
+
+    private void DrawTetris()
+    {
+        tetrisGrid.Clear();
+        
+        for(int x=0; x<10; x++)
+        {
+            for(int y=0; y<15; y++)
+            {
+                if (tetrisBoard[x,y] != 0)
+                    tetrisGrid.Add(CreateTetrisBlock(x, y));
+            }
+        }
+        
+        for (int i=0; i<4; i++)
+        {
+            int bx = currentTetrisX + tetrominoes[currentTetrisType, currentTetrisRot, i, 0];
+            int by = currentTetrisY + tetrominoes[currentTetrisType, currentTetrisRot, i, 1];
+            if (by >= 0 && by < 15)
+                tetrisGrid.Add(CreateTetrisBlock(bx, by));
+        }
+    }
+
+    private VisualElement CreateTetrisBlock(int x, int y)
+    {
+        var block = new VisualElement();
+        block.style.width = 30;
+        block.style.height = 30;
+        block.style.position = Position.Absolute;
+        block.style.left = x * 30;
+        block.style.top = y * 30;
+        block.style.backgroundColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
+        block.style.borderLeftWidth = 2; block.style.borderRightWidth = 2; block.style.borderTopWidth = 2; block.style.borderBottomWidth = 2;
+        block.style.borderLeftColor = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
+        block.style.borderRightColor = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
+        block.style.borderTopColor = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
+        block.style.borderBottomColor = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
+        block.style.alignItems = Align.Center;
+        block.style.justifyContent = Justify.Center;
+        
+        var xLabel = new Label("X");
+        xLabel.style.color = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
+        xLabel.style.fontSize = 28;
+        xLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        xLabel.style.position = Position.Absolute;
+        xLabel.style.left = 0; xLabel.style.right = 0; xLabel.style.top = 0; xLabel.style.bottom = 0;
+        xLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+        block.Add(xLabel);
+        
+        return block;
+    }
+
+    private void OnTetrisInput(int dx, int dy, int drot)
+    {
+        if (!isPlaying || currentConfig.type != GameType.Tetris) return;
+        
+        int nextX = currentTetrisX + dx;
+        int nextY = currentTetrisY + dy;
+        int nextRot = (currentTetrisRot + drot) % 4;
+        
+        if (!CheckTetrisCollision(nextX, nextY, nextRot))
+        {
+            currentTetrisX = nextX;
+            currentTetrisY = nextY;
+            currentTetrisRot = nextRot;
+            DrawTetris();
+        }
+        else if (dy == 1) // Collision while moving down = lock in place
+        {
+            LockTetromino();
+        }
+    }
+
+    private IEnumerator TetrisRoutine()
+    {
+        tetrisTickTimer = 0f;
+        while (isPlaying && currentConfig.type == GameType.Tetris)
+        {
+            tetrisTickTimer += Time.deltaTime;
+            
+            if (tetrisTickTimer >= tetrisTickRate)
+            {
+                tetrisTickTimer = 0f;
+                OnTetrisInput(0, 1, 0); // Move down
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator AcidRainRoutine()
+    {
+        float duration = 15f;
+        float elapsed = 0f;
+
+        while (elapsed < duration && acidBurn < 100f)
+        {
+            elapsed += Time.deltaTime;
+            float timeRemaining = duration - elapsed;
+            if (timeRemaining < 0f) timeRemaining = 0f;
+            acidTimerText.text = timeRemaining.ToString("0.0") + "s";
+
+            // Update wind
+            acidWindTimer += Time.deltaTime;
+            if (acidWindTimer > 2f)
+            {
+                acidWindTimer = 0f;
+                acidWindTarget = Random.Range(-50f, 50f);
+            }
+            acidWindAngle = Mathf.Lerp(acidWindAngle, acidWindTarget, Time.deltaTime * 1.5f);
+
+            // Spawn drops
+            acidDropTimer += Time.deltaTime;
+            if (acidDropTimer >= 0.25f)
+            {
+                acidDropTimer = 0f;
+                SpawnAcidDrop();
+            }
+
+            // Update drops
+            for (int i = activeAcidDrops.Count - 1; i >= 0; i--)
+            {
+                var drop = activeAcidDrops[i];
+                drop.radius -= drop.speed * Time.deltaTime;
+
+                float angleRad = drop.angle * Mathf.Deg2Rad;
+                float x = drop.radius * Mathf.Sin(angleRad);
+                float y = drop.radius * Mathf.Cos(angleRad);
+
+                drop.element.style.left = Length.Percent(50f);
+                drop.element.style.translate = new StyleTranslate(new Translate(new Length(x, LengthUnit.Pixel), new Length(-y, LengthUnit.Pixel)));
+
+                // Sign is placed at radius 150
+                if (drop.radius <= 165f && drop.radius >= 135f)
+                {
+                    float diff = Mathf.Abs(Mathf.DeltaAngle(drop.angle, acidSignAngle));
+                    if (diff <= 35f)
+                    {
+                        // Blocked
+                        drop.element.RemoveFromHierarchy();
+                        activeAcidDrops.RemoveAt(i);
+                        continue;
+                    }
+                }
+
+                if (drop.radius <= 10f)
+                {
+                    drop.element.RemoveFromHierarchy();
+                    activeAcidDrops.RemoveAt(i);
+                    
+                    acidBurn += 8f;
+                    if (acidBurn > 100f) acidBurn = 100f;
+                    
+                    acidBurnBar.style.width = Length.Percent(acidBurn);
+                    if (acidBurn > 60f) acidBurnBar.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.23f)); // Red
+                    else if (acidBurn > 30f) acidBurnBar.style.backgroundColor = new StyleColor(new Color(0.94f, 0.76f, 0.05f)); // Yellow
+                }
+            }
+
+            yield return null;
+        }
+
+        foreach (var drop in activeAcidDrops)
+        {
+            drop.element.RemoveFromHierarchy();
+        }
+        activeAcidDrops.Clear();
+
+        if (acidBurn < 100f)
+        {
+            MarkWinReady();
+        }
+        else
+        {
+            if (currentGame.canFail) {
+                AbortGame(); 
+            } else {
+                MarkWinReady(); 
+            }
+        }
+    }
+
+    private void SpawnAcidDrop()
+    {
+        var dropEl = new VisualElement();
+        dropEl.style.position = Position.Absolute;
+        dropEl.style.width = 12;
+        dropEl.style.height = 12;
+        dropEl.style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f));
+        dropEl.style.borderTopLeftRadius = 6;
+        dropEl.style.borderTopRightRadius = 6;
+        dropEl.style.borderBottomLeftRadius = 6;
+        dropEl.style.borderBottomRightRadius = 6;
+        dropEl.style.bottom = 0; 
+        
+        acidDropContainer.Add(dropEl);
+
+        float spawnAngle = acidWindAngle + Random.Range(-15f, 15f);
+        
+        activeAcidDrops.Add(new AcidDrop {
+            element = dropEl,
+            radius = 450f,
+            angle = spawnAngle,
+            speed = Random.Range(200f, 300f)
+        });
+    }
+
+    private IEnumerator FoodPrepRoutine()
+    {
+        for (int i = 0; i < 4; i++) prepSpeeds[i] = Random.Range(30f, 60f);
+
+        while (isPlaying && score < currentConfig.targetScore && timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            prepTimerText.text = $"{timer:0.0}s";
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (prepFreezes[i] > 0f)
+                {
+                    prepFreezes[i] -= Time.deltaTime;
+                    if (prepFreezes[i] <= 0f)
+                    {
+                        prepFreezes[i] = 0f;
+                        prepStatus[i].text = "";
+                        prepProgress[i] = 0f;
+                        prepSpeeds[i] = Random.Range(30f, 60f);
+                    }
+                }
+                else
+                {
+                    prepProgress[i] += prepSpeeds[i] * Time.deltaTime;
+                    if (prepProgress[i] >= 100f)
+                    {
+                        prepProgress[i] = 100f;
+                        prepStatus[i].text = (i == 2) ? "SPILLED!" : "BURNED!";
+                        prepFreezes[i] = 2.0f;
+                        if (currentGame.canFail) score = Mathf.Max(0, score - 1);
+                        prepScoreText.text = $"Prepped: {score} / {currentConfig.targetScore}";
+                    }
+                }
+                prepBars[i].style.height = new Length(prepProgress[i], LengthUnit.Percent);
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    prepTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void OnFoodPrepStationTapped(int index)
+    {
+        if (!isPlaying || currentConfig.type != GameType.FoodPrepRush) return;
+        if (prepFreezes[index] > 0f) return; // Station is frozen
+
+        float p = prepProgress[index];
+        if (p < 70f)
+        {
+            prepStatus[index].text = "RAW!";
+            prepFreezes[index] = 1.0f;
+            if (currentGame.canFail) score = Mathf.Max(0, score - 1);
+        }
+        else if (p >= 70f && p <= 95f)
+        {
+            prepStatus[index].text = "PERFECT!";
+            prepFreezes[index] = 0.5f;
+            score++;
+            if (score >= currentConfig.targetScore)
+            {
+                prepTimerText.text = "YOU WIN!";
+                MarkWinReady();
+            }
+        }
+        else
+        {
+            prepStatus[index].text = (index == 2) ? "SPILLED!" : "BURNED!";
+            prepFreezes[index] = 2.0f;
+            if (currentGame.canFail) score = Mathf.Max(0, score - 1);
+        }
+        
+        prepScoreText.text = $"Prepped: {score} / {currentConfig.targetScore}";
+    }
+
+    private void SetupVideoCall()
+    {
+        vcCurrentPhase = 1;
+        vcWiggleProgress = 0f;
+        vcWiggleReady = false;
+        vcWiggleWaitTimer = Random.Range(1.0f, 2.5f);
+        
+        vcPhase1.style.display = DisplayStyle.Flex;
+        vcPhase2.style.display = DisplayStyle.None;
+        vcPhase3.style.display = DisplayStyle.None;
+        
+        vcScrollView.scrollOffset = Vector2.zero;
+        vcWiggleProgressBar.style.width = new Length(0, LengthUnit.Percent);
+        vcWigglePromptText.text = "SCREEN ASLEEP...";
+        vcWigglePromptText.style.color = new StyleColor(new Color(0.5f, 0.55f, 0.55f)); // #7F8C8D
+        
+        vcMousePos = new Vector2(115f, 120f);
+        if (vcMouseGraphic != null)
+        {
+            vcMouseGraphic.style.left = vcMousePos.x;
+            vcMouseGraphic.style.top = vcMousePos.y;
+        }
+        
+        activeGameRoutine = StartCoroutine(VideoCallRoutine());
+    }
+
+    private IEnumerator VideoCallRoutine()
+    {
+        float timer = currentConfig.timeLimit;
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            vcTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            
+            if (vcCurrentPhase == 3)
+            {
+                if (!vcWiggleReady)
+                {
+                    vcWiggleWaitTimer -= Time.deltaTime;
+                    if (vcWiggleWaitTimer <= 0f)
+                    {
+                        vcWiggleReady = true;
+                        vcWigglePromptText.text = "SWIPE TO WAKE!";
+                        vcWigglePromptText.style.color = new StyleColor(new Color(0.18f, 0.8f, 0.44f)); // Green
+                    }
+                }
+                else
+                {
+                    // Wiggle decay if not wiggling enough
+                    vcWiggleProgress = Mathf.Max(0f, vcWiggleProgress - (200f * Time.deltaTime));
+                    vcWiggleProgressBar.style.width = new Length(Mathf.Min(100f, vcWiggleProgress / 20f), LengthUnit.Percent); // 2000 total to win
+                }
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    vcTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    private void OnVcAcknowledgeTapped()
+    {
+        if (!isPlaying || vcCurrentPhase != 1) return;
+        
+        // Advance to phase 2
+        vcCurrentPhase = 2;
+        vcPhase1.style.display = DisplayStyle.None;
+        vcPhase2.style.display = DisplayStyle.Flex;
+    }
+
+    private void OnVcRaiseHandTapped()
+    {
+        if (!isPlaying || vcCurrentPhase != 2) return;
+        
+        // Advance to phase 3
+        vcCurrentPhase = 3;
+        vcPhase2.style.display = DisplayStyle.None;
+        vcPhase3.style.display = DisplayStyle.Flex;
+    }
+
+    private void OnVcWiggleMove(PointerMoveEvent evt)
+    {
+        if (!isPlaying || vcCurrentPhase != 3 || !vcWiggleReady) return;
+        if (evt.pressedButtons != 0)
+        {
+            // Move mouse graphic
+            vcMousePos.x = Mathf.Clamp(vcMousePos.x + evt.deltaPosition.x, 0f, 230f); // 300 - 70
+            vcMousePos.y = Mathf.Clamp(vcMousePos.y + evt.deltaPosition.y, 0f, 240f); // 350 - 110
+            if (vcMouseGraphic != null)
+            {
+                vcMouseGraphic.style.left = vcMousePos.x;
+                vcMouseGraphic.style.top = vcMousePos.y;
+            }
+
+            float moveDist = Mathf.Abs(evt.deltaPosition.x) + Mathf.Abs(evt.deltaPosition.y);
+            if (moveDist > 5f)
+            {
+                vcWiggleProgress += moveDist * 2f;
+                float percent = Mathf.Min(100f, vcWiggleProgress / 30f); // 3000px total
+                vcWiggleProgressBar.style.width = new Length(percent, LengthUnit.Percent);
+                
+                if (percent >= 100f)
+                {
+                    vcWigglePromptText.text = "ONLINE!";
+                    MarkWinReady();
+                }
+            }
+        }
+    }
+
+    private void SetupKanbanBoard()
+    {
+        kanbanColTodo.Clear();
+        kanbanColProgress.Clear();
+        kanbanColDone.Clear();
+        kanbanTickets.Clear();
+        kanbanTicketsDone = 0;
+        
+        string[] ticketPrefixes = new string[]{"BUG-", "DEV-", "UX-", "OPS-", "QA-"};
+
+        for (int i = 0; i < currentConfig.kanbanTicketCount; i++)
+        {
+            var ticket = new VisualElement();
+            ticket.style.width = new Length(90, LengthUnit.Percent);
+            ticket.style.height = 40;
+            ticket.style.backgroundColor = new StyleColor(new Color(0.95f, 0.85f, 0.4f)); // Yellow sticky
+            ticket.style.marginBottom = 10;
+            ticket.style.borderTopLeftRadius = 5;
+            ticket.style.borderTopRightRadius = 5;
+            ticket.style.borderBottomLeftRadius = 5;
+            ticket.style.borderBottomRightRadius = 5;
+            ticket.style.borderTopWidth = 1;
+            ticket.style.borderBottomWidth = 1;
+            ticket.style.borderLeftWidth = 1;
+            ticket.style.borderRightWidth = 1;
+            ticket.style.borderTopColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
+            ticket.style.borderBottomColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
+            ticket.style.borderLeftColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
+            ticket.style.borderRightColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
+            ticket.style.justifyContent = Justify.Center;
+            ticket.style.alignItems = Align.Center;
+            ticket.style.position = Position.Relative;
+            
+            var label = new Label($"{ticketPrefixes[Random.Range(0, ticketPrefixes.Length)]}{Random.Range(100, 999)}");
+            label.style.color = Color.black;
+            label.style.fontSize = 18;
+            label.style.unityFontStyleAndWeight = FontStyle.Bold;
+            ticket.Add(label);
+
+            ticket.RegisterCallback<PointerDownEvent>(evt => OnKanbanTicketDown(evt, ticket));
+            ticket.RegisterCallback<PointerMoveEvent>(evt => OnKanbanTicketMove(evt, ticket));
+            ticket.RegisterCallback<PointerUpEvent>(evt => OnKanbanTicketUp(evt, ticket));
+
+            kanbanColTodo.Add(ticket);
+            kanbanTickets.Add(ticket);
+        }
+
+        activeGameRoutine = StartCoroutine(KanbanBoardRoutine());
+    }
+
+    private void OnKanbanTicketDown(PointerDownEvent evt, VisualElement ticket)
+    {
+        if (!isPlaying || draggedTicket != null) return;
+        if (kanbanColDone.Contains(ticket)) return; // Already done
+
+        draggedTicket = ticket;
+        draggedTicketOriginalIndex = kanbanColTodo.Contains(ticket) ? kanbanColTodo.IndexOf(ticket) : kanbanColProgress.IndexOf(ticket);
+        
+        Vector2 localPos = new Vector2(
+            ticket.worldBound.xMin - kanbanContainer.worldBound.xMin,
+            ticket.worldBound.yMin - kanbanContainer.worldBound.yMin
+        );
+        
+        float currentWidth = ticket.layout.width;
+
+        ticket.parent.Remove(ticket);
+        kanbanContainer.Add(ticket);
+        
+        ticket.style.position = Position.Absolute;
+        ticket.style.left = localPos.x;
+        ticket.style.top = localPos.y;
+        ticket.style.width = currentWidth;
+        
+        ticket.style.opacity = 0.8f;
+        pointerStartPos = evt.position;
+        dragStartPos = localPos;
+        ticket.CapturePointer(evt.pointerId);
+    }
+
+    private void OnKanbanTicketMove(PointerMoveEvent evt, VisualElement ticket)
+    {
+        if (!isPlaying || draggedTicket != ticket) return;
+        if (!ticket.HasPointerCapture(evt.pointerId)) return;
+        
+        Vector2 delta = (Vector2)evt.position - pointerStartPos;
+        ticket.style.left = dragStartPos.x + delta.x;
+        ticket.style.top = dragStartPos.y + delta.y;
+    }
+
+    private void OnKanbanTicketUp(PointerUpEvent evt, VisualElement ticket)
+    {
+        if (!isPlaying || draggedTicket != ticket) return;
+        if (!ticket.HasPointerCapture(evt.pointerId)) return;
+        
+        ticket.ReleasePointer(evt.pointerId);
+        draggedTicket = null;
+        ticket.style.opacity = 1f;
+        ticket.style.width = new Length(90, LengthUnit.Percent);
+
+        Rect ticketRect = ticket.worldBound;
+        Rect progressRect = kanbanColProgress.worldBound;
+        Rect doneRect = kanbanColDone.worldBound;
+
+        if (ticketRect.Overlaps(doneRect))
+        {
+            if (ticket.ClassListContains("in-progress"))
+            {
+                // Valid move to DONE
+                ticket.style.position = Position.Relative;
+                ticket.style.left = 0;
+                ticket.style.top = 0;
+                ticket.style.backgroundColor = new StyleColor(new Color(0.2f, 0.8f, 0.4f)); 
+                if (!ticket.Q<Label>().text.StartsWith("✅")) 
+                    ticket.Q<Label>().text = "✅ " + ticket.Q<Label>().text;
+                
+                if (ticket.parent != null) ticket.parent.Remove(ticket);
+                kanbanColDone.Add(ticket);
+                
+                kanbanTicketsDone++;
+                if (kanbanTicketsDone >= currentConfig.kanbanTicketCount) MarkWinReady();
+            }
+            else
+            {
+                // Tried to skip IN PROGRESS -> Shake
+                StartCoroutine(ShakeTicketRoutine(ticket, kanbanColTodo));
+            }
+        }
+        else if (ticketRect.Overlaps(progressRect))
+        {
+            // Move to IN PROGRESS
+            ticket.style.position = Position.Relative;
+            ticket.style.left = 0;
+            ticket.style.top = 0;
+            if (ticket.parent != null) ticket.parent.Remove(ticket);
+
+            if (!ticket.ClassListContains("in-progress")) 
+            {
+                ticket.AddToClassList("in-progress");
+                kanbanColProgress.Add(ticket); // Moving to new column, just append
+            }
+            else
+            {
+                // Snapping back to same column
+                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColProgress.childCount)
+                    kanbanColProgress.Insert(draggedTicketOriginalIndex, ticket);
+                else
+                    kanbanColProgress.Add(ticket);
+            }
+        }
+        else
+        {
+            // Snap back
+            ticket.style.position = Position.Relative;
+            ticket.style.left = 0;
+            ticket.style.top = 0;
+            if (ticket.parent != null) ticket.parent.Remove(ticket);
+            
+            if (ticket.ClassListContains("in-progress"))
+            {
+                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColProgress.childCount)
+                    kanbanColProgress.Insert(draggedTicketOriginalIndex, ticket);
+                else
+                    kanbanColProgress.Add(ticket);
+            }
+            else
+            {
+                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColTodo.childCount)
+                    kanbanColTodo.Insert(draggedTicketOriginalIndex, ticket);
+                else
+                    kanbanColTodo.Add(ticket);
+            }
+        }
+    }
+    
+    private IEnumerator ShakeTicketRoutine(VisualElement ticket, VisualElement targetColumn)
+    {
+        float duration = 0.3f;
+        float elapsed = 0f;
+        float magnitude = 10f;
+        
+        // Put it back in the list for the shake
+        ticket.style.position = Position.Relative;
+        ticket.style.left = 0;
+        ticket.style.top = 0;
+        ticket.style.width = new Length(90, LengthUnit.Percent);
+        if (ticket.parent != null) ticket.parent.Remove(ticket);
+
+        if (targetColumn == kanbanColTodo && draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColTodo.childCount)
+            kanbanColTodo.Insert(draggedTicketOriginalIndex, ticket);
+        else
+            targetColumn.Add(ticket);
+        
+        while (elapsed < duration && isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float xOffset = Mathf.Sin(elapsed * 40f) * magnitude;
+            ticket.style.left = xOffset;
+            yield return null;
+        }
+        
+        ticket.style.left = 0;
+    }
+
+    private IEnumerator KanbanBoardRoutine()
+    {
+        float timer = currentConfig.timeLimit;
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (kanbanTimerText != null) kanbanTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (kanbanTimerText != null) kanbanTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    // =============================================
+    // FILE SORTER (4-WAY SWIPE)
+    // =============================================
+    
+    private void SetupFileSorter()
+    {
+        UnityEngine.Debug.Log($"[MiniGameManager] SetupFileSorter called. fileSorterContainer is {(fileSorterContainer == null ? "NULL" : "VALID")}. fileSorterActiveFile is {(fileSorterActiveFile == null ? "NULL" : "VALID")}");
+        fileSorterSortedCount = 0;
+        if (fileSorterActiveFile != null) fileSorterActiveFile.style.display = DisplayStyle.Flex;
+        if (fileSorterProgressText != null) fileSorterProgressText.text = $"0 / {currentConfig.fileSorterTarget}";
+        if (fileSorterTimerText != null) fileSorterTimerText.text = $"{currentConfig.timeLimit:F1}s";
+        
+        NextFileSorterItem();
+        
+        activeGameRoutine = StartCoroutine(FileSorterRoutine());
+    }
+    
+    private void NextFileSorterItem()
+    {
+        if (fileSorterActiveFile != null)
+        {
+            fileSorterActiveFile.style.translate = new Translate(0, 0, 0);
+        }
+        
+        string fileName = "";
+        if (currentConfig.fileSorterItems != null && currentConfig.fileSorterItems.Length > 0)
+        {
+            fileName = currentConfig.fileSorterItems[Random.Range(0, currentConfig.fileSorterItems.Length)];
+        }
+        else
+        {
+            fileName = $"Doc_{Random.Range(100, 999)}.txt";
+        }
+        
+        string[] dirs = new string[]{"Up", "Down", "Left", "Right"};
+        fileSorterTargetDirection = dirs[Random.Range(0, 4)];
+        
+        string folderName = "";
+        switch (fileSorterTargetDirection)
+        {
+            case "Up": folderName = "FINANCE"; break;
+            case "Down": folderName = "HR"; break;
+            case "Left": folderName = "MARKETING"; break;
+            case "Right": folderName = "IT"; break;
+        }
+        
+        if (fileSorterActiveFileText != null) 
+        {
+            fileSorterActiveFileText.text = fileName + $"\n\n\n<b>To: {folderName}</b>";
+        }
+    }
+    
+    private void OnFileSorterDown(PointerDownEvent evt)
+    {
+        if (!isPlaying || isDraggingFileSorter) return;
+        isDraggingFileSorter = true;
+        fileSorterPointerStart = evt.position;
+        fileSorterActiveFile.CapturePointer(evt.pointerId);
+    }
+    
+    private void OnFileSorterMove(PointerMoveEvent evt)
+    {
+        if (!isPlaying || !isDraggingFileSorter || !fileSorterActiveFile.HasPointerCapture(evt.pointerId)) return;
+        
+        Vector2 delta = (Vector2)evt.position - fileSorterPointerStart;
+        fileSorterActiveFile.style.translate = new Translate(delta.x, delta.y, 0);
+    }
+    
+    private void OnFileSorterUp(PointerUpEvent evt)
+    {
+        if (!isPlaying || !isDraggingFileSorter || !fileSorterActiveFile.HasPointerCapture(evt.pointerId)) return;
+        
+        fileSorterActiveFile.ReleasePointer(evt.pointerId);
+        isDraggingFileSorter = false;
+        
+        Vector2 delta = (Vector2)evt.position - fileSorterPointerStart;
+        
+        if (delta.magnitude < 50f)
+        {
+            fileSorterActiveFile.style.translate = new Translate(0, 0, 0);
+            return;
+        }
+        
+        string swipedDir = "";
+        if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+        {
+            swipedDir = delta.x > 0 ? "Right" : "Left";
+        }
+        else
+        {
+            swipedDir = delta.y > 0 ? "Down" : "Up";
+        }
+        
+        if (swipedDir == fileSorterTargetDirection)
+        {
+            StartCoroutine(FileSorterAnimateOut(swipedDir));
+        }
+        else
+        {
+            StartCoroutine(FileSorterShakeError());
+        }
+    }
+    
+    private IEnumerator FileSorterAnimateOut(string dir)
+    {
+        Vector2 currentTrans = new Vector2(fileSorterActiveFile.resolvedStyle.translate.x, fileSorterActiveFile.resolvedStyle.translate.y);
+        Vector2 targetTrans = currentTrans;
+        
+        if (dir == "Up") targetTrans.y -= 500f;
+        if (dir == "Down") targetTrans.y += 500f;
+        if (dir == "Left") targetTrans.x -= 500f;
+        if (dir == "Right") targetTrans.x += 500f;
+        
+        float t = 0;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 10f;
+            fileSorterActiveFile.style.translate = new Translate(Mathf.Lerp(currentTrans.x, targetTrans.x, t), Mathf.Lerp(currentTrans.y, targetTrans.y, t), 0);
+            yield return null;
+        }
+        
+        fileSorterSortedCount++;
+        if (fileSorterProgressText != null) fileSorterProgressText.text = $"{fileSorterSortedCount} / {currentConfig.fileSorterTarget}";
+        
+        if (fileSorterSortedCount >= currentConfig.fileSorterTarget)
+        {
+            fileSorterActiveFile.style.display = DisplayStyle.None;
+            MarkWinReady();
+        }
+        else
+        {
+            NextFileSorterItem();
+        }
+    }
+    
+    private IEnumerator FileSorterShakeError()
+    {
+        fileSorterActiveFile.style.backgroundColor = new StyleColor(new Color(0.9f, 0.2f, 0.2f));
+        
+        float duration = 0.3f;
+        float elapsed = 0f;
+        float magnitude = 15f;
+        
+        Vector2 baseTrans = new Vector2(fileSorterActiveFile.resolvedStyle.translate.x, fileSorterActiveFile.resolvedStyle.translate.y);
+        
+        while (elapsed < duration && isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float xOffset = Mathf.Sin(elapsed * 40f) * magnitude;
+            fileSorterActiveFile.style.translate = new Translate(baseTrans.x + xOffset, baseTrans.y, 0);
+            yield return null;
+        }
+        
+        fileSorterActiveFile.style.translate = new Translate(0, 0, 0);
+        fileSorterActiveFile.style.backgroundColor = new StyleColor(Color.white);
+    }
+    
+    private IEnumerator FileSorterRoutine()
+    {
+        float timer = currentConfig.timeLimit;
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (fileSorterTimerText != null) fileSorterTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (fileSorterTimerText != null) fileSorterTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+    private void SetupCoffeeWork()
+    {
+        cwEnergy = 100f;
+        cwProgress = 0f;
+        UpdateCwUI();
+        if (cwTimerText != null) cwTimerText.text = $"{currentConfig.timeLimit:F1}s";
+        
+        if (cwBtnType != null)
+        {
+            if (currentGame.name == "Debug CSS at 3 AM")
+                cwBtnType.text = "⌨️ DEBUG CSS";
+            else
+                cwBtnType.text = "⌨️ TYPE SLIDES";
+        }
+        
+        activeGameRoutine = StartCoroutine(CoffeeWorkRoutine());
+    }
+
+    private void UpdateCwUI()
+    {
+        if (cwEnergyFill != null)
+        {
+            cwEnergyFill.style.height = new Length(cwEnergy, LengthUnit.Percent);
+            cwEnergyFill.style.backgroundColor = cwEnergy > 30f ? new StyleColor(new Color(0.96f, 0.62f, 0.04f)) : new StyleColor(Color.red);
+        }
+        if (cwProgressFill != null)
+        {
+            cwProgressFill.style.height = new Length(cwProgress, LengthUnit.Percent);
+        }
+    }
+
+    private void OnCwBtnCoffee()
+    {
+        if (!isPlaying || hasWon) return;
+        cwEnergy = Mathf.Clamp(cwEnergy + currentConfig.coffeeBoost, 0f, 100f);
+        UpdateCwUI();
+    }
+
+    private void OnCwBtnType()
+    {
+        if (!isPlaying || hasWon) return;
+        cwProgress = Mathf.Clamp(cwProgress + currentConfig.workProgressPerTap, 0f, 100f);
+        UpdateCwUI();
+        
+        if (cwProgress >= 100f)
+        {
+            MarkWinReady();
+        }
+    }
+
+    private IEnumerator CoffeeWorkRoutine()
+    {
+        float timer = currentConfig.timeLimit;
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (cwTimerText != null) cwTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            
+            cwEnergy -= currentConfig.coffeeDrainRate * Time.deltaTime;
+            UpdateCwUI();
+            
+            if (cwEnergy <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (cwTimerText != null) cwTimerText.text = "FELL ASLEEP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    cwEnergy = 100f;
+                }
+            }
+            
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (cwTimerText != null) cwTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+    // ==========================================
+    // UNIT TEST RUNNER
+    // ==========================================
+    private void SetupUnitTest()
+    {
+        utCurrentRound = 0;
+        timer = currentConfig.timeLimit;
+        UpdateUtUI();
+        activeGameRoutine = StartCoroutine(UnitTestRoutine());
+    }
+
+    private void UpdateUtUI()
+    {
+        if (utCurrentRound >= currentConfig.unitTestRounds)
+        {
+            MarkWinReady();
+            return;
+        }
+
+        if (utRoundText != null) utRoundText.text = $"Test: {utCurrentRound + 1}/{currentConfig.unitTestRounds}";
+        if (utCodeText != null) utCodeText.text = currentConfig.unitTestQuestions[utCurrentRound];
+        
+        string[] options = currentConfig.unitTestOptions[utCurrentRound];
+        if (utBtnOption1 != null) utBtnOption1.text = options.Length > 0 ? options[0] : "";
+        if (utBtnOption2 != null) utBtnOption2.text = options.Length > 1 ? options[1] : "";
+        if (utBtnOption3 != null) utBtnOption3.text = options.Length > 2 ? options[2] : "";
+    }
+
+    private void OnUtBtnOption(int idx)
+    {
+        if (!isPlaying || hasWon) return;
+        if (utCurrentRound >= currentConfig.unitTestRounds) return;
+
+        if (idx == currentConfig.unitTestCorrectIndices[utCurrentRound])
+        {
+            utCurrentRound++;
+            UpdateUtUI();
+        }
+        else
+        {
+            // Wrong answer penalty: flash button red and reduce time
+            Button clickedBtn = idx == 0 ? utBtnOption1 : (idx == 1 ? utBtnOption2 : utBtnOption3);
+            if (clickedBtn != null)
+            {
+                var originalColor = clickedBtn.style.backgroundColor;
+                clickedBtn.style.backgroundColor = new StyleColor(Color.red);
+                clickedBtn.schedule.Execute(() => { 
+                    if (clickedBtn != null) clickedBtn.style.backgroundColor = originalColor; 
+                }).StartingIn(200);
+            }
+            timer -= 2f;
+        }
+    }
+
+    private IEnumerator UnitTestRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (utTimerText != null) utTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (utTimerText != null) utTimerText.text = "FAILED!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // CENTER DIV
+    // ==========================================
+    private void SetupCenterDiv()
+    {
+        cdCentersComplete = 0;
+        timer = currentConfig.timeLimit;
+        
+        // Randomize initial target box position horizontally (from 20% to 80%)
+        float targetLeft = Random.Range(20f, 80f);
+        if (cdTargetBox != null) cdTargetBox.style.left = new Length(targetLeft, LengthUnit.Percent);
+        
+        cdCurrentSpeed = Random.Range(currentConfig.centerDivSpeedMin, currentConfig.centerDivSpeedMax);
+        cdMovingBoxPos = 0f;
+        cdMovingBoxDir = 1f;
+
+        if (cdRoundText != null) cdRoundText.text = $"Centered: {cdCentersComplete}/{currentConfig.centerDivTargets}";
+        
+        activeGameRoutine = StartCoroutine(CenterDivRoutine());
+    }
+
+    private void OnCdBtnCenter()
+    {
+        if (!isPlaying || hasWon) return;
+
+        // Calculate distance between target and moving box
+        float targetLeft = cdTargetBox != null ? cdTargetBox.style.left.value.value : 50f; 
+        // Note: targetLeft is in percent, movingBoxPos is in percent
+        float dist = Mathf.Abs(targetLeft - cdMovingBoxPos);
+
+        // Tolerance is in percent (e.g. 5% = 50px if container is 1000px)
+        // Using a slightly larger tolerance (15f) to make it easier for players to hit it when it visually aligns
+        float tolerance = 15f; 
+
+        if (dist <= tolerance)
+        {
+            cdCentersComplete++;
+            if (cdRoundText != null) cdRoundText.text = $"Centered: {cdCentersComplete}/{currentConfig.centerDivTargets}";
+            
+            if (cdCentersComplete >= currentConfig.centerDivTargets)
+            {
+                if (cdMovingBox != null) cdMovingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
+                MarkWinReady();
+            }
+            else
+            {
+                // Next target
+                float newTargetLeft = Random.Range(20f, 80f);
+                if (cdTargetBox != null) cdTargetBox.style.left = new Length(newTargetLeft, LengthUnit.Percent);
+                cdCurrentSpeed = Random.Range(currentConfig.centerDivSpeedMin, currentConfig.centerDivSpeedMax);
+                cdMovingBoxPos = Random.value > 0.5f ? 0f : 100f;
+            }
+        }
+        else
+        {
+            // Missed! Penalty
+            timer -= 1.5f;
+            if (cdMovingBox != null) cdMovingBox.style.backgroundColor = new StyleColor(Color.red);
+        }
+    }
+
+    private IEnumerator CenterDivRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (cdTimerText != null) cdTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+
+            // Move the box
+            // Convert speed to percent/sec. Say speed 300 = 30% per second.
+            float percentPerSec = cdCurrentSpeed / 10f; 
+            cdMovingBoxPos += percentPerSec * cdMovingBoxDir * Time.deltaTime;
+
+            if (cdMovingBoxPos >= 100f)
+            {
+                cdMovingBoxPos = 100f;
+                cdMovingBoxDir = -1f;
+            }
+            else if (cdMovingBoxPos <= 0f)
+            {
+                cdMovingBoxPos = 0f;
+                cdMovingBoxDir = 1f;
+            }
+
+            if (cdMovingBox != null) 
+            {
+                cdMovingBox.style.left = new Length(cdMovingBoxPos, LengthUnit.Percent);
+                // Reset color back to orange if it was red from a miss
+                if (cdMovingBox.style.backgroundColor.value != new Color(0.13f, 0.77f, 0.36f) && cdMovingBox.style.backgroundColor.value != new Color(0.96f, 0.62f, 0.04f))
+                {
+                    cdMovingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f));
+                }
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (cdTimerText != null) cdTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+    // ==========================================
+    // DRAG CENTER (Center Content Icons)
+    // ==========================================
+    private void SetupDragCenter()
+    {
+        timer = currentConfig.timeLimit;
+        
+        if (dcRoundText != null) dcRoundText.text = $"Centered: {dcPoints}/3";
+        if (dcTimerText != null) dcTimerText.text = $"{timer:F1}s";
+        
+        if (dcBtnConfirm != null) dcBtnConfirm.style.display = DisplayStyle.Flex;
+        if (dcScoreArea != null) dcScoreArea.style.display = DisplayStyle.None;
+        if (dcTargetCrosshair != null) dcTargetCrosshair.style.display = DisplayStyle.None;
+        
+        // Randomize initial position of the emoji between 10% and 90%
+        if (dcDraggableIcon != null)
+        {
+            dcDraggableIcon.style.left = new Length(Random.Range(10f, 90f), LengthUnit.Percent);
+            dcDraggableIcon.style.top = new Length(Random.Range(10f, 90f), LengthUnit.Percent);
+        }
+
+        dcIsScoring = false;
+        activeGameRoutine = StartCoroutine(DragCenterRoutine());
+    }
+
+    private void OnDcPointerDown(PointerDownEvent ev)
+    {
+        if (!isPlaying || hasWon || dcIsScoring) return;
+        dcIsDragging = true;
+        if (dcDraggableIcon != null) dcDraggableIcon.CapturePointer(ev.pointerId);
+        ev.StopPropagation();
+    }
+
+    private void OnDcPointerMove(PointerMoveEvent ev)
+    {
+        if (!dcIsDragging || !isPlaying || dcDraggableIcon == null || dcWorkArea == null) return;
+        
+        // Convert screen position to local coordinates within the work area
+        Vector2 localPos = dcWorkArea.WorldToLocal(ev.position);
+        
+        // Convert to percentage
+        float width = dcWorkArea.resolvedStyle.width;
+        float height = dcWorkArea.resolvedStyle.height;
+        
+        if (width > 0 && height > 0)
+        {
+            float percentX = (localPos.x / width) * 100f;
+            float percentY = (localPos.y / height) * 100f;
+            
+            dcDraggableIcon.style.left = new Length(Mathf.Clamp(percentX, 0f, 100f), LengthUnit.Percent);
+            dcDraggableIcon.style.top = new Length(Mathf.Clamp(percentY, 0f, 100f), LengthUnit.Percent);
+        }
+    }
+
+    private void OnDcPointerUp(PointerUpEvent ev)
+    {
+        if (dcIsDragging && dcDraggableIcon != null)
+        {
+            dcIsDragging = false;
+            dcDraggableIcon.ReleasePointer(ev.pointerId);
+        }
+    }
+
+    private void OnDcPointerCaptureOut(PointerCaptureOutEvent ev)
+    {
+        dcIsDragging = false;
+    }
+
+    private void OnDcBtnConfirm()
+    {
+        if (!isPlaying || hasWon || dcIsScoring) return;
+        dcIsScoring = true;
+        StartCoroutine(DcScoreAnimation());
+    }
+
+    private IEnumerator DcScoreAnimation()
+    {
+        if (dcBtnConfirm != null) dcBtnConfirm.style.display = DisplayStyle.None;
+        if (dcScoreArea != null) dcScoreArea.style.display = DisplayStyle.Flex;
+        if (dcScoreBarFill != null) dcScoreBarFill.style.width = new Length(0f, LengthUnit.Percent);
+        if (dcScoreText != null) dcScoreText.text = "Accuracy: 0%";
+
+        // Calculate distance from 50%, 50%
+        float px = dcDraggableIcon.style.left.value.value;
+        float py = dcDraggableIcon.style.top.value.value;
+        
+        // Maximum possible distance is to a corner (approx 70.71%)
+        float dist = Vector2.Distance(new Vector2(px, py), new Vector2(50f, 50f));
+        
+        // Convert distance to accuracy (0 distance = 100%, 70.71 distance = 0%)
+        float accuracy = Mathf.Clamp(100f - (dist / 70.71f * 100f), 0f, 100f);
+        
+        // Animate progress bar
+        float animTime = 1.0f;
+        float elapsed = 0f;
+        while (elapsed < animTime)
+        {
+            elapsed += Time.deltaTime;
+            float currentAcc = Mathf.Lerp(0f, accuracy, elapsed / animTime);
+            
+            if (dcScoreBarFill != null) 
+            {
+                dcScoreBarFill.style.width = new Length(currentAcc, LengthUnit.Percent);
+                dcScoreBarFill.style.backgroundColor = new StyleColor(Color.Lerp(new Color(0.93f, 0.26f, 0.22f), new Color(0.13f, 0.77f, 0.36f), currentAcc / 100f));
+            }
+            if (dcScoreText != null) dcScoreText.text = $"Accuracy: {Mathf.RoundToInt(currentAcc)}%";
+            
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (accuracy >= 90f)
+        {
+            dcPoints++;
+            if (dcRoundText != null) dcRoundText.text = $"Centered: {dcPoints}/3";
+            
+            if (dcPoints >= 3)
+            {
+                MarkWinReady();
+                yield break;
+            }
+        }
+        else
+        {
+            // Failed this round
+            if (dcScoreText != null) dcScoreText.text = "FAILED!";
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Setup next round
+        SetupDragCenter();
+    }
+
+    private IEnumerator DragCenterRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            if (!dcIsScoring)
+            {
+                timer -= Time.deltaTime;
+                if (dcTimerText != null) dcTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+
+                if (timer <= 0f)
+                {
+                    if (currentGame.canFail)
+                    {
+                        if (dcTimerText != null) dcTimerText.text = "TIME UP!";
+                        isPlaying = false;
+                        yield break;
+                    }
+                    else
+                    {
+                        MarkWinReady();
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // SIZE MATCH (Fix CSS layout sizes)
+    // ==========================================
+    private void SetupSizeMatch()
+    {
+        timer = currentConfig.timeLimit;
+        
+        if (smRoundText != null) smRoundText.text = $"Matched: {smPoints}/3";
+        if (smTimerText != null) smTimerText.text = $"{timer:F1}s";
+        
+        smCurrentScale = 0.2f;
+        smScaleDir = 1f;
+
+        // Reset color to yellow
+        if (smBtnChangingBox != null) smBtnChangingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f));
+        
+        activeGameRoutine = StartCoroutine(SizeMatchRoutine());
+    }
+
+    private void OnSmBoxClicked()
+    {
+        if (!isPlaying || hasWon) return;
+
+        // Target box is 200x150. We ping pong the button size from 0.2 to 1.5 of the target box size.
+        // Base width = 200, Base height = 150
+
+        
+        // current scale goes from 0.2 to 1.5
+        // At scale 1.0, the width is 200
+        float diff = Mathf.Abs(smCurrentScale - 1.0f);
+
+        // Tolerance: if difference in scale is <= 0.1 (10% difference)
+        float tolerance = 0.1f;
+
+        if (diff <= tolerance)
+        {
+            // Success
+            smPoints++;
+            if (smRoundText != null) smRoundText.text = $"Matched: {smPoints}/3";
+            
+            // Flash green
+            if (smBtnChangingBox != null)
+            {
+                smBtnChangingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
+                smBtnChangingBox.schedule.Execute(() => { 
+                    if (smBtnChangingBox != null) smBtnChangingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); 
+                }).StartingIn(200);
+            }
+
+            if (smPoints >= 3)
+            {
+                MarkWinReady();
+            }
+            else
+            {
+                // Reset scale
+                smCurrentScale = 0.2f;
+                smScaleDir = 1f;
+            }
+        }
+        else
+        {
+            // Missed! Penalty
+            timer -= 1.5f;
+            
+            // Flash red
+            if (smBtnChangingBox != null)
+            {
+                smBtnChangingBox.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.22f));
+                smBtnChangingBox.schedule.Execute(() => { 
+                    if (smBtnChangingBox != null) smBtnChangingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); 
+                }).StartingIn(200);
+            }
+        }
+    }
+
+    private IEnumerator SizeMatchRoutine()
+    {
+        isPlaying = true;
+        
+        float speed = 1.2f; // Scale per second
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (smTimerText != null) smTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+
+            // Ping pong scale between 0.2 and 1.5
+            smCurrentScale += smScaleDir * speed * Time.deltaTime;
+            
+            if (smCurrentScale >= 1.5f)
+            {
+                smCurrentScale = 1.5f;
+                smScaleDir = -1f;
+            }
+            else if (smCurrentScale <= 0.2f)
+            {
+                smCurrentScale = 0.2f;
+                smScaleDir = 1f;
+            }
+
+            // Apply size
+            if (smBtnChangingBox != null)
+            {
+                smBtnChangingBox.style.width = new Length(200f * smCurrentScale, LengthUnit.Pixel);
+                smBtnChangingBox.style.height = new Length(150f * smCurrentScale, LengthUnit.Pixel);
+                
+                // Update text to TAP when in tolerance range
+                if (Mathf.Abs(smCurrentScale - 1.0f) <= 0.1f)
+                {
+                    smBtnChangingBox.text = "TAP";
+                }
+                else
+                {
+                    smBtnChangingBox.text = "this";
+                }
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (smTimerText != null) smTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // STEALTH INJECT (Inject untested code)
+    // ==========================================
+    private void SetupStealthInject()
+    {
+        timer = currentConfig.timeLimit;
+        siProgress = 0f;
+        siIsReviewing = false;
+        siIsHolding = false;
+        siReviewTimer = Random.Range(1.5f, 3.5f);
+        
+        UpdateSiUI();
+        activeGameRoutine = StartCoroutine(StealthInjectRoutine());
+    }
+
+    private void UpdateSiUI()
+    {
+        if (siTimerText != null) siTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+        if (siProgressBarFill != null) siProgressBarFill.style.width = new Length(siProgress, LengthUnit.Percent);
+        
+        if (siIsReviewing)
+        {
+            if (siStatusText != null) siStatusText.text = "REVIEWER CHECKING!";
+            if (siReviewerIcon != null) siReviewerIcon.text = "🚨";
+            if (siReviewerStateText != null) 
+            {
+                siReviewerStateText.text = "DANGER";
+                siReviewerStateText.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.22f)); // red
+            }
+            if (siWorkArea != null) siWorkArea.style.backgroundColor = new StyleColor(new Color(0.4f, 0.1f, 0.1f));
+        }
+        else
+        {
+            if (siStatusText != null) siStatusText.text = "Reviewer distracted...";
+            if (siReviewerIcon != null) siReviewerIcon.text = "🙈";
+            if (siReviewerStateText != null) 
+            {
+                siReviewerStateText.text = "SAFE";
+                siReviewerStateText.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // green
+            }
+            if (siWorkArea != null) siWorkArea.style.backgroundColor = new StyleColor(new Color(0.06f, 0.09f, 0.16f)); // slate-900
+        }
+    }
+
+    private void OnSiPointerDown(PointerDownEvent ev)
+    {
+        if (!isPlaying || hasWon) return;
+        siIsHolding = true;
+        if (siBtnInject != null) siBtnInject.CapturePointer(ev.pointerId);
+    }
+
+    private void OnSiPointerUp(PointerUpEvent ev)
+    {
+        siIsHolding = false;
+        if (siBtnInject != null) siBtnInject.ReleasePointer(ev.pointerId);
+    }
+
+    private void OnSiPointerCaptureOut(PointerCaptureOutEvent ev)
+    {
+        siIsHolding = false;
+    }
+
+    private IEnumerator StealthInjectRoutine()
+    {
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            siReviewTimer -= Time.deltaTime;
+
+            if (siReviewTimer <= 0f)
+            {
+                // Toggle state
+                siIsReviewing = !siIsReviewing;
+                siReviewTimer = siIsReviewing ? Random.Range(1.0f, 2.0f) : Random.Range(2.0f, 4.0f);
+                UpdateSiUI();
+            }
+
+            if (siIsHolding)
+            {
+                if (siIsReviewing)
+                {
+                    // Caught! Apply massive penalty.
+                    siIsHolding = false; // force release internally until they lift and press again
+                    siProgress = Mathf.Max(0f, siProgress - 50f);
+                    
+                    // Flash red intensely
+                    if (siWorkArea != null)
+                    {
+                        siWorkArea.style.backgroundColor = new StyleColor(Color.red);
+                        siWorkArea.schedule.Execute(() => { 
+                            if (siWorkArea != null && siIsReviewing) siWorkArea.style.backgroundColor = new StyleColor(new Color(0.4f, 0.1f, 0.1f)); 
+                        }).StartingIn(300);
+                    }
+                }
+                else
+                {
+                    // Progressing
+                    siProgress += 30f * Time.deltaTime; // Takes ~3.3 seconds of holding to hit 100%
+                    if (siProgress >= 100f)
+                    {
+                        siProgress = 100f;
+                        UpdateSiUI();
+                        MarkWinReady();
+                        yield break;
+                    }
+                }
+            }
+
+            UpdateSiUI();
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (siTimerText != null) siTimerText.text = "TIME UP!";
+                    isPlaying = false;
+                    yield break;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // AUTOMATED TESTS (Flaky tests)
+    // ==========================================
+    private void SetupAutomatedTests()
+    {
+        timer = currentConfig.timeLimit;
+        atSuiteProgress = 0f;
+        atNextFailTimer = Random.Range(1.5f, 3.0f);
+
+        for (int i = 0; i < 5; i++)
+        {
+            atIsFailing[i] = false;
+            atFuses[i] = 0f;
+            UpdateAtTestUI(i);
+        }
+
+        if (atProgressBarFill != null) atProgressBarFill.style.width = new Length(0f, LengthUnit.Percent);
+        if (atTimerText != null) atTimerText.text = $"{timer:F1}s";
+
+        activeGameRoutine = StartCoroutine(AutomatedTestsRoutine());
+    }
+
+    private void UpdateAtTestUI(int index)
+    {
+        if (atBtnTests[index] == null || atStatusTexts[index] == null) return;
+
+        if (atIsFailing[index])
+        {
+            atStatusTexts[index].text = $"FAILING! ({atFuses[index]:F1}s)";
+            atStatusTexts[index].style.color = new StyleColor(new Color(0.93f, 0.26f, 0.22f)); // Red
+            atBtnTests[index].style.backgroundColor = new StyleColor(new Color(0.4f, 0.1f, 0.1f)); // Dark red bg
+        }
+        else
+        {
+            atStatusTexts[index].text = "PASSING";
+            atStatusTexts[index].style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
+            atBtnTests[index].style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f)); // Slate-800
+        }
+    }
+
+    private void OnAtTestClicked(int index)
+    {
+        if (!isPlaying || hasWon) return;
+
+        if (atIsFailing[index])
+        {
+            // Re-run the flaky test!
+            atIsFailing[index] = false;
+            UpdateAtTestUI(index);
+        }
+    }
+
+    private IEnumerator AutomatedTestsRoutine()
+    {
+        isPlaying = true;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            // Suite progress
+            atSuiteProgress = 100f * (1f - (timer / currentConfig.timeLimit));
+            if (atProgressBarFill != null) atProgressBarFill.style.width = new Length(Mathf.Clamp(atSuiteProgress, 0f, 100f), LengthUnit.Percent);
+            if (atTimerText != null) atTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+
+            // Spawn failures
+            atNextFailTimer -= Time.deltaTime;
+            if (atNextFailTimer <= 0f)
+            {
+                // Find a random non-failing test
+                List<int> available = new List<int>();
+                for (int i = 0; i < 5; i++) if (!atIsFailing[i]) available.Add(i);
+                
+                if (available.Count > 0)
+                {
+                    int toFail = available[Random.Range(0, available.Count)];
+                    atIsFailing[toFail] = true;
+                    atFuses[toFail] = 3.0f; // 3 second fuse
+                    UpdateAtTestUI(toFail);
+                }
+
+                // Schedule next fail
+                atNextFailTimer = Random.Range(1.0f, 2.5f);
+            }
+
+            // Tick fuses
+            for (int i = 0; i < 5; i++)
+            {
+                if (atIsFailing[i])
+                {
+                    atFuses[i] -= Time.deltaTime;
+                    UpdateAtTestUI(i); // Update the fuse countdown text
+
+                    if (atFuses[i] <= 0f)
+                    {
+                        // FUSE EXPIRED! Suite crashes.
+                        if (atTimerText != null) atTimerText.text = "SUITE CRASHED!";
+                        
+                        if (currentGame.canFail)
+                        {
+                            isPlaying = false;
+                            yield break;
+                        }
+                        else
+                        {
+                            // If it can't fail, we just reset it and give a huge penalty?
+                            // Or just let them win if time runs out anyway.
+                            // But usually minigames canFail is false if it's a critical path, meaning they MUST win.
+                            // We'll reset the time to 15s so they have to start over?
+                            // Or just force fail, most Career jobs have canFail=true.
+                            timer -= 5f; // Huge penalty
+                            atIsFailing[i] = false;
+                            UpdateAtTestUI(i);
+                        }
+                    }
+                }
+            }
+
+            if (timer <= 0f)
+            {
+                // Ensure no tests are currently failing
+                bool anyFailing = false;
+                for (int i = 0; i < 5; i++) if (atIsFailing[i]) anyFailing = true;
+
+                if (anyFailing)
+                {
+                    if (currentGame.canFail)
+                    {
+                        if (atTimerText != null) atTimerText.text = "FAILED (Flaky test open)";
+                        isPlaying = false;
+                        yield break;
+                    }
+                }
+                else
+                {
+                    if (atTimerText != null) atTimerText.text = "SUITE PASSED!";
+                    MarkWinReady();
+                    yield break;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // CODE COMMENTER (Write flaky test workaround)
+    // ==========================================
+    private void SetupCodeCommenter()
+    {
+        timer = currentConfig.timeLimit;
+        if (ccTimerText != null) ccTimerText.text = $"Time: {timer:F1}s";
+        
+        for (int i = 0; i < 5; i++)
+        {
+            ccLineIsFlaky[i] = false;
+            ccLineCommented[i] = false;
+            ccLineTimers[i] = 0f;
+            UpdateCcLineUI(i);
+        }
+
+        activeGameRoutine = StartCoroutine(CodeCommenterRoutine());
+    }
+
+    private void UpdateCcLineUI(int index)
+    {
+        if (ccLines[index] == null || ccLineTexts[index] == null) return;
+        
+        if (ccLineCommented[index])
+        {
+            ccLines[index].style.backgroundColor = new StyleColor(Color.clear);
+            ccLineTexts[index].text = $"// {ccOriginalTexts[index]}";
+            ccLineTexts[index].style.color = new StyleColor(ColorUtility.TryParseHtmlString("#8b949e", out Color c1) ? c1 : Color.gray);
+            ccLines[index].style.translate = new Translate(0, 0, 0);
+        }
+        else if (ccLineIsFlaky[index])
+        {
+            ccLines[index].style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#e74c3c", out Color c2) ? c2 : Color.red);
+            ccLineTexts[index].text = ccOriginalTexts[index];
+            ccLineTexts[index].style.color = new StyleColor(Color.white);
+        }
+        else
+        {
+            ccLines[index].style.backgroundColor = new StyleColor(Color.clear);
+            ccLineTexts[index].text = ccOriginalTexts[index];
+            ccLineTexts[index].style.color = new StyleColor(ColorUtility.TryParseHtmlString("#c9d1d9", out Color c3) ? c3 : Color.white);
+            ccLines[index].style.translate = new Translate(0, 0, 0);
+        }
+    }
+
+    private void OnCcLineClicked(int index)
+    {
+        if (!isPlaying || currentConfig.type != GameType.CodeCommenter) return;
+        if (ccLineIsFlaky[index] && !ccLineCommented[index])
+        {
+            ccLineIsFlaky[index] = false;
+            ccLineCommented[index] = true;
+            UpdateCcLineUI(index);
+        }
+        else if (!ccLineIsFlaky[index] && !ccLineCommented[index])
+        {
+            // Tapped a green/normal line, they failed the build!
+            if (currentGame.canFail)
+            {
+                if (ccTimerText != null) ccTimerText.text = "BUILD FAILED!";
+                isPlaying = false;
+            }
+        }
+    }
+
+    private IEnumerator CodeCommenterRoutine()
+    {
+        isPlaying = true;
+        float nextFlakeTimer = Random.Range(1.0f, 2.0f);
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (ccTimerText != null) ccTimerText.text = $"Time: {timer:F1}s";
+
+            // Flake triggering
+            nextFlakeTimer -= Time.deltaTime;
+            if (nextFlakeTimer <= 0f)
+            {
+                // Find available lines
+                List<int> available = new List<int>();
+                for(int i=0; i<5; i++) if (!ccLineIsFlaky[i] && !ccLineCommented[i]) available.Add(i);
+                
+                if (available.Count > 0)
+                {
+                    int flakeIdx = available[Random.Range(0, available.Count)];
+                    ccLineIsFlaky[flakeIdx] = true;
+                    ccLineTimers[flakeIdx] = 1.5f; // Time they have to tap it
+                    UpdateCcLineUI(flakeIdx);
+                }
+                
+                nextFlakeTimer = Random.Range(0.8f, 1.8f);
+            }
+
+            // Update flaking lines
+            bool failed = false;
+            for (int i = 0; i < 5; i++)
+            {
+                if (ccLineIsFlaky[i] && !ccLineCommented[i])
+                {
+                    ccLineTimers[i] -= Time.deltaTime;
+                    if (ccLines[i] != null)
+                    {
+                        // Shake
+                        ccLines[i].style.translate = new Translate(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0);
+                    }
+
+                    if (ccLineTimers[i] <= 0f)
+                    {
+                        failed = true;
+                    }
+                }
+            }
+
+            if (failed && currentGame.canFail)
+            {
+                if (ccTimerText != null) ccTimerText.text = "BUILD FAILED!";
+                isPlaying = false;
+                yield break;
+            }
+
+            if (timer <= 0f)
+            {
+                // Survived 10 seconds! Win!
+                if (ccTimerText != null) ccTimerText.text = "SUITE PASSED!";
+                // Reset transforms
+                for(int i=0; i<5; i++) if (ccLines[i] != null) ccLines[i].style.translate = new Translate(0, 0, 0);
+                MarkWinReady();
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // DOCUMENT SIGNER (Approve quarterly budget)
+    // ==========================================
+    private void SetupDocumentSigner()
+    {
+        timer = currentConfig.timeLimit;
+        if (dsTimerText != null) dsTimerText.text = $"{timer:F1}s";
+        
+        // Reset scroll position to top
+        if (dsScrollView != null)
+        {
+            dsScrollView.scrollOffset = Vector2.zero;
+        }
+
+        activeGameRoutine = StartCoroutine(DocumentSignerRoutine());
+    }
+
+    private IEnumerator DocumentSignerRoutine()
+    {
+        isPlaying = true;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            if (dsTimerText != null)
+            {
+                dsTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (dsTimerText != null) dsTimerText.text = "MISSED DEADLINE!";
+                    isPlaying = false;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // CHART ADJUSTER (Board meeting presentation)
+    // ==========================================
+    private void SetupChartAdjuster()
+    {
+        timer = currentConfig.timeLimit;
+        if (caTimerText != null) caTimerText.text = $"{timer:F1}s";
+        if (caStatusText != null) caStatusText.text = "Q3 REVENUE PROJECTIONS";
+        if (caStatusText != null) caStatusText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#1E293B", out Color c1) ? c1 : Color.black);
+        
+        caCompVal = 80f;
+        caOurVal = 20f;
+        
+        if (caCompetitorBar != null) caCompetitorBar.style.height = new Length(caCompVal, LengthUnit.Percent);
+        if (caAverageBar != null) caAverageBar.style.height = new Length(40f, LengthUnit.Percent);
+        if (caOurBar != null) caOurBar.style.height = new Length(caOurVal, LengthUnit.Percent);
+
+        activeGameRoutine = StartCoroutine(ChartAdjusterRoutine());
+    }
+
+    private IEnumerator ChartAdjusterRoutine()
+    {
+        isPlaying = true;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            if (caTimerText != null)
+            {
+                caTimerText.text = $"{Mathf.Max(0, timer):F1}s";
+            }
+            
+            // Check win condition constantly
+            if (caOurVal >= 80f && caCompVal <= 20f)
+            {
+                if (caTimerText != null) caTimerText.text = "BOARD IMPRESSED!";
+                if (caStatusText != null) caStatusText.text = "GROWTH VERIFIED";
+                if (caStatusText != null) caStatusText.style.color = new StyleColor(Color.green);
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (caTimerText != null) caTimerText.text = "BOARD ANGRY!";
+                    isPlaying = false;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // NEURAL ALIGNER (Calibrate neural alignment matrix)
+    // ==========================================
+    private void SetupNeuralAligner()
+    {
+        timer = currentConfig.timeLimit;
+        
+        naMoralTarget = UnityEngine.Random.Range(10f, 90f);
+        naLogicTarget = UnityEngine.Random.Range(10f, 90f);
+        naEmpathyTarget = UnityEngine.Random.Range(10f, 90f);
+
+        if (naMoralSlider != null) naMoralSlider.value = 50f;
+        if (naLogicSlider != null) naLogicSlider.value = 50f;
+        if (naEmpathySlider != null) naEmpathySlider.value = 50f;
+
+        UpdateNeuralAlignerLights();
+
+        activeGameRoutine = StartCoroutine(NeuralAlignerRoutine());
+    }
+
+    private void UpdateNeuralAlignerLights()
+    {
+        float totalError = 0f;
+        
+        if (naMoralSlider != null && naMoralLight != null)
+        {
+            float err = Mathf.Abs(naMoralSlider.value - naMoralTarget);
+            totalError += err;
+            if (err <= 5f) naMoralLight.style.backgroundColor = new StyleColor(Color.green);
+            else if (err <= 25f) naMoralLight.style.backgroundColor = new StyleColor(Color.yellow);
+            else naMoralLight.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#EF4444", out Color c) ? c : Color.red);
+        }
+        if (naLogicSlider != null && naLogicLight != null)
+        {
+            float err = Mathf.Abs(naLogicSlider.value - naLogicTarget);
+            totalError += err;
+            if (err <= 5f) naLogicLight.style.backgroundColor = new StyleColor(Color.green);
+            else if (err <= 25f) naLogicLight.style.backgroundColor = new StyleColor(Color.yellow);
+            else naLogicLight.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#EF4444", out Color c) ? c : Color.red);
+        }
+        if (naEmpathySlider != null && naEmpathyLight != null)
+        {
+            float err = Mathf.Abs(naEmpathySlider.value - naEmpathyTarget);
+            totalError += err;
+            if (err <= 5f) naEmpathyLight.style.backgroundColor = new StyleColor(Color.green);
+            else if (err <= 25f) naEmpathyLight.style.backgroundColor = new StyleColor(Color.yellow);
+            else naEmpathyLight.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#EF4444", out Color c) ? c : Color.red);
+        }
+
+        if (naStatusText != null)
+        {
+            if (totalError <= 15f)
+            {
+                naStatusText.text = "STABILITY: OPTIMAL (ALIGNMENT STABLE)";
+                naStatusText.style.color = new StyleColor(Color.green);
+                naStatusText.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+            }
+            else
+            {
+                naStatusText.text = $"STABILITY: CRITICAL ({totalError:F0}% ERROR)";
+                naStatusText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#EF4444", out Color c) ? c : Color.red);
+                // Shake effect
+                naStatusText.style.translate = new StyleTranslate(new Translate(UnityEngine.Random.Range(-3f, 3f), UnityEngine.Random.Range(-3f, 3f), 0));
+            }
+        }
+    }
+
+    private IEnumerator NeuralAlignerRoutine()
+    {
+        isPlaying = true;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            UpdateNeuralAlignerLights();
+
+            // Check win condition (all within 5)
+            float totalErr = 0f;
+            if (naMoralSlider != null) totalErr += Mathf.Abs(naMoralSlider.value - naMoralTarget);
+            if (naLogicSlider != null) totalErr += Mathf.Abs(naLogicSlider.value - naLogicTarget);
+            if (naEmpathySlider != null) totalErr += Mathf.Abs(naEmpathySlider.value - naEmpathyTarget);
+
+            if (totalErr <= 15f && Mathf.Abs(naMoralSlider.value - naMoralTarget) <= 5f && Mathf.Abs(naLogicSlider.value - naLogicTarget) <= 5f && Mathf.Abs(naEmpathySlider.value - naEmpathyTarget) <= 5f)
+            {
+                if (naStatusText != null)
+                {
+                    naStatusText.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+                }
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f)
+            {
+                if (currentGame.canFail)
+                {
+                    if (naStatusText != null)
+                    {
+                        naStatusText.text = "CORE MELTDOWN!";
+                        naStatusText.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+                    }
+                    isPlaying = false;
+                }
+                else
+                {
+                    MarkWinReady();
+                }
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // SENTIENCE ARRAY
+    // ==========================================
+    private void SetupSentienceArray()
+    {
+        timer = currentConfig.timeLimit;
+        saSentienceLevel = 0f;
+        for (int i=0; i<16; i++) {
+            saHeat[i] = 0f;
+            if (saNodes[i] != null) saNodes[i].style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#1E293B", out Color c) ? c : Color.blue);
+        }
+        if (saProgressFill != null) saProgressFill.style.width = new StyleLength(new Length(0, LengthUnit.Percent));
+        activeGameRoutine = StartCoroutine(SentienceArrayRoutine());
+    }
+    private System.Collections.IEnumerator SentienceArrayRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (saTimerText != null) saTimerText.text = $"{timer:F1}s";
+
+            // Spawn anomalies randomly (slower spawn rate)
+            if (UnityEngine.Random.value < 0.015f) {
+                int r = UnityEngine.Random.Range(0, 16);
+                if (saHeat[r] == 0f) saHeat[r] = 0.01f;
+            }
+
+            for (int i=0; i<16; i++) {
+                if (saHeat[i] > 0f) {
+                    saHeat[i] += Time.deltaTime;
+                    if (saNodes[i] != null) saNodes[i].style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#E74C3C", out Color c) ? c : Color.red);
+                    // If it burns too long, it increases sentience permanently (more reaction time)
+                    if (saHeat[i] > 2.5f) {
+                        saSentienceLevel += 5f; // Less penalty
+                        saHeat[i] = 0f;
+                    }
+                } else {
+                    if (saNodes[i] != null) saNodes[i].style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#1E293B", out Color c) ? c : Color.blue);
+                }
+            }
+
+            if (saProgressFill != null) saProgressFill.style.width = new StyleLength(new Length(Mathf.Clamp(saSentienceLevel, 0, 100), LengthUnit.Percent));
+
+            if (saSentienceLevel >= 100f) {
+                AbortGame(); // Fail
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                MarkWinReady();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // CONTAINMENT PROTOCOL
+    // ==========================================
+    private void SetupContainmentProtocol()
+    {
+        timer = currentConfig.timeLimit;
+        cpGlassLifted = false;
+        cpMashCount = 0;
+        for (int i=0; i<4; i++) {
+            cpSwitchState[i] = false;
+            if (cpSwitches[i] != null) cpSwitches[i].style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        }
+        if (cpGlassCover != null) cpGlassCover.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        if (cpButtonText != null) cpButtonText.text = "LOCKED";
+        activeGameRoutine = StartCoroutine(ContainmentProtocolRoutine());
+    }
+    private System.Collections.IEnumerator ContainmentProtocolRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (cpTimerText != null) cpTimerText.text = $"{timer:F1}s";
+
+            bool allSwitchesDown = true;
+            for (int i=0; i<4; i++) {
+                if (cpSwitches[i] != null) {
+                    cpSwitches[i].style.translate = new StyleTranslate(new Translate(0, cpSwitchState[i] ? 70 : 0, 0));
+                }
+                if (!cpSwitchState[i]) allSwitchesDown = false;
+            }
+
+            if (cpGlassCover != null) {
+                if (allSwitchesDown) {
+                    cpGlassCover.style.backgroundColor = new StyleColor(new Color(0.2f, 1f, 0.2f, 0.4f)); // Glow green
+                    if (cpGlassLifted) cpGlassCover.style.translate = new StyleTranslate(new Translate(0, -200, 0)); // lifted away
+                } else {
+                    cpGlassLifted = false;
+                }
+            }
+
+            if (allSwitchesDown && cpGlassLifted) {
+                if (cpButtonText != null) cpButtonText.text = $"MASH ({cpMashCount}/10)";
+            } else {
+                if (cpButtonText != null) cpButtonText.text = "LOCKED";
+            }
+
+            if (cpMashCount >= 10) {
+                if (cpButtonText != null) cpButtonText.text = "SECURED";
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                isPlaying = false;
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // REWARD LOGIC
+    // ==========================================
+    private float rlCoreY = 0f;
+    private void SetupRewardLogic()
+    {
+        timer = currentConfig.timeLimit;
+        rlCoreY = 0f;
+        for (int i=0; i<3; i++) {
+            rlState[i] = UnityEngine.Random.value > 0.5f; // Random initial directions
+            if (rlArrows[i] != null) rlArrows[i].text = rlState[i] ? "→" : "←";
+        }
+        if (rlCore != null) rlCore.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        activeGameRoutine = StartCoroutine(RewardLogicRoutine());
+    }
+    private System.Collections.IEnumerator RewardLogicRoutine()
+    {
+        isPlaying = true;
+        float speed = 25f; // pixels per second
+        float currentX = 0f;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            if (rlTimerText != null) rlTimerText.text = $"{timer:F1}s";
+
+            rlCoreY += speed * Time.deltaTime;
+
+            // Core routing logic based on junctions
+            // Junction 0 is at Y=80
+            // Junction 1 is at Y=180, X=-75
+            // Junction 2 is at Y=180, X=+75
+            // Endpoints are at Y=300
+            
+            // From top to Level 1
+            if (rlCoreY < 80) {
+                currentX = 0f;
+            }
+            // Passing Level 1 (Junction 0)
+            else if (rlCoreY >= 80 && rlCoreY < 180) {
+                // Smooth transition left or right
+                float t = (rlCoreY - 80) / 100f; // 0 to 1
+                float targetX = rlState[0] ? 75f : -75f;
+                currentX = Mathf.Lerp(0f, targetX, t);
+            }
+            // Passing Level 2 (Junctions 1 or 2)
+            else if (rlCoreY >= 180 && rlCoreY < 280) {
+                float t = (rlCoreY - 180) / 100f; // 0 to 1
+                bool rightSide = (rlState[0] == true); // came from right
+                float targetX = 0f;
+                if (!rightSide) {
+                    targetX = rlState[1] ? 0f : -150f;
+                } else {
+                    targetX = rlState[2] ? 150f : 0f;
+                }
+                currentX = Mathf.Lerp(rightSide ? 75f : -75f, targetX, t);
+            }
+            // Result at bottom
+            else if (rlCoreY >= 280) {
+                // If X > 0 it hits PRESERVE (Green), else DESTROY (Red)
+                if (currentX > 0f) {
+                    MarkWinReady();
+                    yield break;
+                } else {
+                    AbortGame(); // Fail
+                    yield break;
+                }
+            }
+
+            if (rlCore != null) {
+                rlCore.style.translate = new StyleTranslate(new Translate(currentX, rlCoreY, 0));
+            }
+
+            if (timer <= 0f) {
+                isPlaying = false;
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // GALACTIC COUNCIL
+    // ==========================================
+    private class GcProjectile {
+        public VisualElement ve;
+        public Vector2 pos;
+        public Vector2 vel;
+    }
+    private System.Collections.Generic.List<GcProjectile> gcProjs = new System.Collections.Generic.List<GcProjectile>();
+    
+    private void SetupGalacticCouncil()
+    {
+        timer = currentConfig.timeLimit;
+        gcPodiumX = 0f;
+        gcHits = 0;
+        gcProgress = 0f;
+        if (gcPodium != null) gcPodium.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        if (gcProgressFill != null) gcProgressFill.style.width = new StyleLength(new Length(0, LengthUnit.Percent));
+        if (gcProjectileContainer != null) gcProjectileContainer.Clear();
+        gcProjs.Clear();
+        activeGameRoutine = StartCoroutine(GalacticCouncilRoutine());
+    }
+    
+    private System.Collections.IEnumerator GalacticCouncilRoutine()
+    {
+        isPlaying = true;
+        float projTimer = 0f;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            gcProgress += (100f / currentConfig.timeLimit) * Time.deltaTime;
+            
+            if (gcProgressFill != null) gcProgressFill.style.width = new StyleLength(new Length(Mathf.Clamp(gcProgress, 0, 100), LengthUnit.Percent));
+
+            projTimer -= Time.deltaTime;
+            if (projTimer <= 0f) {
+                projTimer = UnityEngine.Random.Range(0.4f, 1.0f);
+                // Spawn projectile from one of the aliens
+                int alien = UnityEngine.Random.Range(0, 3);
+                float startX = (alien == 0) ? 50f : (alien == 1 ? 150f : 250f);
+                var ve = new VisualElement();
+                ve.style.position = Position.Absolute;
+                ve.style.width = 15; ve.style.height = 15; 
+                ve.style.borderTopLeftRadius = 8; ve.style.borderTopRightRadius = 8;
+                ve.style.borderBottomLeftRadius = 8; ve.style.borderBottomRightRadius = 8;
+                ve.style.backgroundColor = Color.red;
+                gcProjectileContainer.Add(ve);
+                
+                // Target player
+                Vector2 startPos = new Vector2(startX, 60f);
+                Vector2 playerPos = new Vector2(150f + gcPodiumX, 290f);
+                Vector2 dir = (playerPos - startPos).normalized;
+                
+                gcProjs.Add(new GcProjectile { ve = ve, pos = startPos, vel = dir * UnityEngine.Random.Range(100f, 250f) });
+            }
+
+            // Move projectiles & check collisions
+            for (int i=gcProjs.Count-1; i>=0; i--) {
+                var p = gcProjs[i];
+                p.pos += p.vel * Time.deltaTime;
+                p.ve.style.left = p.pos.x - 7.5f;
+                p.ve.style.top = p.pos.y - 7.5f;
+                
+                // Collision with podium
+                float playerX = 150f + gcPodiumX;
+                if (p.pos.y > 270f && p.pos.y < 310f && Mathf.Abs(p.pos.x - playerX) < 25f) {
+                    gcHits++;
+                    p.ve.RemoveFromHierarchy();
+                    gcProjs.RemoveAt(i);
+                    // Shake podium
+                    gcPodium.style.translate = new StyleTranslate(new Translate(gcPodiumX + (UnityEngine.Random.value > 0.5f ? 10 : -10), 0, 0));
+                    continue;
+                }
+                
+                if (p.pos.y > 320f || p.pos.x < -20f || p.pos.x > 320f) {
+                    p.ve.RemoveFromHierarchy();
+                    gcProjs.RemoveAt(i);
+                }
+            }
+
+            if (gcHits >= 3) {
+                AbortGame(); // Fail
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                MarkWinReady();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+
+    // ==========================================
+    // FRANTIC BACKSPACE
+    // ==========================================
+    private void SetupFranticBackspace()
+    {
+        timer = currentConfig.timeLimit;
+        fbCurrentMessage = fbOriginalAngryMessage;
+        if (fbPlayerText != null) fbPlayerText.text = fbCurrentMessage + "|";
+        if (fbTimerText != null) fbTimerText.text = $"AUTO-SEND: {timer:F1}s";
+        activeGameRoutine = StartCoroutine(FranticBackspaceRoutine());
+    }
+    
+    private System.Collections.IEnumerator FranticBackspaceRoutine()
+    {
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            if (fbTimerText != null) {
+                fbTimerText.text = $"AUTO-SEND: {timer:F1}s";
+                if (timer <= 2.0f) fbTimerText.style.color = Color.red;
+                else fbTimerText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#DC2626", out Color c) ? c : Color.red);
+            }
+
+            if (fbCurrentMessage.Length == 0) {
+                if (fbPlayerText != null) fbPlayerText.text = "Sounds great! 👍";
+                if (fbTimerText != null) {
+                    fbTimerText.text = "SENT!";
+                    fbTimerText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#166534", out Color g) ? g : Color.green);
+                }
+                yield return new WaitForSeconds(1.0f);
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                if (fbTimerText != null) fbTimerText.text = "SENT (UH OH)";
+                yield return new WaitForSeconds(1.5f);
+                AbortGame(); // Fail
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // FORMAT DASHBOARD (MAKE IT POP)
+    // ==========================================
+    private void SetupFormatDashboard()
+    {
+        timer = currentConfig.timeLimit;
+        fdHoldTimer = 0f;
+        for(int i=0; i<3; i++) {
+            fdValues[i] = 0f;
+            if (fdHandles[i] != null) fdHandles[i].style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        }
+        if (fdProgressFill != null) fdProgressFill.style.width = new StyleLength(new Length(0, LengthUnit.Percent));
+        if (fdTimerText != null) fdTimerText.text = $"{timer:F1}s";
+        activeGameRoutine = StartCoroutine(FormatDashboardRoutine());
+    }
+    
+    private System.Collections.IEnumerator FormatDashboardRoutine()
+    {
+        isPlaying = true;
+        float gravity = 0.40f; // Drops 40% per second
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            if (fdTimerText != null) {
+                fdTimerText.text = $"{timer:F1}s";
+                if (timer <= 3.0f) fdTimerText.style.color = Color.red;
+                else fdTimerText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#9CA3AF", out Color c) ? c : Color.gray);
+            }
+
+            bool allGreen = true;
+
+            for(int i=0; i<3; i++)
+            {
+                // Apply gravity
+                fdValues[i] -= gravity * Time.deltaTime;
+                fdValues[i] = Mathf.Clamp01(fdValues[i]);
+
+                if (fdValues[i] < 0.85f) allGreen = false;
+
+                // Visual update Handle
+                if (fdHandles[i] != null) {
+                    float yOffset = (1f - fdValues[i]) * 160f; // 200 track - 10 padding - 30 handle = 160 travel
+                    fdHandles[i].style.translate = new StyleTranslate(new Translate(0, yOffset, 0));
+                    
+                    if (fdValues[i] >= 0.85f) fdHandles[i].style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#10B981", out Color g) ? g : Color.green);
+                    else fdHandles[i].style.backgroundColor = new StyleColor(i == 0 ? ColorUtility.TryParseHtmlString("#3B82F6", out Color b) ? b : Color.blue : i == 1 ? ColorUtility.TryParseHtmlString("#F59E0B", out Color y) ? y : Color.yellow : ColorUtility.TryParseHtmlString("#EF4444", out Color r) ? r : Color.red);
+                }
+            }
+
+            // Dummy visual chaos
+            float avg = (fdValues[0] + fdValues[1] + fdValues[2]) / 3f;
+            for(int i=0; i<4; i++) {
+                if (fdBars[i] != null) {
+                    float randomJitter = (allGreen ? 0f : Random.Range(-0.1f, 0.1f)) * avg;
+                    float baseH = 0.3f + (0.2f * i);
+                    fdBars[i].style.height = new StyleLength(new Length(Mathf.Clamp01(baseH + randomJitter) * 100f, LengthUnit.Percent));
+                }
+            }
+
+            if (allGreen) {
+                fdHoldTimer += Time.deltaTime;
+            } else {
+                fdHoldTimer = Mathf.Max(0, fdHoldTimer - Time.deltaTime * 2f); // lose progress fast if dropped
+            }
+
+            float progressPct = Mathf.Clamp01(fdHoldTimer / 2.0f);
+            if (fdProgressFill != null) fdProgressFill.style.width = new StyleLength(new Length(progressPct * 100f, LengthUnit.Percent));
+
+            if (progressPct >= 1f) {
+                if (fdTimerText != null) {
+                    fdTimerText.text = "POPPIN!";
+                    fdTimerText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#10B981", out Color g) ? g : Color.green);
+                }
+                yield return new WaitForSeconds(1.0f);
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                if (fdTimerText != null) fdTimerText.text = "FAILED!";
+                yield return new WaitForSeconds(1.5f);
+                AbortGame(); // Fail
+                yield break;
+            }
+            
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // NIGHT SHIFT PITCH
+    // ==========================================
+    private void SetupNightShiftPitch()
+    {
+        timer = currentConfig.timeLimit;
+        nsEyelidGravity = 0f;
+        nsTargets[0] = 0.3f;
+        nsTargets[1] = 0.6f;
+        nsTargets[2] = 0.8f;
+
+        for(int i=0; i<3; i++) {
+            nsValues[i] = 0f;
+            if (nsHandles[i] != null) nsHandles[i].style.left = new StyleLength(new Length(0, LengthUnit.Percent));
+        }
+        if (nsEyelid != null) nsEyelid.style.top = new StyleLength(new Length(-100, LengthUnit.Percent));
+        activeGameRoutine = StartCoroutine(NightShiftRoutine());
+    }
+    
+    private System.Collections.IEnumerator NightShiftRoutine()
+    {
+        isPlaying = true;
+        
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            // Eyelid drops at 20% per second
+            if (nsTimerText != null) {
+                nsTimerText.text = $"{timer:F1}s";
+                nsTimerText.style.color = timer <= 3f ? Color.red : Color.white;
+            }
+            nsEyelidGravity += 0.20f * Time.deltaTime;
+            nsEyelidGravity = Mathf.Clamp01(nsEyelidGravity);
+            
+            if (nsEyelid != null) {
+                // -100% is fully open, 0% is fully closed
+                float topPercent = -100f + (nsEyelidGravity * 100f);
+                nsEyelid.style.top = new StyleLength(new Length(topPercent, LengthUnit.Percent));
+            }
+
+            if (nsEyelidGravity >= 1f) {
+                AbortGame(); // Fell asleep
+                yield break;
+            }
+
+            bool allAligned = true;
+            for(int i=0; i<3; i++)
+            {
+                if (nsHandles[i] != null) {
+                    // Visual offset (assume track is 100% width, handle is 40px, so travel is ~ 100% - 40px)
+                    // We'll just set it via percent for simplicity, but cap it so it doesn't overflow right
+                    float pct = Mathf.Clamp(nsValues[i] * 100f, 0f, 85f);
+                    nsHandles[i].style.left = new StyleLength(new Length(pct, LengthUnit.Percent));
+                }
+                
+                // Target width is ~40px wide, so +/- 0.1f tolerance is generous
+                if (Mathf.Abs(nsValues[i] - nsTargets[i]) > 0.08f) allAligned = false;
+            }
+
+            if (allAligned) {
+                MarkWinReady();
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // YES MAN NOD
+    // ==========================================
+    private string[] ymComplaints = new string[] {
+        "SYNERGY IS DOWN 4%!",
+        "WHO AUTHORIZED THIS BREAK!?",
+        "WE NEED MORE ACTIONABLE METRICS!",
+        "THE MARGINS ARE TOO THIN!",
+        "WHERE IS THE PARADIGM SHIFT!?",
+        "THIS IS UNACCEPTABLE!",
+        "PIVOT! WE NEED TO PIVOT!"
+    };
+
+    private void SetupYesManNod()
+    {
+        timer = currentConfig.timeLimit;
+        if (ymBossBubble != null) ymBossBubble.style.display = DisplayStyle.None;
+        if (ymPlayerBubble != null) ymPlayerBubble.style.display = DisplayStyle.None;
+        activeGameRoutine = StartCoroutine(YesManRoutine());
+    }
+    
+    private System.Collections.IEnumerator YesManRoutine()
+    {
+        isPlaying = true;
+        int complaintsHandled = 0;
+        
+        while (isPlaying && complaintsHandled < 5)
+        {
+            // Brief pause before next complaint
+            yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
+            
+            ymSwipedUp = false;
+            if (ymBossText != null) ymBossText.text = ymComplaints[Random.Range(0, ymComplaints.Length)];
+            if (ymBossBubble != null) ymBossBubble.style.display = DisplayStyle.Flex;
+            if (ymPlayerBubble != null) ymPlayerBubble.style.display = DisplayStyle.None;
+            
+            float reactTimer = 1.8f; // increased because nodding takes longer
+            bool reacted = false;
+            
+            while (reactTimer > 0f) {
+                reactTimer -= Time.deltaTime;
+                timer -= Time.deltaTime;
+                
+                if (ymSwipedUp) {
+                    reacted = true;
+                    break;
+                }
+                if (timer <= 0f) { AbortGame(); yield break; }
+                yield return null;
+            }
+            
+            if (!reacted) {
+                AbortGame(); // Didn't nod in time, fired.
+                yield break;
+            }
+            
+            // Successfully nodded
+            if (ymPlayerBubble != null) ymPlayerBubble.style.display = DisplayStyle.Flex;
+            complaintsHandled++;
+            yield return new WaitForSeconds(0.6f); // let them see the response
+            if (ymBossBubble != null) ymBossBubble.style.display = DisplayStyle.None;
+        }
+
+        MarkWinReady();
+    }
+
+    // ==========================================
+    // VR ARCADE PONG
+    // ==========================================
+    
+    private void OnHsPointerDown(UnityEngine.UIElements.PointerDownEvent ev, int stoneIdx)
+    {
+        if (!isPlaying || hsStonePlaced[stoneIdx]) return;
+        hsActiveStoneIndex = stoneIdx;
+        hsPointerStartPos = ev.position;
+        float currentLeft = hsStones[stoneIdx].resolvedStyle.left;
+        float currentTop = hsStones[stoneIdx].resolvedStyle.top;
+        if (float.IsNaN(currentLeft)) currentLeft = 0;
+        if (float.IsNaN(currentTop)) currentTop = 0;
+        
+        hsStoneStartPos = new UnityEngine.Vector2(currentLeft, currentTop);
+        hsStones[stoneIdx].CapturePointer(ev.pointerId);
+    }
+
+    private void OnHsPointerMove(UnityEngine.UIElements.PointerMoveEvent ev, int stoneIdx)
+    {
+        if (!isPlaying || hsActiveStoneIndex != stoneIdx || hsStonePlaced[stoneIdx]) return;
+        
+        UnityEngine.Vector2 delta = (UnityEngine.Vector2)ev.position - hsPointerStartPos;
+        float newLeft = hsStoneStartPos.x + delta.x;
+        float newTop = hsStoneStartPos.y + delta.y;
+        
+        hsStones[stoneIdx].style.left = newLeft;
+        hsStones[stoneIdx].style.top = newTop;
+        hsStones[stoneIdx].style.bottom = UnityEngine.UIElements.StyleKeyword.Auto;
+        hsStones[stoneIdx].style.right = UnityEngine.UIElements.StyleKeyword.Auto;
+    }
+
+    private void OnHsPointerUp(UnityEngine.UIElements.EventBase ev, int stoneIdx)
+    {
+        if (hsActiveStoneIndex != stoneIdx) return;
+        hsActiveStoneIndex = -1;
+        
+        if (ev is UnityEngine.UIElements.IPointerEvent pointerEvent) {
+            hsStones[stoneIdx].ReleasePointer(pointerEvent.pointerId);
+        }
+        
+        if (hsStonePlaced[stoneIdx]) return;
+
+        UnityEngine.Vector2 sCenter = hsStones[stoneIdx].worldBound.center;
+        
+        for (int i = 0; i < 5; i++) {
+            if (hsSlots[i] == null) continue;
+            
+            UnityEngine.Vector2 targetCenter = hsSlots[i].worldBound.center;
+            
+            if (UnityEngine.Vector2.Distance(sCenter, targetCenter) < 50f) {
+                hsStonePlaced[stoneIdx] = true;
+                hsStones[stoneIdx].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.82f, 0.33f, 0f)); // #D35400
+                // Center the stone roughly in the slot
+                hsStones[stoneIdx].style.left = hsStones[stoneIdx].resolvedStyle.left + (targetCenter.x - sCenter.x);
+                hsStones[stoneIdx].style.top = hsStones[stoneIdx].resolvedStyle.top + (targetCenter.y - sCenter.y);
+                
+                CheckHotStoneWin();
+                return;
+            }
+        }
+    }
+
+    private void CheckHotStoneWin()
+    {
+        bool allPlaced = true;
+        for (int i = 0; i < 5; i++) {
+            if (!hsStonePlaced[i]) {
+                allPlaced = false;
+                break;
+            }
+        }
+        if (allPlaced) {
+            MarkWinReady();
+        }
+    }
+
+    
+    // ==========================================
+    // HOSPITALITY GALA
+    // ==========================================
+    
+
+
+
+
+
+
+
+
+
+
+    // ==========================================
+    // FORGE PASS (ILLEGAL)
+    // ==========================================
+    
+    // ==========================================
+    // SNATCH BRIEFCASE (Dial Spin)
+    // ==========================================
+    private void SetupSnatchBriefcase()
+    {
+        timer = currentConfig.timeLimit;
+        sbCurrentDial = 0;
+        sbSpinTimer = 0f;
+        if (sbStopBtn != null) sbStopBtn.text = "STOP DIAL 1";
+        
+        for (int i=0; i<3; i++) {
+            sbTargetNums[i] = UnityEngine.Random.Range(0, 10);
+            if (sbDials[i] != null) sbDials[i].style.color = UnityEngine.Color.black;
+        }
+        if (sbTargetText != null) sbTargetText.text = $"TARGET: {sbTargetNums[0]} - {sbTargetNums[1]} - {sbTargetNums[2]}";
+        
+        activeGameRoutine = StartCoroutine(SnatchBriefcaseRoutine());
+    }
+
+    private void OnSbStopClicked()
+    {
+        if (!isPlaying || sbCurrentDial >= 3) return;
+        
+        int currentNum = int.Parse(sbDials[sbCurrentDial].text);
+        if (currentNum == sbTargetNums[sbCurrentDial]) {
+            sbDials[sbCurrentDial].style.color = new UnityEngine.Color(0.18f, 0.8f, 0.44f); // Green
+            sbCurrentDial++;
+            if (sbCurrentDial >= 3) {
+                sbStopBtn.text = "UNLOCKED!";
+                MarkWinReady();
+            } else {
+                sbStopBtn.text = $"STOP DIAL {sbCurrentDial + 1}";
+            }
+        } else {
+            sbDials[sbCurrentDial].style.color = new UnityEngine.Color(0.9f, 0.3f, 0.23f); // Red
+            sbStopBtn.text = "WRONG PIN!";
+            AbortGame();
+        }
+    }
+
+    private System.Collections.IEnumerator SnatchBriefcaseRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            sbSpinTimer += UnityEngine.Time.deltaTime;
+            
+            // Speed starts at 0.1 (half of old 0.05). Gets faster with each lock cracked.
+            float currentSpeed = 0.1f - (sbCurrentDial * 0.035f); 
+            if (currentSpeed < 0.02f) currentSpeed = 0.02f;
+            
+            if (sbSpinTimer > currentSpeed) {
+                sbSpinTimer = 0f;
+                for (int i = sbCurrentDial; i < 3; i++) {
+                    if (sbDials[i] != null) {
+                        int currentNum = int.Parse(sbDials[i].text);
+                        sbDials[i].text = ((currentNum + 1) % 10).ToString();
+                    }
+                }
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // SKIM ATM (Wire Connect)
+    // ==========================================
+    private void SetupSkimATM()
+    {
+        timer = currentConfig.timeLimit;
+        saSelectedLeft = -1;
+        
+        // Shuffle colors 0-3 for left
+        System.Collections.Generic.List<int> leftList = new System.Collections.Generic.List<int>{0, 1, 2, 3};
+        System.Collections.Generic.List<int> rightList = new System.Collections.Generic.List<int>{0, 1, 2, 3};
+        
+        for (int i=0; i<4; i++) {
+            int lIdx = UnityEngine.Random.Range(0, leftList.Count);
+            saLeftColors[i] = leftList[lIdx];
+            leftList.RemoveAt(lIdx);
+            
+            int rIdx = UnityEngine.Random.Range(0, rightList.Count);
+            saRightColors[i] = rightList[rIdx];
+            rightList.RemoveAt(rIdx);
+            
+            saLeftConnected[i] = false;
+            saRightConnected[i] = false;
+            
+            if (saLeftNodes[i] != null) {
+                saLeftNodes[i].style.backgroundColor = saColors[saLeftColors[i]];
+                saLeftNodes[i].style.opacity = 1f;
+                saLeftNodes[i].style.borderBottomWidth = 4; saLeftNodes[i].style.borderTopWidth = 4; saLeftNodes[i].style.borderLeftWidth = 4; saLeftNodes[i].style.borderRightWidth = 4;
+            }
+            if (saRightNodes[i] != null) {
+                saRightNodes[i].style.backgroundColor = saColors[saRightColors[i]];
+                saRightNodes[i].style.opacity = 1f;
+            }
+        }
+        
+        activeGameRoutine = StartCoroutine(SkimATMRoutine());
+    }
+
+    private void OnSaLeftClicked(int idx)
+    {
+        if (!isPlaying || saLeftConnected[idx]) return;
+        
+        // Reset old selection border
+        if (saSelectedLeft != -1) saLeftNodes[saSelectedLeft].style.borderBottomColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderTopColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderLeftColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderRightColor = UnityEngine.Color.white;
+        
+        saSelectedLeft = idx;
+        saLeftNodes[idx].style.borderBottomColor = UnityEngine.Color.yellow; saLeftNodes[idx].style.borderTopColor = UnityEngine.Color.yellow; saLeftNodes[idx].style.borderLeftColor = UnityEngine.Color.yellow; saLeftNodes[idx].style.borderRightColor = UnityEngine.Color.yellow;
+    }
+
+    private void OnSaRightClicked(int idx)
+    {
+        if (!isPlaying || saRightConnected[idx] || saSelectedLeft == -1) return;
+        
+        if (saLeftColors[saSelectedLeft] == saRightColors[idx]) {
+            // Match!
+            saLeftConnected[saSelectedLeft] = true;
+            saRightConnected[idx] = true;
+            
+            saLeftNodes[saSelectedLeft].style.opacity = 0.3f;
+            saRightNodes[idx].style.opacity = 0.3f;
+            saLeftNodes[saSelectedLeft].style.borderBottomColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderTopColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderLeftColor = UnityEngine.Color.white; saLeftNodes[saSelectedLeft].style.borderRightColor = UnityEngine.Color.white;
+            
+            saSelectedLeft = -1;
+            
+            // Check win
+            bool win = true;
+            for(int i=0; i<4; i++) {
+                if (!saLeftConnected[i]) win = false;
+            }
+            if (win) MarkWinReady();
+        } else {
+            // Wrong connection! Fail
+            AbortGame();
+        }
+    }
+
+    private System.Collections.IEnumerator SkimATMRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private void SetupForgePass()
+    {
+        timer = currentConfig.timeLimit;
+        fpAttempts = 0;
+        fpSpeed = 600f;
+        fpPassPos = -200f;
+        if (fpStampBtn != null) fpStampBtn.text = "STAMP NOW! (3 LIVES)";
+        if (fpMovingPass != null) fpMovingPass.style.left = fpPassPos;
+        activeGameRoutine = StartCoroutine(ForgePassRoutine());
+    }
+
+    private void OnFpStampClicked()
+    {
+        if (!isPlaying) return;
+        
+        UnityEngine.Vector2 passCenter = fpMovingPass.worldBound.center;
+        UnityEngine.UIElements.VisualElement stampZone = fpContainer.Q<UnityEngine.UIElements.VisualElement>("FpStampZone");
+        UnityEngine.Vector2 stampCenter = stampZone.worldBound.center;
+        
+        float dist = UnityEngine.Vector2.Distance(passCenter, stampCenter);
+        if (dist < 30f) {
+            fpMovingPass.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.18f, 0.8f, 0.44f));
+            MarkWinReady();
+        } else {
+            fpAttempts++;
+            if (fpAttempts >= 3) {
+                fpMovingPass.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.9f, 0.3f, 0.23f));
+                AbortGame();
+            } else {
+                fpSpeed += 300f; // Speed up!
+                fpPassPos = -200f;
+                fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
+            }
+        }
+    }
+
+    private System.Collections.IEnumerator ForgePassRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            
+            fpPassPos += fpSpeed * UnityEngine.Time.deltaTime;
+            if (fpPassPos > 600f) {
+                fpAttempts++;
+                if (fpAttempts >= 3) {
+                    AbortGame();
+                    yield break;
+                } else {
+                    fpSpeed += 300f; // Speed up!
+                    fpPassPos = -200f;
+                    if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
+                }
+            }
+            
+            if (fpMovingPass != null) {
+                fpMovingPass.style.left = fpPassPos;
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private void SetupHospitalityGala()
+    {
+        timer = currentConfig.timeLimit;
+        hgBalance = 0.5f;
+        hgVelocity = 0f;
+        activeGameRoutine = StartCoroutine(HospitalityGalaRoutine());
+    }
+
+    private System.Collections.IEnumerator HospitalityGalaRoutine()
+    {
+        isPlaying = true;
+        float randomDrift = 0f;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            if (hgTimerText != null) hgTimerText.text = $"{UnityEngine.Mathf.Max(0, timer):F1}s";
+            
+            // Apply drift
+            randomDrift += UnityEngine.Random.Range(-2f, 2f) * UnityEngine.Time.deltaTime;
+            randomDrift = UnityEngine.Mathf.Clamp(randomDrift, -0.5f, 0.5f);
+            
+            hgBalance += (hgVelocity + randomDrift) * UnityEngine.Time.deltaTime * 1.5f;
+            
+            if (hgIndicator != null) {
+                hgIndicator.style.left = new UnityEngine.UIElements.StyleLength(new UnityEngine.UIElements.Length(hgBalance * 100f, UnityEngine.UIElements.LengthUnit.Percent));
+            }
+
+            if (hgBalance < 0f || hgBalance > 1f) {
+                if (hgTimerText != null) hgTimerText.text = "SPILLED!";
+                yield return new UnityEngine.WaitForSeconds(1f);
+                AbortGame();
+                yield break;
+            }
+
+            if (timer <= 0f) {
+                MarkWinReady();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // STARTUP PITCH MEETUP
+    // ==========================================
+    private void SetupStartupPitch()
+    {
+        timer = currentConfig.timeLimit;
+        spCurrentReel = 0;
+        spSpinTimer = 0f;
+        if (spStopBtn != null) spStopBtn.text = "STOP REEL 1";
+        for (int i=0; i<3; i++) {
+            if (spSlots[i] != null) {
+                spSlots[i].text = spGoodWords[UnityEngine.Random.Range(0, spGoodWords.Length)];
+                spSlots[i].style.color = UnityEngine.Color.white;
+            }
+        }
+        activeGameRoutine = StartCoroutine(StartupPitchRoutine());
+    }
+
+    private void OnSpStopClicked()
+    {
+        if (!isPlaying || spCurrentReel >= 3) return;
+        
+        string word = spSlots[spCurrentReel].text;
+        bool isGood = System.Array.Exists(spGoodWords, w => w == word);
+        
+        if (isGood) {
+            spSlots[spCurrentReel].style.color = new UnityEngine.Color(0.18f, 0.8f, 0.44f); // Green
+            spCurrentReel++;
+            if (spCurrentReel >= 3) {
+                spStopBtn.text = "FUNDED!";
+                MarkWinReady();
+            } else {
+                spStopBtn.text = $"STOP REEL {spCurrentReel + 1}";
+            }
+        } else {
+            spSlots[spCurrentReel].style.color = new UnityEngine.Color(0.9f, 0.29f, 0.23f); // Red
+            spStopBtn.text = "FAILED PITCH";
+            AbortGame();
+        }
+    }
+
+    private System.Collections.IEnumerator StartupPitchRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            spSpinTimer += UnityEngine.Time.deltaTime;
+            
+            if (spSpinTimer > 0.1f) {
+                spSpinTimer = 0f;
+                // Spin all unstopped reels
+                for (int i = spCurrentReel; i < 3; i++) {
+                    if (spSlots[i] != null) {
+                        bool useGood = UnityEngine.Random.value > 0.3f;
+                        spSlots[i].text = useGood ? 
+                            spGoodWords[UnityEngine.Random.Range(0, spGoodWords.Length)] : 
+                            spBadWords[UnityEngine.Random.Range(0, spBadWords.Length)];
+                    }
+                }
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+
+
+
+    private void SetupHotStoneSpa()
+    {
+        timer = currentConfig.timeLimit;
+        hsActiveStoneIndex = -1;
+        
+        for (int i = 0; i < 5; i++) {
+            hsStonePlaced[i] = false;
+            if (hsStones[i] != null) {
+                hsStones[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.18f, 0.31f, 0.31f)); // #2F4F4F
+                hsStones[i].style.left = UnityEngine.UIElements.StyleKeyword.Auto;
+                hsStones[i].style.top = UnityEngine.UIElements.StyleKeyword.Auto;
+                hsStones[i].style.right = UnityEngine.UIElements.StyleKeyword.Auto;
+                
+                hsStones[i].style.bottom = 20f + UnityEngine.Random.Range(-10f, 10f);
+                float lx = 40f + (i * 60f) + UnityEngine.Random.Range(-10f, 10f);
+                hsStones[i].style.left = lx;
+            }
+        }
+
+        activeGameRoutine = StartCoroutine(HotStoneRoutine());
+    }
+
+    private System.Collections.IEnumerator HotStoneRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            if (hsTimerText != null) hsTimerText.text = $"{UnityEngine.Mathf.Max(0, timer):F1}s";
+            
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    private void SetupVrArcadePong()
+    {
+        timer = currentConfig.timeLimit;
+        vrBounces = 0;
+        vrBallPos = new Vector2(200f, 50f);
+        vrBallVel = new Vector2(Random.value > 0.5f ? 150f : -150f, 200f);
+        vrPaddleX = 200f;
+        
+        if (vrScoreText != null) vrScoreText.text = $"BOUNCES: 0 / 5";
+        if (vrBall != null) {
+            vrBall.style.left = new StyleLength(new Length(vrBallPos.x, LengthUnit.Pixel));
+            vrBall.style.top = new StyleLength(new Length(vrBallPos.y, LengthUnit.Pixel));
+        }
+
+        activeGameRoutine = StartCoroutine(VrArcadeRoutine());
+    }
+    
+    private System.Collections.IEnumerator VrArcadeRoutine()
+    {
+        isPlaying = true;
+        
+        float containerW = 400f;
+        float containerH = 400f;
+
+        float paddleWidth = 100f;
+        float paddleHeight = 20f;
+        float paddleBottomOffset = 10f;
+        float ballSize = 20f;
+
+        while (isPlaying)
+        {
+            timer -= Time.deltaTime;
+            
+            if (vrArcadeContainer != null) {
+                float w = vrArcadeContainer.resolvedStyle.width;
+                float h = vrArcadeContainer.resolvedStyle.height;
+                if (!float.IsNaN(w) && w > 0) containerW = w;
+                if (!float.IsNaN(h) && h > 0) containerH = h;
+            }
+
+            // Move Ball
+            vrBallPos += vrBallVel * Time.deltaTime;
+
+            // Constrain Paddle (centered on vrPaddleX)
+            float paddleLeft = Mathf.Clamp(vrPaddleX - (paddleWidth / 2f), 0, containerW - paddleWidth);
+            if (vrPaddle != null) vrPaddle.style.left = new StyleLength(new Length(paddleLeft, LengthUnit.Pixel));
+
+            // Wall Collisions
+            if (vrBallPos.x <= 0f) {
+                vrBallPos.x = 0f;
+                vrBallVel.x *= -1f;
+            } else if (vrBallPos.x >= containerW - ballSize) {
+                vrBallPos.x = containerW - ballSize;
+                vrBallVel.x *= -1f;
+            }
+
+            if (vrBallPos.y <= 0f) {
+                vrBallPos.y = 0f;
+                vrBallVel.y *= -1f;
+            }
+
+            // Paddle Collision (paddle is at containerH - paddleBottomOffset - paddleHeight)
+            float paddleTopY = containerH - paddleBottomOffset - paddleHeight;
+            
+            if (vrBallVel.y > 0 && vrBallPos.y + ballSize >= paddleTopY && vrBallPos.y < paddleTopY + paddleHeight) {
+                // Check X bounds
+                if (vrBallPos.x + ballSize >= paddleLeft && vrBallPos.x <= paddleLeft + paddleWidth) {
+                    // Bounce!
+                    vrBallPos.y = paddleTopY - ballSize;
+                    vrBallVel.y *= -1f; // go up
+                    
+                    // Add some english based on where it hit the paddle
+                    float hitFactor = (vrBallPos.x + (ballSize/2f)) - (paddleLeft + (paddleWidth/2f));
+                    vrBallVel.x = hitFactor * 5f; // apply horizontal speed based on hit offset
+                    
+                    // Speed up slightly
+                    vrBallVel *= 1.1f;
+                    
+                    vrBounces++;
+                    if (vrScoreText != null) vrScoreText.text = $"BOUNCES: {vrBounces} / 5";
+
+                    if (vrBounces >= 5) {
+                        MarkWinReady();
+                        yield break;
+                    }
+                }
+            }
+
+            // Floor Collision (Miss)
+            if (vrBallPos.y > containerH) {
+                if (vrScoreText != null) vrScoreText.text = "FAILED!";
+                yield return new WaitForSeconds(1.0f);
+                AbortGame();
+                yield break;
+            }
+
+            // Update visuals
+            if (vrBall != null) {
+                vrBall.style.left = new StyleLength(new Length(vrBallPos.x, LengthUnit.Pixel));
+                vrBall.style.top = new StyleLength(new Length(vrBallPos.y, LengthUnit.Pixel));
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // CORPORATE GOLF SIM (Swing Power)
+    // ==========================================
+    private void SetupCorporateGolf()
+    {
+        timer = currentConfig.timeLimit;
+        cgPowerLevel = 0f;
+        cgPowerDir = 1f;
+        cgIsSwinging = false;
+        
+        if (cgPowerFill != null) cgPowerFill.style.height = UnityEngine.UIElements.Length.Percent(0);
+        
+        activeGameRoutine = StartCoroutine(CorporateGolfRoutine());
+    }
+
+    private void OnCgSwingRelease()
+    {
+        if (!isPlaying || !cgIsSwinging) return;
+        cgIsSwinging = false;
+        
+        if (cgPowerLevel >= 30f && cgPowerLevel <= 60f) {
+            MarkWinReady();
+        } else if (cgPowerLevel > 60f) {
+            AbortGame();
+        } else {
+            AbortGame();
+        }
+    }
+
+    private System.Collections.IEnumerator CorporateGolfRoutine()
+    {
+        isPlaying = true;
+        float powerSpeed = 150f;
+        
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            
+            if (cgIsSwinging) {
+                cgPowerLevel += cgPowerDir * powerSpeed * UnityEngine.Time.deltaTime;
+                if (cgPowerLevel > 100f) {
+                    cgPowerLevel = 100f;
+                    cgPowerDir = -1f;
+                } else if (cgPowerLevel < 0f) {
+                    cgPowerLevel = 0f;
+                    cgPowerDir = 1f;
+                }
+                
+                if (cgPowerFill != null) cgPowerFill.style.height = UnityEngine.UIElements.Length.Percent(cgPowerLevel);
+            }
+
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // MOW CORPORATE ASTROTURF (Freeform Drag)
+    // ==========================================
+    private void SetupMowGreens()
+    {
+        timer = currentConfig.timeLimit;
+        mgCutCount = 0;
+        
+        for (int i=0; i<25; i++) {
+            mgCut[i] = false;
+            if (i < mgPatches.Count) mgPatches[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.2f, 0.7f, 0.2f));
+        }
+        
+        activeGameRoutine = StartCoroutine(MowGreensRoutine());
+    }
+
+    private void OnMgPointerMove(UnityEngine.UIElements.EventBase ev)
+    {
+        if (!isPlaying) return;
+        
+        UnityEngine.Vector2 localPos = UnityEngine.Vector2.zero;
+        if (ev is UnityEngine.UIElements.PointerMoveEvent pme) {
+            if (pme.pressedButtons != 1 && pme.pointerType != "touch") return;
+            localPos = pme.localPosition;
+        } else if (ev is UnityEngine.UIElements.PointerDownEvent pde) {
+            localPos = pde.localPosition;
+        } else {
+            return;
+        }
+        
+        for (int i=0; i<25; i++) {
+            if (!mgCut[i] && i < mgPatches.Count) {
+                if (mgPatches[i].layout.Contains(localPos)) {
+                    mgCut[i] = true;
+                    mgCutCount++;
+                    mgPatches[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.5f, 0.8f, 0.5f));
+                }
+            }
+        }
+        
+        if (mgCutCount >= 23) {
+            MarkWinReady();
+        }
+    }
+
+    private System.Collections.IEnumerator MowGreensRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // WALK ROBOTIC DOGS (Tension Management)
+    // ==========================================
+    private void SetupWalkDogs()
+    {
+        timer = currentConfig.timeLimit;
+        
+        for (int i=0; i<3; i++) {
+            wdTension[i] = 0f;
+            if (wdLeashes[i] != null) wdLeashes[i].style.height = UnityEngine.UIElements.Length.Percent(0);
+        }
+        
+        activeGameRoutine = StartCoroutine(WalkDogsRoutine());
+    }
+
+    private void OnWdYank(int idx)
+    {
+        if (!isPlaying) return;
+        wdTension[idx] -= 30f;
+        if (wdTension[idx] < 0f) wdTension[idx] = 0f;
+    }
+
+    private System.Collections.IEnumerator WalkDogsRoutine()
+    {
+        isPlaying = true;
+        float pullSpeed = 40f;
+        
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            
+            for (int i=0; i<3; i++) {
+                wdTension[i] += pullSpeed * UnityEngine.Time.deltaTime;
+                
+                if (UnityEngine.Random.value < 0.02f) wdTension[i] += 10f;
+                
+                if (wdTension[i] > 100f) {
+                    wdTension[i] = 100f;
+                    AbortGame();
+                    yield break;
+                }
+                
+                if (wdLeashes[i] != null) wdLeashes[i].style.height = UnityEngine.UIElements.Length.Percent(wdTension[i]);
+            }
+
+            if (timer <= 0f) {
+                MarkWinReady();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    // ==========================================
+    // RECYCLE BOTTLES (Bag Tear)
+    // ==========================================
+    private void SetupRecycleBottles()
+    {
+        timer = currentConfig.timeLimit;
+        rbSwipes = 0;
+        rbCollected = 0;
+        rbBagOpen = false;
+        
+        if (rbBag != null) {
+            rbBag.style.display = UnityEngine.UIElements.DisplayStyle.Flex;
+            rbBag.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.06f, 0.09f, 0.15f));
+        }
+        if (rbItemsContainer != null) rbItemsContainer.style.display = UnityEngine.UIElements.DisplayStyle.None;
+        if (rbInstructionText != null) rbInstructionText.text = "RIP OPEN THE BAG! (SWIPE 3 TIMES)";
+        
+        for (int i=0; i<6; i++) {
+            if (rbItems[i] != null) rbItems[i].style.display = UnityEngine.UIElements.DisplayStyle.Flex;
+        }
+        
+        activeGameRoutine = StartCoroutine(RecycleBottlesRoutine());
+    }
+
+    private void OnRbSwipe()
+    {
+        if (!isPlaying || rbBagOpen) return;
+        
+        rbSwipes++;
+        if (rbBag != null) {
+            if (rbSwipes == 1) rbBag.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.15f, 0.2f, 0.3f));
+            if (rbSwipes == 2) rbBag.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.2f, 0.3f, 0.4f));
+        }
+        
+        if (rbSwipes >= 3) {
+            rbBagOpen = true;
+            if (rbBag != null) rbBag.style.display = UnityEngine.UIElements.DisplayStyle.None;
+            if (rbItemsContainer != null) rbItemsContainer.style.display = UnityEngine.UIElements.DisplayStyle.Flex;
+            if (rbInstructionText != null) rbInstructionText.text = "COLLECT ALL 3 BOTTLES!";
+        }
+    }
+
+    private void OnRbItemClicked(int idx)
+    {
+        if (!isPlaying || !rbBagOpen) return;
+        
+        if (rbItems[idx].style.display == UnityEngine.UIElements.DisplayStyle.None) return;
+        
+        if (idx < 3) {
+            rbItems[idx].style.display = UnityEngine.UIElements.DisplayStyle.None;
+            rbCollected++;
+            if (rbCollected >= 3) {
+                MarkWinReady();
+            }
+        } else {
+            AbortGame();
+        }
+    }
+
+    private System.Collections.IEnumerator RecycleBottlesRoutine()
+    {
+        isPlaying = true;
+        while (isPlaying)
+        {
+            timer -= UnityEngine.Time.deltaTime;
+            if (timer <= 0f) {
+                AbortGame();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+}

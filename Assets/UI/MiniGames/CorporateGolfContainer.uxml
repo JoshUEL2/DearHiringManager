@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="CorporateGolfContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #14532D; border-radius: 10px; border-width: 6px; border-color: #8B5A2B; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-end; padding-bottom: 40px;">
+                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+                    <ui:Label text="LET THE CEO WIN!" style="font-size: 32px; color: #FCD34D; -unity-font-style: bold; position: absolute; top: 20px;" />
+                    
+                    <!-- Vertical Power Bar -->
+                    <ui:VisualElement style="position: absolute; left: 20px; bottom: 20px; width: 60px; height: 300px; background-color: #064E3B; border-width: 4px; border-color: #FCD34D; border-radius: 10px; justify-content: flex-end; overflow: hidden;">
+                        <ui:VisualElement style="position: absolute; bottom: 0; height: 30%; width: 100%; background-color: #DC2626;" />
+                        <ui:VisualElement style="position: absolute; bottom: 30%; height: 30%; width: 100%; background-color: #F59E0B;" />
+                        <ui:VisualElement style="position: absolute; bottom: 60%; height: 40%; width: 100%; background-color: #10B981;" />
+                        <ui:VisualElement name="CgPowerFill" style="width: 100%; height: 0%; background-color: rgba(255,255,255,0.8);" />
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement style="position: absolute; width: 150px; height: 150px; background-color: #064E3B; border-radius: 75px; top: 80px; justify-content: center; align-items: center;">
+                        <ui:VisualElement style="width: 40px; height: 40px; background-color: black; border-radius: 20px;" />
+                    </ui:VisualElement>
+
+                    <ui:Button name="BtnCgSwing" text="HOLD TO POWER SWING" style="background-color: #FCD34D; color: black; font-size: 24px; padding: 15px 30px; border-radius: 15px; -unity-font-style: bold; margin-left: 100px;" />
+                </ui:VisualElement>
+</ui:UXML>
