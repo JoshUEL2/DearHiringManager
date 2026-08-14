@@ -992,7 +992,6 @@ public partial class MiniGameManager : MonoBehaviour
     // ==========================================
     // 11. MowGreens (Mow Corporate Astroturf)
     // ==========================================
-    private Label mgProgressLabel;
 
     private void SetupMowGreens()
     {
