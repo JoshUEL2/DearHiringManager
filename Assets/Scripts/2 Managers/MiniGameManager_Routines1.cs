@@ -712,41 +712,41 @@ public partial class MiniGameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator GridDodgeRoutine()
+    public void HandleGridDodgeInput(int dx, int dy)
     {
-        sharedInputDx = 0; sharedInputDy = 0;
-        while (isPlaying && currentConfig.type == GameType.GridDodge)
+        if (!isPlaying || currentConfig == null || currentConfig.type != GameType.GridDodge) return;
+        if (dx == 0 && dy == 0) return;
+
+        int nx = gridPlayerX + dx;
+        int ny = gridPlayerY + dy;
+
+        if (nx >= 0 && nx < currentConfig.gridSize && ny >= 0 && ny < currentConfig.gridSize)
         {
-            int dx = sharedInputDx, dy = sharedInputDy;
-            sharedInputDx = 0; sharedInputDy = 0;
-
-            if (dx != 0 || dy != 0)
+            if (gridPathCells.Contains((nx, ny)))
             {
-                int nx = gridPlayerX + dx;
-                int ny = gridPlayerY + dy;
+                gridPlayerX = nx;
+                gridPlayerY = ny;
+                UpdateGridDodgeUI();
 
-                if (nx >= 0 && nx < currentConfig.gridSize && ny >= 0 && ny < currentConfig.gridSize)
+                if (gridPlayerX == currentConfig.gridSize - 1 && gridPlayerY == currentConfig.gridSize - 1)
                 {
-                    if (gridPathCells.Contains((nx, ny)))
-                    {
-                        gridPlayerX = nx;
-                        gridPlayerY = ny;
-                        UpdateGridDodgeUI();
-
-                        if (gridPlayerX == currentConfig.gridSize - 1 && gridPlayerY == currentConfig.gridSize - 1)
-                        {
-                            MarkWinReady();
-                        }
-                    }
-                    else
-                    {
-                        gridHP--;
-                        UpdateGridDodgeUI();
-                        if (gridHP <= 0 && currentGame.canFail) { isPlaying = false; }
-                        else if (gridHP <= 0 && !currentGame.canFail) gridHP = 1; 
-                    }
+                    MarkWinReady();
                 }
             }
+            else
+            {
+                gridHP--;
+                UpdateGridDodgeUI();
+                if (gridHP <= 0 && currentGame.canFail) { isPlaying = false; }
+                else if (gridHP <= 0 && !currentGame.canFail) gridHP = 1; 
+            }
+        }
+    }
+
+    private IEnumerator GridDodgeRoutine()
+    {
+        while (isPlaying && currentConfig.type == GameType.GridDodge)
+        {
             yield return null;
         }
     }

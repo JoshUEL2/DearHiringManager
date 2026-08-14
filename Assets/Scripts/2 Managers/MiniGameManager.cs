@@ -136,16 +136,30 @@ public partial class MiniGameManager : MonoBehaviour
         root.RegisterCallback<PointerDownEvent>(ev => {
             if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
             swipeStartPos = ev.position;
+            root.CapturePointer(ev.pointerId);
+            ev.StopPropagation();
+        });
+
+        root.RegisterCallback<PointerMoveEvent>(ev => {
+            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            ev.StopPropagation(); // Prevent ScrollView from intercepting drag!
         });
 
         root.RegisterCallback<PointerUpEvent>(ev => {
-            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            if (root.HasPointerCapture(ev.pointerId))
+            {
+                root.ReleasePointer(ev.pointerId);
+            }
+            if (!isPlaying || currentConfig == null || currentConfig.type != GameType.GridDodge) return;
             Vector2 delta = (Vector2)ev.position - swipeStartPos;
             if (delta.magnitude > 30f)
             {
-                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y)) sharedInputDx = delta.x > 0 ? 1 : -1;
-                else sharedInputDy = delta.y > 0 ? -1 : 1;
+                int dx = 0, dy = 0;
+                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y)) dx = delta.x > 0 ? 1 : -1;
+                else dy = delta.y > 0 ? 1 : -1;
+                HandleGridDodgeInput(dx, dy);
             }
+            ev.StopPropagation();
         });
 
         root.focusable = true;
@@ -163,7 +177,7 @@ public partial class MiniGameManager : MonoBehaviour
 
             if (currentConfig.type == GameType.GridDodge)
             {
-                sharedInputDx = dx; sharedInputDy = dy;
+                HandleGridDodgeInput(dx, dy);
             }
             else if (currentConfig.type == GameType.SweepFloor)
             {
