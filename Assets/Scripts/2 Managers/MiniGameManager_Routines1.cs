@@ -722,23 +722,21 @@ public partial class MiniGameManager : MonoBehaviour
 
         if (nx >= 0 && nx < currentConfig.gridSize && ny >= 0 && ny < currentConfig.gridSize)
         {
-            if (gridPathCells.Contains((nx, ny)))
-            {
-                gridPlayerX = nx;
-                gridPlayerY = ny;
-                UpdateGridDodgeUI();
+            gridPlayerX = nx;
+            gridPlayerY = ny;
 
-                if (gridPlayerX == currentConfig.gridSize - 1 && gridPlayerY == currentConfig.gridSize - 1)
-                {
-                    MarkWinReady();
-                }
-            }
-            else
+            if (!gridPathCells.Contains((nx, ny)))
             {
                 gridHP--;
-                UpdateGridDodgeUI();
                 if (gridHP <= 0 && currentGame.canFail) { isPlaying = false; }
                 else if (gridHP <= 0 && !currentGame.canFail) gridHP = 1; 
+            }
+
+            UpdateGridDodgeUI();
+
+            if (gridPlayerX == currentConfig.gridSize - 1 && gridPlayerY == currentConfig.gridSize - 1 && isPlaying)
+            {
+                MarkWinReady();
             }
         }
     }
