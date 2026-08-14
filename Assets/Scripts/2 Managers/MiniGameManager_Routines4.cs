@@ -921,12 +921,28 @@ public partial class MiniGameManager : MonoBehaviour
         // Draw line from ball center
         Vector2 ballCenter = cgBallPos + new Vector2(12f, 12f); // ball is 24x24
         
-        cgAimLine.style.left = ballCenter.x - 2f; 
+        cgAimLine.style.left = ballCenter.x - 4f; // 8px wide, so center is -4f
         cgAimLine.style.top = ballCenter.y;
         cgAimLine.style.height = distance;
         
         float angle = Mathf.Atan2(dragVector.y, dragVector.x) * Mathf.Rad2Deg;
         cgAimLine.style.rotate = new Rotate(new Angle(angle - 90f, AngleUnit.Degree));
+
+        // Color gradient based on power (0 to 150)
+        float t = distance / 150f;
+        Color color;
+        if (t < 0.5f) {
+            color = Color.Lerp(Color.yellow, new Color(1f, 0.5f, 0f), t * 2f); // Yellow to Orange
+        } else {
+            color = Color.Lerp(new Color(1f, 0.5f, 0f), Color.red, (t - 0.5f) * 2f); // Orange to Red
+        }
+        
+        cgAimLine.style.backgroundColor = color;
+        
+        Label arrow = cgAimLine.Q<Label>("CgAimArrow");
+        if (arrow != null) {
+            arrow.style.color = color;
+        }
     }
 
     private IEnumerator CorporateGolfRoutine()
