@@ -1092,9 +1092,9 @@ public partial class MiniGameManager : MonoBehaviour
                     if (c.name != "WdHuman") wdPlayArea.Remove(c);
                 }
                 
-                string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕", "🐩", "🦮" };
+                string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕" };
                 
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     // Create Leash
                     UnityEngine.UIElements.VisualElement leash = new UnityEngine.UIElements.VisualElement();
@@ -1118,13 +1118,14 @@ public partial class MiniGameManager : MonoBehaviour
                     
                     // Random starting stats
                     wdDogAngles[i] = UnityEngine.Random.Range(0f, 360f);
-                    wdDogDistances[i] = UnityEngine.Random.Range(20f, 60f); // start somewhat close
-                    wdDogSpeeds[i] = UnityEngine.Random.Range(8f, 15f); // units per second outward
+                    wdDogDistances[i] = UnityEngine.Random.Range(10f, 30f); // start very close
+                    wdDogSpeeds[i] = UnityEngine.Random.Range(15f, 25f); // much faster outward speed
+                    wdDogYankTimers[i] = 0f;
                     
                     int idx = i;
                     dog.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => {
                         if (isPlaying) {
-                            wdDogDistances[idx] = UnityEngine.Mathf.Max(20f, wdDogDistances[idx] - 60f); // Yank back
+                            wdDogYankTimers[idx] = 1.0f; // Set yank timer to 1 second
                         }
                     });
                     
@@ -1163,10 +1164,17 @@ public partial class MiniGameManager : MonoBehaviour
                 
                 float maxAllowedDistance = (UnityEngine.Mathf.Min(containerWidth, containerHeight) / 2f) - 30f; // Snaps if it reaches edges
                 
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    // Move dog outward
-                    wdDogDistances[i] += wdDogSpeeds[i] * UnityEngine.Time.deltaTime;
+                    if (wdDogYankTimers[i] > 0f) {
+                        // Smoothly yank back over 1 second
+                        wdDogYankTimers[i] -= UnityEngine.Time.deltaTime;
+                        wdDogDistances[i] -= 80f * UnityEngine.Time.deltaTime; // Yankee pull strength
+                        wdDogDistances[i] = UnityEngine.Mathf.Max(10f, wdDogDistances[i]); // Min distance floor
+                    } else {
+                        // Move dog outward
+                        wdDogDistances[i] += wdDogSpeeds[i] * UnityEngine.Time.deltaTime;
+                    }
                     
                     // Add some erratic wandering to angle
                     wdDogAngles[i] += UnityEngine.Random.Range(-15f, 15f) * UnityEngine.Time.deltaTime;
