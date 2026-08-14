@@ -1348,10 +1348,9 @@ public partial class MiniGameManager : MonoBehaviour
         }
     }
 
-    // ==========================================
-    // 14. SkimATM (Skim ATM Card Data)
-    // ==========================================
-    private Label saTimerLabel;
+    private UnityEngine.UIElements.Label saTimerLabel;
+    private UnityEngine.UIElements.Label saConnectionLabel;
+
     private void SetupSkimATM()
     {
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 10f;
@@ -1436,7 +1435,7 @@ public partial class MiniGameManager : MonoBehaviour
         saActiveWire.style.backgroundColor = node.style.backgroundColor;
         saActiveWire.style.borderTopLeftRadius = 4;
         saActiveWire.style.borderBottomLeftRadius = 4;
-        saActiveWire.style.transformOrigin = new UnityEngine.UIElements.TransformOrigin(0, UnityEngine.UIElements.LengthUnit.Percent, 50, UnityEngine.UIElements.LengthUnit.Percent);
+        saActiveWire.style.transformOrigin = new UnityEngine.UIElements.TransformOrigin(new UnityEngine.UIElements.Length(0, UnityEngine.UIElements.LengthUnit.Percent), new UnityEngine.UIElements.Length(50, UnityEngine.UIElements.LengthUnit.Percent));
         saActiveWire.pickingMode = UnityEngine.UIElements.PickingMode.Ignore; // Crucial so it doesn't block PointerUp
         
         // Calculate center of start node relative to saWireContainer
