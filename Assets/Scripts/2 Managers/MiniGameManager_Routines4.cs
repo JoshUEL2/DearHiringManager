@@ -1352,7 +1352,7 @@ public partial class MiniGameManager : MonoBehaviour
     // 14. SkimATM (Skim ATM Card Data)
     // ==========================================
     private Label saTimerLabel;
-    private    private void SetupSkimATM()
+    private void SetupSkimATM()
     {
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 10f;
         saConnections = 0;
