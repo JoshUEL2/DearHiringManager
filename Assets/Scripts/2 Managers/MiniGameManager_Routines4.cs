@@ -526,7 +526,6 @@ public partial class MiniGameManager : MonoBehaviour
     }
 
     // --- 8. IceShatter ---
-    private VisualElement isTempFill;
 
     private void SetupIceShatter()
     {
