@@ -623,7 +623,7 @@ public partial class MiniGameManager : MonoBehaviour
     private void SetupGridDodge()
     {
         gridDodgeGrid.Clear();
-        gridCells = new Button[currentConfig.gridSize, currentConfig.gridSize];
+        gridCells = new VisualElement[currentConfig.gridSize, currentConfig.gridSize];
         gridPlayerX = 0;
         gridPlayerY = 0;
         gridHP = currentConfig.gridHealth;
@@ -646,16 +646,26 @@ public partial class MiniGameManager : MonoBehaviour
             row.style.flexGrow = 1;
             for (int x = 0; x < currentConfig.gridSize; x++)
             {
-                var btn = new Button();
+                var btn = new VisualElement();
                 btn.style.flexGrow = 1;
                 btn.style.marginTop = 1; btn.style.marginBottom = 1; btn.style.marginLeft = 1; btn.style.marginRight = 1;
-                btn.style.fontSize = 32;
-                btn.style.color = Color.white;
-                btn.style.unityFontStyleAndWeight = FontStyle.Bold;
+                btn.pickingMode = PickingMode.Ignore; // Crucial: Don't swallow swipe events!
                 
-                // Remove default button border styling for a clean flat look
+                // Remove default styling for a clean flat look
                 btn.style.borderTopWidth = 0; btn.style.borderBottomWidth = 0; btn.style.borderLeftWidth = 0; btn.style.borderRightWidth = 0;
                 btn.style.borderTopLeftRadius = 4; btn.style.borderTopRightRadius = 4; btn.style.borderBottomLeftRadius = 4; btn.style.borderBottomRightRadius = 4;
+                
+                // Add an absolute-positioned label for the emoji so it doesn't affect scaling
+                var iconLabel = new Label("");
+                iconLabel.name = "CellIcon";
+                iconLabel.style.position = Position.Absolute;
+                iconLabel.style.left = 0; iconLabel.style.right = 0; iconLabel.style.top = 0; iconLabel.style.bottom = 0;
+                iconLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+                iconLabel.style.fontSize = 32;
+                iconLabel.style.color = Color.white;
+                iconLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                iconLabel.pickingMode = PickingMode.Ignore;
+                btn.Add(iconLabel);
                 
                 gridCells[x,y] = btn;
                 row.Add(btn);
@@ -674,7 +684,8 @@ public partial class MiniGameManager : MonoBehaviour
             for (int y=0; y<currentConfig.gridSize; y++)
             {
                 var btn = gridCells[x,y];
-                btn.text = "";
+                var iconLabel = btn.Q<Label>("CellIcon");
+                iconLabel.text = "";
                 
                 if (!gridPathCells.Contains((x,y))) 
                     btn.style.backgroundColor = new StyleColor(new Color(0.08f, 0.32f, 0.17f)); // Dark green hedge (#14532D)
@@ -683,19 +694,19 @@ public partial class MiniGameManager : MonoBehaviour
                 
                 if (x == currentConfig.gridSize - 1 && y == currentConfig.gridSize - 1)
                 {
-                    btn.text = "⛲"; // Fountain goal
+                    iconLabel.text = "⛲"; // Fountain goal
                     btn.style.backgroundColor = new StyleColor(new Color(0.38f, 0.65f, 0.98f)); // Cyan water pool
                 }
 
                 if (x == gridPlayerX && y == gridPlayerY)
                 {
-                    if (currentGame.name == "Empty waste bin") btn.text = "🗑️";
-                    else if (currentGame.name == "Walk in the Park") btn.text = "🚶‍♂️";
-                    else if (currentGame.name == "Carry tungsten girders") btn.text = "🏗️";
-                    else btn.text = "P";
+                    if (currentGame.name == "Empty waste bin") iconLabel.text = "🗑️";
+                    else if (currentGame.name == "Walk in the Park") iconLabel.text = "🚶‍♂️";
+                    else if (currentGame.name == "Carry tungsten girders") iconLabel.text = "🏗️";
+                    else iconLabel.text = "P";
                     
                     btn.style.backgroundColor = new StyleColor(new Color(0.95f, 0.95f, 0.95f));
-                    btn.style.color = Color.black;
+                    iconLabel.style.color = Color.black;
                 }
             }
         }

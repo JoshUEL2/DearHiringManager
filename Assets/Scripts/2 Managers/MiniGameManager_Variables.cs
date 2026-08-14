@@ -622,7 +622,7 @@ public partial class MiniGameManager : MonoBehaviour
     private int gridPlayerX = 0, gridPlayerY = 2;
 
     private int gridHP = 3;
-    private Button[,] gridCells;
+    private VisualElement[,] gridCells;
     private HashSet<(int,int)> gridDangerCells = new HashSet<(int,int)>();
     private HashSet<(int,int)> gridPathCells = new HashSet<(int,int)>();
 
