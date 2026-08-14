@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="DragCenterContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+                        <ui:Label name="DcRoundText" text="Centered: 0/3" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                        <ui:Label name="DcTimerText" text="15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+
+                    <!-- The Work Area -->
+                    <ui:VisualElement name="DcWorkArea" style="background-color: #E2E8F0; width: 100%; height: 350px; border-radius: 10px; margin-bottom: 30px; position: relative; overflow: hidden; border-width: 4px; border-color: #94A3B8;">
+                        <!-- The draggable emoji -->
+                        <ui:Label name="DcDraggableIcon" text="📌" style="position: absolute; left: 10%; top: 10%; font-size: 60px; margin-left: -30px; margin-top: -30px; width: 60px; height: 60px; -unity-text-align: middle-center;" />
+                        
+                        <!-- Target crosshair (invisible by default, shows on confirm for feedback) -->
+                        <ui:VisualElement name="DcTargetCrosshair" style="display: none; position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin-left: -20px; margin-top: -20px; border-width: 2px; border-color: red; border-radius: 20px;">
+                            <ui:VisualElement style="position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background-color: red; margin-left: -1px;" />
+                            <ui:VisualElement style="position: absolute; top: 50%; left: 0; right: 0; height: 2px; background-color: red; margin-top: -1px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Score Result Area (shown on confirm) -->
+                    <ui:VisualElement name="DcScoreArea" style="display: none; margin-bottom: 20px; align-items: center;">
+                        <ui:Label name="DcScoreText" text="Accuracy: 0%" style="font-size: 32px; color: white; -unity-font-style: bold; margin-bottom: 10px;" />
+                        <ui:VisualElement style="width: 100%; height: 20px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #38BDF8; overflow: hidden;">
+                            <ui:VisualElement name="DcScoreBarFill" style="width: 0%; height: 100%; background-color: #22C55E; border-radius: 8px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Confirm Button -->
+                    <ui:Button name="DcBtnConfirm" text="[ CONFIRM ]" class="popup-button" style="width: 90%; align-self: center; background-color: #22C55E; color: white; font-size: 38px; -unity-font-style: bold; border-radius: 20px; padding: 25px; border-width: 4px; border-color: #16A34A;" />
+                </ui:VisualElement>
+</ui:UXML>

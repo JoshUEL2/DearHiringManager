@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="SwipeGameContainer" style="display: none; align-items: center; margin-bottom: 30px;">
+                    <ui:Label name="SwipeObstacleText" text="⚠️ OBSTACLE INCOMING!" style="font-size: 34px; color: #E74C3C; -unity-font-style: bold; margin-bottom: 15px;" />
+                    <ui:Label name="SwipeProgressText" text="Dodged: 0 / 5" style="font-size: 28px; color: #38BDF8; -unity-font-style: bold; margin-bottom: 25px;" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: center; margin-bottom: 15px;">
+                        <ui:Button name="BtnDodgeLeft" text="◀ DODGE LEFT" class="popup-button" style="width: 280px; margin-right: 20px; background-color: #0EA5E9;" />
+                        <ui:Button name="BtnDodgeRight" text="DODGE RIGHT ▶" class="popup-button" style="width: 280px; margin-left: 20px; background-color: #0EA5E9;" />
+                    </ui:VisualElement>
+                    <ui:Label name="SwipeTimerText" text="Time: 10s" style="font-size: 26px; color: #94A3B8; margin-top: 10px;" />
+                </ui:VisualElement>
+</ui:UXML>

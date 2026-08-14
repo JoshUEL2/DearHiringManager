@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="ScrubPlateContainer" style="display: none; align-items: center; margin-bottom: 30px; width: 100%;">
+                    <ui:ProgressBar name="ScrubProgressBar" title="Scrub Progress" high-value="100" style="width: 100%; margin-bottom: 20px;" />
+                    <ui:VisualElement name="ScrubPlateArea" style="width: 300px; height: 300px; justify-content: center; align-items: center; position: relative;">
+                        <ui:Label name="ScrubTargetIcon" text="🍽️" style="font-size: 250px; position: absolute; left: 0; top: 0; right: 0; bottom: 0; -unity-text-align: middle-center;" />
+                        <ui:VisualElement name="ScrubDirtOverlay" style="width: 120px; height: 120px; border-radius: 60px; background-color: rgba(90, 45, 20, 0.95); position: absolute; translate: 0 -25px; justify-content: center; align-items: center;">
+                            <ui:VisualElement style="width: 45px; height: 45px; border-radius: 22.5px; background-color: rgba(70, 35, 12, 0.95); position: absolute; top: -10px; left: 20px;" />
+                            <ui:VisualElement style="width: 35px; height: 35px; border-radius: 17.5px; background-color: rgba(60, 30, 10, 0.95); position: absolute; bottom: 10px; right: -15px;" />
+                            <ui:VisualElement style="width: 55px; height: 55px; border-radius: 27.5px; background-color: rgba(80, 40, 15, 0.95); position: absolute; bottom: -15px; left: 15px;" />
+                        </ui:VisualElement>
+                        <ui:Label name="ScrubSponge" text="🧽" style="font-size: 80px; position: absolute; top: 110px; left: 110px; -unity-text-align: middle-center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

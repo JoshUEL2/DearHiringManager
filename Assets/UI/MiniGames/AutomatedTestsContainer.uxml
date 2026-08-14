@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="AutomatedTestsContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 15px;">
+                        <ui:Label text="CI/CD Suite Progress" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                        <ui:Label name="AtTimerText" text="15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+
+                    <!-- Global Progress Bar Area -->
+                    <ui:VisualElement style="width: 100%; height: 30px; background-color: #1E293B; border-radius: 15px; border-width: 2px; border-color: #38BDF8; overflow: hidden; margin-bottom: 20px;">
+                        <ui:VisualElement name="AtProgressBarFill" style="width: 0%; height: 100%; background-color: #38BDF8; border-radius: 12px; transition: width 0.1s;" />
+                    </ui:VisualElement>
+
+                    <!-- Test List -->
+                    <ui:VisualElement style="background-color: #0F172A; border-width: 4px; border-color: #334155; border-radius: 10px; padding: 10px;">
+                        <!-- Row 0 -->
+                        <ui:Button name="AtBtnTest0" class="popup-button" style="flex-direction: row; justify-content: space-between; background-color: #1E293B; border-radius: 8px; margin-bottom: 5px; padding: 15px; border-width: 0; transition: background-color 0.2s;">
+                            <ui:Label name="AtNameText0" text="auth.spec.ts" style="font-size: 22px; color: #F8FAFC; -unity-font-style: bold;" />
+                            <ui:Label name="AtStatusText0" text="PASSING" style="font-size: 22px; color: #22C55E; -unity-font-style: bold;" />
+                        </ui:Button>
+                        <!-- Row 1 -->
+                        <ui:Button name="AtBtnTest1" class="popup-button" style="flex-direction: row; justify-content: space-between; background-color: #1E293B; border-radius: 8px; margin-bottom: 5px; padding: 15px; border-width: 0; transition: background-color 0.2s;">
+                            <ui:Label name="AtNameText1" text="database.spec.ts" style="font-size: 22px; color: #F8FAFC; -unity-font-style: bold;" />
+                            <ui:Label name="AtStatusText1" text="PASSING" style="font-size: 22px; color: #22C55E; -unity-font-style: bold;" />
+                        </ui:Button>
+                        <!-- Row 2 -->
+                        <ui:Button name="AtBtnTest2" class="popup-button" style="flex-direction: row; justify-content: space-between; background-color: #1E293B; border-radius: 8px; margin-bottom: 5px; padding: 15px; border-width: 0; transition: background-color 0.2s;">
+                            <ui:Label name="AtNameText2" text="ui_render.spec.ts" style="font-size: 22px; color: #F8FAFC; -unity-font-style: bold;" />
+                            <ui:Label name="AtStatusText2" text="PASSING" style="font-size: 22px; color: #22C55E; -unity-font-style: bold;" />
+                        </ui:Button>
+                        <!-- Row 3 -->
+                        <ui:Button name="AtBtnTest3" class="popup-button" style="flex-direction: row; justify-content: space-between; background-color: #1E293B; border-radius: 8px; margin-bottom: 5px; padding: 15px; border-width: 0; transition: background-color 0.2s;">
+                            <ui:Label name="AtNameText3" text="payment.spec.ts" style="font-size: 22px; color: #F8FAFC; -unity-font-style: bold;" />
+                            <ui:Label name="AtStatusText3" text="PASSING" style="font-size: 22px; color: #22C55E; -unity-font-style: bold;" />
+                        </ui:Button>
+                        <!-- Row 4 -->
+                        <ui:Button name="AtBtnTest4" class="popup-button" style="flex-direction: row; justify-content: space-between; background-color: #1E293B; border-radius: 8px; margin-bottom: 0; padding: 15px; border-width: 0; transition: background-color 0.2s;">
+                            <ui:Label name="AtNameText4" text="api_router.spec.ts" style="font-size: 22px; color: #F8FAFC; -unity-font-style: bold;" />
+                            <ui:Label name="AtStatusText4" text="PASSING" style="font-size: 22px; color: #22C55E; -unity-font-style: bold;" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

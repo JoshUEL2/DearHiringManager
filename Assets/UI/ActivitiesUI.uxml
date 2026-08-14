@@ -1,0 +1,59 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    <ui:Style src="styles.uss" />
+    <ui:VisualElement class="screen-container modal-container modal-hidden" style="padding-bottom: 160px;">
+        <ui:Button name="BtnCloseModal" text="X" class="modal-close-btn" />
+        <ui:Label text="ACTIVITIES PORTAL" class="header-text" style="color: #38BDF8; margin-bottom: 10px;" />
+        
+        <ui:VisualElement class="row" style="margin-bottom: 20px;">
+            <ui:Button name="BtnTabStress" text="Wellness" class="apply-button" style="flex-grow: 1;" />
+            <ui:Button name="BtnTabMixers" text="Networking" class="apply-button" style="flex-grow: 1;" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="WellnessContainer" style="flex-grow: 1; display: flex;">
+            <ui:ScrollView style="flex-grow: 1; width: 100%;">
+                <ui:VisualElement class="card">
+                    <ui:Label text="Walk in the Park" class="job-title" />
+                    <ui:Button name="BtnPark" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Capsule Arcade VR" class="job-title" />
+                    <ui:Button name="BtnVR" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Volcanic Hot Stone Spa" class="job-title" />
+                    <ui:Button name="BtnOxygen" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Suburban Sensory Mud Spa" class="job-title" />
+                    <ui:Button name="BtnSpa" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Interstellar Cryo Resort" class="job-title" />
+                    <ui:Button name="BtnCryo" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="MixersContainer" style="flex-grow: 1; display: none;">
+            <ui:ScrollView style="flex-grow: 1; width: 100%;">
+                <ui:VisualElement class="card">
+                    <ui:Label text="Manual / Service Mixer" class="job-title" />
+                    <ui:Button name="BtnMixerManual" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Hospitality Mixer" class="job-title" />
+                    <ui:Button name="BtnMixerHospitality" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Tech Mixer" class="job-title" />
+                    <ui:Button name="BtnMixerTech" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card">
+                    <ui:Label text="Corporate Mixer" class="job-title" />
+                    <ui:Button name="BtnMixerCorp" text="Perform" class="apply-button" />
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

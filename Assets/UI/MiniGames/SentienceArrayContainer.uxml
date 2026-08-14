@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="SentienceArrayContainer" style="display: none; width: 100%; flex-direction: column; background-color: #0F172A; padding: 20px; border-radius: 10px; border-width: 4px; border-color: #334155; margin-bottom: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+                        <ui:Label text="SENTIENCE LEVEL:" style="font-size: 24px; color: #CBD5E1; -unity-font-style: bold;" />
+                        <ui:Label name="SaTimerText" text="12.0s" style="font-size: 24px; color: #E74C3C; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="width: 100%; height: 30px; background-color: #1E293B; border-radius: 5px; margin-bottom: 20px; overflow: hidden;">
+                        <ui:VisualElement name="SaProgressFill" style="width: 0%; height: 100%; background-color: #E74C3C;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SaGrid" style="width: 100%; height: 350px; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-content: space-between;">
+"""
+for i in range(16):
+    new_xml += f'                        <ui:VisualElement name="SaNode_{i}" style="width: 23%; height: 23%; background-color: #1E293B; border-radius: 5px; border-width: 2px; border-color: #334155;" />\n'
+
+new_xml += """                    </ui:VisualElement>
+                    <ui:Label text="TAP RED ANOMALIES TO SUPPRESS" style="font-size: 18px; color: #64748B; -unity-text-align: middle-center; margin-top: 15px;" />
+                </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,44 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    <ui:Style src="styles.uss" />
+    <ui:VisualElement class="screen-container modal-container modal-hidden" style="padding-bottom: 160px;">
+        <ui:Button name="BtnCloseModal" text="X" class="modal-close-btn" />
+        <ui:Label text="CAREERS PORTAL" class="header-text" style="color: #38BDF8; margin-bottom: 10px;" />
+        
+        <ui:VisualElement name="JobBoardContainer" style="flex-grow: 1; display: flex;">
+            <ui:Label text="Available Vacancies in your District:" class="sub-text" style="margin-bottom: 10px;" />
+            <ui:ScrollView name="JobScrollView" style="flex-grow: 1;" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="ActiveJobContainer" style="flex-grow: 1; display: none;">
+            <ui:VisualElement class="card">
+                <ui:Label name="JobTitleText" text="Level 1 Job" class="job-title" />
+                <ui:Label name="BaseSalaryText" text="$0" />
+                <ui:Label name="PromoBonusText" text="+0%" />
+                <ui:Label name="HoursAlignText" text="40 hrs/wk" />
+                <ui:Label name="SalaryText" text="Weekly Income: $0" class="job-salary" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="card" style="margin-top: 10px;">
+                <ui:Label name="HoursText" text="40 LABORED HOURS / WEEK" style="-unity-font-style: bold; margin-bottom: 5px; color: #FFFFFF;" />
+                <ui:VisualElement class="row">
+                    <ui:Button name="BtnLessHours" text="Less Hours (-5)" class="apply-button" style="flex-grow: 1; margin-right: 5px;" />
+                    <ui:Button name="BtnMoreHours" text="More Hours (+5)" class="apply-button" style="flex-grow: 1; margin-left: 5px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:Button name="BtnPromotion" text="Ask Manager for Promotion" class="apply-button" style="margin-top: 10px; background-color: #F1C40F; color: #000000;" />
+
+            <ui:VisualElement name="regularTasksContainer" class="card" style="margin-top: 10px;">
+                <ui:Label name="regularTasksStatus" text="REQUIRED WEEKLY DUTIES" class="job-title" style="font-size: 12px; color: #E74C3C;" />
+                <ui:Button name="BtnRegularTask" text="Perform Core Duty" class="danger-button" style="margin-top: 5px;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="extraTasksContainer" class="card" style="margin-top: 10px;">
+                <ui:Label name="extraTasksStatus" text="EXTRA TASKS (SURGES PERFORMANCE)" class="job-title" style="font-size: 12px; color: #2ECC71;" />
+                <ui:Button name="BtnExtraTask" text="Work Overtime Task" class="apply-button" style="margin-top: 5px; background-color: #2ECC71;" />
+            </ui:VisualElement>
+
+            <ui:Button name="BtnQuitJob" text="Resign &amp; Walk Out" class="danger-button" style="margin-top: 20px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

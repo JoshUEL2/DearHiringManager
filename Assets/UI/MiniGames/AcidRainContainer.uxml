@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="AcidRainContainer" style="display: none; align-items: center; flex-direction: column; width: 100%; height: 400px; margin-bottom: 30px;">
+                    
+                    <ui:VisualElement name="AcidRainArea" style="width: 360px; height: 400px; background-color: #0F172A; border-radius: 20px; border-width: 4px; border-color: #1E293B; overflow: hidden; position: relative;">
+                        <!-- Drops Container -->
+                        <ui:VisualElement name="AcidDropContainer" style="position: absolute; width: 100%; height: 100%;" />
+
+                        <!-- Center Pivot (Player) -->
+                        <ui:VisualElement name="AcidSignPivot" style="position: absolute; bottom: 0px; left: 50%; width: 0px; height: 0px; overflow: visible;">
+                            <!-- The Sign Visual (Pivot is at bottom, sign is above at radius 150) -->
+                            <ui:VisualElement name="AcidSignVisual" style="position: absolute; width: 180px; height: 30px; left: -90px; bottom: 150px; background-color: #F1C40F; border-radius: 8px; border-width: 3px; border-color: #D4AC0D; justify-content: center; align-items: center;">
+                            </ui:VisualElement>
+                            <!-- Player icon at pivot -->
+                            <ui:Label text="🧍" style="position: absolute; font-size: 50px; left: -25px; bottom: 0px; -unity-text-align: middle-center;" />
+                        </ui:VisualElement>
+                        
+                        <!-- Health/Burn Bar at Top -->
+                        <ui:VisualElement style="position: absolute; top: 15px; left: 20px; right: 20px; height: 20px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #334155; overflow: hidden;">
+                            <ui:VisualElement name="AcidBurnBar" style="width: 0%; height: 100%; background-color: #2ECC71;" />
+                        </ui:VisualElement>
+                        <ui:Label text="ACID BURN" style="position: absolute; top: 40px; left: 0; right: 0; -unity-text-align: middle-center; color: white; font-size: 14px; -unity-font-style: bold;" />
+                        <ui:Label name="AcidTimerText" text="15.0s" style="position: absolute; top: 65px; left: 0; right: 0; -unity-text-align: middle-center; color: #F1C40F; font-size: 24px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Invisible input area overlay for drag -->
+                    <ui:VisualElement name="AcidInputArea" style="position: absolute; width: 100%; height: 100%;" />
+                </ui:VisualElement>
+</ui:UXML>

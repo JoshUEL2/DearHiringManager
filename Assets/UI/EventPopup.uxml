@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    
+    <ui:Style src="styles.uss" />
+
+    <!-- Default display is now set to none -->
+    <ui:VisualElement name="EventOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.95); justify-content: center; align-items: center; display: none;">
+        
+        <ui:VisualElement class="popup-card">
+            <ui:Label name="EventTitleText" text="WEEKLY EVENT" class="header-text" style="color: #38BDF8; font-size: 50px; white-space: normal; -unity-text-align: middle-center;" />
+            <ui:Label name="EventDescText" text="Event details go here..." class="sub-text" style="font-size: 32px; white-space: normal; margin-top: 20px; margin-bottom: 40px; color: white; -unity-text-align: middle-center;" />
+            
+            <ui:Button name="BtnAcknowledge" text="ACKNOWLEDGE" class="popup-button" />
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>

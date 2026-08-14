@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="TimingRingContainer" style="display: none; align-items: center; margin-bottom: 30px; width: 100%;">
+                    <ui:Label name="TimingRoundText" text="Round: 1 / 5" style="font-size: 28px; color: #F1C40F; -unity-font-style: bold; margin-bottom: 20px;" />
+                    
+                    <ui:VisualElement name="TimingCircle" style="width: 360px; height: 360px; border-radius: 180px; border-width: 6px; border-color: #475569; position: relative; justify-content: center; align-items: center; margin-bottom: 30px;">
+                        
+                        <ui:VisualElement name="TimingGlow" style="position: absolute; width: 360px; height: 360px; left: -6px; top: -6px; justify-content: center; align-items: center; opacity: 0; transform-origin: center;">
+                            <ui:VisualElement name="GlowLayer1" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.9);" />
+                            <ui:VisualElement name="GlowLayer2" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.7);" />
+                            <ui:VisualElement name="GlowLayer3" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.5);" />
+                            <ui:VisualElement name="GlowLayer4" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.3);" />
+                            <ui:VisualElement name="GlowLayer5" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.15);" />
+                            <ui:VisualElement name="GlowLayer6" style="position: absolute; width: 360px; height: 360px; border-radius: 180px; border-width: 0px; border-color: rgba(56,189,248, 0.05);" />
+                        </ui:VisualElement>
+
+                        <!-- Target Zone Rotator -->
+                        <ui:VisualElement name="TimingTargetZone" style="position: absolute; width: 360px; height: 360px; left: -6px; top: -6px; justify-content: flex-start; align-items: center; transform-origin: center;">
+                            <ui:VisualElement name="ArcMaskOuter" style="position: absolute; width: 180px; height: 180px; left: 180px; top: 0px; overflow: hidden;">
+                                <ui:VisualElement name="ArcMaskInner" style="position: absolute; width: 180px; height: 180px; left: 0px; top: 0px; overflow: hidden; transform-origin: 0% 100%; rotate: 45deg;">
+                                    <ui:VisualElement name="ArcRing" style="position: absolute; width: 360px; height: 360px; left: -180px; top: 0px; border-radius: 180px; border-width: 6px; border-color: #2ECC71;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        
+                        <!-- Marker Rotator -->
+                        <ui:VisualElement name="TimingMarker" style="position: absolute; width: 360px; height: 360px; left: -6px; top: -6px; justify-content: center; align-items: center; transform-origin: center;">
+                            <!-- Block Arrow -->
+                            <ui:VisualElement style="align-items: center; justify-content: flex-start; width: 120px; height: 200px;">
+                                <!-- Arrow Head (Triangle) -->
+                                <ui:VisualElement style="width: 0; height: 0; border-bottom-width: 80px; border-bottom-color: #FF2A2A; border-left-width: 60px; border-left-color: transparent; border-right-width: 60px; border-right-color: transparent; border-top-width: 0;" />
+                                <!-- Arrow Tail (Rectangle) -->
+                                <ui:VisualElement style="width: 48px; height: 120px; background-color: #FF2A2A;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:Button name="BtnTimingStrike" text="SPIN!" class="popup-button" style="background-color: #E74C3C; color: white; font-size: 36px; padding: 25px 60px;" />
+                </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="CoffeeWorkContainer" style="display: none; width: 100%; flex-grow: 1; min-height: 500px; flex-direction: column; background-color: #1E293B; padding: 20px; align-items: stretch; justify-content: space-between;">
+                    <ui:Label name="CwTimerText" text="15.0s" style="position: absolute; top: 10px; right: 20px; font-size: 32px; color: #FFFFFF; -unity-font-style: bold; z-index: 10;" />
+                    
+                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around; align-items: stretch; margin-bottom: 20px; margin-top: 40px;">
+                        
+                        <!-- Energy Bar (Left) -->
+                        <ui:VisualElement style="width: 40%; align-items: center;">
+                            <ui:Label text="ENERGY" style="color: #FCD34D; font-size: 24px; -unity-font-style: bold; margin-bottom: 10px;" />
+                            <ui:VisualElement style="width: 100%; flex-grow: 1; background-color: #334155; border-radius: 10px; border-width: 4px; border-color: #0F172A; justify-content: flex-end; overflow: hidden; padding: 4px;">
+                                <ui:VisualElement name="CwEnergyFill" style="width: 100%; height: 100%; background-color: #F59E0B; border-radius: 5px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Progress Bar (Right) -->
+                        <ui:VisualElement style="width: 40%; align-items: center;">
+                            <ui:Label text="SLIDES" style="color: #38BDF8; font-size: 24px; -unity-font-style: bold; margin-bottom: 10px;" />
+                            <ui:VisualElement style="width: 100%; flex-grow: 1; background-color: #334155; border-radius: 10px; border-width: 4px; border-color: #0F172A; justify-content: flex-end; overflow: hidden; padding: 4px;">
+                                <ui:VisualElement name="CwProgressFill" style="width: 100%; height: 0%; background-color: #0284C7; border-radius: 5px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around; height: 120px;">
+                        <!-- Drink Coffee Button (Left) -->
+                        <ui:Button name="CwBtnCoffee" text="☕ DRINK COFFEE" style="width: 45%; height: 100%; font-size: 28px; -unity-font-style: bold; background-color: #F59E0B; color: #78350F; border-radius: 15px; border-width: 4px; border-color: #D97706; white-space: normal;" />
+                        <!-- Type Work Button (Right) -->
+                        <ui:Button name="CwBtnType" text="⌨️ TYPE SLIDES" style="width: 45%; height: 100%; font-size: 28px; -unity-font-style: bold; background-color: #0284C7; color: #E0F2FE; border-radius: 15px; border-width: 4px; border-color: #0369A1; white-space: normal;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

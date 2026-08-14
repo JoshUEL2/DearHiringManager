@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    <ui:Style src="styles.uss" />
+    <ui:VisualElement class="screen-container modal-container modal-hidden" style="padding-bottom: 160px;">
+        <ui:Button name="BtnCloseModal" text="X" class="modal-close-btn" />
+        <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin-bottom: 10px;" />
+        <ui:Label text="Legal blue hustles have 0% arrest risks. Red illegal actions carry severe jail time risks." class="sub-text" />
+        <ui:ScrollView style="flex-grow: 1; width: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>

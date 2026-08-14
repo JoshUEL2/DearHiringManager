@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="DialogueChainContainer" style="display: none; margin-bottom: 30px; padding: 30px; padding-top: 10px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+                        <ui:Label name="DialogueRoundText" text="Round: 1 / 3" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Timer bar -->
+                    <ui:VisualElement style="width: 100%; height: 10px; background-color: #1E293B; border-radius: 5px; margin-bottom: 15px; overflow: hidden;">
+                        <ui:VisualElement name="DialogueTimerBar" style="width: 100%; height: 100%; background-color: #22C55E; border-radius: 5px;" />
+                    </ui:VisualElement>
+                    <!-- Rapport bar -->
+                    <ui:Label text="RAPPORT" style="font-size: 22px; color: #94A3B8; margin-bottom: 5px;" />
+                    <ui:VisualElement style="width: 100%; height: 20px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #38BDF8; margin-bottom: 20px; overflow: hidden;">
+                        <ui:VisualElement name="RapportBar" style="width: 50%; height: 100%; background-color: #38BDF8; border-radius: 8px;" />
+                    </ui:VisualElement>
+                    <!-- Scenario text -->
+                    <ui:Label name="DialogueScenarioText" text="[Scenario text]" style="font-size: 30px; color: #FFFFFF; white-space: normal; margin-bottom: 25px; -unity-font-style: bold;" />
+                    <!-- 3 response buttons -->
+                    <ui:Button name="BtnResponse1" text="Response 1" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="BtnResponse2" text="Response 2" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="BtnResponse3" text="Response 3" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                </ui:VisualElement>
+</ui:UXML>

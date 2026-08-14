@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="DragMatchContainer" style="display: none; align-items: center; margin-bottom: 30px;">
+                    <ui:Label name="MatchPairScoreText" text="Matched: 0 / 5" style="font-size: 28px; color: #2ECC71; -unity-font-style: bold; margin-bottom: 15px;" />
+                    <ui:VisualElement style="flex-direction: column; width: 100%;">
+                        
+                        <!-- GENERATOR CONTRAPTION -->
+                        <ui:VisualElement style="width: 100%; background-color: #1E293B; border-width: 6px; border-color: #0F172A; border-radius: 15px; padding: 20px; flex-direction: row; justify-content: space-between; box-shadow: inset 0px 0px 20px rgba(0,0,0,0.8); margin-bottom: 20px;">
+                            <ui:VisualElement name="DragLeftColumn" style="width: 42%; justify-content: center;">
+                                <!-- Left items generated dynamically -->
+                            </ui:VisualElement>
+                            <ui:VisualElement style="width: 10%; align-items: center; justify-content: center;">
+                                <ui:Label text="⚡" style="font-size: 50px; color: #38BDF8;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DragRightColumn" style="width: 42%; justify-content: center;">
+                                <!-- Right items generated dynamically -->
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- CHEAT SHEET (NOTEPAD STYLE) -->
+                        <ui:VisualElement name="DragCheatSheet" style="width: 100%; background-color: #FDF4DC; border-width: 1px; border-color: #D4C3A3; padding-top: 20px; padding-bottom: 20px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); position: relative;">
+                            <!-- Absolute red margin line -->
+                            <ui:VisualElement style="position: absolute; left: 60px; top: 0; bottom: 0; width: 2px; background-color: #E74C3C;" />
+                            
+                            <ui:VisualElement style="padding-left: 80px; padding-right: 20px;">
+                                <ui:Label text="REFERENCE GUIDE" style="color: black; -unity-font-style: bold; font-size: 26px; border-bottom-width: 2px; border-bottom-color: black; margin-bottom: 15px; padding-bottom: 5px; -unity-text-align: middle-left;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DragCheatSheetList" style="flex-grow: 1; justify-content: center;" />
+                        </ui:VisualElement>
+
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

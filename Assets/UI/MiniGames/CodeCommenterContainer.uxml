@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="CodeCommenterContainer" style="display: none; width: 100%; flex-direction: column; background-color: #0d1117; padding: 20px; border-radius: 10px; border-width: 2px; border-color: #30363d; margin-bottom: 20px;">
+                    <ui:Label name="CcTimerText" text="Time: 10.0s" style="font-size: 24px; color: #8b949e; -unity-font-style: bold; margin-bottom: 15px; -unity-text-align: middle-right;" />
+                    <ui:VisualElement name="CcLineContainer" style="flex-direction: column; width: 100%;">
+                        <ui:Button name="CcLine0" class="popup-button" style="background-color: transparent; border-width: 0; padding: 10px; margin-bottom: 5px; -unity-text-align: middle-left;">
+                            <ui:Label name="CcLineText0" text="Assert.IsNotNull(dbContext);" style="font-size: 22px; color: #c9d1d9; -unity-font-style: normal;" />
+                        </ui:Button>
+                        <ui:Button name="CcLine1" class="popup-button" style="background-color: transparent; border-width: 0; padding: 10px; margin-bottom: 5px; -unity-text-align: middle-left;">
+                            <ui:Label name="CcLineText1" text="Assert.AreEqual(200, res.Status);" style="font-size: 22px; color: #c9d1d9; -unity-font-style: normal;" />
+                        </ui:Button>
+                        <ui:Button name="CcLine2" class="popup-button" style="background-color: transparent; border-width: 0; padding: 10px; margin-bottom: 5px; -unity-text-align: middle-left;">
+                            <ui:Label name="CcLineText2" text="Assert.IsTrue(res.IsValid());" style="font-size: 22px; color: #c9d1d9; -unity-font-style: normal;" />
+                        </ui:Button>
+                        <ui:Button name="CcLine3" class="popup-button" style="background-color: transparent; border-width: 0; padding: 10px; margin-bottom: 5px; -unity-text-align: middle-left;">
+                            <ui:Label name="CcLineText3" text="Assert.AreEqual(user.Id, 1);" style="font-size: 22px; color: #c9d1d9; -unity-font-style: normal;" />
+                        </ui:Button>
+                        <ui:Button name="CcLine4" class="popup-button" style="background-color: transparent; border-width: 0; padding: 10px; margin-bottom: 5px; -unity-text-align: middle-left;">
+                            <ui:Label name="CcLineText4" text="Assert.IsFalse(hasErrors);" style="font-size: 22px; color: #c9d1d9; -unity-font-style: normal;" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

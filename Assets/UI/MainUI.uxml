@@ -1,0 +1,81 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    
+    <ui:Style src="styles.uss" />
+
+    <ui:VisualElement class="screen-container" style="justify-content: flex-start; align-items: center; padding: 40px; padding-bottom: 80px;">
+        
+        <!-- Header Section -->
+        <ui:Label text="CITIZEN REGISTRY OFFICE" class="header-text" style="color: #F1C40F; font-size: 60px; -unity-font-style: bold; margin-top: 40px; margin-bottom: 10px; -unity-text-align: middle-center;" />
+        <ui:Label text="Official Citizen Database Integration v2.84" class="sub-text" style="color: #94A3B8; font-size: 32px; margin-bottom: 60px; -unity-text-align: middle-center;" />
+        
+        <!-- Step 1: Name Input -->
+        <ui:VisualElement name="Step1Container" style="width: 100%; align-items: center; flex-grow: 1;">
+            
+            <ui:Label text="CITIZEN INITIALIZATION" style="color: #38BDF8; font-size: 32px; -unity-font-style: bold; margin-bottom: 15px; -unity-text-align: middle-center;" />
+            
+            <ui:VisualElement class="card" style="border-color: #F1C40F; border-width: 4px; border-radius: 30px; padding: 50px; background-color: rgba(26, 36, 54, 0.9);">
+                <ui:Label text="REGISTER CITIZEN LEGAL NAME:" style="color: #FFFFFF; font-size: 32px; -unity-font-style: bold; margin-bottom: 20px;" />
+                <ui:TextField name="NameInput" text="" style="height: 80px; font-size: 36px; border-radius: 12px; margin-bottom: 20px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:Button name="BtnRandomizeBackstory" text="CALIBRATE CITIZEN" class="action-button" style="background-color: #F1C40F; color: #0A1128; font-size: 42px; padding: 30px; border-radius: 20px; width: 100%;" />
+        </ui:VisualElement>
+
+        <!-- Step 2: Backstory Reveal (Hidden by default) -->
+        <ui:VisualElement name="Step2Container" style="width: 100%; display: none; align-items: center; flex-grow: 1;">
+            
+            <ui:Label text="YOUR RANDOMIZED BIOGRAPHY" style="color: #38BDF8; font-size: 32px; -unity-font-style: bold; margin-bottom: 15px; -unity-text-align: middle-center;" />
+            
+            <!-- Main Content Card -->
+            <ui:VisualElement class="card" style="border-color: #F1C40F; border-width: 4px; border-radius: 30px; padding: 40px; background-color: rgba(26, 36, 54, 0.9); flex-shrink: 1;">
+                
+                <ui:Label text="Greeting, citizen!" name="GreetingText" style="color: #FFFFFF; font-size: 50px; -unity-font-style: bold; margin-bottom: 20px;" />
+                <ui:Label name="BackstoryTitleText" text="Assigned Biography: [Title]" style="color: #F1C40F; font-size: 38px; -unity-font-style: bold; margin-bottom: 20px; white-space: normal;" />
+                <ui:Label name="BackstoryDescText" text="[Description]" style="color: #94A3B8; font-size: 32px; white-space: normal; line-height: 40px;" />
+                
+                <!-- Separator -->
+                <ui:VisualElement style="height: 2px; background-color: #475569; margin-top: 40px; margin-bottom: 40px; width: 100%;" />
+                
+                <ui:Label text="INITIAL REGISTRATION ASSETS:" style="color: #38BDF8; font-size: 30px; -unity-font-style: bold; margin-bottom: 25px;" />
+                
+                <ui:VisualElement class="row" style="margin-bottom: 15px;">
+                    <ui:Label text="Starting Cash Wallet:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="StartCashText" text="$0" style="color: #2ECC71; font-size: 30px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="row" style="margin-bottom: 15px;">
+                    <ui:Label text="Beginning Stress Level:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="StartStressText" text="0%" style="color: #E74C3C; font-size: 30px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+
+                <!-- Additional Stats -->
+                <ui:VisualElement class="row" style="margin-bottom: 15px; margin-top: 15px;">
+                    <ui:Label text="Service Career Entry Luck:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="LuckServiceText" text="30%" style="color: #FFFFFF; font-size: 30px;" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="row" style="margin-bottom: 15px;">
+                    <ui:Label text="Hospitality Entry Luck:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="LuckHospitalityText" text="95%" style="color: #FFFFFF; font-size: 30px;" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="row" style="margin-bottom: 15px;">
+                    <ui:Label text="Technology Entry Luck:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="LuckTechText" text="10%" style="color: #FFFFFF; font-size: 30px;" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="row" style="margin-bottom: 15px;">
+                    <ui:Label text="Corporate Entry Luck:" style="color: #94A3B8; font-size: 30px;" />
+                    <ui:Label name="LuckCorpText" text="30%" style="color: #FFFFFF; font-size: 30px;" />
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="flex-grow: 1;" />
+            <ui:Button name="BeginButton" text="BEGIN" class="action-button" style="background-color: #2ECC71; color: #0A1128; font-size: 42px; padding: 30px; border-radius: 20px; width: 100%; margin-top: 20px;" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>

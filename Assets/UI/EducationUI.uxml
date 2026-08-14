@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    <ui:Style src="styles.uss" />
+    <ui:VisualElement class="screen-container modal-container modal-hidden" style="padding-bottom: 160px;">
+        <ui:Button name="BtnCloseModal" text="X" class="modal-close-btn" />
+        <ui:Label text="EDUCATION PORTAL" class="header-text" style="color: #38BDF8; margin-bottom: 10px;" />
+        
+        <ui:VisualElement name="ActiveEnrollmentContainer" class="card" style="display: none; margin-bottom: 20px;">
+            <ui:Label name="ActiveCourseNameText" text="Course Name" class="job-title" />
+            <ui:Label name="ActiveCostText" text="$0" />
+            <ui:Label name="ActiveProgressText" text="0%" />
+            <ui:VisualElement class="progress-track">
+                <ui:VisualElement name="ActiveCourseProgressFill" class="progress-fill" style="background-color: #F1C40F;" />
+            </ui:VisualElement>
+            <ui:Button name="BtnDropout" text="Drop Out" class="danger-button" style="margin-top: 10px;" />
+        </ui:VisualElement>
+
+        <ui:ScrollView name="CourseScrollView" style="flex-grow: 1; width: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>

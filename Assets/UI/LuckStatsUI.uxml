@@ -1,0 +1,66 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    <ui:Style src="styles.uss" />
+
+    <ui:VisualElement name="LuckPopupOverlay" class="popup-overlay" style="display: flex; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center;">
+        
+        <ui:VisualElement class="popup-panel" style="background-color: #FFFFFF; border-radius: 40px; width: 90%; max-width: 900px; padding: 60px;">
+            
+            <ui:Label text="Career Luck Statistics" style="font-size: 60px; -unity-font-style: bold; color: #0288D1; margin-bottom: 40px; white-space: normal;" />
+            <ui:Label text="Professional networking permanently raises your application acceptance rates. Higher stress levels apply severe interview luck penalties." style="font-size: 32px; color: #7F8C8D; margin-bottom: 50px; white-space: normal;" />
+            
+            <!-- Manual Luck -->
+            <ui:VisualElement style="margin-bottom: 30px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+                    <ui:Label text="Manual/Service (Dishwasher)" style="font-size: 34px; -unity-font-style: bold; color: #2C3E50;" />
+                    <ui:Label name="LblLuckManual" text="30%" style="font-size: 34px; -unity-font-style: bold; color: #0288D1;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="progress-track" style="background-color: #E5E8E8; height: 16px; border-radius: 8px;">
+                    <ui:VisualElement name="FillLuckManual" class="progress-fill" style="width: 30%; background-color: #0288D1; height: 16px; border-radius: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Hospitality Luck -->
+            <ui:VisualElement style="margin-bottom: 30px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+                    <ui:Label text="Hospitality/Shift Manager" style="font-size: 34px; -unity-font-style: bold; color: #2C3E50;" />
+                    <ui:Label name="LblLuckHospitality" text="95%" style="font-size: 34px; -unity-font-style: bold; color: #0288D1;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="progress-track" style="background-color: #E5E8E8; height: 16px; border-radius: 8px;">
+                    <ui:VisualElement name="FillLuckHospitality" class="progress-fill" style="width: 95%; background-color: #0288D1; height: 16px; border-radius: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Tech Luck -->
+            <ui:VisualElement style="margin-bottom: 30px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+                    <ui:Label text="Technology/React Trainee" style="font-size: 34px; -unity-font-style: bold; color: #2C3E50;" />
+                    <ui:Label name="LblLuckTech" text="10%" style="font-size: 34px; -unity-font-style: bold; color: #0288D1;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="progress-track" style="background-color: #E5E8E8; height: 16px; border-radius: 8px;">
+                    <ui:VisualElement name="FillLuckTech" class="progress-fill" style="width: 10%; background-color: #0288D1; height: 16px; border-radius: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Corp Luck -->
+            <ui:VisualElement style="margin-bottom: 50px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+                    <ui:Label text="Corporate Executive (CEO)" style="font-size: 34px; -unity-font-style: bold; color: #2C3E50;" />
+                    <ui:Label name="LblLuckCorp" text="30%" style="font-size: 34px; -unity-font-style: bold; color: #0288D1;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="progress-track" style="background-color: #E5E8E8; height: 16px; border-radius: 8px;">
+                    <ui:VisualElement name="FillLuckCorp" class="progress-fill" style="width: 30%; background-color: #0288D1; height: 16px; border-radius: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Average Block -->
+            <ui:VisualElement style="background-color: #F8F9F9; border-radius: 16px; padding: 25px; flex-direction: row; justify-content: space-between; margin-bottom: 50px;">
+                <ui:Label text="AVERAGE ADMISSION LUCK" style="font-size: 28px; -unity-font-style: bold; color: #112233;" />
+                <ui:Label name="LblAverageLuck" text="41%" style="font-size: 34px; -unity-font-style: bold; color: #0288D1;" />
+            </ui:VisualElement>
+
+            <!-- Dismiss Button -->
+            <ui:Button name="BtnDismissLuckPopup" text="Dismiss" class="card-btn" style="background-color: #0288D1; color: white; border-radius: 35px; padding: 30px; font-size: 40px; align-self: flex-end; width: 250px; margin: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+</ui:UXML>

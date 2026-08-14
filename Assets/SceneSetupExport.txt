@@ -1,0 +1,75 @@
+=== UNITY SCENE SETUP EXPORT ===
+Reviewing UIDocuments and Manager Scripts...
+
+📦 GameObject: JailDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: JailDocument
+
+📦 GameObject: EductionDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: EducationUI
+
+📦 GameObject: CareersDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: CareersUI
+
+📦 GameObject: HustlesDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: HustlesUI
+
+📦 GameObject: UIManager
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: MainUI
+   └─ Attached Script: UIManager
+   └─ Attached Script: CareerUI
+   └─ Attached Script: HustlesUI
+   └─ Attached Script: EducationUI
+   └─ Attached Script: ActivitiesUI
+   └─ Attached Script: JailUI
+
+📦 GameObject: MigrationPortalOverlay
+   ├─ Sort Order: 100
+   ├─ Panel Settings: MISSING!
+   ├─ Source UXML: MigrationUI
+   └─ Attached Script: MigrationUI
+
+📦 GameObject: MiniGameTerminal
+   ├─ Sort Order: 100
+   ├─ Panel Settings: MISSING!
+   ├─ Source UXML: MiniGame
+   └─ Attached Script: MiniGameManager
+
+📦 GameObject: EventPopupManager
+   ├─ Sort Order: 8
+   ├─ Panel Settings: MISSING!
+   ├─ Source UXML: EventPopup
+   └─ Attached Script: EventPopupUI
+
+📦 GameObject: ActivitiesDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: ActivitiesUI
+
+📦 GameObject: DashboardDocument
+   ├─ Sort Order: 0
+   ├─ Panel Settings: PanelSettings
+   ├─ Source UXML: DashboardUI
+
+📦 GameObject: GameOverManager
+   ├─ Sort Order: 100
+   ├─ Panel Settings: MISSING!
+   ├─ Source UXML: GameOver
+   └─ Attached Script: GameOverUI
+
+📦 GameObject: FinancialGraphManager
+   ├─ Sort Order: 5
+   ├─ Panel Settings: MISSING!
+   ├─ Source UXML: FinancialGraph
+   └─ Attached Script: FinancialGraphUI
+
+⚙️ GameManager Found on GameObject: GameManager

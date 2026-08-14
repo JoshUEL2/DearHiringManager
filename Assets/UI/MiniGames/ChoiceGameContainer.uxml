@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="ChoiceGameContainer" style="display: none; flex-direction: column; margin-bottom: 30px;">
+                    <ui:Button name="BtnChoice1" text="Option A" class="popup-button" style="margin-top: 10px; margin-bottom: 10px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="BtnChoice2" text="Option B" class="popup-button" style="margin-top: 10px; margin-bottom: 10px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="BtnChoice3" text="Option C" class="popup-button" style="margin-top: 10px; margin-bottom: 10px; background-color: #1E293B; color: white; border-width: 2px; border-color: #475569;" />
+                </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="UnitTestContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+                        <ui:Label name="UtRoundText" text="Test: 1/10" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                        <ui:Label name="UtTimerText" text="15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Code Editor window -->
+                    <ui:VisualElement style="background-color: #0F172A; border-radius: 12px; border-width: 2px; border-color: #334155; padding: 30px; margin-bottom: 30px; min-height: 200px; justify-content: center;">
+                        <ui:Label name="UtCodeText" text="Assert.AreEqual(?, 2 + 2);" style="font-size: 34px; color: #38BDF8; white-space: normal; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <!-- 3 option buttons -->
+                    <ui:Button name="UtBtnOption1" text="Option 1" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: #E2E8F0; font-size: 32px; -unity-font-style: bold; border-radius: 15px; padding: 25px; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="UtBtnOption2" text="Option 2" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: #E2E8F0; font-size: 32px; -unity-font-style: bold; border-radius: 15px; padding: 25px; border-width: 2px; border-color: #475569;" />
+                    <ui:Button name="UtBtnOption3" text="Option 3" class="popup-button" style="width: 90%; align-self: center; margin-bottom: 15px; background-color: #1E293B; color: #E2E8F0; font-size: 32px; -unity-font-style: bold; border-radius: 15px; padding: 25px; border-width: 2px; border-color: #475569;" />
+                </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="TapGameContainer" style="display: none; align-items: center; margin-bottom: 30px;">
+                    <ui:Label name="TapProgressText" text="Progress: 0 / 5" style="font-size: 36px; color: #38BDF8; -unity-font-style: bold; margin-bottom: 20px;" />
+                    <ui:Button name="BtnActionTap" text="ACTION TAP" class="popup-button" style="background-color: #2ECC71; color: white;" />
+                </ui:VisualElement>
+</ui:UXML>

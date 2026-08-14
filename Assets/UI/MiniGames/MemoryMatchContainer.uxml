@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="MemoryMatchContainer" style="display: none; align-items: center; margin-bottom: 30px;">
+                    <ui:Label name="MatchStatusText" text="Pairs Found: 0 / 4" style="font-size: 30px; color: #38BDF8; -unity-font-style: bold; margin-bottom: 20px;" />
+                    <ui:VisualElement name="MemoryGrid" style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%;">
+                        <!-- Cards will be generated dynamically by code -->
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

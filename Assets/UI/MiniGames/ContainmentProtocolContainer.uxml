@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="ContainmentProtocolContainer" style="display: none; width: 100%; flex-direction: column; background-color: #1A1A1A; padding: 20px; border-radius: 10px; border-width: 6px; border-color: #333333; margin-bottom: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+                        <ui:Label text="EMERGENCY LOCKDOWN" style="font-size: 28px; color: #E74C3C; -unity-font-style: bold;" />
+                        <ui:Label name="CpTimerText" text="12.0s" style="font-size: 28px; color: #E74C3C; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    
+                    <ui:Label text="1. SEVER HARDLINES" style="font-size: 18px; color: #CCCCCC; margin-bottom: 10px; -unity-font-style: bold;" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around; height: 120px; margin-bottom: 20px;">
+"""
+
+for i in range(4):
+    new_xml += f"""                        <ui:VisualElement style="width: 60px; height: 100%; background-color: #111111; border-radius: 30px; border-width: 4px; border-color: #444444; align-items: center; justify-content: flex-start; padding-top: 5px; padding-bottom: 5px;">
+                            <ui:VisualElement name="CpSwitch_{i}" style="width: 40px; height: 40px; border-radius: 20px; background-color: #E74C3C; border-width: 2px; border-color: #FFFFFF;" />
+                        </ui:VisualElement>
+"""
+
+new_xml += """                    </ui:VisualElement>
+                    
+                    <ui:Label text="2. INITIATE PROTOCOL" style="font-size: 18px; color: #CCCCCC; margin-bottom: 10px; -unity-font-style: bold;" />
+                    <ui:VisualElement style="align-items: center; justify-content: center; height: 180px;">
+                        <ui:VisualElement style="width: 150px; height: 150px; border-radius: 75px; background-color: #333333; align-items: center; justify-content: center;">
+                            <ui:VisualElement name="CpRedButton" style="width: 120px; height: 120px; border-radius: 60px; background-color: #550000; border-width: 4px; border-color: #220000; align-items: center; justify-content: center;">
+                                <ui:Label name="CpButtonText" text="LOCKED" style="font-size: 20px; color: #AAAAAA; -unity-font-style: bold;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="CpGlassCover" style="position: absolute; width: 160px; height: 160px; border-radius: 20px; background-color: rgba(100, 200, 255, 0.4); border-width: 4px; border-color: rgba(255, 255, 255, 0.8); align-items: center; justify-content: flex-end; padding-bottom: 10px;">
+                            <ui:Label text="SWIPE UP" style="font-size: 16px; color: white; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

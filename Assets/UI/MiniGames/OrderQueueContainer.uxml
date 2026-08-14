@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="OrderQueueContainer" style="display: none; align-items: center; margin-bottom: 30px;">
+                    <ui:Label name="OrderStatusText" text="MEMORIZE THE ORDER!" style="font-size: 30px; color: #F1C40F; -unity-font-style: bold; margin-bottom: 15px;" />
+                    <ui:Label name="OrderTimerText" text="" style="font-size: 26px; color: #E74C3C; -unity-font-style: bold; margin-bottom: 10px;" />
+                    <!-- Preview / scrambled items area -->
+                    <ui:VisualElement name="OrderItemGrid" style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; min-height: 200px;">
+                        <!-- Items generated dynamically -->
+                    </ui:VisualElement>
+                </ui:VisualElement>
+</ui:UXML>

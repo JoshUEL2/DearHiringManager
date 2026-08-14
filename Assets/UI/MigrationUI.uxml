@@ -1,0 +1,52 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    
+    <ui:Style src="styles.uss" />
+
+    <!-- Full screen dark overlay -->
+    <ui:VisualElement name="MigrationOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
+        
+        <ui:VisualElement class="popup-card" style="width: 95%; max-height: 80%;">
+            
+            <ui:Label text="METROPOLITAN MIGRATION PORTAL" style="font-size: 40px; -unity-font-style: bold; color: #38BDF8; margin-bottom: 10px;" />
+            <ui:Label name="CurrentDistrictText" text="Current District: Slums" style="font-size: 32px; color: #94A3B8; margin-bottom: 30px; -unity-font-style: bold;" />
+
+            <ui:ScrollView style="flex-grow: 1;">
+                <!-- Slums -->
+                <ui:VisualElement name="CardSlums" class="job-card" style="padding: 25px; margin-bottom: 20px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between;">
+                        <ui:Label text="Slums" class="job-title" style="font-size: 34px;" />
+                        <ui:Label name="StatusSlums" text="Current Home" style="color: #38BDF8; -unity-font-style: bold; font-size: 28px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Rent: $50/Wk | Food Cost: $25/Wk" class="job-desc" style="font-size: 28px; margin-bottom: 10px;" />
+                    <ui:Label text="Criteria: None" style="font-size: 24px; color: #94A3B8; margin-bottom: 15px;" />
+                    <ui:Button name="BtnMoveSlums" text="Migrate (Free)" class="apply-button" style="width: auto; background-color: #475569; font-size: 28px; padding: 15px;" />
+                </ui:VisualElement>
+
+                <!-- Suburbs -->
+                <ui:VisualElement name="CardSuburbs" class="job-card" style="padding: 25px; margin-bottom: 20px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between;">
+                        <ui:Label text="Suburbs" class="job-title" style="font-size: 34px;" />
+                        <ui:Label name="StatusSuburbs" text="Broker Fee: $600" style="color: #E74C3C; -unity-font-style: bold; font-size: 28px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Rent: $450/Wk | Food Cost: $100/Wk" class="job-desc" style="font-size: 28px; margin-bottom: 10px;" />
+                    <ui:Label text="Criteria: Requires $1,200 in Cash" style="font-size: 24px; color: #E74C3C; margin-bottom: 15px;" />
+                    <ui:Button name="BtnMoveSuburbs" text="Migrate ($600)" class="apply-button" style="width: auto; background-color: #38BDF8; font-size: 28px; padding: 15px;" />
+                </ui:VisualElement>
+
+                <!-- Financial District -->
+                <ui:VisualElement name="CardFinancial" class="job-card" style="padding: 25px; margin-bottom: 20px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between;">
+                        <ui:Label text="Financial District" class="job-title" style="font-size: 34px;" />
+                        <ui:Label name="StatusFinancial" text="Broker Fee: $3,000" style="color: #E74C3C; -unity-font-style: bold; font-size: 28px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Rent: $2,500/Wk | Food Cost: $400/Wk" class="job-desc" style="font-size: 28px; margin-bottom: 10px;" />
+                    <ui:Label text="Criteria: Requires $8,000 in Cash AND solid education (PhD, MBA, or Bootcamp)" style="font-size: 24px; color: #E74C3C; margin-bottom: 15px; white-space: normal;" />
+                    <ui:Button name="BtnMoveFinancial" text="Migrate ($3,000)" class="apply-button" style="width: auto; background-color: #38BDF8; font-size: 28px; padding: 15px;" />
+                </ui:VisualElement>
+            </ui:ScrollView>
+
+            <ui:Button name="BtnClosePortal" text="Close Portal" class="popup-button" style="background-color: #475569; margin-top: 30px;" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

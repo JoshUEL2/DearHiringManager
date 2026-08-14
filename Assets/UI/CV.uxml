@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
+    
+    <ui:Style src="styles.uss" />
+
+    <ui:VisualElement name="CVOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; display: none;">
+        
+        <ui:VisualElement name="CVPaper" style="width: 90%; height: 85%; background-color: #FFFFFF; border-radius: 10px; padding: 40px; flex-direction: column;">
+            
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; border-bottom-width: 2px; border-color: #BDC3C7; padding-bottom: 20px;">
+                <ui:VisualElement style="flex-direction: column;">
+                    <ui:Label name="CVName" text="JOSH DOE" style="color: #2C3E50; font-size: 60px; -unity-font-style: bold; margin: 0;" />
+                    <ui:Label text="CURRICULUM VITAE" style="color: #7F8C8D; font-size: 24px; letter-spacing: 5px; margin: 0; margin-top: 5px;" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement style="flex-direction: column; align-items: flex-end;">
+                    <ui:Label name="CVPhone" text="+44 7700 900421" style="color: #34495E; font-size: 24px; margin: 0;" />
+                    <ui:Label name="CVAddress" text="Flat 42, The Spire\nNew London, E14 9HQ" style="color: #34495E; font-size: 24px; -unity-text-align: middle-right; margin: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:ScrollView name="CVScrollView" style="flex-grow: 1; margin-bottom: 20px;">
+                <ui:Label name="CVContent" text="No experience recorded." enable-rich-text="true" style="color: #2C3E50; font-size: 28px; white-space: normal;" />
+            </ui:ScrollView>
+            
+            <ui:Button name="BtnCloseCV" text="Close CV" class="apply-button" style="background-color: #34495E; color: white; padding: 20px; font-size: 32px;" />
+            
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,4 @@
+repository "Dear Hiring Manager/Dear Hiring Manager@5772965237054@cloud"
+  path "/"
+    br "/main"
+    co "/main"

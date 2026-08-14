@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:VisualElement name="VideoCallContainer" style="display: none; align-items: center; justify-content: center; width: 100%; flex-grow: 1; min-height: 500px; position: relative; padding: 20px;">
+                    
+                    <ui:Label name="VideoCallTimerText" text="15.0s" style="position: absolute; top: -10px; right: 20px; font-size: 32px; color: #E74C3C; -unity-font-style: bold; z-index: 10;" />
+
+                    <!-- Phase 1: Scroll Minutes -->
+                    <ui:VisualElement name="VcPhase1" style="width: 100%; flex-grow: 1; background-color: #FFFFFF; border-radius: 10px; padding: 20px; align-items: center; border-width: 4px; border-color: #BDC3C7;">
+                        <ui:Label text="MEETING_MINUTES.PDF" style="font-size: 24px; color: #2C3E50; -unity-font-style: bold; margin-bottom: 10px;" />
+                        
+                        <ui:ScrollView name="VcScrollView" mode="Vertical" style="flex-grow: 1; width: 100%; border-width: 2px; border-color: #E2E8F0; padding: 20px; background-color: #F8F9FA;">
+                            <ui:Label text="Date: October 14th&#10;Time: 9:00 AM - 12:00 PM&#10;Location: Conference Room C&#10;&#10;Attendees:&#10;- John Doe&#10;- Jane Smith&#10;- Bob Johnson&#10;&#10;Agenda Item 1: Q3 Earnings&#10;John reviewed the Q3 earnings report. Sales were up 15% year-over-year in the enterprise segment. Consumer sales remained flat. Bob suggested we re-allocate marketing spend toward digital channels in Q4.&#10;&#10;Agenda Item 2: New Product Launch&#10;Jane presented the roadmap for Project Phoenix. The beta launch is scheduled for November 15th. We need to finalize the UI assets by next Friday. John noted that the QA team is currently understaffed and might bottleneck the release.&#10;&#10;Agenda Item 3: Office Policies&#10;We discussed the new hybrid work policy. Employees are expected to be in the office Tuesday through Thursday. Bob raised a concern about parking availability on peak days. Management will look into securing additional overflow parking spots.&#10;&#10;Action Items:&#10;1. Bob: Finalize Q4 marketing budget (Due Oct 20)&#10;2. Jane: Coordinate with design team on UI assets (Due Oct 22)&#10;3. John: Review QA headcount and propose new hires (Due Oct 25)&#10;&#10;Next Meeting:&#10;November 10th, 9:00 AM&#10;&#10;[END OF DOCUMENT]" style="font-size: 28px; color: #333333; white-space: normal;" />
+                            <ui:Button name="BtnVcAcknowledge" text="Acknowledge Minutes" style="margin-top: 20px; background-color: #27AE60; color: white; font-size: 24px; padding: 15px; border-radius: 5px; -unity-font-style: bold;" />
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+
+                    <!-- Phase 2: Raise Hand -->
+                    <ui:VisualElement name="VcPhase2" style="display: none; width: 100%; flex-grow: 1; background-color: #1E293B; border-radius: 10px; overflow: hidden; border-width: 4px; border-color: #0F172A;">
+                        <ui:VisualElement style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; padding: 10px; justify-content: space-between; align-content: space-around;">
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                            <ui:VisualElement style="width: 23%; height: 30%; background-color: #334155; border-radius: 5px; justify-content: center; align-items: center;"><ui:Label text="👤" style="font-size: 30px;" /></ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="height: 80px; background-color: #0F172A; flex-direction: row; justify-content: center; align-items: center; padding: 10px;">
+                            <ui:Button name="BtnVcRaiseHand" text="✋ RAISE HAND" style="background-color: #475569; color: white; font-size: 26px; padding: 10px 30px; border-radius: 10px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Phase 3: Wiggle to Wake -->
+                    <ui:VisualElement name="VcPhase3" style="display: none; width: 100%; flex-grow: 1; background-color: rgba(0, 0, 0, 0.9); border-radius: 10px; justify-content: center; align-items: center; border-width: 4px; border-color: #333333; position: relative; padding: 20px;">
+                        <ui:Label name="VcWigglePromptText" text="SCREEN ASLEEP..." style="font-size: 40px; color: #7F8C8D; -unity-font-style: bold; margin-bottom: 20px;" />
+                        
+                        <ui:VisualElement style="width: 80%; height: 40px; background-color: #1A1A1A; border-radius: 20px; border-width: 2px; border-color: #333333; overflow: hidden; margin-bottom: 20px;">
+                            <ui:VisualElement name="VcWiggleProgressBar" style="width: 0%; height: 100%; background-color: #2ECC71;" />
+                        </ui:VisualElement>
+                        
+                        <ui:VisualElement style="width: 300px; height: 350px; background-color: #1A1A1A; border-radius: 20px; border-width: 4px; border-color: #333333; position: relative; overflow: hidden;">
+                            <ui:VisualElement name="VcMouseGraphic" style="width: 70px; height: 110px; background-color: #ECF0F1; border-radius: 35px; position: absolute; left: 115px; top: 120px; border-width: 3px; border-color: #95A5A6;">
+                                <ui:VisualElement style="width: 4px; height: 500px; background-color: #7F8C8D; position: absolute; left: 30px; top: -500px;" />
+                                <ui:VisualElement style="width: 100%; height: 40px; border-bottom-width: 2px; border-color: #95A5A6; flex-direction: row;">
+                                    <ui:VisualElement style="flex-grow: 1; border-right-width: 1px; border-color: #95A5A6;" />
+                                    <ui:VisualElement style="flex-grow: 1; border-left-width: 1px; border-color: #95A5A6;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="VcWiggleTouchArea" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 5;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    
+                </ui:VisualElement>
+</ui:UXML>

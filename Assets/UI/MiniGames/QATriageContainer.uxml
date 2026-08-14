@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="QATriageContainer" style="display: none;">
+        <ui:Label text="QATriageContainer (Under Construction)" style="font-size: 24px; color: white;" />
+    </ui:VisualElement>
+</ui:UXML>
