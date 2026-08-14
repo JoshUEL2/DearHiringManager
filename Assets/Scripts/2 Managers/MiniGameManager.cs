@@ -938,12 +938,7 @@ public partial class MiniGameManager : MonoBehaviour
         if (isContainer != null) isFrostOverlay = isContainer.Q<VisualElement>("FrostOverlay");
 
         nmContainer = root.Q<VisualElement>("NameMemoryContainer");
-        if (nmContainer != null)
-        {
-            nmVipArea = nmContainer.Q<VisualElement>("VipDisplayArea");
-            nmQuestionText = nmContainer.Q<Label>("MemoryQuestionText");
-            nmAnswerRow = nmContainer.Q<VisualElement>("MemoryAnswerRow");
-        }
+        // NameMemory UI elements are queried in SetupNameMemory() now
 
         rrContainer = root.Q<UnityEngine.UIElements.VisualElement>("RetroRacerContainer");
         if (rrContainer != null)

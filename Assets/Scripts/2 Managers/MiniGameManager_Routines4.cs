@@ -679,16 +679,24 @@ public partial class MiniGameManager : MonoBehaviour
             
             // Clear past callbacks
             nmSeats[i].UnregisterCallback<PointerDownEvent>(OnSeatClicked);
-            int idx = i;
-            nmSeats[i].RegisterCallback<PointerDownEvent>(ev => OnSeatClicked(ev, idx));
+            nmSeats[i].RegisterCallback<PointerDownEvent>(OnSeatClicked);
         }
 
         activeGameRoutine = StartCoroutine(NameMemoryRoutineSequence());
     }
 
-    private void OnSeatClicked(PointerDownEvent ev, int seatIndex)
+    private void OnSeatClicked(PointerDownEvent ev)
     {
         if (!isPlaying || !nmIsAnsweringPhase) return;
+        VisualElement seat = ev.currentTarget as VisualElement;
+        int seatIndex = -1;
+        if (seat.name == "NmSeat0") seatIndex = 0;
+        else if (seat.name == "NmSeat1") seatIndex = 1;
+        else if (seat.name == "NmSeat2") seatIndex = 2;
+        else if (seat.name == "NmSeat3") seatIndex = 3;
+        
+        if (seatIndex == -1) return;
+        
         nmIsAnsweringPhase = false; // block further clicks
 
         if (seatIndex == nmCorrectIndex)
