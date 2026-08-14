@@ -935,7 +935,13 @@ public partial class MiniGameManager : MonoBehaviour
         }
 
         isContainer = root.Q<VisualElement>("IceShatterContainer");
-        if (isContainer != null) isFrostOverlay = isContainer.Q<VisualElement>("FrostOverlay");
+        if (isContainer != null) 
+        {
+            isFrostOverlay = isContainer.Q<VisualElement>("IsFrostOverlay");
+            isTimerText = isContainer.Q<Label>("IsTimerText");
+            isNodeArea = isContainer.Q<VisualElement>("IsNodeArea");
+            isTempFill = isContainer.Q<VisualElement>("IsTempFill");
+        }
 
         nmContainer = root.Q<VisualElement>("NameMemoryContainer");
         // NameMemory UI elements are queried in SetupNameMemory() now

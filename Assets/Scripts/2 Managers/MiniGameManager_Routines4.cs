@@ -533,50 +533,11 @@ public partial class MiniGameManager : MonoBehaviour
         isBodyTemp = 100f;
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
         
-        isContainer.Clear();
         isNodes.Clear();
+        isNodeArea.Clear();
 
-        isContainer.style.backgroundColor = new Color(0.8f, 0.9f, 1f); // icy blue background
-        
-        isFrostOverlay = new VisualElement();
-        isFrostOverlay.style.position = Position.Absolute;
-        isFrostOverlay.style.width = new Length(100, LengthUnit.Percent);
-        isFrostOverlay.style.height = new Length(100, LengthUnit.Percent);
-        isFrostOverlay.style.backgroundColor = new Color(1f, 1f, 1f, 0f);
-        isContainer.Add(isFrostOverlay);
-
-        Label title = new Label("Luxury Cryo Therapy");
-        title.style.fontSize = 24;
-        title.style.color = Color.blue;
-        title.style.position = Position.Absolute;
-        title.style.top = 20;
-        title.style.width = new Length(100, LengthUnit.Percent);
-        title.style.unityTextAlign = TextAnchor.UpperCenter;
-        isContainer.Add(title);
-
-        VisualElement tempBar = new VisualElement();
-        tempBar.style.width = 300;
-        tempBar.style.height = 30;
-        tempBar.style.backgroundColor = Color.black;
-        tempBar.style.position = Position.Absolute;
-        tempBar.style.bottom = 40;
-        tempBar.style.alignSelf = Align.Center;
-        isContainer.Add(tempBar);
-
-        isTempFill = new VisualElement();
-        isTempFill.style.width = new Length(100, LengthUnit.Percent);
-        isTempFill.style.height = new Length(100, LengthUnit.Percent);
-        isTempFill.style.backgroundColor = Color.green;
-        tempBar.Add(isTempFill);
-
-        Label tempLabel = new Label("Body Temp");
-        tempLabel.style.position = Position.Absolute;
-        tempLabel.style.width = new Length(100, LengthUnit.Percent);
-        tempLabel.style.height = new Length(100, LengthUnit.Percent);
-        tempLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
-        tempLabel.style.fontSize = 20;
-        tempLabel.style.color = Color.white;
-        tempBar.Add(tempLabel);
+        if (isFrostOverlay != null)
+            isFrostOverlay.style.backgroundColor = new Color(1f, 1f, 1f, 0f);
 
         activeGameRoutine = StartCoroutine(IceShatterRoutine());
     }
@@ -588,6 +549,10 @@ public partial class MiniGameManager : MonoBehaviour
         while (isPlaying)
         {
             timer -= Time.deltaTime;
+            
+            if (isTimerText != null)
+                isTimerText.text = $"TIME: {Mathf.Max(0, timer):F1}s";
+                
             if (timer <= 0f)
             {
                 EndGame(true);
@@ -598,33 +563,44 @@ public partial class MiniGameManager : MonoBehaviour
             if (spawnTimer <= 0f)
             {
                 Button node = new Button();
-                node.style.width = 70;
-                node.style.height = 70;
+                node.style.width = 60;
+                node.style.height = 60;
                 node.style.position = Position.Absolute;
                 node.style.left = new Length(Random.Range(10f, 85f), LengthUnit.Percent);
-                node.style.top = new Length(Random.Range(15f, 80f), LengthUnit.Percent);
+                node.style.top = new Length(Random.Range(15f, 75f), LengthUnit.Percent);
+                
+                // High-tech frosted valve look
                 node.style.backgroundColor = new Color(0.2f, 0.8f, 1f, 0.9f);
-                node.style.borderTopLeftRadius = 35; node.style.borderTopRightRadius = 35; node.style.borderBottomLeftRadius = 35; node.style.borderBottomRightRadius = 35;
-                node.style.borderTopWidth = 3; node.style.borderBottomWidth = 3; node.style.borderLeftWidth = 3; node.style.borderRightWidth = 3;
-                node.style.borderTopColor = Color.white; node.style.borderBottomColor = Color.white; node.style.borderLeftColor = Color.white; node.style.borderRightColor = Color.white;
+                node.style.borderTopLeftRadius = 30; node.style.borderTopRightRadius = 30; node.style.borderBottomLeftRadius = 30; node.style.borderBottomRightRadius = 30;
+                node.style.borderTopWidth = 4; node.style.borderBottomWidth = 4; node.style.borderLeftWidth = 4; node.style.borderRightWidth = 4;
+                node.style.borderTopColor = new Color(0.8f, 0.9f, 1f); 
+                node.style.borderBottomColor = new Color(0.8f, 0.9f, 1f);
+                node.style.borderLeftColor = new Color(0.8f, 0.9f, 1f);
+                node.style.borderRightColor = new Color(0.8f, 0.9f, 1f);
+                
+                node.text = "❄️";
+                node.style.fontSize = 24;
+                node.style.color = Color.white;
+                node.style.unityTextAlign = TextAnchor.MiddleCenter;
                 
                 node.clicked += () => {
                     if (!isPlaying) return;
-                    isBodyTemp = Mathf.Clamp(isBodyTemp + 8f, 0f, 100f);
+                    isBodyTemp = Mathf.Clamp(isBodyTemp + 12f, 0f, 100f);
                     
                     // visual shatter
                     node.style.backgroundColor = Color.white;
-                    node.style.scale = new StyleScale(new Scale(new Vector3(0.5f, 0.5f, 1f)));
+                    node.text = ""; // clear emoji
+                    node.style.scale = new StyleScale(new Scale(new Vector3(0.3f, 0.3f, 1f)));
                     isNodes.Remove(node);
                     
                     // delayed remove
-                    isContainer.schedule.Execute(() => {
-                        if (isContainer.Contains(node)) isContainer.Remove(node);
+                    isNodeArea.schedule.Execute(() => {
+                        if (isNodeArea.Contains(node)) isNodeArea.Remove(node);
                     }).StartingIn(100);
                 };
 
                 isNodes.Add(node);
-                isContainer.Add(node);
+                isNodeArea.Add(node);
                 
                 // Faster as game progresses
                 float minTime = Mathf.Lerp(1.5f, 0.3f, 1f - (timer / 15f));

@@ -327,16 +327,25 @@ public partial class MiniGameManager : MonoBehaviour
     private int[] sbCurrentDialNums = new int[3];
     private float sbSpinTimer = 0f;
 
+    // IceShatter
+    private UnityEngine.UIElements.VisualElement isContainer;
+    private UnityEngine.UIElements.VisualElement isFrostOverlay;
+    private UnityEngine.UIElements.VisualElement isTempFill;
+    private UnityEngine.UIElements.VisualElement isNodeArea;
+    private UnityEngine.UIElements.Label isTimerText;
+    private System.Collections.Generic.List<UnityEngine.UIElements.Button> isNodes = new System.Collections.Generic.List<UnityEngine.UIElements.Button>();
+    private float isBodyTemp = 100f;
+    private UnityEngine.UIElements.VisualElement saWireContainer;
+    private UnityEngine.UIElements.VisualElement saActiveWire;
+    private UnityEngine.UIElements.VisualElement saStartNode;
+    private bool saIsDraggingWire = false;
+
     // Skim ATM
     private UnityEngine.UIElements.VisualElement saContainer;
 
     private System.Collections.Generic.List<UnityEngine.UIElements.VisualElement> saLeftNodes = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>();
     private System.Collections.Generic.List<UnityEngine.UIElements.VisualElement> saRightNodes = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>();
     private int saConnections = 0;
-    private UnityEngine.UIElements.VisualElement saWireContainer;
-    private UnityEngine.UIElements.VisualElement saActiveWire;
-    private UnityEngine.UIElements.VisualElement saStartNode;
-    private bool saIsDraggingWire = false;
 
     // Forge Pass
     private UnityEngine.UIElements.VisualElement fpContainer;
