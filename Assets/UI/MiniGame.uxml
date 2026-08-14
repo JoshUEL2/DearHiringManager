@@ -30,6 +30,7 @@
     <ui:Template name="HospitalityGalaContainer" src="MiniGames/HospitalityGalaContainer.uxml" />
     <ui:Template name="HotStoneContainer" src="MiniGames/HotStoneContainer.uxml" />
     <ui:Template name="IceShatterContainer" src="MiniGames/IceShatterContainer.uxml" />
+    <ui:Template name="IpHackContainer" src="MiniGames/IpHackContainer.uxml" />
     <ui:Template name="KanbanContainer" src="MiniGames/KanbanContainer.uxml" />
     <ui:Template name="MashRaceContainer" src="MiniGames/MashRaceContainer.uxml" />
     <ui:Template name="MemoryMatchContainer" src="MiniGames/MemoryMatchContainer.uxml" />
@@ -109,6 +110,7 @@
                 <ui:Instance template="HospitalityGalaContainer" />
                 <ui:Instance template="HotStoneContainer" />
                 <ui:Instance template="IceShatterContainer" />
+                <ui:Instance template="IpHackContainer" />
                 <ui:Instance template="KanbanContainer" />
                 <ui:Instance template="MashRaceContainer" />
                 <ui:Instance template="MemoryMatchContainer" />

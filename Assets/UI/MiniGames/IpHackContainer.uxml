@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="IpHackContainer" style="display: none; width: 100%; height: 100%; flex-direction: column; background-color: #000000; padding: 20px;">
+        
+        <!-- Top Bar -->
+        <ui:VisualElement style="align-items: center; justify-content: center; margin-bottom: 20px;">
+            <ui:Label text="CONNECTING TO THE HOST" style="font-size: 24px; color: #60A5FA; -unity-font-style: bold; letter-spacing: 2px;" />
+            <ui:Label text="COMPROMISING GLOBAL SECURITY ONE SLIP AT A TIME" style="font-size: 14px; color: #9CA3AF; margin-bottom: 15px;" />
+            
+            <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
+                <ui:Label name="Target0" text="00" style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label text=" . " style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label name="Target1" text="00" style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label text=" . " style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label name="Target2" text="00" style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label text=" . " style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+                <ui:Label name="Target3" text="00" style="font-size: 38px; color: #EF4444; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <ui:Label name="IpHackTimerText" text="00:30:000" style="font-size: 24px; color: #10B981; -unity-font-style: bold; margin-top: 10px;" />
+        </ui:VisualElement>
+
+        <!-- Grid Area -->
+        <ui:VisualElement name="IpHackGridContainer" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; justify-content: center; align-content: center; width: 100%; max-width: 800px; align-self: center;">
+            <!-- Buttons will be injected here dynamically -->
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

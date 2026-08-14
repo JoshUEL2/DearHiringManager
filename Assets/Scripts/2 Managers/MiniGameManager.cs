@@ -531,6 +531,16 @@ public partial class MiniGameManager : MonoBehaviour
         cgContainer = root.Q<UnityEngine.UIElements.VisualElement>("CorporateGolfContainer");
         saContainer = root.Q<UnityEngine.UIElements.VisualElement>("SkimATMContainer");
 
+        // IpHack UI Bindings
+        ipHackContainer = root.Q<UnityEngine.UIElements.VisualElement>("IpHackContainer");
+        ipHackGridContainer = root.Q<UnityEngine.UIElements.VisualElement>("IpHackGridContainer");
+        ipHackTimerText = root.Q<UnityEngine.UIElements.Label>("IpHackTimerText");
+        if (ipHackContainer != null) {
+            for (int i = 0; i < 4; i++) {
+                ipHackTargetLabels[i] = ipHackContainer.Q<UnityEngine.UIElements.Label>($"Target{i}");
+            }
+        }
+
         // Keep existing unmodified minigame bindings
         sbContainer = root.Q<UnityEngine.UIElements.VisualElement>("SnatchBriefcaseContainer");
         for(int i=0; i<3; i++) sbDials[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}");
@@ -1107,7 +1117,7 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Forge Transit Passes", new MiniGameConfig { type = GameType.ForgePass, timeLimit = 10f, instructions = "Stamp exactly in the center!" });
         AddConfigFull("Crack Luxury Briefcase", new MiniGameConfig { type = GameType.SnatchBriefcase, timeLimit = 15f, instructions = "Crack the lock!" });
         AddConfigFull("Skim ATM Card Data", new MiniGameConfig { type = GameType.SkimATM, timeLimit = 10f, instructions = "Connect the skimmer wires!" });
-        AddConfigFull("Corporate Espionage Heist", new MiniGameConfig { type = GameType.TwoPhaseHeist, phase1Type = GameType.SnatchBriefcase, phase2Type = GameType.CodeBreaker, phase3Type = GameType.SprintLane, codeSymbols = new string[]{"0","1","2","3","4","5","6","7","8","9"}, codeLength = 5, maxAttempts = 5, sprintObstacles = 25, sprintSpeed = 0.75f, timeLimit = 15f, instructions = "Phase 1: Break In! Phase 2: Hack! Phase 3: Escape!" });
+        AddConfigFull("Corporate Espionage Heist", new MiniGameConfig { type = GameType.TwoPhaseHeist, phase1Type = GameType.IpHack, phase2Type = GameType.CodeBreaker, phase3Type = GameType.SprintLane, codeSymbols = new string[]{"0","1","2","3","4","5","6","7","8","9"}, codeLength = 5, maxAttempts = 5, sprintObstacles = 25, sprintSpeed = 0.75f, timeLimit = 30f, instructions = "Phase 1: Break In! Phase 2: Hack! Phase 3: Escape!" });
     }
 
     private void AddConfig(string name, GameType type, string instructions, int targetScore = 0, float timeLimit = 0, float sMin = 0, float sMax = 0, string c1 = null, string c2 = null, string c3 = null, string cCorrect = null, int seqLen = 4, int pairs = 4)
@@ -1181,6 +1191,7 @@ public partial class MiniGameManager : MonoBehaviour
 
     private void HideAllContainers()
     {
+        if(ipHackContainer != null) ipHackContainer.style.display = DisplayStyle.None;
         if(tapContainer != null) tapContainer.style.display = DisplayStyle.None;
         if(sliderContainer != null) sliderContainer.style.display = DisplayStyle.None;
         if(choiceContainer != null) choiceContainer.style.display = DisplayStyle.None;
@@ -1654,6 +1665,10 @@ public partial class MiniGameManager : MonoBehaviour
             case GameType.SkimATM:
                 if (saContainer != null) saContainer.style.display = DisplayStyle.Flex;
                 SetupSkimATM();
+                break;
+            case GameType.IpHack:
+                if (ipHackContainer != null) ipHackContainer.style.display = DisplayStyle.Flex;
+                SetupIpHack();
                 break;
             case GameType.HospitalityGala:
                 if (hgContainer != null) hgContainer.style.display = DisplayStyle.Flex;
