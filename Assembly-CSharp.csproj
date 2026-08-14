@@ -74,6 +74,7 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines2.cs" />
     <Compile Include="Assets/Scripts/2 Managers/CVManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/JailUI.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines5.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameDataModels.cs" />
     <Compile Include="Assets/Scripts/3 UI/CareerUI.cs" />
@@ -93,6 +94,7 @@
     <None Include="Assets/UI/CV.uxml" />
     <None Include="Assets/UI/MiniGames/CorporateGolfContainer.uxml" />
     <None Include="Assets/UI/MiniGames/AcidRainContainer.uxml" />
+    <None Include="Assets/UI/MiniGames/IpHackContainer.uxml" />
     <None Include="Assets/UI/EducationUI.uxml" />
     <None Include="Assets/UI/MiniGames/SizeMatchContainer.uxml" />
     <None Include="Assets/UI/EventPopup.uxml" />

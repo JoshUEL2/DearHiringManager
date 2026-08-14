@@ -695,6 +695,16 @@ public partial class MiniGameManager : MonoBehaviour
 
     private Dictionary<string, MiniGameConfig> gameConfigs;
 
+    // IpHack Variables
+    private UnityEngine.UIElements.VisualElement ipHackContainer;
+    private UnityEngine.UIElements.VisualElement ipHackGridContainer;
+    private UnityEngine.UIElements.Label[] ipHackTargetLabels = new UnityEngine.UIElements.Label[4];
+    private UnityEngine.UIElements.Label ipHackTimerText;
+    private int ipHackCurrentProgress = 0;
+    private float ipHackShuffleTimer = 0f;
+    private System.Collections.Generic.List<int> ipHackTargets = new System.Collections.Generic.List<int>();
+    private System.Collections.Generic.List<UnityEngine.UIElements.Button> ipHackGridButtons = new System.Collections.Generic.List<UnityEngine.UIElements.Button>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
