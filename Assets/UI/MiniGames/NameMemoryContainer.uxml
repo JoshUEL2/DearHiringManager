@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="NameMemoryContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #7F1D1D; border-radius: 12px; border-width: 8px; border-color: #FBBF24; margin-bottom: 20px; position: relative; overflow: hidden; justify-content: center; align-items: center;">
+    <ui:VisualElement name="NameMemoryContainer" style="display: none; width: 100%; min-width: 400px; height: 450px; flex-direction: column; background-color: #7F1D1D; border-radius: 12px; border-width: 8px; border-color: #FBBF24; margin-bottom: 20px; position: relative; overflow: hidden; justify-content: center; align-items: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
         
         <!-- Header Info Area -->
         <ui:VisualElement style="position: absolute; top: 10px; left: 10px; padding: 5px 10px; background-color: rgba(0,0,0,0.6); border-radius: 6px; border-color: #FBBF24; border-width: 2px; z-index: 20;">
             <ui:Label name="NmTimeText" text="TIME: 15.0s" style="font-size: 20px; color: #FCD34D; -unity-font-style: bold;" />
         </ui:VisualElement>
 
+        <ui:Label name="NmTableTitle" text="TABLE 7" style="position: absolute; top: 10px; right: 20px; font-size: 26px; color: white; -unity-font-style: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); z-index: 20;" />
+
         <!-- The Gala Table (Center) -->
-        <ui:VisualElement style="position: absolute; width: 180px; height: 180px; background-color: #172554; border-radius: 90px; border-width: 4px; border-color: #FBBF24; justify-content: center; align-items: center;">
+        <ui:VisualElement style="position: absolute; width: 180px; height: 180px; background-color: #172554; border-radius: 90px; border-width: 4px; border-color: #FBBF24; justify-content: center; align-items: center; box-shadow: 0 10px 15px rgba(0,0,0,0.6);">
             <ui:VisualElement style="width: 140px; height: 140px; border-radius: 70px; border-width: 2px; border-color: rgba(251, 191, 36, 0.3);" />
             <!-- Instruction / Question text on the table -->
-            <ui:Label name="NmTableText" text="MEMORIZE SEATS!" style="position: absolute; font-size: 22px; color: white; -unity-font-style: bold; white-space: normal; -unity-text-align: middle-center; width: 140px;" />
+            <ui:Label name="NmTableText" text="MEMORIZE SEATS!" style="position: absolute; font-size: 20px; color: white; -unity-font-style: bold; white-space: normal; -unity-text-align: middle-center; width: 140px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" />
         </ui:VisualElement>
 
-        <!-- Seats around the table -->
+        <!-- Seats around the table (moved further out) -->
         <!-- Seat 0: TOP -->
-        <ui:VisualElement name="NmSeat0" style="position: absolute; top: 15px; left: 50%; translate: -50% 0; width: 80px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
-            <!-- The Plate -->
-            <ui:VisualElement name="NmPlate0" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; box-shadow: 0 4px 6px rgba(0,0,0,0.5);">
-                <ui:Label name="NmEmoji0" text="🧑‍💼" style="font-size: 30px; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
+        <ui:VisualElement name="NmSeat0" style="position: absolute; top: 10px; left: 50%; translate: -50% 0; width: 100px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
+            <ui:VisualElement name="NmPlate0" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.6);">
+                <ui:Label name="NmEmoji0" text="🧑‍💼" style="font-size: 28px; margin-top: 2px;" />
             </ui:VisualElement>
-            <!-- The Namecard -->
-            <ui:Label name="NmCard0" text="Sarah (Tech)" style="position: absolute; bottom: -20px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap;" />
+            <ui:Label name="NmCard0" text="Sarah (Tech)" style="position: absolute; bottom: 0px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" />
         </ui:VisualElement>
 
         <!-- Seat 1: RIGHT -->
-        <ui:VisualElement name="NmSeat1" style="position: absolute; right: 20px; top: 50%; translate: 0 -50%; width: 80px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
-            <ui:VisualElement name="NmPlate1" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; box-shadow: 0 4px 6px rgba(0,0,0,0.5);">
-                <ui:Label name="NmEmoji1" text="👨‍💼" style="font-size: 30px; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
+        <ui:VisualElement name="NmSeat1" style="position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 100px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
+            <ui:VisualElement name="NmPlate1" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.6);">
+                <ui:Label name="NmEmoji1" text="👨‍💼" style="font-size: 28px; margin-top: 2px;" />
             </ui:VisualElement>
-            <ui:Label name="NmCard1" text="John (Sales)" style="position: absolute; bottom: -20px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap;" />
+            <ui:Label name="NmCard1" text="John (Sales)" style="position: absolute; bottom: 0px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" />
         </ui:VisualElement>
 
         <!-- Seat 2: BOTTOM -->
-        <ui:VisualElement name="NmSeat2" style="position: absolute; bottom: 15px; left: 50%; translate: -50% 0; width: 80px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
-            <ui:VisualElement name="NmPlate2" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; box-shadow: 0 4px 6px rgba(0,0,0,0.5);">
-                <ui:Label name="NmEmoji2" text="👩‍💼" style="font-size: 30px; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
+        <ui:VisualElement name="NmSeat2" style="position: absolute; bottom: 10px; left: 50%; translate: -50% 0; width: 100px; height: 80px; justify-content: flex-end; align-items: center; background-color: rgba(0,0,0,0);">
+            <ui:Label name="NmCard2" text="Mike (HR)" style="position: absolute; top: 0px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" />
+            <ui:VisualElement name="NmPlate2" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.6);">
+                <ui:Label name="NmEmoji2" text="👩‍💼" style="font-size: 28px; margin-top: 2px;" />
             </ui:VisualElement>
-            <ui:Label name="NmCard2" text="Mike (HR)" style="position: absolute; top: -20px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap;" />
         </ui:VisualElement>
 
         <!-- Seat 3: LEFT -->
-        <ui:VisualElement name="NmSeat3" style="position: absolute; left: 20px; top: 50%; translate: 0 -50%; width: 80px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
-            <ui:VisualElement name="NmPlate3" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; box-shadow: 0 4px 6px rgba(0,0,0,0.5);">
-                <ui:Label name="NmEmoji3" text="👨‍💻" style="font-size: 30px; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
+        <ui:VisualElement name="NmSeat3" style="position: absolute; left: 5px; top: 50%; translate: 0 -50%; width: 100px; height: 80px; justify-content: center; align-items: center; background-color: rgba(0,0,0,0);">
+            <ui:VisualElement name="NmPlate3" style="width: 50px; height: 50px; background-color: #F3F4F6; border-radius: 25px; border-width: 2px; border-color: #D1D5DB; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.6);">
+                <ui:Label name="NmEmoji3" text="👨‍💻" style="font-size: 28px; margin-top: 2px;" />
             </ui:VisualElement>
-            <ui:Label name="NmCard3" text="Emma (Legal)" style="position: absolute; bottom: -20px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap;" />
+            <ui:Label name="NmCard3" text="Emma (Legal)" style="position: absolute; bottom: 0px; font-size: 14px; color: black; background-color: #FEF3C7; padding: 2px 6px; border-radius: 4px; border-width: 1px; border-color: #F59E0B; -unity-font-style: bold; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" />
         </ui:VisualElement>
 
     </ui:VisualElement>

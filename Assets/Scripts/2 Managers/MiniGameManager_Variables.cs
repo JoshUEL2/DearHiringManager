@@ -479,6 +479,7 @@ public partial class MiniGameManager : MonoBehaviour
     private UnityEngine.UIElements.VisualElement nmContainer;
     private UnityEngine.UIElements.Label nmTimeLabel;
     private UnityEngine.UIElements.Label nmTableText;
+    private UnityEngine.UIElements.Label nmTableTitle;
     private UnityEngine.UIElements.VisualElement[] nmSeats = new UnityEngine.UIElements.VisualElement[4];
     private UnityEngine.UIElements.VisualElement[] nmPlates = new UnityEngine.UIElements.VisualElement[4];
     private UnityEngine.UIElements.Label[] nmCards = new UnityEngine.UIElements.Label[4];

@@ -669,6 +669,7 @@ public partial class MiniGameManager : MonoBehaviour
         
         nmTimeLabel = nmContainer.Q<Label>("NmTimeText");
         nmTableText = nmContainer.Q<Label>("NmTableText");
+        nmTableTitle = nmContainer.Q<Label>("NmTableTitle");
 
         for (int i = 0; i < 4; i++)
         {
@@ -711,6 +712,7 @@ public partial class MiniGameManager : MonoBehaviour
             {
                 nmPlates[nmCorrectIndex].style.backgroundColor = new Color(0.18f, 0.8f, 0.44f);
             }
+            AbortGame(); // Strict fail condition!
         }
     }
 
@@ -718,8 +720,22 @@ public partial class MiniGameManager : MonoBehaviour
     {
         isPlaying = true;
         
+        List<int> availableTableNums = new List<int>();
+        for (int i = 1; i <= 10; i++) availableTableNums.Add(i);
+        
+        // Shuffle table numbers
+        for (int i = 0; i < availableTableNums.Count; i++)
+        {
+            int temp = availableTableNums[i];
+            int rnd = Random.Range(i, availableTableNums.Count);
+            availableTableNums[i] = availableTableNums[rnd];
+            availableTableNums[rnd] = temp;
+        }
+        
         while (isPlaying && nmRoundsPlayed < 3)
         {
+            if (nmTableTitle != null) nmTableTitle.text = $"TABLE {availableTableNums[nmRoundsPlayed]}";
+            
             yield return StartCoroutine(PlayNameMemoryRound());
             if (!isPlaying) yield break; // game ended inside round
             nmRoundsPlayed++;
@@ -727,7 +743,7 @@ public partial class MiniGameManager : MonoBehaviour
 
         if (isPlaying)
         {
-            EndGame(nmCorrectAnswers >= 2);
+            EndGame(nmCorrectAnswers == 3);
         }
     }
 
@@ -751,13 +767,21 @@ public partial class MiniGameManager : MonoBehaviour
             selectedVips.Add(pool[idx]);
             pool.RemoveAt(idx);
             
-            // Set UI
-            nmCards[i].text = selectedVips[i];
+            // Set UI with proper formatting "Sarah from Tech" -> "Sarah (Tech)"
+            string formattedName = selectedVips[i];
+            if (formattedName.Contains(" from ")) {
+                formattedName = formattedName.Replace(" from ", " (") + ")";
+            }
+            
+            nmCards[i].text = formattedName;
             nmCards[i].style.display = DisplayStyle.Flex; // Show namecards
         }
 
         nmCorrectIndex = Random.Range(0, selectedVips.Count);
         string questionTarget = selectedVips[nmCorrectIndex]; 
+        if (questionTarget.Contains(" from ")) {
+            questionTarget = questionTarget.Replace(" from ", " (") + ")";
+        }
         
         nmTableText.text = "MEMORIZE SEATS!";
         
