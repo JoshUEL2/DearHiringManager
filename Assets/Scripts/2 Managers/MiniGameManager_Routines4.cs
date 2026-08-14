@@ -1118,8 +1118,8 @@ public partial class MiniGameManager : MonoBehaviour
                     
                     // Random starting stats
                     wdDogAngles[i] = UnityEngine.Random.Range(0f, 360f);
-                    wdDogDistances[i] = UnityEngine.Random.Range(10f, 30f); // start very close
-                    wdDogSpeeds[i] = UnityEngine.Random.Range(15f, 25f); // much faster outward speed
+                    wdDogDistances[i] = UnityEngine.Random.Range(40f, 80f); // start further away
+                    wdDogSpeeds[i] = UnityEngine.Random.Range(30f, 50f); // double speed
                     wdDogYankTimers[i] = 0f;
                     
                     int idx = i;
