@@ -561,45 +561,49 @@ public partial class MiniGameManager : MonoBehaviour
             spawnTimer -= Time.deltaTime;
             if (spawnTimer <= 0f)
             {
-                Button node = new Button();
-                node.style.width = 60;
-                node.style.height = 60;
-                node.style.position = Position.Absolute;
-                node.style.left = new Length(Random.Range(10f, 85f), LengthUnit.Percent);
-                node.style.top = new Length(Random.Range(15f, 75f), LengthUnit.Percent);
-                
-                // High-tech frosted valve look
-                node.style.backgroundColor = new Color(0.2f, 0.8f, 1f, 0.9f);
-                node.style.borderTopLeftRadius = 30; node.style.borderTopRightRadius = 30; node.style.borderBottomLeftRadius = 30; node.style.borderBottomRightRadius = 30;
-                node.style.borderTopWidth = 4; node.style.borderBottomWidth = 4; node.style.borderLeftWidth = 4; node.style.borderRightWidth = 4;
-                node.style.borderTopColor = new Color(0.8f, 0.9f, 1f); 
-                node.style.borderBottomColor = new Color(0.8f, 0.9f, 1f);
-                node.style.borderLeftColor = new Color(0.8f, 0.9f, 1f);
-                node.style.borderRightColor = new Color(0.8f, 0.9f, 1f);
-                
-                node.text = "❄️";
-                node.style.fontSize = 24;
-                node.style.color = Color.white;
-                node.style.unityTextAlign = TextAnchor.MiddleCenter;
-                
-                node.clicked += () => {
-                    if (!isPlaying) return;
-                    isBodyTemp = Mathf.Clamp(isBodyTemp + 12f, 0f, 100f);
+                int spawnCount = Random.Range(2, 4);
+                for (int i = 0; i < spawnCount; i++)
+                {
+                    Button node = new Button();
+                    node.style.width = 60;
+                    node.style.height = 60;
+                    node.style.position = Position.Absolute;
+                    node.style.left = new Length(Random.Range(10f, 85f), LengthUnit.Percent);
+                    node.style.top = new Length(Random.Range(15f, 75f), LengthUnit.Percent);
                     
-                    // visual shatter
-                    node.style.backgroundColor = Color.white;
-                    node.text = ""; // clear emoji
-                    node.style.scale = new StyleScale(new Scale(new Vector3(0.3f, 0.3f, 1f)));
-                    isNodes.Remove(node);
+                    // High-tech frosted valve look
+                    node.style.backgroundColor = new Color(0.2f, 0.8f, 1f, 0.9f);
+                    node.style.borderTopLeftRadius = 30; node.style.borderTopRightRadius = 30; node.style.borderBottomLeftRadius = 30; node.style.borderBottomRightRadius = 30;
+                    node.style.borderTopWidth = 4; node.style.borderBottomWidth = 4; node.style.borderLeftWidth = 4; node.style.borderRightWidth = 4;
+                    node.style.borderTopColor = new Color(0.8f, 0.9f, 1f); 
+                    node.style.borderBottomColor = new Color(0.8f, 0.9f, 1f);
+                    node.style.borderLeftColor = new Color(0.8f, 0.9f, 1f);
+                    node.style.borderRightColor = new Color(0.8f, 0.9f, 1f);
                     
-                    // delayed remove
-                    isNodeArea.schedule.Execute(() => {
-                        if (isNodeArea.Contains(node)) isNodeArea.Remove(node);
-                    }).StartingIn(100);
-                };
+                    node.text = "❄️";
+                    node.style.fontSize = 24;
+                    node.style.color = Color.white;
+                    node.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    
+                    node.clicked += () => {
+                        if (!isPlaying) return;
+                        isBodyTemp = Mathf.Clamp(isBodyTemp + 12f, 0f, 100f);
+                        
+                        // visual shatter
+                        node.style.backgroundColor = Color.white;
+                        node.text = ""; // clear emoji
+                        node.style.scale = new StyleScale(new Scale(new Vector3(0.3f, 0.3f, 1f)));
+                        isNodes.Remove(node);
+                        
+                        // delayed remove
+                        isNodeArea.schedule.Execute(() => {
+                            if (isNodeArea.Contains(node)) isNodeArea.Remove(node);
+                        }).StartingIn(100);
+                    };
 
-                isNodes.Add(node);
-                isNodeArea.Add(node);
+                    isNodes.Add(node);
+                    isNodeArea.Add(node);
+                }
                 
                 // Faster as game progresses
                 float minTime = Mathf.Lerp(1.5f, 0.3f, 1f - (timer / 15f));

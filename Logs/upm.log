@@ -1500,3 +1500,31 @@ params: {
   "packageId": "com.unity.collab-proxy"
 }
 [2026-08-14T21:51:56.654Z][INFO] packages:get-packageinfo --> 200 (22 ms)
+[2026-08-14T22:09:43.256Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T22:09:43.334Z][INFO] project:list-packages --> 200 (78 ms)
+[2026-08-14T22:09:43.555Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T22:09:43.629Z][INFO] project:list-packages --> 200 (74 ms)
+[2026-08-14T22:09:43.654Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-08-14T22:09:43.657Z][INFO] config:project:get-registries --> 200 (3 ms)
+[2026-08-14T22:09:44.748Z][INFO] packages:get-packageinfo <-- Request received
+params: {
+  "packageId": "com.unity.collab-proxy"
+}
+[2026-08-14T22:09:45.151Z][INFO] packages:get-packageinfo --> 200 (403 ms)
+[2026-08-14T22:09:50.660Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T22:09:50.716Z][INFO] project:list-packages --> 200 (56 ms)
+[2026-08-14T22:09:50.993Z][INFO] project:list-packages <-- Request received
+params: {}
+[2026-08-14T22:09:51.071Z][INFO] project:list-packages --> 200 (78 ms)
+[2026-08-14T22:09:51.082Z][INFO] config:project:get-registries <-- Request received
+params: {}
+[2026-08-14T22:09:51.084Z][INFO] config:project:get-registries --> 200 (2 ms)
+[2026-08-14T22:09:52.969Z][INFO] packages:get-packageinfo <-- Request received
+params: {
+  "packageId": "com.unity.collab-proxy"
+}
+[2026-08-14T22:09:52.985Z][INFO] packages:get-packageinfo --> 200 (16 ms)
