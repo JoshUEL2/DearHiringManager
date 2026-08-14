@@ -870,7 +870,7 @@ public partial class MiniGameManager : MonoBehaviour
             if (sbSpinTimer >= currentSpeed) {
                 sbSpinTimer = 0f;
                 for (int i = sbCurrentDial; i < 3; i++) {
-                    sbCurrentDialNums[i] = (sbCurrentDialNums[i] - 1 + 10) % 10;
+                    sbCurrentDialNums[i] = (sbCurrentDialNums[i] + 1) % 10;
                     
                     if (sbDialsOut[i] != null) sbDialsOut[i].text = ((sbCurrentDialNums[i] + 2) % 10).ToString();
                     if (sbDialsTop[i] != null) sbDialsTop[i].text = ((sbCurrentDialNums[i] + 1) % 10).ToString();
