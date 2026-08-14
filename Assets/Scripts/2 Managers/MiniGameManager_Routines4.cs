@@ -1184,13 +1184,13 @@ public partial class MiniGameManager : MonoBehaviour
     // ==========================================
 
     private void OnRrPointerDown(UnityEngine.UIElements.PointerDownEvent ev) {
-        if (!isPlaying || currentGame?.config.type != GameType.RetroRacer) return;
+        if (!isPlaying || currentConfig == null || currentConfig.type != GameType.RetroRacer) return;
         rrIsDragging = true;
         UpdateRrPlayerPos(ev.localPosition.x);
     }
 
     private void OnRrPointerMove(UnityEngine.UIElements.PointerMoveEvent ev) {
-        if (!rrIsDragging || !isPlaying || currentGame?.config.type != GameType.RetroRacer) return;
+        if (!rrIsDragging || !isPlaying || currentConfig == null || currentConfig.type != GameType.RetroRacer) return;
         UpdateRrPlayerPos(ev.localPosition.x);
     }
 
