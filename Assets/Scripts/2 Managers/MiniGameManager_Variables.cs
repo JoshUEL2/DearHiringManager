@@ -474,7 +474,8 @@ public partial class MiniGameManager : MonoBehaviour
     private float csTimeInZone = 0f;
 
     // ZenTracing
-    private VisualElement ztContainer, ztCircle, ztTarget, ztSponge;
+    private VisualElement ztContainer, ztCircle, ztTarget, ztSponge, ztProgressFill;
+    private Label ztProgressText;
     private float ztAngle = 0f;
     private float ztTargetAngle = 0f;
     private float ztScore = 0f;

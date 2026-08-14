@@ -368,8 +368,6 @@ public partial class MiniGameManager : MonoBehaviour
     }
 
     // --- 7. ZenTracing ---
-    private Label ztProgressText;
-    private VisualElement ztProgressFill;
 
     private void SetupZenTracing()
     {
@@ -378,63 +376,14 @@ public partial class MiniGameManager : MonoBehaviour
         ztScore = 0f;
         timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
         
-        ztContainer.Clear();
-        ztContainer.style.alignItems = Align.Center;
-        ztContainer.style.justifyContent = Justify.Center;
-        ztContainer.style.backgroundColor = new Color(0.9f, 0.85f, 0.8f); // Warm grey/beige
-
-        Label title = new Label("Suburban Sensory Mud Spa");
-        title.style.fontSize = 24;
-        title.style.color = new Color(0.4f, 0.2f, 0f); // Brown
-        title.style.position = Position.Absolute;
-        title.style.top = 20;
-        ztContainer.Add(title);
-
-        ztCircle = new VisualElement();
-        ztCircle.style.width = 300;
-        ztCircle.style.height = 300;
-        ztCircle.style.borderTopWidth = 10;
-        ztCircle.style.borderBottomWidth = 10;
-        ztCircle.style.borderLeftWidth = 10;
-        ztCircle.style.borderRightWidth = 10;
-        ztCircle.style.borderTopColor = new Color(0.6f, 0.4f, 0.2f); // Warm brown
-        ztCircle.style.borderBottomColor = new Color(0.6f, 0.4f, 0.2f);
-        ztCircle.style.borderLeftColor = new Color(0.6f, 0.4f, 0.2f);
-        ztCircle.style.borderRightColor = new Color(0.6f, 0.4f, 0.2f);
-        ztCircle.style.borderTopLeftRadius = 150;
-        ztCircle.style.borderTopRightRadius = 150;
-        ztCircle.style.borderBottomLeftRadius = 150;
-        ztCircle.style.borderBottomRightRadius = 150;
-        ztCircle.style.alignItems = Align.Center;
-        ztCircle.style.justifyContent = Justify.Center;
-        ztContainer.Add(ztCircle);
-
-        ztTarget = new VisualElement();
-        ztTarget.style.width = 40;
-        ztTarget.style.height = 40;
-        ztTarget.style.backgroundColor = new Color(1f, 0.75f, 0f); // Glowing amber
-        ztTarget.style.borderTopLeftRadius = 20;
-        ztTarget.style.borderTopRightRadius = 20;
-        ztTarget.style.borderBottomLeftRadius = 20;
-        ztTarget.style.borderBottomRightRadius = 20;
-        ztTarget.style.position = Position.Absolute;
-        ztCircle.Add(ztTarget);
-
-        ztSponge = new VisualElement();
-        ztSponge.style.width = 60;
-        ztSponge.style.height = 60;
-        ztSponge.style.backgroundColor = new Color(0.4f, 0.2f, 0f); // Mud brown
-        ztSponge.style.borderTopLeftRadius = 30;
-        ztSponge.style.borderTopRightRadius = 30;
-        ztSponge.style.borderBottomLeftRadius = 30;
-        ztSponge.style.borderBottomRightRadius = 30;
-        ztSponge.style.position = Position.Absolute;
-        ztCircle.Add(ztSponge);
+        ztProgressFill.style.width = new Length(0, LengthUnit.Percent);
+        ztProgressText.text = "RELAXATION: 0%";
 
         ztContainer.RegisterCallback<PointerMoveEvent>(evt => {
             if (evt.pressedButtons != 0)
             {
                 Vector2 localPos = evt.localPosition;
+                // Offset calculation relative to the ZtCircle element inside ZtContainer
                 Vector2 center = new Vector2(ztContainer.layout.width / 2f, ztContainer.layout.height / 2f);
                 Vector2 dir = localPos - center;
                 ztAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -446,30 +395,6 @@ public partial class MiniGameManager : MonoBehaviour
             Vector2 dir = localPos - center;
             ztAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         });
-
-        VisualElement progressContainer = new VisualElement();
-        progressContainer.style.width = 300;
-        progressContainer.style.height = 30;
-        progressContainer.style.backgroundColor = Color.black;
-        progressContainer.style.marginTop = 40;
-        progressContainer.style.position = Position.Absolute;
-        progressContainer.style.bottom = 40;
-        ztContainer.Add(progressContainer);
-
-        ztProgressFill = new VisualElement();
-        ztProgressFill.style.height = new Length(100, LengthUnit.Percent);
-        ztProgressFill.style.width = new Length(0, LengthUnit.Percent);
-        ztProgressFill.style.backgroundColor = Color.green;
-        progressContainer.Add(ztProgressFill);
-
-        ztProgressText = new Label("Relaxation: 0%");
-        ztProgressText.style.position = Position.Absolute;
-        ztProgressText.style.width = new Length(100, LengthUnit.Percent);
-        ztProgressText.style.height = new Length(100, LengthUnit.Percent);
-        ztProgressText.style.unityTextAlign = TextAnchor.MiddleCenter;
-        ztProgressText.style.fontSize = 20;
-        ztProgressText.style.color = Color.white;
-        progressContainer.Add(ztProgressText);
 
         activeGameRoutine = StartCoroutine(ZenTracingRoutine());
     }
@@ -496,25 +421,25 @@ public partial class MiniGameManager : MonoBehaviour
                 float rad = ztTargetAngle * Mathf.Deg2Rad;
                 ztTarget.style.left = new Length(50f + Mathf.Cos(rad) * 45f, LengthUnit.Percent);
                 ztTarget.style.top = new Length(50f + Mathf.Sin(rad) * 45f, LengthUnit.Percent);
-                ztTarget.style.translate = new StyleTranslate(new Translate(-20, -20, 0));
+                ztTarget.style.translate = new StyleTranslate(new Translate(-22, -22, 0));
             }
             if (ztSponge != null)
             {
                 float rad = ztAngle * Mathf.Deg2Rad;
                 ztSponge.style.left = new Length(50f + Mathf.Cos(rad) * 45f, LengthUnit.Percent);
                 ztSponge.style.top = new Length(50f + Mathf.Sin(rad) * 45f, LengthUnit.Percent);
-                ztSponge.style.translate = new StyleTranslate(new Translate(-30, -30, 0));
+                ztSponge.style.translate = new StyleTranslate(new Translate(-28, -28, 0));
             }
 
             float diff = Mathf.Abs(Mathf.DeltaAngle(ztAngle, ztTargetAngle));
             if (diff < 30f)
             {
                 ztScore += Time.deltaTime;
-                if (ztSponge != null) ztSponge.style.backgroundColor = new Color(0.6f, 0.8f, 0.2f); // Greenish brown
+                if (ztSponge != null) ztSponge.style.backgroundColor = new Color(0.2f, 0.8f, 0.2f, 0.8f); // Greenish success
             }
             else
             {
-                if (ztSponge != null) ztSponge.style.backgroundColor = new Color(0.8f, 0.2f, 0.2f); // Reddish brown
+                if (ztSponge != null) ztSponge.style.backgroundColor = new Color(0.9f, 0.2f, 0.2f, 0.8f); // Reddish fail
             }
 
             float relaxPct = Mathf.Clamp01(ztScore / (totalTime * 0.7f));

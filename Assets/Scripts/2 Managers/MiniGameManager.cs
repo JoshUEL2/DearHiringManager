@@ -916,9 +916,11 @@ public partial class MiniGameManager : MonoBehaviour
         ztContainer = root.Q<VisualElement>("ZenTracingContainer");
         if (ztContainer != null)
         {
-            ztCircle = ztContainer.Q<VisualElement>("ZenCircle");
-            ztTarget = ztContainer.Q<VisualElement>("ZenTarget");
-            ztSponge = ztContainer.Q<VisualElement>("ZenSponge");
+            ztCircle = ztContainer.Q<VisualElement>("ZtCircle");
+            ztTarget = ztContainer.Q<VisualElement>("ZtTarget");
+            ztSponge = ztContainer.Q<VisualElement>("ZtSponge");
+            ztProgressFill = ztContainer.Q<VisualElement>("ZtProgressFill");
+            ztProgressText = ztContainer.Q<Label>("ZtProgressText");
             
             if (ztContainer != null)
             {
