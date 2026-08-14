@@ -5466,3 +5466,66 @@ Memory consumption went from 0.70 GB to 0.70 GB.
 Total: 10.606959 ms (FindLiveObjects: 0.658375 ms CreateObjectMapping: 1.726291 ms MarkObjects: 5.378959 ms  DeleteObjects: 2.839459 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6438 unused Assets / (4.6 MB). Loaded Objects now: 7577.
+Memory consumption went from 0.70 GB to 0.69 GB.
+Total: 24.546375 ms (FindLiveObjects: 1.640417 ms CreateObjectMapping: 2.039125 ms MarkObjects: 16.533167 ms  DeleteObjects: 4.329541 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+[Licensing::Client] Successfully resolved entitlement details
+Begin MonoManager ReloadAssembly
+Thread 0x16f567000 may have been prematurely finalized
+ADTM: Control thread waiting for realtime thread timed out, have to lock...
+Native extension for iOS target not found
+2026-08-14 22:37:04.897 Unity[95093:12846105] [XcodeApplications] Expected com.apple.dt.Xcode CFBundleIdentifier but found com.microsoft.VSCode in /Applications/Visual Studio Code.app/Contents/Info.plist
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.676 seconds
+Domain Reload Profiling: 2326ms
+	BeginReloadAssembly (1168ms)
+		DisableScriptedObjects (8ms)
+		CreateAndSetChildDomain (1046ms)
+	RebuildCommonClasses (6ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (38ms)
+	LoadAllAssembliesAndSetupDomain (423ms)
+		LoadAssemblies (234ms)
+		AnalyzeDomain (144ms)
+			TypeCache.Refresh (12ms)
+			BuildScriptInfoCaches (122ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (677ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (15ms)
+			BeforeProcessingInitializeOnLoad (76ms)
+			ProcessInitializeOnLoadAttributes (321ms)
+			ProcessInitializeOnLoadMethodAttributes (81ms)
+		AwakeInstancesAfterBackupRestoration (21ms)
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6449 unused Assets / (5.6 MB). Loaded Objects now: 7580.
+Memory consumption went from 0.71 GB to 0.70 GB.
+Total: 10.914083 ms (FindLiveObjects: 0.460709 ms CreateObjectMapping: 1.714083 ms MarkObjects: 6.043875 ms  DeleteObjects: 2.694875 ms)
+
+Prepare: number of updated asset objects reloaded= 0

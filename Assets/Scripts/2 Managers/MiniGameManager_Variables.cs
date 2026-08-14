@@ -329,6 +329,7 @@ public partial class MiniGameManager : MonoBehaviour
 
     // Skim ATM
     private UnityEngine.UIElements.VisualElement saContainer;
+
     private System.Collections.Generic.List<UnityEngine.UIElements.VisualElement> saLeftNodes = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>();
     private System.Collections.Generic.List<UnityEngine.UIElements.VisualElement> saRightNodes = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>();
     private int saConnections = 0;
@@ -475,10 +476,13 @@ public partial class MiniGameManager : MonoBehaviour
     private float isBodyTemp = 100f;
 
     // NameMemory
-    private VisualElement nmContainer, nmVipArea, nmAnswerRow;
-    private Label nmQuestionText;
-    private List<VisualElement> nmVips = new List<VisualElement>();
-    private List<Button> nmAnswers = new List<Button>();
+    private UnityEngine.UIElements.VisualElement nmContainer;
+    private UnityEngine.UIElements.Label nmTimeLabel;
+    private UnityEngine.UIElements.Label nmTableText;
+    private UnityEngine.UIElements.VisualElement[] nmSeats = new UnityEngine.UIElements.VisualElement[4];
+    private UnityEngine.UIElements.VisualElement[] nmPlates = new UnityEngine.UIElements.VisualElement[4];
+    private UnityEngine.UIElements.Label[] nmCards = new UnityEngine.UIElements.Label[4];
+    private UnityEngine.UIElements.Label[] nmEmojis = new UnityEngine.UIElements.Label[4];
     private int nmCorrectIndex = -1;
     private bool nmIsAnsweringPhase = false;
 

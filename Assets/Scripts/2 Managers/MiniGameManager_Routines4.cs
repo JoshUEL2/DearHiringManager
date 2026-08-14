@@ -667,29 +667,43 @@ public partial class MiniGameManager : MonoBehaviour
         nmRoundsPlayed = 0;
         nmCorrectAnswers = 0;
         
-        nmContainer.Clear();
-        nmContainer.style.alignItems = Align.Center;
-        nmContainer.style.justifyContent = Justify.Center;
+        nmTimeLabel = nmContainer.Q<Label>("NmTimeText");
+        nmTableText = nmContainer.Q<Label>("NmTableText");
 
-        nmQuestionText = new Label();
-        nmQuestionText.style.fontSize = 24;
-        nmQuestionText.style.color = Color.white;
-        nmQuestionText.style.marginBottom = 20;
-        nmContainer.Add(nmQuestionText);
-
-        nmVipArea = new VisualElement();
-        nmVipArea.style.flexDirection = FlexDirection.Row;
-        nmVipArea.style.justifyContent = Justify.Center;
-        nmVipArea.style.marginBottom = 20;
-        nmContainer.Add(nmVipArea);
-
-        nmAnswerRow = new VisualElement();
-        nmAnswerRow.style.flexDirection = FlexDirection.Row;
-        nmAnswerRow.style.justifyContent = Justify.Center;
-        nmAnswerRow.style.flexWrap = Wrap.Wrap;
-        nmContainer.Add(nmAnswerRow);
+        for (int i = 0; i < 4; i++)
+        {
+            nmSeats[i] = nmContainer.Q<VisualElement>($"NmSeat{i}");
+            nmPlates[i] = nmContainer.Q<VisualElement>($"NmPlate{i}");
+            nmCards[i] = nmContainer.Q<Label>($"NmCard{i}");
+            nmEmojis[i] = nmContainer.Q<Label>($"NmEmoji{i}");
+            
+            // Clear past callbacks
+            nmSeats[i].UnregisterCallback<PointerDownEvent>(OnSeatClicked);
+            int idx = i;
+            nmSeats[i].RegisterCallback<PointerDownEvent>(ev => OnSeatClicked(ev, idx));
+        }
 
         activeGameRoutine = StartCoroutine(NameMemoryRoutineSequence());
+    }
+
+    private void OnSeatClicked(PointerDownEvent ev, int seatIndex)
+    {
+        if (!isPlaying || !nmIsAnsweringPhase) return;
+        nmIsAnsweringPhase = false; // block further clicks
+
+        if (seatIndex == nmCorrectIndex)
+        {
+            nmPlates[seatIndex].style.backgroundColor = new Color(0.18f, 0.8f, 0.44f); // Green
+            nmCorrectAnswers++;
+        }
+        else
+        {
+            nmPlates[seatIndex].style.backgroundColor = new Color(0.9f, 0.29f, 0.23f); // Red
+            if (nmCorrectIndex >= 0)
+            {
+                nmPlates[nmCorrectIndex].style.backgroundColor = new Color(0.18f, 0.8f, 0.44f);
+            }
+        }
     }
 
     private IEnumerator NameMemoryRoutineSequence()
@@ -711,134 +725,72 @@ public partial class MiniGameManager : MonoBehaviour
 
     private IEnumerator PlayNameMemoryRound()
     {
-        nmVipArea.Clear();
-        nmVips.Clear();
-        nmAnswerRow.Clear();
-        nmAnswers.Clear();
         nmIsAnsweringPhase = false;
+        
+        // Reset plate colors
+        for (int i = 0; i < 4; i++)
+        {
+            nmPlates[i].style.backgroundColor = new Color(0.95f, 0.96f, 0.96f); // #F3F4F6
+        }
 
         List<string> selectedVips = new List<string>();
         List<string> pool = new List<string>(currentConfig.vipNames);
-        for (int i = 0; i < 4; i++) // Show 4 cards
+        
+        for (int i = 0; i < 4; i++) // Show 4 seats
         {
             if (pool.Count == 0) break;
             int idx = Random.Range(0, pool.Count);
             selectedVips.Add(pool[idx]);
             pool.RemoveAt(idx);
+            
+            // Set UI
+            nmCards[i].text = selectedVips[i];
+            nmCards[i].style.display = DisplayStyle.Flex; // Show namecards
         }
 
         nmCorrectIndex = Random.Range(0, selectedVips.Count);
-        string questionTarget = selectedVips[nmCorrectIndex].Split(' ')[2]; 
+        string questionTarget = selectedVips[nmCorrectIndex]; 
         
-        nmQuestionText.text = "Memorize the VIPs!";
+        nmTableText.text = "MEMORIZE SEATS!";
         
-        for (int i = 0; i < selectedVips.Count; i++)
-        {
-            string dept = selectedVips[i].Split(' ')[2];
-            Color bgColor = Color.gray;
-            if (dept == "Tech") bgColor = Color.blue;
-            else if (dept == "Sales") bgColor = Color.green;
-            else if (dept == "HR") bgColor = new Color(0.5f, 0f, 0.5f); // purple
-            else if (dept == "Legal") bgColor = new Color(1f, 0.6f, 0f); // orange
-
-            VisualElement vip = new VisualElement();
-            vip.style.width = 120;
-            vip.style.height = 160;
-            vip.style.backgroundColor = bgColor;
-            vip.style.borderTopLeftRadius = 10; vip.style.borderTopRightRadius = 10; vip.style.borderBottomLeftRadius = 10; vip.style.borderBottomRightRadius = 10;
-            vip.style.justifyContent = Justify.Center;
-            vip.style.alignItems = Align.Center;
-            vip.style.marginRight = 10;
-            vip.style.marginLeft = 10;
-
-            Label nameLbl = new Label(selectedVips[i].Split(' ')[0]);
-            nameLbl.style.fontSize = 24;
-            nameLbl.style.color = Color.white;
-            nameLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            vip.Add(nameLbl);
-
-            Label deptLbl = new Label(dept);
-            deptLbl.style.fontSize = 20;
-            deptLbl.style.color = Color.white;
-            vip.Add(deptLbl);
-
-            nmVips.Add(vip);
-            nmVipArea.Add(vip);
-        }
-
-        float memTimer = 5f;
+        float memTimer = 4f;
         while (memTimer > 0 && isPlaying)
         {
             memTimer -= Time.deltaTime;
-            nmQuestionText.text = $"Memorize the VIPs! {memTimer:F1}s";
+            nmTimeLabel.text = $"TIME: {memTimer:F1}s";
             yield return null;
         }
         if (!isPlaying) yield break;
 
+        // Hide names and ask question
+        for (int i = 0; i < 4; i++)
+        {
+            nmCards[i].style.display = DisplayStyle.None;
+        }
+        
+        nmTableText.text = $"Where is\n{questionTarget}?";
         nmIsAnsweringPhase = true;
-        nmQuestionText.text = $"Who was from {questionTarget}?";
-        
-        foreach (var vip in nmVips) vip.style.display = DisplayStyle.None;
-        
-        // Shuffle answer indices
-        List<int> ansIndices = new List<int>();
-        for (int i = 0; i < selectedVips.Count; i++) ansIndices.Add(i);
-        for (int i = 0; i < ansIndices.Count; i++)
-        {
-            int temp = ansIndices[i];
-            int rnd = Random.Range(i, ansIndices.Count);
-            ansIndices[i] = ansIndices[rnd];
-            ansIndices[rnd] = temp;
-        }
 
-        bool answered = false;
-
-        foreach (int idx in ansIndices)
+        // Wait for player to answer
+        float answerTimer = 5f;
+        while (answerTimer > 0 && nmIsAnsweringPhase && isPlaying)
         {
-            Button ansBtn = new Button();
-            ansBtn.text = selectedVips[idx].Split(' ')[0];
-            ansBtn.style.fontSize = 22;
-            ansBtn.style.width = 150;
-            ansBtn.style.height = 60;
-            ansBtn.style.marginRight = 10;
-            ansBtn.style.marginLeft = 10;
-            ansBtn.style.marginTop = 10;
-            ansBtn.style.backgroundColor = Color.gray;
-            ansBtn.style.color = Color.white;
-            
-            int capturedIdx = idx;
-            ansBtn.clicked += () => {
-                if (!isPlaying || !nmIsAnsweringPhase || answered) return;
-                answered = true;
-                if (capturedIdx == nmCorrectIndex)
-                {
-                    ansBtn.style.backgroundColor = Color.green;
-                    nmCorrectAnswers++;
-                }
-                else
-                {
-                    ansBtn.style.backgroundColor = Color.red;
-                }
-            };
-            nmAnswers.Add(ansBtn);
-            nmAnswerRow.Add(ansBtn);
-        }
-
-        float ansTimer = 10f;
-        while (ansTimer > 0 && isPlaying && !answered)
-        {
-            ansTimer -= Time.deltaTime;
+            answerTimer -= Time.deltaTime;
+            nmTimeLabel.text = $"TIME: {answerTimer:F1}s";
             yield return null;
         }
         
         if (!isPlaying) yield break;
-        if (!answered) 
+
+        // If they ran out of time
+        if (nmIsAnsweringPhase)
         {
-            // Time out on question = wrong
+            nmIsAnsweringPhase = false;
+            nmPlates[nmCorrectIndex].style.backgroundColor = new Color(0.18f, 0.8f, 0.44f);
         }
-        
+
         // Brief pause to show result
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
     }
 
     // --- 10. CorporateGolf ---
