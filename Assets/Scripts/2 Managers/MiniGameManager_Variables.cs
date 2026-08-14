@@ -479,10 +479,7 @@ public partial class MiniGameManager : MonoBehaviour
     private float ztTargetAngle = 0f;
     private float ztScore = 0f;
 
-    // IceShatter
-    private VisualElement isContainer, isFrostOverlay;
-    private List<Button> isNodes = new List<Button>();
-    private float isBodyTemp = 100f;
+
 
     // NameMemory
     private UnityEngine.UIElements.VisualElement nmContainer;
