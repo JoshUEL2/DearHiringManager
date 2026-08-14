@@ -12,8 +12,8 @@
         <ui:Label text="DRAG TO MOW! AVOID OBSTACLES!" style="font-size: 20px; color: white; -unity-font-style: bold; margin-bottom: 15px; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
 
         <!-- 6x6 Grid Container -->
-        <!-- Fixed size to exactly 360x360 so each 6x6 tile is 60x60 -->
-        <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 360px; height: 360px; background-color: #111827; border-radius: 8px; border-width: 4px; border-color: #1F2937; overflow: hidden; align-content: flex-start; justify-content: flex-start;">
+        <!-- Fixed size to exactly 368x368 so the inner content is 360x360 (6x6 tiles of 60px) -->
+        <ui:VisualElement name="MgGrid" style="flex-direction: row; flex-wrap: wrap; width: 368px; height: 368px; background-color: #111827; border-radius: 8px; border-width: 4px; border-color: #1F2937; overflow: hidden; align-content: flex-start; justify-content: flex-start;">
             <!-- Tiles will be spawned dynamically in C# -->
         </ui:VisualElement>
         

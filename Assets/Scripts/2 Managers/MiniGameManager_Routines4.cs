@@ -1068,12 +1068,12 @@ public partial class MiniGameManager : MonoBehaviour
                 mgGrid.RegisterCallback<PointerDownEvent>(ev => {
                     mgIsDragging = true;
                     mgGrid.CapturePointer(ev.pointerId);
-                    HandleMowInteraction(ev.localPosition);
+                    HandleMowInteraction(mgGrid.WorldToLocal(ev.position));
                 });
                 
                 mgGrid.RegisterCallback<PointerMoveEvent>(ev => {
                     if (mgIsDragging && isPlaying) {
-                        HandleMowInteraction(ev.localPosition);
+                        HandleMowInteraction(mgGrid.WorldToLocal(ev.position));
                     }
                 });
                 
@@ -1095,9 +1095,12 @@ public partial class MiniGameManager : MonoBehaviour
     {
         if (mgGrid == null || !isPlaying) return;
         
-        // Grid is 360x360, each tile is 60x60
-        int col = (int)(localPos.x / 60f);
-        int row = (int)(localPos.y / 60f);
+        // Grid is 360x360, each tile is 60x60. MgGrid has 4px borders, so content starts at 4,4
+        float adjustedX = localPos.x - 4f;
+        float adjustedY = localPos.y - 4f;
+        
+        int col = (int)(adjustedX / 60f);
+        int row = (int)(adjustedY / 60f);
         
         if (col >= 0 && col < 6 && row >= 0 && row < 6)
         {
