@@ -1199,12 +1199,18 @@ public partial class MiniGameManager : MonoBehaviour
                         }
                     }
                     
+                    // Box boundary checks (instead of pure radius, so they can reach the corners)
+                    float edgeDistX = (containerWidth / 2f) - 30f;
+                    float edgeDistY = (containerHeight / 2f) - 30f;
+                    bool isNearEdge = UnityEngine.Mathf.Abs(x) > edgeDistX * 0.8f || UnityEngine.Mathf.Abs(y) > edgeDistY * 0.8f;
+                    bool isOut = UnityEngine.Mathf.Abs(x) > edgeDistX || UnityEngine.Mathf.Abs(y) > edgeDistY;
+                    
                     if (wdLeashElements[i] != null) {
                         wdLeashElements[i].style.width = wdDogDistances[i];
                         wdLeashElements[i].style.rotate = new UnityEngine.UIElements.Rotate(new UnityEngine.UIElements.Angle(wdDogAngles[i], UnityEngine.UIElements.AngleUnit.Degree));
                         
                         // Change leash color if getting tense
-                        if (wdDogDistances[i] > maxAllowedDistance * 0.8f) {
+                        if (isNearEdge) {
                             wdLeashElements[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(UnityEngine.Color.red);
                         } else {
                             wdLeashElements[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.6f, 0.3f, 0.1f));
@@ -1212,7 +1218,7 @@ public partial class MiniGameManager : MonoBehaviour
                     }
                     
                     // Check snap condition
-                    if (wdDogDistances[i] > maxAllowedDistance)
+                    if (isOut)
                     {
                         if (wdLeashElements[i] != null) wdLeashElements[i].style.display = UnityEngine.UIElements.DisplayStyle.None;
                         EndGame(false); // Leash snaps
