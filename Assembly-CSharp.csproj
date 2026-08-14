@@ -159,7 +159,6 @@
     <None Include="Assets/UI/MiniGames/MowGreensContainer.uxml" />
     <None Include="Assets/UI/MiniGames/ScrubPlateContainer.uxml" />
     <None Include="Assets/UI/MiniGames/SkimATMContainer.uxml" />
-    <None Include="Assets/UI/MiniGames/GcProjectileContainer.uxml" />
     <None Include="Assets/UI/MiniGames/WhackGridContainer.uxml" />
     <None Include="Assets/UI/MiniGames/TetrisContainer.uxml" />
     <None Include="Assets/UI/JailDocument.uxml" />
