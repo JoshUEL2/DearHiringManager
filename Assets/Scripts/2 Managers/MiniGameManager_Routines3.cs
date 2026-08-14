@@ -811,11 +811,13 @@ public partial class MiniGameManager : MonoBehaviour
             sbTargetNums[i] = UnityEngine.Random.Range(0, 10);
             sbCurrentDialNums[i] = UnityEngine.Random.Range(0, 10);
             
+            if (sbDialsOut[i] != null) sbDialsOut[i].text = ((sbCurrentDialNums[i] + 2) % 10).ToString();
             if (sbDialsTop[i] != null) sbDialsTop[i].text = ((sbCurrentDialNums[i] + 1) % 10).ToString();
             if (sbDialsMid[i] != null) sbDialsMid[i].text = sbCurrentDialNums[i].ToString();
             if (sbDialsBot[i] != null) sbDialsBot[i].text = ((sbCurrentDialNums[i] - 1 + 10) % 10).ToString();
             
             if (sbDialsMid[i] != null) sbDialsMid[i].style.color = UnityEngine.Color.black;
+            if (sbDialStrips[i] != null) sbDialStrips[i].style.top = -75f;
         }
         if (sbTargetText != null) sbTargetText.text = $"TARGET: {sbTargetNums[0]} - {sbTargetNums[1]} - {sbTargetNums[2]}";
         
@@ -851,18 +853,31 @@ public partial class MiniGameManager : MonoBehaviour
             timer -= UnityEngine.Time.deltaTime;
             sbSpinTimer += UnityEngine.Time.deltaTime;
             
-            // Speed starts at 0.1. Gets faster with each lock cracked.
-            float currentSpeed = 0.12f - (sbCurrentDial * 0.035f); 
-            if (currentSpeed < 0.03f) currentSpeed = 0.03f;
+            // Speed starts at 0.12. Gets faster with each lock cracked.
+            float currentSpeed = 0.35f - (sbCurrentDial * 0.08f); 
+            if (currentSpeed < 0.15f) currentSpeed = 0.15f;
             
-            if (sbSpinTimer > currentSpeed) {
+            float progress = sbSpinTimer / currentSpeed;
+            if (progress > 1f) progress = 1f;
+            float currentTop = -75f + (progress * 75f);
+            
+            for (int i = sbCurrentDial; i < 3; i++) {
+                if (sbDialStrips[i] != null) {
+                    sbDialStrips[i].style.top = currentTop;
+                }
+            }
+
+            if (sbSpinTimer >= currentSpeed) {
                 sbSpinTimer = 0f;
                 for (int i = sbCurrentDial; i < 3; i++) {
                     sbCurrentDialNums[i] = (sbCurrentDialNums[i] - 1 + 10) % 10;
                     
+                    if (sbDialsOut[i] != null) sbDialsOut[i].text = ((sbCurrentDialNums[i] + 2) % 10).ToString();
                     if (sbDialsTop[i] != null) sbDialsTop[i].text = ((sbCurrentDialNums[i] + 1) % 10).ToString();
                     if (sbDialsMid[i] != null) sbDialsMid[i].text = sbCurrentDialNums[i].ToString();
                     if (sbDialsBot[i] != null) sbDialsBot[i].text = ((sbCurrentDialNums[i] - 1 + 10) % 10).ToString();
+                    
+                    if (sbDialStrips[i] != null) sbDialStrips[i].style.top = -75f;
                 }
             }
 

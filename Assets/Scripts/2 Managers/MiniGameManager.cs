@@ -544,6 +544,8 @@ public partial class MiniGameManager : MonoBehaviour
         // Keep existing unmodified minigame bindings
         snatchBriefcaseContainer = root.Q<UnityEngine.UIElements.VisualElement>("SnatchBriefcaseContainer");
         for(int i=0; i<3; i++) {
+            sbDialStrips[i] = root.Q<UnityEngine.UIElements.VisualElement>($"SbDial{i}_Strip");
+            sbDialsOut[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Out");
             sbDialsTop[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Top");
             sbDialsMid[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Mid");
             sbDialsBot[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Bot");

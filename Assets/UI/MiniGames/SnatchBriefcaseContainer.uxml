@@ -9,32 +9,57 @@
         
         <ui:Label text="CRACK THE LOCK!" style="font-size: 28px; color: #FCD34D; -unity-font-style: bold; margin-bottom: 30px;" />
         
-        <!-- The 3 Dials -->
-        <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%; margin-bottom: 30px; position: relative;">
-            
-            <!-- Selection Highlight Box -->
-            <ui:VisualElement style="position: absolute; width: 320px; height: 75px; background-color: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.4); border-top-width: 2px; border-bottom-width: 2px; top: 75px;" />
+        <!-- The 3 Dials Container -->
+        <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%; margin-bottom: 30px; position: relative; padding: 10px 0;">
             
             <!-- Dial 0 -->
-            <ui:VisualElement style="width: 80px; height: 225px; background-color: #D4AF37; border-radius: 10px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 2px; border-color: #9CA3AF; justify-content: space-between;">
-                <ui:Label name="SbDial0_Top" text="0" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial0_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial0_Bot" text="2" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+            <ui:VisualElement style="width: 90px; height: 225px; background-color: #A38021; border-radius: 12px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 3px; border-color: #715516; position: relative;">
+                
+                <ui:VisualElement name="SbDial0_Strip" style="position: absolute; width: 100%; height: 300px; flex-direction: column; top: -75px;">
+                    <ui:Label name="SbDial0_Out" text="9" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial0_Top" text="0" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial0_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial0_Bot" text="2" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+                </ui:VisualElement>
+
+                <!-- Gradient Overlays for 3D Cylinder Effect -->
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; top: 0; background-color: rgba(0, 0, 0, 0.6);" />
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; bottom: 0; background-color: rgba(0, 0, 0, 0.6);" />
             </ui:VisualElement>
 
             <!-- Dial 1 -->
-            <ui:VisualElement style="width: 80px; height: 225px; background-color: #D4AF37; border-radius: 10px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 2px; border-color: #9CA3AF; justify-content: space-between;">
-                <ui:Label name="SbDial1_Top" text="0" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial1_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial1_Bot" text="2" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+            <ui:VisualElement style="width: 90px; height: 225px; background-color: #A38021; border-radius: 12px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 3px; border-color: #715516; position: relative;">
+                
+                <ui:VisualElement name="SbDial1_Strip" style="position: absolute; width: 100%; height: 300px; flex-direction: column; top: -75px;">
+                    <ui:Label name="SbDial1_Out" text="9" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial1_Top" text="0" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial1_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial1_Bot" text="2" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+                </ui:VisualElement>
+
+                <!-- Gradient Overlays for 3D Cylinder Effect -->
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; top: 0; background-color: rgba(0, 0, 0, 0.6);" />
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; bottom: 0; background-color: rgba(0, 0, 0, 0.6);" />
             </ui:VisualElement>
 
             <!-- Dial 2 -->
-            <ui:VisualElement style="width: 80px; height: 225px; background-color: #D4AF37; border-radius: 10px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 2px; border-color: #9CA3AF; justify-content: space-between;">
-                <ui:Label name="SbDial2_Top" text="0" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial2_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
-                <ui:Label name="SbDial2_Bot" text="2" style="font-size: 45px; color: rgba(0,0,0,0.5); -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+            <ui:VisualElement style="width: 90px; height: 225px; background-color: #A38021; border-radius: 12px; margin: 0 10px; flex-direction: column; overflow: hidden; border-width: 3px; border-color: #715516; position: relative;">
+                
+                <ui:VisualElement name="SbDial2_Strip" style="position: absolute; width: 100%; height: 300px; flex-direction: column; top: -75px;">
+                    <ui:Label name="SbDial2_Out" text="9" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial2_Top" text="0" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial2_Mid" text="1" style="font-size: 55px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px; border-bottom-width: 2px; border-color: rgba(0,0,0,0.4);" />
+                    <ui:Label name="SbDial2_Bot" text="2" style="font-size: 45px; color: black; -unity-font-style: bold; -unity-text-align: middle-center; height: 75px;" />
+                </ui:VisualElement>
+
+                <!-- Gradient Overlays for 3D Cylinder Effect -->
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; top: 0; background-color: rgba(0, 0, 0, 0.6);" />
+                <ui:VisualElement style="position: absolute; width: 100%; height: 75px; bottom: 0; background-color: rgba(0, 0, 0, 0.6);" />
             </ui:VisualElement>
+
+            <!-- Main Selection Bracket Overlay -->
+            <ui:VisualElement style="position: absolute; width: 350px; height: 75px; border-color: #FCD34D; border-width: 3px; border-left-width: 0; border-right-width: 0; top: 85px; pointer-events: none;" />
+            <ui:VisualElement style="position: absolute; width: 360px; height: 85px; top: 80px; left: -15px; border-color: #B45309; border-width: 2px; pointer-events: none; border-radius: 8px;" />
 
         </ui:VisualElement>
         

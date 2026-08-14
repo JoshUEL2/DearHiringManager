@@ -305,6 +305,8 @@ public partial class MiniGameManager : MonoBehaviour
     
     // Snatch Briefcase Variables
     private UnityEngine.UIElements.VisualElement snatchBriefcaseContainer;
+    private UnityEngine.UIElements.VisualElement[] sbDialStrips = new UnityEngine.UIElements.VisualElement[3];
+    private UnityEngine.UIElements.Label[] sbDialsOut = new UnityEngine.UIElements.Label[3];
     private UnityEngine.UIElements.Label[] sbDialsTop = new UnityEngine.UIElements.Label[3];
     private UnityEngine.UIElements.Label[] sbDialsMid = new UnityEngine.UIElements.Label[3];
     private UnityEngine.UIElements.Label[] sbDialsBot = new UnityEngine.UIElements.Label[3];
