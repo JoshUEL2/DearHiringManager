@@ -1035,7 +1035,10 @@ public partial class MiniGameManager : MonoBehaviour
                     tile.style.borderBottomWidth = 2;
                     tile.style.borderLeftWidth = 2;
                     tile.style.borderRightWidth = 2;
-                    tile.style.borderColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
+                    tile.style.borderTopColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
+                    tile.style.borderBottomColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
+                    tile.style.borderLeftColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
+                    tile.style.borderRightColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f));
                     
                     if (mgIsObstacle[i])
                     {
