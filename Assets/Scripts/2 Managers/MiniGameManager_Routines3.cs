@@ -831,6 +831,7 @@ public partial class MiniGameManager : MonoBehaviour
         int currentNum = sbCurrentDialNums[sbCurrentDial];
         if (currentNum == sbTargetNums[sbCurrentDial]) {
             if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new UnityEngine.Color(0.18f, 0.8f, 0.44f); // Green
+            if (sbDialStrips[sbCurrentDial] != null) sbDialStrips[sbCurrentDial].style.top = -75f; // Snap to perfect center
             sbCurrentDial++;
             if (sbCurrentDial >= 3) {
                 sbStopBtn.text = "UNLOCKED!";
