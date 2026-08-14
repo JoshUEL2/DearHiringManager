@@ -3293,3 +3293,371 @@ Memory consumption went from 0.51 GB to 0.50 GB.
 Total: 9.806000 ms (FindLiveObjects: 0.482583 ms CreateObjectMapping: 1.803667 ms MarkObjects: 5.758792 ms  DeleteObjects: 1.760542 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6438 unused Assets / (4.9 MB). Loaded Objects now: 7478.
+Memory consumption went from 0.50 GB to 510.5 MB.
+Total: 21.739250 ms (FindLiveObjects: 1.303500 ms CreateObjectMapping: 1.659750 ms MarkObjects: 16.495333 ms  DeleteObjects: 2.278208 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6438 unused Assets / (6.8 MB). Loaded Objects now: 7478.
+Memory consumption went from 0.50 GB to 506.4 MB.
+Total: 32.592917 ms (FindLiveObjects: 3.198208 ms CreateObjectMapping: 1.822333 ms MarkObjects: 22.949667 ms  DeleteObjects: 4.283917 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.380665Z
+  Time since last request: 18887.0972714160016 seconds.
+  importAddress: GUID: 0a96e96ba31e141698548bc6c2a45e00 - Path: Assets/UI/MiniGames/VrArcadeContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 0a96e96ba31e141698548bc6c2a45e00 - Path: Assets/UI/MiniGames/VrArcadeContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 0a96e96ba31e141698548bc6c2a45e00' -> (Import Result ID: '43aa5cc8caa2fdd3aedfb233abcb2058') in 0.141 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8fb853a72bf860fc16802051427418c4 DependenciesID=8d63bcc6a530e28616f106496b72cb2b StaticDependenciesID=21eece0bcba44f5463f456d60b636eed 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.537604Z
+  Time since last request: 0.00048525 seconds.
+  importAddress: GUID: 2a6b70bb20b97455e98ed548cda2fc64 - Path: Assets/UI/MiniGames/ChartAdjusterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 2a6b70bb20b97455e98ed548cda2fc64 - Path: Assets/UI/MiniGames/ChartAdjusterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 2a6b70bb20b97455e98ed548cda2fc64' -> (Import Result ID: 'b8d30493027a81dc12b51859f378ddc6') in 0.005 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ae2ff239ae53c4666a57747a26873e4d DependenciesID=d270f8da5f46b02bd7fb0ddf2c00f6b3 StaticDependenciesID=615565270734ba9a035df07bb14f558f 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.555559Z
+  Time since last request: 0.000586333 seconds.
+  importAddress: GUID: 0580c5b689d964a9aaeb8dadab9d1a9e - Path: Assets/UI/MiniGame.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 0580c5b689d964a9aaeb8dadab9d1a9e - Path: Assets/UI/MiniGame.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 0580c5b689d964a9aaeb8dadab9d1a9e' -> (Import Result ID: 'c5bca26c72ed5a0d2f663ca6d254abc7') in 0.112 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c8925d9750cbaba36d1ca3e2d23c6767 DependenciesID=1bf36e957530739f3b61acb6994bbe0d StaticDependenciesID=dbbff635ac05fda555f30c206fe90f2a 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 137
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.677527Z
+  Time since last request: 0.000056459 seconds.
+  importAddress: GUID: 0a44963b6abb3408d9a3ca76e81789d3 - Path: Assets/UI/MiniGames - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 0a44963b6abb3408d9a3ca76e81789d3 - Path: Assets/UI/MiniGames - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 0a44963b6abb3408d9a3ca76e81789d3' -> (Import Result ID: '36f178df0151a685fe80783220c6126f') in 0.002 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9950f16887a1dbc241c7399400e9151e DependenciesID=5c2995e4283ec182ddc3f8a5f4f12d1a StaticDependenciesID=684eb3e2df145451547addcbafcc0958 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.689948Z
+  Time since last request: 0.00060275 seconds.
+  importAddress: GUID: 10077363d540e46b99a071ef4c401f35 - Path: Assets/UI/MiniGames/SentienceArrayContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 10077363d540e46b99a071ef4c401f35 - Path: Assets/UI/MiniGames/SentienceArrayContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 10077363d540e46b99a071ef4c401f35' -> (Import Result ID: '509fe76663dd9345410ae4caa0bcc290') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=dda7e9dd120a4a7f824083011c87e6fc DependenciesID=07cbe45227c131913be7140a38558e6c StaticDependenciesID=22b61ff3cc83fa2d63049f5e62fef522 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.704006Z
+  Time since last request: 0.000571083 seconds.
+  importAddress: GUID: 7c92a6057dff444ce92308d923082780 - Path: Assets/Scripts/2 Managers/GameUIManager.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 7c92a6057dff444ce92308d923082780 - Path: Assets/Scripts/2 Managers/GameUIManager.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 7c92a6057dff444ce92308d923082780' -> (Import Result ID: '36c5db55625e1a8157d34cb94801fe58') in 0.008 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1502479613cc42ec4eec324b4b05e62d DependenciesID=4cd49949842c413e1932ff1e43ed140a StaticDependenciesID=94147a60e71a24fa968a1cd766468ad9 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.722916Z
+  Time since last request: 0.000619333 seconds.
+  importAddress: GUID: 213faa26c8aa6495a9c8ece468d58570 - Path: Assets/UI/MiniGames/ContainmentProtocolContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 213faa26c8aa6495a9c8ece468d58570 - Path: Assets/UI/MiniGames/ContainmentProtocolContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 213faa26c8aa6495a9c8ece468d58570' -> (Import Result ID: 'f99b9a4d512efd2886e001d6695fa8ec') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5a5e99b660aaf0f6d4b9f9d8aa934dc2 DependenciesID=5bf76a9d2c1adc0ca17029d5026f2202 StaticDependenciesID=95ac1fbd249bd6174d2d1bf43fd1da23 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.736764Z
+  Time since last request: 0.000405958 seconds.
+  importAddress: GUID: 468d8640c759247d1b9ea363644312c0 - Path: Assets/UI/MiniGames/StealthInjectContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 468d8640c759247d1b9ea363644312c0 - Path: Assets/UI/MiniGames/StealthInjectContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 468d8640c759247d1b9ea363644312c0' -> (Import Result ID: 'cc5e757a30495eb61739d684faa82b38') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0f1af09f2d132c86951160b7d25c9f6b DependenciesID=336ea70e16ad00232973db2cd621ee51 StaticDependenciesID=b2d33c0ae0e3582dd6c2be50929da5e9 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.751355Z
+  Time since last request: 0.000762458 seconds.
+  importAddress: GUID: d9e6f286b16cf4396beda1642062abf2 - Path: Assets/UI/MiniGames/FranticBackspaceContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: d9e6f286b16cf4396beda1642062abf2 - Path: Assets/UI/MiniGames/FranticBackspaceContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: d9e6f286b16cf4396beda1642062abf2' -> (Import Result ID: 'ec97f5191f87016a67b90b2b733ea8e0') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6549fac04f28b712afaeef2da29e6583 DependenciesID=723b356f7ee0c77871066110cf7398ee StaticDependenciesID=83c5268b86441777cb671ea9d45cb0a9 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.76603Z
+  Time since last request: 0.000704666 seconds.
+  importAddress: GUID: 14e3447c20cef46f3b75fcb07fe84c02 - Path: Assets/UI/MiniGames/FormatDashboardContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 14e3447c20cef46f3b75fcb07fe84c02 - Path: Assets/UI/MiniGames/FormatDashboardContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 14e3447c20cef46f3b75fcb07fe84c02' -> (Import Result ID: '610581e0b29ca66881aacb5afa78f498') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1d7635f1e0b7c85b1f6fd493649791eb DependenciesID=574f9b2ce9b8f2e73887bd7d81500891 StaticDependenciesID=546fdbd59bd3947594a38a99b85cb562 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.77995Z
+  Time since last request: 0.000487042 seconds.
+  importAddress: GUID: cde7df63378db47638fc399a9a533d42 - Path: Assets/Scripts/2 Managers/MiniGameTypes.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: cde7df63378db47638fc399a9a533d42 - Path: Assets/Scripts/2 Managers/MiniGameTypes.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: cde7df63378db47638fc399a9a533d42' -> (Import Result ID: '9af3947f1344767f8f1ccda6b4410f63') in 0.002 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=add601dc4cc5a3ae55c7f2c81a6f4538 DependenciesID=458d47ee17266c656e507e2bde186150 StaticDependenciesID=b6cc9e711d90b5e6b27365fd05bd33dd 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.792794Z
+  Time since last request: 0.000440083 seconds.
+  importAddress: GUID: 353e2ce317b6f45b99e3622554d3446e - Path: Assets/UI/MiniGames/FoodPrepContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 353e2ce317b6f45b99e3622554d3446e - Path: Assets/UI/MiniGames/FoodPrepContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 353e2ce317b6f45b99e3622554d3446e' -> (Import Result ID: '4ff754abf3ce0be6fd1fe24b40cfd296') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d34ed11955bd42ee36ef750a99e70097 DependenciesID=4b952c4139581e99cb4588a6dbad643a StaticDependenciesID=36bd76734f67daf3128834ba4369c1c1 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.807663Z
+  Time since last request: 0.000522875 seconds.
+  importAddress: GUID: 6c28b99c970df491ba4b7fe3a17bb486 - Path: Assets/UI/MiniGames/FileSorterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 6c28b99c970df491ba4b7fe3a17bb486 - Path: Assets/UI/MiniGames/FileSorterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 6c28b99c970df491ba4b7fe3a17bb486' -> (Import Result ID: 'b28cb256735079a1650ab1d0f5a62836') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d2528840921e82d0f0528e4b8d111f3e DependenciesID=a7df82f6c3404f1ff5f9b0e51f4dfc1d StaticDependenciesID=6e740b7015cf388f6b8f82f045aaa34e 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.82185Z
+  Time since last request: 0.00069725 seconds.
+  importAddress: GUID: 736ef7f433e9e4d4f82a79cf39bd73ac - Path: Assets/UI/MiniGames/SizeMatchContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 736ef7f433e9e4d4f82a79cf39bd73ac - Path: Assets/UI/MiniGames/SizeMatchContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 736ef7f433e9e4d4f82a79cf39bd73ac' -> (Import Result ID: '1c8ee9a0cb9d6ace7a4f4bc74d6586dc') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8a5d27a80b684e203d06446b157e1574 DependenciesID=2ecf01f5cd01c3aad8938d808051b058 StaticDependenciesID=0b9c168063b9d3e62345ed6de221b210 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.836452Z
+  Time since last request: 0.000720667 seconds.
+  importAddress: GUID: eb9e99a0e27bf40bdb399c1b5257c8b1 - Path: Assets/UI/MiniGames/VideoCallContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: eb9e99a0e27bf40bdb399c1b5257c8b1 - Path: Assets/UI/MiniGames/VideoCallContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: eb9e99a0e27bf40bdb399c1b5257c8b1' -> (Import Result ID: '03d63bdd57f252fc617efa2d78ba783e') in 0.007 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=53f60ec0cf056a640167f52395e6647f DependenciesID=ee20368b0197ff9fb18d731a79cb397a StaticDependenciesID=f8e26a5fe60e6b64cf73ce653b6148a7 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.853846Z
+  Time since last request: 0.000863542 seconds.
+  importAddress: GUID: 1ebe72f33d72c413f8ce6301a83e93ad - Path: Assets/Scripts/2 Managers/MiniGameManager_Variables.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 1ebe72f33d72c413f8ce6301a83e93ad - Path: Assets/Scripts/2 Managers/MiniGameManager_Variables.cs - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 1ebe72f33d72c413f8ce6301a83e93ad' -> (Import Result ID: 'e7fb92ebcbb946477b7e4b718e7b43e8') in 0.002 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=4b28cf36626de94be98ce0c1283df531 DependenciesID=dd6f060be400a7a41ce19dbc69412a06 StaticDependenciesID=9ee1a5cd95eed75229e8f0d17c023ce1 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.866223Z
+  Time since last request: 0.000450709 seconds.
+  importAddress: GUID: 27443bc9c8a3a4ab9aa706e8fe5fa4af - Path: Assets/UI/CareersUI.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 27443bc9c8a3a4ab9aa706e8fe5fa4af - Path: Assets/UI/CareersUI.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 27443bc9c8a3a4ab9aa706e8fe5fa4af' -> (Import Result ID: '6a197c7d518928aa0d95b10b9663b83f') in 0.005 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7582c89b844f63f91aca8e597d769031 DependenciesID=191d7fe7eccade2e38ea2b7753c55f1e StaticDependenciesID=3e2439ba926132535b367ec474910ef1 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.881245Z
+  Time since last request: 0.000314125 seconds.
+  importAddress: GUID: 829068d652910455885f201353644d03 - Path: Assets/UI/MiniGames/ZenTracingContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 829068d652910455885f201353644d03 - Path: Assets/UI/MiniGames/ZenTracingContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 829068d652910455885f201353644d03' -> (Import Result ID: 'd9cc73e95cb89e8082d1e36bc45fcc4d') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c2194ddcd51863e42908ea39b1145900 DependenciesID=0bb03767e62fcb10268378e85a27faa3 StaticDependenciesID=83890a42d3ab279daea56fa9bf1d2e6d 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.894654Z
+  Time since last request: 0.000386625 seconds.
+  importAddress: GUID: 9fae265202551409097dab158d46a95c - Path: Assets/UI/MiniGames/TetrisContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 9fae265202551409097dab158d46a95c - Path: Assets/UI/MiniGames/TetrisContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 9fae265202551409097dab158d46a95c' -> (Import Result ID: '09a894c59401aa259f325e91d7b40de7') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=49b21e803e6b5859bd350431954dff8a DependenciesID=67ed229fa9085d8f9b275a6b19f86ff3 StaticDependenciesID=b55d9c2d54ba9c9593683c4777dec8dd 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.908123Z
+  Time since last request: 0.000666791 seconds.
+  importAddress: GUID: 61565543bc6f7410bbfc5ed07ccfadfb - Path: Assets/UI/MiniGames/ConstructionSiteContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 61565543bc6f7410bbfc5ed07ccfadfb - Path: Assets/UI/MiniGames/ConstructionSiteContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 61565543bc6f7410bbfc5ed07ccfadfb' -> (Import Result ID: '5ae3d784033723b9f4b57b169d626c66') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=35e2c7c815217ee697b693d488a8397e DependenciesID=b989b6a61fa521dff22f89df7c6ebdfb StaticDependenciesID=4113088cb6505ac66e47c2400d0d8b28 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.921382Z
+  Time since last request: 0.000516209 seconds.
+  importAddress: GUID: bc9326b6ff62d447baae74472e0e60cf - Path: Assets/UI/MiniGames/TicketSwipeContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: bc9326b6ff62d447baae74472e0e60cf - Path: Assets/UI/MiniGames/TicketSwipeContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: bc9326b6ff62d447baae74472e0e60cf' -> (Import Result ID: '1dcde3469cfc6ee066292a68e294fd32') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=46d79c2ce89677a46e7d899b52251e5d DependenciesID=f3c3469b206fda3ed9e28e9f1ac1e7e2 StaticDependenciesID=8c506dd4ecaed9cfd6389b64ffc08651 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.934284Z
+  Time since last request: 0.000703458 seconds.
+  importAddress: GUID: 52d7a161d372542c389e5d5c613fb599 - Path: Assets/UI/MiniGames/OrderQueueContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 52d7a161d372542c389e5d5c613fb599 - Path: Assets/UI/MiniGames/OrderQueueContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 52d7a161d372542c389e5d5c613fb599' -> (Import Result ID: 'ed51b32d12468d2ebef49a9a78a81c98') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5b86252bd4f4c86d03de559faac84606 DependenciesID=b8680b45e1e534fc83ce225c1dae30f1 StaticDependenciesID=1086ae7f8c65f9f0a0c6623271be26ed 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.947018Z
+  Time since last request: 0.000960542 seconds.
+  importAddress: GUID: 5abe94c2356004413ba96f83d27cf65a - Path: Assets/UI/MiniGames/SliderGameContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 5abe94c2356004413ba96f83d27cf65a - Path: Assets/UI/MiniGames/SliderGameContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 5abe94c2356004413ba96f83d27cf65a' -> (Import Result ID: 'ed8a682c91f6d4c7d98f698a6158fce3') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5ac92f02361f367ebc0cd66515eac205 DependenciesID=2ddffd96d43cf159f06f99e7112649fe StaticDependenciesID=65c59e07223f161534c38ec60ae7e2bc 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.960265Z
+  Time since last request: 0.000510042 seconds.
+  importAddress: GUID: 30928176ddd3843af8cf71a3c01b5ec0 - Path: Assets/UI/MiniGames/NeuralAlignerContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 30928176ddd3843af8cf71a3c01b5ec0 - Path: Assets/UI/MiniGames/NeuralAlignerContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 30928176ddd3843af8cf71a3c01b5ec0' -> (Import Result ID: '998cf51852e1d733e2585625d8400c1e') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2d76eb4ad19ffd70ae8fcf17a02f2562 DependenciesID=7ff999a4a4f859bcb14e078f5a899917 StaticDependenciesID=0d637d6f4f8323e5bb676366e920bcfb 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.972952Z
+  Time since last request: 0.000317459 seconds.
+  importAddress: GUID: ffb424afd850843d5a5d3e040fd12958 - Path: Assets/UI/MiniGames/BalanceMeterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: ffb424afd850843d5a5d3e040fd12958 - Path: Assets/UI/MiniGames/BalanceMeterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: ffb424afd850843d5a5d3e040fd12958' -> (Import Result ID: '8019ba2a4db9b6f25c23a633cfd19356') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7f84e81e0ae51a705debf1fedad84471 DependenciesID=51c26eff98f894f8fee5de0e5458cf62 StaticDependenciesID=99398225e07cc8a7dceaad75b645f823 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.984696Z
+  Time since last request: 0.000442791 seconds.
+  importAddress: GUID: d433f921abe5e4bc39b4df59b462880f - Path: Assets/UI/MiniGames/SweepFloorContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: d433f921abe5e4bc39b4df59b462880f - Path: Assets/UI/MiniGames/SweepFloorContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: d433f921abe5e4bc39b4df59b462880f' -> (Import Result ID: '5dda6eb6c282c03d60435601d1e1583a') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=51041ceb7e45c1c64d2cd4d81f1d742c DependenciesID=744b9bc3fd666f8077f492788914398d StaticDependenciesID=bb6841f62e703b871e38ec19f72137ec 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:13.99696Z
+  Time since last request: 0.000362 seconds.
+  importAddress: GUID: aa65efc9dc0eb4550973a7d19377d7fc - Path: Assets/UI/MiniGames/WhackABugContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: aa65efc9dc0eb4550973a7d19377d7fc - Path: Assets/UI/MiniGames/WhackABugContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: aa65efc9dc0eb4550973a7d19377d7fc' -> (Import Result ID: 'fbdbaef5d1bbc615fc053fa3fe356d9a') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c5bc3e5415338c2949332f8e802a9ae8 DependenciesID=38e0d3f6f747f8a9bbff6fbc83987c80 StaticDependenciesID=72d97668a7f0b68bb9b55700faccc1ed 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.00926Z
+  Time since last request: 0.000347167 seconds.
+  importAddress: GUID: 91a41b0e9daf54d23a3409e41e953d77 - Path: Assets/UI/MiniGames/CodeBreakerContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 91a41b0e9daf54d23a3409e41e953d77 - Path: Assets/UI/MiniGames/CodeBreakerContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 91a41b0e9daf54d23a3409e41e953d77' -> (Import Result ID: 'ccec7f26a1128ae4792cd7388ab8b029') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ebcf20ec92c30b2044cf9db41252d15e DependenciesID=4ec45d776e29ed432690204b325d532d StaticDependenciesID=4e2dbe0c0058d700dd08cfc9a3c1b959 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.047229Z
+  Time since last request: 0.025080542 seconds.
+  importAddress: GUID: 43af327b51d1e44768707662b103173d - Path: Assets/UI/MiniGames/IpHackContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 43af327b51d1e44768707662b103173d - Path: Assets/UI/MiniGames/IpHackContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 43af327b51d1e44768707662b103173d' -> (Import Result ID: '51fffe179fdf6c8faa94f7d3dd8cd040') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=65fd0844db96490298bfeb79cc1a34f5 DependenciesID=eb27d9c94e451183ad8337aa5bfff6cf StaticDependenciesID=92cd5ffe3ab4a56aa197760da26fdd6e 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.06141Z
+  Time since last request: 0.00052275 seconds.
+  importAddress: GUID: 682f4b3cede7c4040a81d8d137f7eb49 - Path: Assets/UI/MiniGames/CodeCommenterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 682f4b3cede7c4040a81d8d137f7eb49 - Path: Assets/UI/MiniGames/CodeCommenterContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 682f4b3cede7c4040a81d8d137f7eb49' -> (Import Result ID: 'e5ff8a41120993e33b844324be6ce5b9') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c0f750600bafc7fe992ad3de369d80f7 DependenciesID=698b2bb8b83f9634ae34b10ab0ec00fb StaticDependenciesID=3c74717c3cd8d396fd9f26c568cca688 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.074355Z
+  Time since last request: 0.000475375 seconds.
+  importAddress: GUID: 2bb7f864ba5364a259ab01fd0e7751c8 - Path: Assets/UI/MiniGames/StartupPitchContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 2bb7f864ba5364a259ab01fd0e7751c8 - Path: Assets/UI/MiniGames/StartupPitchContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 2bb7f864ba5364a259ab01fd0e7751c8' -> (Import Result ID: '59110aa2345ffa16ce2bc1d0723e03d3') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=06252e410a5ea447d49f1747cf1b1d66 DependenciesID=8a66e7c281c882d519ec39e16d739625 StaticDependenciesID=cc5b598b31b16219142f461f005e70d9 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.087479Z
+  Time since last request: 0.000450291 seconds.
+  importAddress: GUID: 05a57fd04ce8e4a68a4c58477fa35a91 - Path: Assets/UI/MiniGames/SnatchBriefcaseContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 05a57fd04ce8e4a68a4c58477fa35a91 - Path: Assets/UI/MiniGames/SnatchBriefcaseContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 05a57fd04ce8e4a68a4c58477fa35a91' -> (Import Result ID: '8f58bf0336861a3e21cc3477ed230e20') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ea8cd1226fb596cfafccfd2dc568027d DependenciesID=cdf79d2c0f2e67155265f9a937a8e9c6 StaticDependenciesID=62112884811939d59c57b191a2b2cf34 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.100588Z
+  Time since last request: 0.000460666 seconds.
+  importAddress: GUID: 55eeab06249de476292758625ef976dd - Path: Assets/UI/MiniGames/KanbanContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 55eeab06249de476292758625ef976dd - Path: Assets/UI/MiniGames/KanbanContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 55eeab06249de476292758625ef976dd' -> (Import Result ID: '34fa6e9ca4933e0b4bb7836bf77dd78d') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=a5fd8b46fee20d19625fa18d88a42178 DependenciesID=f9cb21c63466d191d323ff1013073c2f StaticDependenciesID=936139aa5f8020b0c9feb914f40ebb10 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.113047Z
+  Time since last request: 0.000354125 seconds.
+  importAddress: GUID: 82c512631be9c450a844bd5bb2218275 - Path: Assets/UI/MiniGames/WalkDogsContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 82c512631be9c450a844bd5bb2218275 - Path: Assets/UI/MiniGames/WalkDogsContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 82c512631be9c450a844bd5bb2218275' -> (Import Result ID: '4ed246c79445bdf2a9c1d5465530fa59') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=13d266a34ba921b7cd67fa8fc1248c59 DependenciesID=387615d61677ff2a2285fe632eeb7b97 StaticDependenciesID=b9332af98e5d99e966e54825c9c73ad1 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.126279Z
+  Time since last request: 0.000407583 seconds.
+  importAddress: GUID: 1d785f52c76a040b9ad9a00a03799b69 - Path: Assets/UI/MiniGames/HospitalityGalaContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 1d785f52c76a040b9ad9a00a03799b69 - Path: Assets/UI/MiniGames/HospitalityGalaContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 1d785f52c76a040b9ad9a00a03799b69' -> (Import Result ID: '2f3d8c92371ed86c2918db75b16c35e7') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=15e4e6a308946147743f103d25815a4f DependenciesID=7b2b2f9db359482f3632e78ef61f5357 StaticDependenciesID=123f58d5287fc2f83055b42ba68dd731 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.139777Z
+  Time since last request: 0.001006667 seconds.
+  importAddress: GUID: a7f8fc187868b401f94910248aff7c3e - Path: Assets/UI/MiniGames/MashRaceContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: a7f8fc187868b401f94910248aff7c3e - Path: Assets/UI/MiniGames/MashRaceContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: a7f8fc187868b401f94910248aff7c3e' -> (Import Result ID: '97f76d343a1215ffbd7f067de6e3452f') in 0.007 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1dce7586e63d190d25e201026b6eeb9a DependenciesID=94069d1a8666234463264378df98e219 StaticDependenciesID=ef5e273b8e77344c53946908d922c137 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.156187Z
+  Time since last request: 0.000824541 seconds.
+  importAddress: GUID: 737dae5b01f22491db734dff7f265108 - Path: Assets/UI/EducationUI.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 737dae5b01f22491db734dff7f265108 - Path: Assets/UI/EducationUI.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 737dae5b01f22491db734dff7f265108' -> (Import Result ID: 'af44d6d900d0b4aa563eef927b02402d') in 0.005 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=06131ccee22aa649ab3ef309b58fd709 DependenciesID=e89cab9fefdce65ee4c99d5dc11b3215 StaticDependenciesID=6c724dcbe1242341ff007cffde9b9350 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time of request: 2026-08-14T18:47:14.170441Z
+  Time since last request: 0.000492584 seconds.
+  importAddress: GUID: 877b7ef7a1c114984b6004e638331d49 - Path: Assets/UI/MiniGames/HotStoneContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B
+Importing 'GUID: 877b7ef7a1c114984b6004e638331d49 - Path: Assets/UI/MiniGames/HotStoneContainer.uxml - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B' with importer (ScriptedImporter : UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B)
+Imported 'GUID: 877b7ef7a1c114984b6004e638331d49' -> (Import Result ID: '1f00a3134692bc9c40607518485b451b') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2ab168cbef913164ac2fd9cfc6db403a DependenciesID=33249d257b95a1f6cc67d3dce52ea49b StaticDependenciesID=a8d318103294431705ceadec89bdc2c4 
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2

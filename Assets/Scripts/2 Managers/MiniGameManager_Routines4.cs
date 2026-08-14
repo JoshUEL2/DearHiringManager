@@ -1182,10 +1182,6 @@ public partial class MiniGameManager : MonoBehaviour
     // ==========================================
     // 13. RetroRacer (Deliver Fast Food Order)
     // ==========================================
-    private Label rrDistanceLabel;
-    private int rrBlocks = 0;
-    private float rrDistanceTimer = 0f;
-    private int rrCurrentLane = 1; // 0=left, 1=center, 2=right
 
     private void SetupRetroRacer()
     {
