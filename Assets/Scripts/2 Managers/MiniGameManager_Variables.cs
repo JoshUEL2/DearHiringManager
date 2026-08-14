@@ -460,11 +460,15 @@ public partial class MiniGameManager : MonoBehaviour
     private bool nmIsAnsweringPhase = false;
 
     // RetroRacer
-    private VisualElement rrContainer, rrRoad, rrPlayer;
-    private Button btnRrLeft, btnRrRight;
-    // private float rrPlayerX = 0f;
-    private List<VisualElement> rrObstacles = new List<VisualElement>();
-    private List<Vector2> rrObstaclePos = new List<Vector2>();
+    private UnityEngine.UIElements.VisualElement rrContainer;
+    private UnityEngine.UIElements.Label rrPlayer;
+    private UnityEngine.UIElements.Label rrDistanceLabel;
+    private UnityEngine.UIElements.Label rrTimeLabel;
+    private UnityEngine.UIElements.Button btnRrLeft, btnRrRight;
+    private UnityEngine.UIElements.VisualElement[] rrRoadLines = new UnityEngine.UIElements.VisualElement[8];
+    private UnityEngine.UIElements.Label[] rrObstacleElements = new UnityEngine.UIElements.Label[8];
+    private bool[] rrObstacleActive = new bool[8];
+    private UnityEngine.Vector2[] rrObstaclePos = new UnityEngine.Vector2[8]; // x = lane (0,1,2), y = progress (0 to 1)
 
     private float atSuiteProgress = 0f;
     private ActiveMiniGame currentGame;

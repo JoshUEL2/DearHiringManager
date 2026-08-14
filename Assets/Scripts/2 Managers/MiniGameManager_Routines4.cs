@@ -1194,170 +1194,137 @@ public partial class MiniGameManager : MonoBehaviour
         rrDistanceTimer = 0f;
         rrCurrentLane = 1;
         
-        if (rrContainer != null)
-        {
-            rrContainer.Clear();
-
-            rrDistanceLabel = new Label("DISTANCE: 0 blocks");
-            rrDistanceLabel.style.color = new StyleColor(Color.white);
-            rrDistanceLabel.style.fontSize = 20;
-            rrDistanceLabel.style.alignSelf = Align.Center;
-            rrDistanceLabel.style.marginTop = 10;
-            rrContainer.Add(rrDistanceLabel);
-
-            rrRoad = new VisualElement();
-            rrRoad.style.width = new Length(100, LengthUnit.Percent);
-            rrRoad.style.height = 300;
-            rrRoad.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f)); // Dark grey
-            rrRoad.style.marginTop = 10;
-            rrRoad.style.overflow = Overflow.Hidden;
-            rrRoad.style.position = Position.Relative;
-
-            // Center dashed line simulation
-            VisualElement dashedLine = new VisualElement();
-            dashedLine.style.width = 4;
-            dashedLine.style.height = new Length(100, LengthUnit.Percent);
-            dashedLine.style.backgroundColor = new StyleColor(Color.clear);
-            dashedLine.style.borderLeftColor = new StyleColor(Color.white);
-            dashedLine.style.borderLeftWidth = 4;
-            dashedLine.style.position = Position.Absolute;
-            dashedLine.style.left = new Length(50, LengthUnit.Percent);
-            rrRoad.Add(dashedLine);
-
-            rrPlayer = new VisualElement();
-            rrPlayer.style.width = 40;
-            rrPlayer.style.height = 40;
-            rrPlayer.style.backgroundColor = new StyleColor(Color.cyan);
-            rrPlayer.style.position = Position.Absolute;
-            rrPlayer.style.bottom = 10;
-            rrPlayer.style.left = new Length(50, LengthUnit.Percent);
-            rrPlayer.style.marginLeft = -20;
-            rrRoad.Add(rrPlayer);
-            rrContainer.Add(rrRoad);
-
-            VisualElement btnRow = new VisualElement();
-            btnRow.style.flexDirection = FlexDirection.Row;
-            btnRow.style.justifyContent = Justify.SpaceBetween;
-            btnRow.style.marginTop = 10;
-            
-            btnRrLeft = new Button();
-            btnRrLeft.text = "<- LEFT";
-            btnRrLeft.style.width = 100;
-            btnRrLeft.style.height = 50;
-            btnRrLeft.style.fontSize = 18;
-            btnRrLeft.RegisterCallback<PointerDownEvent>(ev => { 
-                if(isPlaying && rrCurrentLane > 0) rrCurrentLane--; 
-            });
-
-            btnRrRight = new Button();
-            btnRrRight.text = "RIGHT ->";
-            btnRrRight.style.width = 100;
-            btnRrRight.style.height = 50;
-            btnRrRight.style.fontSize = 18;
-            btnRrRight.RegisterCallback<PointerDownEvent>(ev => { 
-                if(isPlaying && rrCurrentLane < 2) rrCurrentLane++; 
-            });
-
-            btnRow.Add(btnRrLeft);
-            btnRow.Add(btnRrRight);
-            rrContainer.Add(btnRow);
+        if (rrDistanceLabel != null) rrDistanceLabel.text = "DISTANCE: 0";
+        if (rrTimeLabel != null) rrTimeLabel.text = $"TIME: {UnityEngine.Mathf.CeilToInt(timer)}";
+        
+        for (int i = 0; i < 8; i++) {
+            rrObstacleActive[i] = false;
+            if (rrObstacleElements[i] != null) rrObstacleElements[i].style.display = UnityEngine.UIElements.DisplayStyle.None;
         }
-
-        rrObstacles.Clear();
-        rrObstaclePos.Clear();
 
         activeGameRoutine = StartCoroutine(RetroRacerRoutine());
     }
 
-    private IEnumerator RetroRacerRoutine()
+    private System.Collections.IEnumerator RetroRacerRoutine()
     {
         isPlaying = true;
         float spawnTimer = 0f;
-        float[] laneCenters = { 0.2f, 0.5f, 0.8f }; // left, center, right percentages
+        float[] laneTargets = { 15f, 50f, 85f }; // left, center, right percentages at bottom of screen
         
+        float[] lineProgress = new float[8];
+        for(int i=0; i<8; i++) lineProgress[i] = (float)i / 8f; // Staggered progress
+        
+        float speed = 0.5f;
+
         while (isPlaying)
         {
-            timer -= Time.deltaTime;
+            timer -= UnityEngine.Time.deltaTime;
             if (timer <= 0f)
             {
-                EndGame(true);
+                MarkWinReady();
                 yield break;
             }
+            if (rrTimeLabel != null) rrTimeLabel.text = $"TIME: {UnityEngine.Mathf.CeilToInt(timer)}";
 
-            rrDistanceTimer += Time.deltaTime;
-            if (rrDistanceTimer > 0.5f)
+            speed += UnityEngine.Time.deltaTime * 0.05f; // Accelerate over time
+            
+            rrDistanceTimer += UnityEngine.Time.deltaTime * speed;
+            if (rrDistanceTimer > 0.1f)
             {
                 rrDistanceTimer = 0f;
                 rrBlocks++;
-                if (rrDistanceLabel != null) rrDistanceLabel.text = $"DISTANCE: {rrBlocks} blocks";
+                if (rrDistanceLabel != null) rrDistanceLabel.text = $"DISTANCE: {rrBlocks}";
             }
 
-            // Smoothly move player to current lane
-            float targetLeft = laneCenters[rrCurrentLane] * 100f;
+            // Animate Road Lines (Perspective V-shape)
+            for (int i = 0; i < 8; i++) {
+                lineProgress[i] += UnityEngine.Time.deltaTime * speed * 2f;
+                if (lineProgress[i] > 1f) lineProgress[i] -= 1f;
+                
+                if (rrRoadLines[i] != null) {
+                    float y = UnityEngine.Mathf.Pow(lineProgress[i], 2f); // Non-linear depth
+                    rrRoadLines[i].style.top = new UnityEngine.UIElements.Length(y * 100f, UnityEngine.UIElements.LengthUnit.Percent);
+                    
+                    float w = UnityEngine.Mathf.Lerp(10f, 800f, y);
+                    rrRoadLines[i].style.width = w;
+                    rrRoadLines[i].style.left = new UnityEngine.UIElements.Length(50f, UnityEngine.UIElements.LengthUnit.Percent);
+                    rrRoadLines[i].style.marginLeft = -w/2f;
+                    
+                    float h = UnityEngine.Mathf.Lerp(1f, 15f, y);
+                    rrRoadLines[i].style.height = h;
+                    
+                    // Color fade in distance
+                    rrRoadLines[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(1f, 1f, 1f, y));
+                }
+            }
+
+            // Smoothly move player to current lane (Player is always at bottom)
             if (rrPlayer != null)
             {
-                rrPlayer.style.left = new Length(targetLeft, LengthUnit.Percent);
+                float targetLeft = laneTargets[rrCurrentLane];
+                float currentLeft = rrPlayer.style.left.value.value;
+                float newLeft = UnityEngine.Mathf.Lerp(currentLeft, targetLeft, UnityEngine.Time.deltaTime * 10f);
+                rrPlayer.style.left = new UnityEngine.UIElements.Length(newLeft, UnityEngine.UIElements.LengthUnit.Percent);
             }
 
-            spawnTimer -= Time.deltaTime;
+            // Spawn Obstacles
+            spawnTimer -= UnityEngine.Time.deltaTime;
             if (spawnTimer <= 0f)
             {
-                VisualElement obs = new VisualElement();
-                obs.style.position = Position.Absolute;
-                obs.style.backgroundColor = new StyleColor(Color.red);
-                obs.style.width = 10;
-                obs.style.height = 10;
-                obs.style.top = new Length(50f, LengthUnit.Percent); // Horizon
-                
-                int obsLane = UnityEngine.Random.Range(0, 3);
-                obs.style.left = new Length(50f, LengthUnit.Percent); // spawns at center
-                obs.style.marginLeft = -5;
-                obs.style.marginTop = -5;
-
-                rrRoad.Add(obs);
-                rrObstacles.Add(obs);
-                rrObstaclePos.Add(new Vector2(obsLane, 0f)); // x = lane index, y = progress (0 to 1)
-
-                spawnTimer = UnityEngine.Random.Range(0.6f, 1.2f);
+                for (int i = 0; i < 8; i++) {
+                    if (!rrObstacleActive[i]) {
+                        rrObstacleActive[i] = true;
+                        int obsLane = UnityEngine.Random.Range(0, 3);
+                        rrObstaclePos[i] = new UnityEngine.Vector2(obsLane, 0f);
+                        if (rrObstacleElements[i] != null) {
+                            rrObstacleElements[i].style.display = UnityEngine.UIElements.DisplayStyle.Flex;
+                            rrObstacleElements[i].text = UnityEngine.Random.value > 0.5f ? "🚕" : (UnityEngine.Random.value > 0.5f ? "🚧" : "🛢️");
+                        }
+                        break;
+                    }
+                }
+                spawnTimer = UnityEngine.Random.Range(0.4f, 0.8f) / speed;
             }
 
-            for (int i = rrObstacles.Count - 1; i >= 0; i--)
+            // Move Obstacles
+            for (int i = 0; i < 8; i++)
             {
-                Vector2 pos = rrObstaclePos[i];
-                pos.y += Time.deltaTime * 0.8f; // Speed of approach
+                if (!rrObstacleActive[i]) continue;
+
+                UnityEngine.Vector2 pos = rrObstaclePos[i];
+                pos.y += UnityEngine.Time.deltaTime * speed * 0.8f; // Linear progress
                 rrObstaclePos[i] = pos;
 
                 if (pos.y >= 1f)
                 {
-                    // Check collision
+                    // Collision Check
                     if ((int)pos.x == rrCurrentLane)
                     {
-                        EndGame(false);
+                        AbortGame(); // Hit obstacle
                         yield break;
                     }
 
-                    rrRoad.Remove(rrObstacles[i]);
-                    rrObstacles.RemoveAt(i);
-                    rrObstaclePos.RemoveAt(i);
+                    rrObstacleActive[i] = false;
+                    if (rrObstacleElements[i] != null) rrObstacleElements[i].style.display = UnityEngine.UIElements.DisplayStyle.None;
                 }
                 else
                 {
-                    // Scale and spread
-                    float laneTargetX = laneCenters[(int)pos.x];
-                    // interpolate from center (0.5) to laneTargetX based on y
-                    float currentX = Mathf.Lerp(0.5f, laneTargetX, pos.y);
+                    // 3D Projection
+                    float screenY = UnityEngine.Mathf.Pow(pos.y, 2f); // Non-linear depth mapping
                     
-                    rrObstacles[i].style.left = new Length(currentX * 100f, LengthUnit.Percent);
-                    rrObstacles[i].style.top = new Length((0.5f + (pos.y * 0.5f)) * 100f, LengthUnit.Percent);
+                    float laneTargetX = laneTargets[(int)pos.x];
+                    float currentX = UnityEngine.Mathf.Lerp(50f, laneTargetX, screenY);
                     
-                    float size = 10f + (pos.y * 50f);
-                    rrObstacles[i].style.width = size;
-                    rrObstacles[i].style.height = size;
-                    rrObstacles[i].style.marginLeft = -size/2;
-                    rrObstacles[i].style.marginTop = -size/2;
+                    if (rrObstacleElements[i] != null) {
+                        rrObstacleElements[i].style.left = new UnityEngine.UIElements.Length(currentX, UnityEngine.UIElements.LengthUnit.Percent);
+                        rrObstacleElements[i].style.top = new UnityEngine.UIElements.Length(screenY * 100f, UnityEngine.UIElements.LengthUnit.Percent);
+                        
+                        float scale = UnityEngine.Mathf.Lerp(0.1f, 3.5f, screenY);
+                        rrObstacleElements[i].style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(scale, scale, 1f)));
+                    }
                 }
             }
-
+            
             yield return null;
         }
     }

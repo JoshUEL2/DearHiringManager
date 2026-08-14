@@ -11,6 +11,7 @@ public partial class MiniGameManager : MonoBehaviour
         var root = miniGameDocument.rootVisualElement;
         root.pickingMode = PickingMode.Ignore;
 
+
         overlay = root.Q<VisualElement>("Overlay");
         btnAbortMinigame = root.Q<UnityEngine.UIElements.Button>("BtnAbortMinigame");
         if (btnAbortMinigame != null) btnAbortMinigame.clicked += AbortGame;
@@ -942,13 +943,22 @@ public partial class MiniGameManager : MonoBehaviour
             nmAnswerRow = nmContainer.Q<VisualElement>("MemoryAnswerRow");
         }
 
-        rrContainer = root.Q<VisualElement>("RetroRacerContainer");
+        rrContainer = root.Q<UnityEngine.UIElements.VisualElement>("RetroRacerContainer");
         if (rrContainer != null)
         {
-            rrRoad = rrContainer.Q<VisualElement>("RacerRoad");
-            rrPlayer = rrContainer.Q<VisualElement>("RacerPlayer");
-            btnRrLeft = rrContainer.Q<Button>("BtnRaceLeft");
-            btnRrRight = rrContainer.Q<Button>("BtnRaceRight");
+            rrPlayer = rrContainer.Q<UnityEngine.UIElements.Label>("RrPlayer");
+            rrDistanceLabel = rrContainer.Q<UnityEngine.UIElements.Label>("RrDistanceLabel");
+            rrTimeLabel = rrContainer.Q<UnityEngine.UIElements.Label>("RrTimeLabel");
+            btnRrLeft = rrContainer.Q<UnityEngine.UIElements.Button>("BtnRrLeft");
+            btnRrRight = rrContainer.Q<UnityEngine.UIElements.Button>("BtnRrRight");
+            
+            for (int i = 0; i < 8; i++) {
+                rrRoadLines[i] = rrContainer.Q<UnityEngine.UIElements.VisualElement>($"RrLine{i}");
+                rrObstacleElements[i] = rrContainer.Q<UnityEngine.UIElements.Label>($"RrObs{i}");
+            }
+
+            if (btnRrLeft != null) btnRrLeft.clicked += () => { if (isPlaying && rrCurrentLane > 0) rrCurrentLane--; };
+            if (btnRrRight != null) btnRrRight.clicked += () => { if (isPlaying && rrCurrentLane < 2) rrCurrentLane++; };
         }
 
         // Footer

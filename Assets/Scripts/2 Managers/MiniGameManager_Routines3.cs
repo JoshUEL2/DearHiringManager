@@ -901,7 +901,7 @@ public partial class MiniGameManager : MonoBehaviour
         fpPassPos = -250f;
         fpIsPaused = false;
         
-        if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 3";
+        if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 1";
         if (fpStampBtn != null) fpStampBtn.text = "STAMP NOW! (3 LIVES)";
         if (fpMovingPass != null) {
             fpMovingPass.style.left = fpPassPos;
@@ -957,8 +957,8 @@ public partial class MiniGameManager : MonoBehaviour
         
         if (success) {
             fpSuccessfulStamps++;
-            if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 3";
-            if (fpSuccessfulStamps >= 3) {
+            if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 1";
+            if (fpSuccessfulStamps >= 1) {
                 MarkWinReady();
                 yield break;
             }
