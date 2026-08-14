@@ -364,6 +364,10 @@ public partial class MiniGameManager : MonoBehaviour
     private float spSpinTimer = 0f;
     private string[] spGoodWords = { "SYNERGY", "AI", "CLOUD", "WEB3", "SAAS", "AGILE" };
     private string[] spBadWords = { "FRAUD", "BANKRUPT", "SCAM", "PONZI", "LAWSUIT" };
+    
+    // Fixed pattern for spinning reels to allow anticipation
+    private int spPatternIndex = 0;
+    private string[] spSlotPattern = { "SYNERGY", "FRAUD", "CLOUD", "PONZI", "AI", "SCAM", "WEB3", "BANKRUPT" };
 
     // Corporate Golf Sim
     private UnityEngine.UIElements.VisualElement cgContainer;

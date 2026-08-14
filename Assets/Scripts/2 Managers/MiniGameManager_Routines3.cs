@@ -1066,14 +1066,24 @@ public partial class MiniGameManager : MonoBehaviour
         timer = currentConfig.timeLimit;
         spCurrentReel = 0;
         spSpinTimer = 0f;
+        spPatternIndex = 0;
         if (spStopBtn != null) spStopBtn.text = "STOP REEL 1";
-        for (int i=0; i<3; i++) {
+        
+        UpdateUnstoppedReels();
+        
+        activeGameRoutine = StartCoroutine(StartupPitchRoutine());
+    }
+    
+    private void UpdateUnstoppedReels()
+    {
+        for (int i = spCurrentReel; i < 3; i++) {
             if (spSlots[i] != null) {
-                spSlots[i].text = spGoodWords[UnityEngine.Random.Range(0, spGoodWords.Length)];
+                // Offset the pattern for each reel so they look different but are predictable
+                int index = (spPatternIndex + (i * 3)) % spSlotPattern.Length;
+                spSlots[i].text = spSlotPattern[index];
                 spSlots[i].style.color = UnityEngine.Color.white;
             }
         }
-        activeGameRoutine = StartCoroutine(StartupPitchRoutine());
     }
 
     private void OnSpStopClicked()
@@ -1107,17 +1117,11 @@ public partial class MiniGameManager : MonoBehaviour
             timer -= UnityEngine.Time.deltaTime;
             spSpinTimer += UnityEngine.Time.deltaTime;
             
-            if (spSpinTimer > 0.1f) {
+            // Slower spin (0.35s) gives time to anticipate the fixed pattern
+            if (spSpinTimer > 0.35f) {
                 spSpinTimer = 0f;
-                // Spin all unstopped reels
-                for (int i = spCurrentReel; i < 3; i++) {
-                    if (spSlots[i] != null) {
-                        bool useGood = UnityEngine.Random.value > 0.3f;
-                        spSlots[i].text = useGood ? 
-                            spGoodWords[UnityEngine.Random.Range(0, spGoodWords.Length)] : 
-                            spBadWords[UnityEngine.Random.Range(0, spBadWords.Length)];
-                    }
-                }
+                spPatternIndex = (spPatternIndex + 1) % spSlotPattern.Length;
+                UpdateUnstoppedReels();
             }
 
             if (timer <= 0f) {
