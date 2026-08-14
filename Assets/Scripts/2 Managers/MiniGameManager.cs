@@ -557,6 +557,8 @@ public partial class MiniGameManager : MonoBehaviour
         fpContainer = root.Q<UnityEngine.UIElements.VisualElement>("ForgePassContainer");
         fpMovingPass = root.Q<UnityEngine.UIElements.VisualElement>("FpMovingPass");
         fpStampBtn = root.Q<UnityEngine.UIElements.Button>("BtnFpStamp");
+        fpScoreText = root.Q<UnityEngine.UIElements.Label>("FpScoreText");
+        fpPassStampOverlay = root.Q<UnityEngine.UIElements.Label>("FpPassStampOverlay");
         if (fpStampBtn != null) fpStampBtn.clicked += () => OnFpStampClicked();
 
         hgContainer = root.Q<UnityEngine.UIElements.VisualElement>("HospitalityGalaContainer");

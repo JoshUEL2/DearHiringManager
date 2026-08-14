@@ -328,9 +328,13 @@ public partial class MiniGameManager : MonoBehaviour
     private UnityEngine.UIElements.VisualElement fpContainer;
     private UnityEngine.UIElements.VisualElement fpMovingPass;
     private UnityEngine.UIElements.Button fpStampBtn;
-    private float fpPassPos = -200f;
+    private UnityEngine.UIElements.Label fpScoreText;
+    private UnityEngine.UIElements.Label fpPassStampOverlay;
+    private float fpPassPos = -250f;
     private int fpAttempts = 0;
+    private int fpSuccessfulStamps = 0;
     private float fpSpeed = 600f;
+    private bool fpIsPaused = false;
 
     // Hospitality Gala
     private UnityEngine.UIElements.VisualElement hgContainer;

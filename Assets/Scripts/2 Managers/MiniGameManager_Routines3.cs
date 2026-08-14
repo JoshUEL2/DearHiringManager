@@ -896,36 +896,90 @@ public partial class MiniGameManager : MonoBehaviour
     {
         timer = currentConfig.timeLimit;
         fpAttempts = 0;
-        fpSpeed = 600f;
-        fpPassPos = -200f;
+        fpSuccessfulStamps = 0;
+        fpSpeed = 700f;
+        fpPassPos = -250f;
+        fpIsPaused = false;
+        
+        if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 3";
         if (fpStampBtn != null) fpStampBtn.text = "STAMP NOW! (3 LIVES)";
-        if (fpMovingPass != null) fpMovingPass.style.left = fpPassPos;
+        if (fpMovingPass != null) {
+            fpMovingPass.style.left = fpPassPos;
+            fpMovingPass.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.97f, 0.98f, 0.98f)); // #F8FAFC
+        }
+        if (fpPassStampOverlay != null) {
+            fpPassStampOverlay.text = "";
+            fpPassStampOverlay.style.color = UnityEngine.Color.clear;
+        }
+        
         activeGameRoutine = StartCoroutine(ForgePassRoutine());
     }
 
     private void OnFpStampClicked()
     {
-        if (!isPlaying) return;
+        if (!isPlaying || fpIsPaused) return;
         
         UnityEngine.Vector2 passCenter = fpMovingPass.worldBound.center;
         UnityEngine.UIElements.VisualElement stampZone = fpContainer.Q<UnityEngine.UIElements.VisualElement>("FpStampZone");
         UnityEngine.Vector2 stampCenter = stampZone.worldBound.center;
         
         float dist = UnityEngine.Vector2.Distance(passCenter, stampCenter);
-        if (dist < 30f) {
-            fpMovingPass.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.18f, 0.8f, 0.44f));
-            MarkWinReady();
+        bool success = (dist < 40f);
+        
+        StartCoroutine(ShowFpStampResult(success));
+    }
+    
+    private System.Collections.IEnumerator ShowFpStampResult(bool success)
+    {
+        fpIsPaused = true;
+        
+        if (fpPassStampOverlay != null) {
+            fpPassStampOverlay.text = success ? "APPROVED" : "REJECTED";
+            fpPassStampOverlay.style.color = success ? new UnityEngine.Color(0.06f, 0.73f, 0.51f, 0.9f) : new UnityEngine.Color(0.94f, 0.27f, 0.27f, 0.9f);
+            
+            // Slam animation
+            fpPassStampOverlay.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(3f, 3f, 1f)));
+            yield return null;
+            
+            float slamTime = 0.15f;
+            float elapsed = 0f;
+            while (elapsed < slamTime) {
+                elapsed += UnityEngine.Time.deltaTime;
+                float t = elapsed / slamTime;
+                float scale = UnityEngine.Mathf.Lerp(3f, 1f, t);
+                fpPassStampOverlay.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(scale, scale, 1f)));
+                yield return null;
+            }
+            fpPassStampOverlay.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1f, 1f, 1f)));
+        }
+        
+        yield return new UnityEngine.WaitForSeconds(0.4f);
+        
+        if (success) {
+            fpSuccessfulStamps++;
+            if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 3";
+            if (fpSuccessfulStamps >= 3) {
+                MarkWinReady();
+                yield break;
+            }
         } else {
             fpAttempts++;
             if (fpAttempts >= 3) {
-                fpMovingPass.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.9f, 0.3f, 0.23f));
                 AbortGame();
-            } else {
-                fpSpeed += 300f; // Speed up!
-                fpPassPos = -200f;
-                fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
+                yield break;
             }
+            if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
         }
+        
+        // Reset for next pass
+        fpSpeed += 250f;
+        fpPassPos = -250f;
+        if (fpPassStampOverlay != null) {
+            fpPassStampOverlay.text = "";
+            fpPassStampOverlay.style.color = UnityEngine.Color.clear;
+        }
+        
+        fpIsPaused = false;
     }
 
     private System.Collections.IEnumerator ForgePassRoutine()
@@ -933,23 +987,25 @@ public partial class MiniGameManager : MonoBehaviour
         isPlaying = true;
         while (isPlaying)
         {
-            timer -= UnityEngine.Time.deltaTime;
-            
-            fpPassPos += fpSpeed * UnityEngine.Time.deltaTime;
-            if (fpPassPos > 600f) {
-                fpAttempts++;
-                if (fpAttempts >= 3) {
-                    AbortGame();
-                    yield break;
-                } else {
-                    fpSpeed += 300f; // Speed up!
-                    fpPassPos = -200f;
-                    if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
+            if (!fpIsPaused) {
+                timer -= UnityEngine.Time.deltaTime;
+                
+                fpPassPos += fpSpeed * UnityEngine.Time.deltaTime;
+                if (fpPassPos > 700f) {
+                    fpAttempts++;
+                    if (fpAttempts >= 3) {
+                        AbortGame();
+                        yield break;
+                    } else {
+                        fpSpeed += 250f;
+                        fpPassPos = -250f;
+                        if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
+                    }
                 }
-            }
-            
-            if (fpMovingPass != null) {
-                fpMovingPass.style.left = fpPassPos;
+                
+                if (fpMovingPass != null) {
+                    fpMovingPass.style.left = fpPassPos;
+                }
             }
 
             if (timer <= 0f) {

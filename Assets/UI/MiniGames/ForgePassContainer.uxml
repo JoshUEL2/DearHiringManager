@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="ForgePassContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #111827; border-radius: 10px; border-width: 6px; border-color: #4B5563; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-end; padding-bottom: 20px;">
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    <!-- Conveyor Belt Background -->
-                    <ui:VisualElement style="position: absolute; top: 120px; width: 100%; height: 120px; background-color: #374151; border-width: 2px; border-color: #1F2937;" />
-                    
-                    <!-- The Moving Pass -->
-                    <ui:VisualElement name="FpMovingPass" style="position: absolute; top: 130px; left: -200px; width: 160px; height: 100px; background-color: #F3F4F6; border-radius: 8px; justify-content: center; align-items: center;">
-                        <ui:Label text="TRANSIT" style="font-size: 20px; color: #374151; -unity-font-style: bold;" />
-                    </ui:VisualElement>
-                    
-                    <!-- The Holographic Stamp Zone -->
-                    <ui:VisualElement name="FpStampZone" style="position: absolute; top: 125px; left: 50%; translate: -50% 0; width: 170px; height: 110px; border-width: 4px; border-color: #10B981; border-radius: 10px; background-color: rgba(16, 185, 129, 0.2);" />
-                    
-                    <ui:Button name="BtnFpStamp" text="STAMP NOW!" class="popup-button" style="background-color: #10B981; color: white; font-size: 32px; padding: 15px 40px; border-radius: 15px; -unity-font-style: bold; margin-bottom: 10px;" />
-                </ui:VisualElement>
+    <ui:VisualElement name="ForgePassContainer" style="display: none; width: 100%; min-width: 400px; height: 500px; flex-direction: column; background-color: #0F172A; border-radius: 12px; border-width: 4px; border-color: #38BDF8; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-end; padding-bottom: 20px;">
+        
+        <ui:VisualElement style="flex-grow: 1; width: 100%; align-items: center; padding-top: 20px;">
+            <ui:Label text="TRANSIT PASS FORGERY" style="font-size: 26px; color: #38BDF8; -unity-font-style: bold; margin-bottom: 5px;" />
+            <ui:Label name="FpScoreText" text="FORGED: 0 / 3" style="font-size: 22px; color: #FCD34D; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        
+        <!-- Conveyor Belt Background -->
+        <ui:VisualElement style="position: absolute; top: 150px; width: 100%; height: 160px; background-color: #1E293B; border-top-width: 4px; border-bottom-width: 4px; border-color: #334155; justify-content: center; overflow: hidden;">
+            <!-- Grid Lines for Conveyor Belt -->
+            <ui:VisualElement style="position: absolute; width: 200%; height: 100%; opacity: 0.2; flex-direction: row; justify-content: space-around;">
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+                <ui:VisualElement style="width: 4px; height: 100%; background-color: white;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <!-- The Moving Pass -->
+        <ui:VisualElement name="FpMovingPass" style="position: absolute; top: 165px; left: -250px; width: 220px; height: 130px; background-color: #F8FAFC; border-radius: 12px; border-width: 2px; border-color: #CBD5E1; padding: 15px; flex-direction: row; justify-content: space-between;">
+            <!-- Photo ID Box -->
+            <ui:VisualElement style="width: 70px; height: 90px; background-color: #94A3B8; border-radius: 6px;" />
+            <!-- Text Lines -->
+            <ui:VisualElement style="flex-grow: 1; margin-left: 15px; justify-content: center;">
+                <ui:VisualElement style="height: 12px; background-color: #64748B; margin-bottom: 8px; border-radius: 4px; width: 100%;" />
+                <ui:VisualElement style="height: 12px; background-color: #CBD5E1; margin-bottom: 8px; border-radius: 4px; width: 80%;" />
+                <ui:VisualElement style="height: 12px; background-color: #CBD5E1; border-radius: 4px; width: 60%;" />
+            </ui:VisualElement>
+            
+            <!-- Faux Microchip -->
+            <ui:VisualElement style="position: absolute; top: 10px; right: 10px; width: 30px; height: 25px; background-color: #FCD34D; border-radius: 4px;" />
+            
+            <!-- Overlaid APPROVED/REJECTED Stamp on the Pass -->
+            <ui:Label name="FpPassStampOverlay" text="" style="position: absolute; width: 100%; height: 100%; -unity-text-align: middle-center; font-size: 38px; -unity-font-style: bold; color: transparent; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); rotate: -10deg; pointer-events: none;" />
+        </ui:VisualElement>
+        
+        <!-- The Holographic Stamp Zone (Laser Scanner) -->
+        <ui:VisualElement name="FpStampZone" style="position: absolute; top: 150px; left: 50%; translate: -50% 0; width: 240px; height: 160px; border-left-width: 6px; border-right-width: 6px; border-color: #06B6D4; background-color: rgba(6, 182, 212, 0.15); align-items: center; justify-content: center; pointer-events: none;">
+            <!-- Center Target Line -->
+            <ui:VisualElement style="width: 2px; height: 100%; background-color: #22D3EE; opacity: 0.8;" />
+            
+            <!-- Corner brackets -->
+            <ui:VisualElement style="position: absolute; top: 0; left: 0; width: 20px; height: 20px; border-top-width: 4px; border-left-width: 4px; border-color: #22D3EE;" />
+            <ui:VisualElement style="position: absolute; top: 0; right: 0; width: 20px; height: 20px; border-top-width: 4px; border-right-width: 4px; border-color: #22D3EE;" />
+            <ui:VisualElement style="position: absolute; bottom: 0; left: 0; width: 20px; height: 20px; border-bottom-width: 4px; border-left-width: 4px; border-color: #22D3EE;" />
+            <ui:VisualElement style="position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; border-bottom-width: 4px; border-right-width: 4px; border-color: #22D3EE;" />
+        </ui:VisualElement>
+        
+        <ui:Button name="BtnFpStamp" text="STAMP NOW!" class="popup-button" style="background-color: #06B6D4; color: white; font-size: 32px; padding: 15px 40px; border-radius: 15px; -unity-font-style: bold; margin-bottom: 20px;" />
+    </ui:VisualElement>
 </ui:UXML>
