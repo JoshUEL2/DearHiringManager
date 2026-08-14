@@ -1154,6 +1154,13 @@ public partial class MiniGameManager : MonoBehaviour
             if (wdPlayArea != null) {
                 float containerWidth = wdPlayArea.worldBound.width;
                 float containerHeight = wdPlayArea.worldBound.height;
+                
+                // If layout hasn't occurred yet, skip processing this frame
+                if (containerWidth <= 0 || containerHeight <= 0) {
+                    yield return null;
+                    continue;
+                }
+                
                 float maxAllowedDistance = (UnityEngine.Mathf.Min(containerWidth, containerHeight) / 2f) - 30f; // Snaps if it reaches edges
                 
                 for (int i = 0; i < 7; i++)
