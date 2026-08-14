@@ -848,144 +848,148 @@ public partial class MiniGameManager : MonoBehaviour
     
     private void SetupCorporateGolf()
     {
-        cgRoundsPlayed = 0;
-        cgPerfectRounds = 0;
+        timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
+        cgIsDragging = false;
+        cgBallInMotion = false;
+        cgBallVel = Vector2.zero;
         
-        cgContainer.Clear();
-        cgContainer.style.alignItems = Align.Center;
-        cgContainer.style.justifyContent = Justify.Center;
+        if (cgContainer != null)
+        {
+            cgTimeLabel = cgContainer.Q<Label>("CgTimeText");
+            cgPlayArea = cgContainer.Q<VisualElement>("CgPlayArea");
+            cgBall = cgContainer.Q<VisualElement>("CgBall");
+            cgHole = cgContainer.Q<VisualElement>("CgHole");
+            cgSandTrap = cgContainer.Q<VisualElement>("CgSandTrap");
+            cgAimLine = cgContainer.Q<VisualElement>("CgAimLine");
+            cgCeo = cgContainer.Q<Label>("CgCeo");
+            
+            if (cgTimeLabel != null) cgTimeLabel.text = $"TIME: {timer:F1}s";
+            if (cgCeo != null) cgCeo.text = "👨‍💼"; // default watching
+            
+            if (cgPlayArea != null && cgBall != null)
+            {
+                // Force absolute pixel position so it's easy to move
+                cgBallPos = new Vector2(178, 380); // Roughly bottom center for 400x480 play area
+                cgBall.style.left = cgBallPos.x;
+                cgBall.style.top = cgBallPos.y;
+                cgBall.style.bottom = new StyleLength(StyleKeyword.Null);
+                cgBall.style.translate = new StyleTranslate(StyleKeyword.Null);
+                
+                cgPlayArea.RegisterCallback<PointerDownEvent>(ev => {
+                    if (cgBallInMotion || !isPlaying) return;
+                    cgIsDragging = true;
+                    cgPlayArea.CapturePointer(ev.pointerId);
+                    cgDragStartPos = cgPlayArea.WorldToLocal(ev.position);
+                    if (cgAimLine != null) cgAimLine.style.display = DisplayStyle.Flex;
+                    UpdateAimLine(cgDragStartPos, cgDragStartPos);
+                });
+                
+                cgPlayArea.RegisterCallback<PointerMoveEvent>(ev => {
+                    if (cgIsDragging && isPlaying) {
+                        UpdateAimLine(cgDragStartPos, cgPlayArea.WorldToLocal(ev.position));
+                    }
+                });
+                
+                cgPlayArea.RegisterCallback<PointerUpEvent>(ev => {
+                    if (!cgIsDragging) return;
+                    cgIsDragging = false;
+                    cgPlayArea.ReleasePointer(ev.pointerId);
+                    if (cgAimLine != null) cgAimLine.style.display = DisplayStyle.None;
+                    
+                    Vector2 dragEndPos = cgPlayArea.WorldToLocal(ev.position);
+                    Vector2 dragVector = cgDragStartPos - dragEndPos; // Pulling back shoots forward
+                    
+                    if (dragVector.sqrMagnitude > 400f) {
+                        // Shoot!
+                        cgBallVel = dragVector * 4f; // velocity multiplier
+                        cgBallInMotion = true;
+                    }
+                });
+            }
+        }
+        activeGameRoutine = StartCoroutine(CorporateGolfRoutine());
+    }
+    
+    private void UpdateAimLine(Vector2 startPos, Vector2 currentPos)
+    {
+        if (cgAimLine == null || cgBall == null) return;
         
-        Label title = new Label("Corporate Golf Sim");
-        title.style.fontSize = 26;
-        title.style.color = Color.white;
-        title.style.marginBottom = 20;
-        cgContainer.Add(title);
+        Vector2 dragVector = startPos - currentPos; 
+        float distance = dragVector.magnitude;
+        if (distance > 150f) { dragVector = dragVector.normalized * 150f; distance = 150f; }
         
-        VisualElement playArea = new VisualElement();
-        playArea.style.flexDirection = FlexDirection.Row;
-        playArea.style.alignItems = Align.Center;
-        cgContainer.Add(playArea);
+        // Draw line from ball center
+        Vector2 ballCenter = cgBallPos + new Vector2(12f, 12f); // ball is 24x24
         
-        VisualElement bar = new VisualElement();
-        bar.style.width = 60;
-        bar.style.height = 400;
-        bar.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f);
-        bar.style.borderTopLeftRadius = 10; bar.style.borderTopRightRadius = 10; bar.style.borderBottomLeftRadius = 10; bar.style.borderBottomRightRadius = 10;
-        bar.style.marginRight = 40;
-        bar.style.overflow = Overflow.Hidden;
-        playArea.Add(bar);
+        cgAimLine.style.left = ballCenter.x - 2f; 
+        cgAimLine.style.top = ballCenter.y;
+        cgAimLine.style.height = distance;
         
-        cgSnapZone = new VisualElement();
-        cgSnapZone.style.width = new Length(100, LengthUnit.Percent);
-        cgSnapZone.style.height = new Length(20, LengthUnit.Percent); // 20% size
-        cgSnapZone.style.position = Position.Absolute;
-        cgSnapZone.style.bottom = new Length(70, LengthUnit.Percent); // 70-90% range
-        cgSnapZone.style.backgroundColor = Color.green;
-        bar.Add(cgSnapZone);
-        
-        cgMarker = new VisualElement();
-        cgMarker.style.width = new Length(100, LengthUnit.Percent);
-        cgMarker.style.height = 10;
-        cgMarker.style.backgroundColor = Color.white;
-        cgMarker.style.position = Position.Absolute;
-        cgMarker.style.bottom = 0;
-        bar.Add(cgMarker);
-        
-        VisualElement controls = new VisualElement();
-        controls.style.alignItems = Align.Center;
-        playArea.Add(controls);
-
-        cgResultLabel = new Label("Get ready!");
-        cgResultLabel.style.fontSize = 24;
-        cgResultLabel.style.color = Color.yellow;
-        cgResultLabel.style.marginBottom = 20;
-        controls.Add(cgResultLabel);
-
-        cgBtnSwing = new Button();
-        cgBtnSwing.text = "SWING!";
-        cgBtnSwing.style.fontSize = 24;
-        cgBtnSwing.style.width = 150;
-        cgBtnSwing.style.height = 60;
-        cgBtnSwing.style.backgroundColor = Color.blue;
-        cgBtnSwing.style.color = Color.white;
-        cgBtnSwing.clicked += () => {
-            if (!isPlaying || cgClicks > 0) return;
-            cgClicks = 1; // Mark as swung
-        };
-        controls.Add(cgBtnSwing);
-        
-        activeGameRoutine = StartCoroutine(CorporateGolfRoutineSequence());
+        float angle = Mathf.Atan2(dragVector.y, dragVector.x) * Mathf.Rad2Deg;
+        cgAimLine.style.rotate = new Rotate(new Angle(angle - 90f, AngleUnit.Degree));
     }
 
-    private IEnumerator CorporateGolfRoutineSequence()
+    private IEnumerator CorporateGolfRoutine()
     {
         isPlaying = true;
         
-        while (isPlaying && cgRoundsPlayed < 3)
+        while (isPlaying)
         {
-            yield return StartCoroutine(CorporateGolfRound());
-            if (!isPlaying) yield break;
-            cgRoundsPlayed++;
-        }
-
-        if (isPlaying)
-        {
-            EndGame(cgPerfectRounds >= 2);
-        }
-    }
-
-    private IEnumerator CorporateGolfRound()
-    {
-        cgClicks = 0;
-        cgPower = 0f;
-        cgMovingUp = true;
-        cgMarker.style.bottom = 0;
-        cgBtnSwing.style.backgroundColor = Color.blue;
-        cgResultLabel.text = $"Round {cgRoundsPlayed + 1}/3";
-
-        float speed = 1.2f + (cgRoundsPlayed * 0.3f); // gets faster
-
-        while (isPlaying && cgClicks == 0)
-        {
-            if (cgMovingUp)
+            timer -= Time.deltaTime;
+            if (cgTimeLabel != null) cgTimeLabel.text = $"TIME: {Mathf.Max(0, timer):F1}s";
+            
+            if (timer <= 0f)
             {
-                cgPower += Time.deltaTime * speed;
-                if (cgPower >= 1f) { cgPower = 1f; cgMovingUp = false; }
-            }
-            else
-            {
-                cgPower -= Time.deltaTime * speed;
-                if (cgPower <= 0f) { cgPower = 0f; cgMovingUp = true; }
+                if (cgCeo != null) cgCeo.text = "😡";
+                EndGame(false);
+                yield break;
             }
             
-            cgMarker.style.bottom = new Length(cgPower * 100f, LengthUnit.Percent);
+            if (cgBallInMotion)
+            {
+                // Move ball
+                cgBallPos += cgBallVel * Time.deltaTime;
+                cgBall.style.left = cgBallPos.x;
+                cgBall.style.top = cgBallPos.y;
+                
+                // Friction
+                cgBallVel = Vector2.MoveTowards(cgBallVel, Vector2.zero, 500f * Time.deltaTime);
+                
+                // Wall bounds (bounce) - Play area is roughly 380x440 considering borders
+                if (cgBallPos.x < 0) { cgBallPos.x = 0; cgBallVel.x *= -0.7f; }
+                if (cgBallPos.x > 356) { cgBallPos.x = 356; cgBallVel.x *= -0.7f; } 
+                if (cgBallPos.y < 0) { cgBallPos.y = 0; cgBallVel.y *= -0.7f; }
+                if (cgBallPos.y > 416) { cgBallPos.y = 416; cgBallVel.y *= -0.7f; } 
+                
+                if (cgBallVel.sqrMagnitude < 5f)
+                {
+                    cgBallInMotion = false;
+                    cgBallVel = Vector2.zero;
+                    
+                    // Stopped, check collision
+                    Rect ballRect = new Rect(cgBall.worldBound.x, cgBall.worldBound.y, cgBall.worldBound.width, cgBall.worldBound.height);
+                    Rect holeRect = new Rect(cgHole.worldBound.x, cgHole.worldBound.y, cgHole.worldBound.width, cgHole.worldBound.height);
+                    Rect sandRect = new Rect(cgSandTrap.worldBound.x, cgSandTrap.worldBound.y, cgSandTrap.worldBound.width, cgSandTrap.worldBound.height);
+                    
+                    if (ballRect.Overlaps(holeRect))
+                    {
+                        if (cgCeo != null) cgCeo.text = "😡";
+                        yield return new WaitForSeconds(1f);
+                        EndGame(false); // Beat the CEO, fired!
+                        yield break;
+                    }
+                    else if (ballRect.Overlaps(sandRect))
+                    {
+                        if (cgCeo != null) cgCeo.text = "🤑";
+                        yield return new WaitForSeconds(1f);
+                        EndGame(true); // Let CEO win, promoted!
+                        yield break;
+                    }
+                }
+            }
+            
             yield return null;
         }
-
-        if (!isPlaying) yield break;
-
-        // Swung
-        if (cgPower >= 0.70f && cgPower <= 0.90f)
-        {
-            cgResultLabel.text = "PERFECT!";
-            cgResultLabel.style.color = Color.green;
-            cgBtnSwing.style.backgroundColor = Color.green;
-            cgPerfectRounds++;
-        }
-        else if (cgPower >= 0.60f && cgPower <= 1.00f)
-        {
-            cgResultLabel.text = "GOOD";
-            cgResultLabel.style.color = Color.yellow;
-            cgBtnSwing.style.backgroundColor = Color.yellow;
-        }
-        else
-        {
-            cgResultLabel.text = "SHANKED!";
-            cgResultLabel.style.color = Color.red;
-            cgBtnSwing.style.backgroundColor = Color.red;
-        }
-
-        yield return new WaitForSeconds(1.5f);
     }
 
 

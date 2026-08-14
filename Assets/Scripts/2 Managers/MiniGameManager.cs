@@ -1123,7 +1123,7 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Industrial Dive Bar", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.6f, dialogueScenarios = new string[]{"Foreman: What brings you here?","Worker: You look too clean for this place","Bartender: Another round?"}, dialogueOptions = new string[][]{new string[]{"Looking for work connections","Just passing through","Buy everyone a round"},new string[]{"I work hard too","I just got off shift","You should see my hands"},new string[]{"Absolutely, my treat","I'll have water","One more then I'm out"}}, dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive bar!" });
         AddConfigFull("Hospitality Gala", new MiniGameConfig { type = GameType.NameMemory, timeLimit = 15f, vipNames = new string[]{"Sarah from Tech", "John from Sales", "Mike from HR", "Emma from Legal"}, instructions = "Memorize the VIPs!" });
         AddConfigFull("Startup Pitch Meetup", new MiniGameConfig { type = GameType.StartupPitch, timeLimit = 15f, instructions = "Pitch the perfect buzzwords!" });
-        AddConfigFull("Corporate Golf Sim", new MiniGameConfig { type = GameType.TimingRing, timingRounds = 3, timingZoneWidth = 22f, instructions = "Perfect your swing!" });
+        AddConfigFull("Corporate Golf Sim", new MiniGameConfig { type = GameType.CorporateGolf, timeLimit = 15f, instructions = "Let the CEO win! Aim for the sand trap!" });
 
         // =============================================
         // LEGAL SIDE HUSTLES (4 tasks)

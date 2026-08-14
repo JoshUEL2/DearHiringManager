@@ -367,12 +367,18 @@ public partial class MiniGameManager : MonoBehaviour
 
     // Corporate Golf Sim
     private UnityEngine.UIElements.VisualElement cgContainer;
-    private UnityEngine.UIElements.VisualElement cgSnapZone;
-    private UnityEngine.UIElements.VisualElement cgMarker;
-    private UnityEngine.UIElements.Button cgBtnSwing;
-    private int cgClicks;
-    private float cgPower;
-    private bool cgMovingUp;
+    private UnityEngine.UIElements.Label cgTimeLabel;
+    private UnityEngine.UIElements.VisualElement cgPlayArea;
+    private UnityEngine.UIElements.VisualElement cgBall;
+    private UnityEngine.UIElements.VisualElement cgHole;
+    private UnityEngine.UIElements.VisualElement cgSandTrap;
+    private UnityEngine.UIElements.VisualElement cgAimLine;
+    private UnityEngine.UIElements.Label cgCeo;
+    private UnityEngine.Vector2 cgBallPos;
+    private UnityEngine.Vector2 cgBallVel;
+    private UnityEngine.Vector2 cgDragStartPos;
+    private bool cgIsDragging = false;
+    private bool cgBallInMotion = false;
 
     // Two Phase Heist
     private UnityEngine.UIElements.VisualElement tphContainer;

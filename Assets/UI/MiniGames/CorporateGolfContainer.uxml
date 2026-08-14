@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="CorporateGolfContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #14532D; border-radius: 10px; border-width: 6px; border-color: #8B5A2B; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-end; padding-bottom: 40px;">
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    <ui:Label text="LET THE CEO WIN!" style="font-size: 32px; color: #FCD34D; -unity-font-style: bold; position: absolute; top: 20px;" />
-                    
-                    <!-- Vertical Power Bar -->
-                    <ui:VisualElement style="position: absolute; left: 20px; bottom: 20px; width: 60px; height: 300px; background-color: #064E3B; border-width: 4px; border-color: #FCD34D; border-radius: 10px; justify-content: flex-end; overflow: hidden;">
-                        <ui:VisualElement style="position: absolute; bottom: 0; height: 30%; width: 100%; background-color: #DC2626;" />
-                        <ui:VisualElement style="position: absolute; bottom: 30%; height: 30%; width: 100%; background-color: #F59E0B;" />
-                        <ui:VisualElement style="position: absolute; bottom: 60%; height: 40%; width: 100%; background-color: #10B981;" />
-                        <ui:VisualElement name="CgPowerFill" style="width: 100%; height: 0%; background-color: rgba(255,255,255,0.8);" />
-                    </ui:VisualElement>
-                    
-                    <ui:VisualElement style="position: absolute; width: 150px; height: 150px; background-color: #064E3B; border-radius: 75px; top: 80px; justify-content: center; align-items: center;">
-                        <ui:VisualElement style="width: 40px; height: 40px; background-color: black; border-radius: 20px;" />
-                    </ui:VisualElement>
+    <ui:VisualElement name="CorporateGolfContainer" style="display: none; width: 100%; min-width: 400px; height: 500px; flex-direction: column; background-color: #166534; border-radius: 12px; border-width: 8px; border-color: #064E3B; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: flex-start; padding: 10px;">
+        
+        <!-- Header Info Area -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; padding: 10px; background-color: rgba(0,0,0,0.5); border-radius: 8px; margin-bottom: 10px; z-index: 10;">
+            <ui:Label name="CgTimeText" text="TIME: 15.0s" style="font-size: 24px; color: #F87171; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        
+        <ui:Label text="DRAG BALL TO AIM. HIT THE SAND TRAP!" style="font-size: 18px; color: white; -unity-font-style: bold; margin-bottom: 5px; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); z-index: 10;" />
 
-                    <ui:Button name="BtnCgSwing" text="HOLD TO POWER SWING" style="background-color: #FCD34D; color: black; font-size: 24px; padding: 15px 30px; border-radius: 15px; -unity-font-style: bold; margin-left: 100px;" />
-                </ui:VisualElement>
+        <!-- Play Area -->
+        <ui:VisualElement name="CgPlayArea" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden;">
+            
+            <!-- The Hole -->
+            <ui:VisualElement name="CgHole" style="position: absolute; width: 40px; height: 40px; background-color: #000000; border-radius: 20px; top: 120px; left: 50%; translate: -50% 0;">
+                <ui:Label text="⛳" style="position: absolute; top: -30px; left: 10px; font-size: 30px;" />
+            </ui:VisualElement>
+
+            <!-- The Sand Trap -->
+            <ui:VisualElement name="CgSandTrap" style="position: absolute; width: 120px; height: 80px; background-color: #FCD34D; border-radius: 40px; top: 150px; right: 20px; border-width: 2px; border-color: #D97706;" />
+
+            <!-- The CEO (watching) -->
+            <ui:Label name="CgCeo" text="👨‍💼" style="position: absolute; top: 80px; left: 20px; font-size: 50px;" />
+
+            <!-- The Aiming Line (slingshot) -->
+            <ui:VisualElement name="CgAimLine" style="position: absolute; width: 4px; height: 0px; background-color: rgba(255, 255, 255, 0.7); transform-origin: top; display: none;" />
+
+            <!-- The Ball -->
+            <ui:VisualElement name="CgBall" style="position: absolute; width: 24px; height: 24px; background-color: white; border-radius: 12px; bottom: 60px; left: 50%; translate: -50% 0; border-width: 1px; border-color: #D1D5DB; box-shadow: 0 4px 6px rgba(0,0,0,0.3);" />
+            
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
 </ui:UXML>
