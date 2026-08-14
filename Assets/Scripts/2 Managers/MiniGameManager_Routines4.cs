@@ -1080,101 +1080,132 @@ public partial class MiniGameManager : MonoBehaviour
         
         if (wdContainer != null)
         {
-            wdContainer.Clear();
-            VisualElement row = new VisualElement();
-            row.style.flexDirection = FlexDirection.Row;
-            row.style.justifyContent = Justify.SpaceAround;
-            row.style.width = new Length(100, LengthUnit.Percent);
-            row.style.height = 300;
+            wdTimeLabel = wdContainer.Q<UnityEngine.UIElements.Label>("WdTimeText");
+            wdPlayArea = wdContainer.Q<UnityEngine.UIElements.VisualElement>("WdPlayArea");
             
-            string[] dogNames = { "🐕 Rex", "🐩 Bella", "🐕🦺 Max" };
-
-            for (int i = 0; i < 3; i++)
-            {
-                VisualElement col = new VisualElement();
-                col.style.width = 80;
-                col.style.height = 300;
-                col.style.flexDirection = FlexDirection.Column;
-                col.style.justifyContent = Justify.FlexEnd;
-                col.style.alignItems = Align.Center;
-
-                Label nameLbl = new Label(dogNames[i]);
-                nameLbl.style.color = new StyleColor(Color.white);
-                nameLbl.style.fontSize = 18;
-                nameLbl.style.marginBottom = 10;
+            if (wdTimeLabel != null) wdTimeLabel.text = $"TIME: {timer:F1}s";
+            
+            if (wdPlayArea != null) {
+                // Clear old dogs/leashes, preserving WdHuman (first child usually, but let's be careful)
+                var children = new System.Collections.Generic.List<UnityEngine.UIElements.VisualElement>(wdPlayArea.Children());
+                foreach(var c in children) {
+                    if (c.name != "WdHuman") wdPlayArea.Remove(c);
+                }
                 
-                VisualElement bg = new VisualElement();
-                bg.style.width = 40;
-                bg.style.height = 150;
-                bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f));
-                bg.style.justifyContent = Justify.FlexEnd;
-                bg.style.marginBottom = 10;
+                string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕", "🐩", "🦮" };
                 
-                VisualElement bar = new VisualElement();
-                bar.style.width = new Length(100, LengthUnit.Percent);
-                bar.style.height = new Length(50, LengthUnit.Percent);
-                bar.style.backgroundColor = new StyleColor(Color.green);
-                bg.Add(bar);
-                
-                Button yank = new Button();
-                yank.text = "YANK";
-                yank.style.height = 40;
-                yank.style.width = 70;
-                yank.style.fontSize = 18;
-                
-                int idx = i;
-                wdTensions[i] = 0.5f; // Start at 50%
-                wdBars[i] = bar;
-                wdBtns[i] = yank;
-                
-                yank.RegisterCallback<PointerDownEvent>(ev => { 
-                    if(isPlaying) 
-                    {
-                        wdTensions[idx] -= 0.30f; 
-                        if (wdTensions[idx] < 0.05f) wdTensions[idx] = 0.05f; // 5% floor
-                    }
-                });
-                
-                col.Add(nameLbl);
-                col.Add(bg);
-                col.Add(yank);
-                row.Add(col);
+                for (int i = 0; i < 7; i++)
+                {
+                    // Create Leash
+                    UnityEngine.UIElements.VisualElement leash = new UnityEngine.UIElements.VisualElement();
+                    leash.style.position = UnityEngine.UIElements.Position.Absolute;
+                    leash.style.height = 4;
+                    leash.style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.6f, 0.3f, 0.1f)); // Brown leash
+                    leash.style.transformOrigin = new UnityEngine.UIElements.TransformOrigin(new UnityEngine.UIElements.Length(0, UnityEngine.UIElements.LengthUnit.Percent), new UnityEngine.UIElements.Length(50, UnityEngine.UIElements.LengthUnit.Percent));
+                    leash.style.left = new UnityEngine.UIElements.Length(50, UnityEngine.UIElements.LengthUnit.Percent);
+                    leash.style.top = new UnityEngine.UIElements.Length(50, UnityEngine.UIElements.LengthUnit.Percent);
+                    leash.pickingMode = UnityEngine.UIElements.PickingMode.Ignore;
+                    wdPlayArea.Add(leash);
+                    wdLeashElements[i] = leash;
+                    
+                    // Create Dog
+                    UnityEngine.UIElements.Label dog = new UnityEngine.UIElements.Label(dogEmojis[i]);
+                    dog.style.position = UnityEngine.UIElements.Position.Absolute;
+                    dog.style.fontSize = 40;
+                    dog.style.width = 50;
+                    dog.style.height = 50;
+                    dog.style.unityTextAlign = UnityEngine.TextAnchor.MiddleCenter;
+                    
+                    // Random starting stats
+                    wdDogAngles[i] = UnityEngine.Random.Range(0f, 360f);
+                    wdDogDistances[i] = UnityEngine.Random.Range(20f, 60f); // start somewhat close
+                    wdDogSpeeds[i] = UnityEngine.Random.Range(8f, 15f); // units per second outward
+                    
+                    int idx = i;
+                    dog.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => {
+                        if (isPlaying) {
+                            wdDogDistances[idx] = UnityEngine.Mathf.Max(20f, wdDogDistances[idx] - 60f); // Yank back
+                        }
+                    });
+                    
+                    wdPlayArea.Add(dog);
+                    wdDogElements[i] = dog;
+                }
             }
-            wdContainer.Add(row);
         }
         activeGameRoutine = StartCoroutine(WalkDogsRoutine());
     }
 
-    private IEnumerator WalkDogsRoutine()
+    private System.Collections.IEnumerator WalkDogsRoutine()
     {
         isPlaying = true;
+        
         while (isPlaying)
         {
-            timer -= Time.deltaTime;
+            timer -= UnityEngine.Time.deltaTime;
+            if (wdTimeLabel != null) wdTimeLabel.text = $"TIME: {UnityEngine.Mathf.Max(0, timer):F1}s";
+            
             if (timer <= 0f)
             {
                 EndGame(true); // Survived
                 yield break;
             }
             
-            for (int i = 0; i < 3; i++)
-            {
-                wdTensions[i] += UnityEngine.Random.Range(0.08f, 0.18f) * Time.deltaTime;
+            if (wdPlayArea != null) {
+                float containerWidth = wdPlayArea.worldBound.width;
+                float containerHeight = wdPlayArea.worldBound.height;
+                float maxAllowedDistance = (UnityEngine.Mathf.Min(containerWidth, containerHeight) / 2f) - 30f; // Snaps if it reaches edges
                 
-                if (wdBars[i] != null)
+                for (int i = 0; i < 7; i++)
                 {
-                    wdBars[i].style.height = new Length(wdTensions[i] * 100f, LengthUnit.Percent);
-                    if (wdTensions[i] < 0.5f) wdBars[i].style.backgroundColor = new StyleColor(Color.green);
-                    else if (wdTensions[i] < 0.8f) wdBars[i].style.backgroundColor = new StyleColor(Color.yellow);
-                    else wdBars[i].style.backgroundColor = new StyleColor(Color.red);
-                }
-                
-                if (wdTensions[i] >= 1f)
-                {
-                    EndGame(false); // Leash snaps
-                    yield break;
+                    // Move dog outward
+                    wdDogDistances[i] += wdDogSpeeds[i] * UnityEngine.Time.deltaTime;
+                    
+                    // Add some erratic wandering to angle
+                    wdDogAngles[i] += UnityEngine.Random.Range(-15f, 15f) * UnityEngine.Time.deltaTime;
+                    
+                    float rad = wdDogAngles[i] * UnityEngine.Mathf.Deg2Rad;
+                    float x = UnityEngine.Mathf.Cos(rad) * wdDogDistances[i];
+                    float y = UnityEngine.Mathf.Sin(rad) * wdDogDistances[i];
+                    
+                    // Center offset (container coords)
+                    float centerX = containerWidth / 2f;
+                    float centerY = containerHeight / 2f;
+                    
+                    if (wdDogElements[i] != null) {
+                        wdDogElements[i].style.left = centerX + x - 25f; // offset half dog width
+                        wdDogElements[i].style.top = centerY + y - 25f;
+                        
+                        // Flip sprite horizontally if running left
+                        if (x < 0) {
+                            wdDogElements[i].style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(-1f, 1f, 1f)));
+                        } else {
+                            wdDogElements[i].style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1f, 1f, 1f)));
+                        }
+                    }
+                    
+                    if (wdLeashElements[i] != null) {
+                        wdLeashElements[i].style.width = wdDogDistances[i];
+                        wdLeashElements[i].style.rotate = new UnityEngine.UIElements.Rotate(new UnityEngine.UIElements.Angle(wdDogAngles[i], UnityEngine.UIElements.AngleUnit.Degree));
+                        
+                        // Change leash color if getting tense
+                        if (wdDogDistances[i] > maxAllowedDistance * 0.8f) {
+                            wdLeashElements[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(UnityEngine.Color.red);
+                        } else {
+                            wdLeashElements[i].style.backgroundColor = new UnityEngine.UIElements.StyleColor(new UnityEngine.Color(0.6f, 0.3f, 0.1f));
+                        }
+                    }
+                    
+                    // Check snap condition
+                    if (wdDogDistances[i] > maxAllowedDistance)
+                    {
+                        if (wdLeashElements[i] != null) wdLeashElements[i].style.display = UnityEngine.UIElements.DisplayStyle.None;
+                        EndGame(false); // Leash snaps
+                        yield break;
+                    }
                 }
             }
+            
             yield return null;
         }
     }

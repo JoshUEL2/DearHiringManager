@@ -297,9 +297,13 @@ public partial class MiniGameManager : MonoBehaviour
 
     // Walk Dogs
     private UnityEngine.UIElements.VisualElement wdContainer;
-    private float[] wdTensions = new float[3];
-    private UnityEngine.UIElements.VisualElement[] wdBars = new UnityEngine.UIElements.VisualElement[3];
-    private UnityEngine.UIElements.Button[] wdBtns = new UnityEngine.UIElements.Button[3];
+    private UnityEngine.UIElements.VisualElement[] wdDogElements = new UnityEngine.UIElements.VisualElement[7];
+    private UnityEngine.UIElements.VisualElement[] wdLeashElements = new UnityEngine.UIElements.VisualElement[7];
+    private float[] wdDogDistances = new float[7];
+    private float[] wdDogAngles = new float[7];
+    private float[] wdDogSpeeds = new float[7];
+    private UnityEngine.UIElements.VisualElement wdPlayArea;
+    private UnityEngine.UIElements.Label wdTimeLabel;
 
     // Recycle Bottles (Removed)
     
