@@ -966,8 +966,8 @@ public partial class MiniGameManager : MonoBehaviour
         }
 
         // Footer
-        btnAbort = root.Q<Button>("BtnAbort");
-        btnAbort.clicked += AbortGame;
+        btnAbort = root.Q<Button>("BtnAbortMinigame");
+        if (btnAbort != null) btnAbort.clicked += AbortGame;
 
 
         overlay.style.display = DisplayStyle.None;
