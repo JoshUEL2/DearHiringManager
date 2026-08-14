@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="SkimATMContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: row; background-color: #111827; border-radius: 10px; border-width: 6px; border-color: #10B981; margin-bottom: 20px; position: relative; overflow: hidden; justify-content: space-between; padding: 20px;">
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    
-                    <ui:Label text="INSTALL SKIMMER" style="position: absolute; top: 10px; left: 50%; translate: -50% 0; font-size: 24px; color: #10B981; -unity-font-style: bold;" />
-                    
-                    <!-- Left Wires -->
-                    <ui:VisualElement style="flex-direction: column; justify-content: space-around; height: 100%; margin-top: 30px;">
-                        <ui:Button name="BtnSaL0" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaL1" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaL2" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaL3" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                    </ui:VisualElement>
-                    
-                    <!-- Right Wires -->
-                    <ui:VisualElement style="flex-direction: column; justify-content: space-around; height: 100%; margin-top: 30px;">
-                        <ui:Button name="BtnSaR0" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaR1" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaR2" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                        <ui:Button name="BtnSaR3" style="width: 50px; height: 50px; border-radius: 25px; border-width: 4px; border-color: white;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+    <ui:VisualElement name="SkimATMContainer" style="display: none; width: 100%; min-width: 400px; height: 500px; flex-direction: column; background-color: #374151; border-radius: 15px; border-width: 8px; border-color: #1F2937; margin-bottom: 20px; position: relative; overflow: hidden; padding: 0;">
+        
+        <!-- Top Screen Section (ATM Screen) -->
+        <ui:VisualElement style="flex-grow: 1; background-color: #064E3B; border-bottom-width: 6px; border-color: #1F2937; padding: 20px; justify-content: center; align-items: center; overflow: hidden;">
+            <ui:Label text="ATM SYSTEM OVERRIDE" style="font-size: 28px; color: #34D399; -unity-font-style: bold; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(52, 211, 153, 0.5);" />
+            
+            <ui:VisualElement style="flex-direction: row; justify-content: space-around; width: 100%; margin-top: 15px;">
+                <ui:Label name="SaTimerText" text="TIME: 10.0s" style="font-size: 32px; color: #F87171; -unity-font-style: bold;" />
+                <ui:Label name="SaConnectionText" text="LINKS: 0/4" style="font-size: 32px; color: #6EE7B7; -unity-font-style: bold;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Bottom Hardware Panel (Exposed wires) -->
+        <ui:VisualElement style="flex-grow: 1.5; background-color: #111827; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center; border-top-width: 4px; border-top-color: #4B5563;">
+            
+            <!-- Left Panel -->
+            <ui:VisualElement name="SaLeftPanel" style="height: 100%; justify-content: space-around; background-color: #1F2937; padding: 10px; border-radius: 10px; border-width: 2px; border-color: #374151;">
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; opacity: 0.5;">
+                <ui:Label text="/// HARDWARE BYPASS ///" style="color: #6B7280; -unity-font-style: bold; font-size: 18px;" />
+            </ui:VisualElement>
+
+            <!-- Right Panel -->
+            <ui:VisualElement name="SaRightPanel" style="height: 100%; justify-content: space-around; background-color: #1F2937; padding: 10px; border-radius: 10px; border-width: 2px; border-color: #374151;">
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

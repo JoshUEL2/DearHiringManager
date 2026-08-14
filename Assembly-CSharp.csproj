@@ -143,6 +143,7 @@
     <None Include="Assets/UI/MiniGames/FileSorterContainer.uxml" />
     <None Include="Assets/UI/MiniGames/TicketSwipeContainer.uxml" />
     <None Include="Assets/UI/MiniGames/GridDodgeContainer.uxml" />
+    <None Include="Assets/UI/MiniGames/TwoPhaseHeistContainer.uxml" />
     <None Include="Assets/UI/MiniGames/HospitalityGalaContainer.uxml" />
     <None Include="Assets/UI/MiniGames/PumpGameContainer.uxml" />
     <None Include="Assets/UI/MiniGames/YesManContainer.uxml" />

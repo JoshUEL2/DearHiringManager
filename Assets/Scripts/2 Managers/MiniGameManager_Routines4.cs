@@ -1376,36 +1376,17 @@ public partial class MiniGameManager : MonoBehaviour
         
         if (saContainer != null)
         {
-            saContainer.Clear();
-            saContainer.style.backgroundColor = new StyleColor(new Color(0.1f, 0.0f, 0.0f)); // Dark red background
-            saContainer.style.paddingTop = 10;
-            saContainer.style.paddingBottom = 10;
-            saContainer.style.paddingLeft = 10;
-            saContainer.style.paddingRight = 10;
+            saTimerLabel = saContainer.Q<Label>("SaTimerText");
+            saConnectionLabel = saContainer.Q<Label>("SaConnectionText");
 
-            saTimerLabel = new Label($"TIME: {timer:F1}s");
-            saTimerLabel.style.color = new StyleColor(Color.red);
-            saTimerLabel.style.fontSize = 24;
-            saTimerLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            saTimerLabel.style.alignSelf = Align.Center;
-            saContainer.Add(saTimerLabel);
+            if (saTimerLabel != null) saTimerLabel.text = $"TIME: {timer:F1}s";
+            if (saConnectionLabel != null) saConnectionLabel.text = "LINKS: 0/4";
 
-            saConnectionLabel = new Label("CONNECTIONS: 0/4");
-            saConnectionLabel.style.color = new StyleColor(Color.white);
-            saConnectionLabel.style.fontSize = 18;
-            saConnectionLabel.style.alignSelf = Align.Center;
-            saConnectionLabel.style.marginBottom = 10;
-            saContainer.Add(saConnectionLabel);
+            VisualElement leftCol = saContainer.Q<VisualElement>("SaLeftPanel");
+            VisualElement rightCol = saContainer.Q<VisualElement>("SaRightPanel");
 
-            VisualElement columnsContainer = new VisualElement();
-            columnsContainer.style.flexDirection = FlexDirection.Row;
-            columnsContainer.style.justifyContent = Justify.SpaceAround;
-            columnsContainer.style.width = new Length(100, LengthUnit.Percent);
-
-            VisualElement leftCol = new VisualElement();
-            VisualElement rightCol = new VisualElement();
-            leftCol.style.flexDirection = FlexDirection.Column;
-            rightCol.style.flexDirection = FlexDirection.Column;
+            if (leftCol != null) leftCol.Clear();
+            if (rightCol != null) rightCol.Clear();
             
             saLeftNodes.Clear();
             saRightNodes.Clear();
@@ -1430,6 +1411,7 @@ public partial class MiniGameManager : MonoBehaviour
                 lBtn.style.borderTopWidth = 3; lBtn.style.borderBottomWidth = 3; lBtn.style.borderLeftWidth = 3; lBtn.style.borderRightWidth = 3;
                 lBtn.style.borderTopColor = new StyleColor(Color.clear); lBtn.style.borderBottomColor = new StyleColor(Color.clear); 
                 lBtn.style.borderLeftColor = new StyleColor(Color.clear); lBtn.style.borderRightColor = new StyleColor(Color.clear);
+                lBtn.style.borderTopLeftRadius = 8; lBtn.style.borderTopRightRadius = 8; lBtn.style.borderBottomLeftRadius = 8; lBtn.style.borderBottomRightRadius = 8;
                 
                 lBtn.clicked += () => { 
                     if(isPlaying && lBtn.enabledSelf) 
@@ -1443,12 +1425,14 @@ public partial class MiniGameManager : MonoBehaviour
                     }
                 };
                 saLeftNodes.Add(lBtn);
-                leftCol.Add(lBtn);
+                if (leftCol != null) leftCol.Add(lBtn);
                 
                 Button rBtn = new Button();
                 rBtn.style.width = 50; rBtn.style.height = 50; 
                 rBtn.style.marginTop = 10; rBtn.style.marginBottom = 10; rBtn.style.marginLeft = 10; rBtn.style.marginRight = 10;
                 rBtn.style.backgroundColor = new StyleColor(rightColors[i]);
+                rBtn.style.borderTopWidth = 3; rBtn.style.borderBottomWidth = 3; rBtn.style.borderLeftWidth = 3; rBtn.style.borderRightWidth = 3;
+                rBtn.style.borderTopLeftRadius = 8; rBtn.style.borderTopRightRadius = 8; rBtn.style.borderBottomLeftRadius = 8; rBtn.style.borderBottomRightRadius = 8;
                 
                 rBtn.clicked += () => {
                     if (isPlaying && saActiveNode != null && rBtn.enabledSelf)
@@ -1469,7 +1453,7 @@ public partial class MiniGameManager : MonoBehaviour
                             rBtn.style.fontSize = 20;
 
                             saConnections++;
-                            saConnectionLabel.text = $"CONNECTIONS: {saConnections}/4";
+                            if (saConnectionLabel != null) saConnectionLabel.text = $"LINKS: {saConnections}/4";
                             
                             saActiveNode.style.borderTopColor = new StyleColor(Color.clear);
                             saActiveNode.style.borderBottomColor = new StyleColor(Color.clear);
@@ -1492,11 +1476,8 @@ public partial class MiniGameManager : MonoBehaviour
                     }
                 };
                 saRightNodes.Add(rBtn);
-                rightCol.Add(rBtn);
+                if (rightCol != null) rightCol.Add(rBtn);
             }
-            columnsContainer.Add(leftCol);
-            columnsContainer.Add(rightCol);
-            saContainer.Add(columnsContainer);
         }
         activeGameRoutine = StartCoroutine(SkimATMRoutine());
     }
