@@ -688,3 +688,76 @@
 .ts-post-it-desc {
     font-size: 16px; color: #422006; white-space: normal; margin-bottom: 10px;
 }
+
+/* =========================================
+   CONSTRUCTION SITE MINIGAME
+========================================= */
+.cs-main {
+    flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;
+}
+.cs-hud {
+    flex-direction: row; justify-content: space-between; width: 90%; margin-bottom: 10px;
+}
+.cs-hud-panel {
+    background-color: #1E293B; border-radius: 8px; padding: 10px 20px;
+    border-width: 2px; border-color: #334155;
+}
+.cs-hud-text {
+    font-size: 20px; -unity-font-style: bold; color: #F8FAFC;
+}
+
+.cs-wind-panel {
+    background-color: #0F172A; border-radius: 8px; padding: 10px; width: 60%; 
+    align-items: center; margin-bottom: 20px; border-width: 2px; border-color: #475569;
+}
+.cs-wind-text {
+    font-size: 18px; color: #38BDF8; -unity-font-style: bold; margin-bottom: 5px;
+}
+.cs-wind-bar {
+    width: 100%; height: 10px; background-color: #334155; border-radius: 5px; overflow: hidden;
+}
+.cs-wind-fill {
+    height: 100%; width: 50%; background-color: #0EA5E9; transform-origin: center;
+}
+
+.cs-track-area {
+    width: 90%; height: 60px; position: relative; margin-bottom: 40px; margin-top: 20px;
+    justify-content: center;
+}
+.cs-beam {
+    position: absolute; width: 100%; height: 100%; background-color: #64748B;
+    border-top-width: 4px; border-bottom-width: 4px; border-color: #334155;
+}
+.cs-zone {
+    position: absolute; height: 100%; width: 30%; background-color: rgba(34, 197, 94, 0.5);
+    border-left-width: 3px; border-right-width: 3px; border-color: #16A34A;
+}
+.cs-zone-danger {
+    background-color: rgba(220, 38, 38, 0.5); border-color: #B91C1C;
+}
+
+.cs-player {
+    position: absolute; width: 40px; height: 60px; top: -30px; margin-left: -20px;
+    align-items: center; justify-content: center;
+}
+.cs-player-icon {
+    font-size: 40px;
+}
+
+.cs-danger-flash {
+    position: absolute; width: 100%; height: 100%; background-color: rgba(220, 38, 38, 0);
+    transition-property: background-color; transition-duration: 0.2s;
+}
+
+.cs-controls {
+    flex-direction: row; justify-content: space-between; width: 80%; margin-top: 20px;
+}
+.cs-btn {
+    width: 45%; height: 80px; font-size: 24px; -unity-font-style: bold; color: white;
+    border-radius: 12px; border-width: 4px; border-color: #1E293B;
+    transition-property: scale, background-color; transition-duration: 0.1s;
+}
+.cs-btn-left { background-color: #D97706; }
+.cs-btn-left:hover { background-color: #F59E0B; scale: 1.05; }
+.cs-btn-right { background-color: #D97706; }
+.cs-btn-right:hover { background-color: #F59E0B; scale: 1.05; }

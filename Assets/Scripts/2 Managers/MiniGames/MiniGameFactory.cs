@@ -12,6 +12,8 @@ public static class MiniGameFactory
                 return new GridDodgeMiniGame();
             case GameType.TicketSwipe:
                 return new TicketSwipeMiniGame();
+            case GameType.ConstructionSite:
+                return new ConstructionSiteMiniGame();
             // ... future ports ...
             default:
                 return new LegacyMiniGameWrapper();

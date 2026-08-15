@@ -464,12 +464,6 @@ public partial class MiniGameManager : MonoBehaviour
     private string[] tsTickets = { "Printer is on fire", "Forgot password", "Need more RAM", "Coffee machine broken", "Server crashed" };
 
     // Phase 2 Game State Variables
-    // ConstructionSite
-    private VisualElement csContainer, csBalanceZone, csPlayerMarker;
-    private Button btnCsLeft, btnCsRight;
-    private float csBalancePos = 0f;
-    private float csDrift = 0f;
-    private float csTimeInZone = 0f;
 
     // ZenTracing
     private VisualElement ztContainer, ztCircle, ztTarget, ztSponge, ztProgressFill;

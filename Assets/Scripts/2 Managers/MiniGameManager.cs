@@ -889,15 +889,7 @@ public partial class MiniGameManager : MonoBehaviour
 
 
 
-        // Phase 2 UI
-        csContainer = root.Q<VisualElement>("ConstructionSiteContainer");
-        if (csContainer != null)
-        {
-            csBalanceZone = csContainer.Q<VisualElement>("BeamBalanceZone");
-            csPlayerMarker = csContainer.Q<VisualElement>("BeamPlayerMarker");
-            btnCsLeft = csContainer.Q<Button>("BtnBalanceLeft");
-            btnCsRight = csContainer.Q<Button>("BtnBalanceRight");
-        }
+
 
         ztContainer = root.Q<VisualElement>("ZenTracingContainer");
         if (ztContainer != null)
@@ -1295,10 +1287,7 @@ public partial class MiniGameManager : MonoBehaviour
                 SetupWhackABug();
                 break;
 
-            case GameType.ConstructionSite:
-                csContainer.style.display = DisplayStyle.Flex;
-                SetupConstructionSite();
-                break;
+
             case GameType.ZenTracing:
                 ztContainer.style.display = DisplayStyle.Flex;
                 SetupZenTracing();
