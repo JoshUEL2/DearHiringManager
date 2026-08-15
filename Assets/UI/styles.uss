@@ -553,3 +553,54 @@
     background-color: #14532D;
     color: #4ADE80;
 }
+
+/* Grid Dodge Specific Styles */
+.grid-dodge-hud {
+    flex-direction: row; justify-content: center; width: 360px; margin-bottom: 20px; 
+    background-color: rgba(26, 36, 54, 0.9); padding: 12px; border-radius: 20px;
+    border-width: 2px; border-color: rgba(56, 189, 248, 0.5);
+}
+.grid-dodge-health {
+    background-color: #E74C3C; padding: 10px 24px; border-radius: 14px; 
+    border-bottom-width: 4px; border-color: #C0392B;
+}
+.grid-dodge-health-text {
+    font-size: 26px; color: white; -unity-font-style: bold; margin: 0; padding: 0;
+}
+.grid-dodge-board {
+    width: 380px; height: 380px; background-color: #022C22; border-radius: 20px; 
+    border-width: 8px; border-color: #10B981; padding: 4px;
+    overflow: hidden; position: relative;
+}
+.grid-dodge-cell {
+    flex-grow: 1; border-width: 2px; border-radius: 12px; margin: 2px;
+    transition-property: background-color, border-color, scale; transition-duration: 0.2s;
+}
+.grid-dodge-cell-safe {
+    background-color: #FBBF24; border-color: #F59E0B;
+    border-bottom-width: 5px; border-bottom-color: #D97706;
+}
+.grid-dodge-cell-hazard {
+    background-color: #15803D; border-color: #166534;
+    border-top-width: 5px; border-top-color: #22C55E;
+}
+.grid-dodge-cell-goal {
+    background-color: #3B82F6; border-color: #2563EB;
+    border-bottom-width: 5px; border-bottom-color: #1D4ED8;
+}
+.grid-dodge-player {
+    position: absolute; width: 100%; height: 100%; 
+    align-items: center; justify-content: center;
+    transition-property: left, top; transition-duration: 0.15s; transition-timing-function: ease-out-bounce;
+}
+.grid-dodge-player-icon {
+    font-size: 40px; -unity-text-align: middle-center;
+    background-color: rgba(255,255,255,0.25); border-radius: 50%;
+    width: 85%; height: 85%;
+}
+.grid-dodge-damage-overlay {
+    position: absolute; left: 0; right: 0; top: 0; bottom: 0; 
+    background-color: rgba(220, 38, 38, 0); picking-mode: ignore;
+    transition-property: background-color; transition-duration: 0.2s;
+    border-radius: 12px;
+}

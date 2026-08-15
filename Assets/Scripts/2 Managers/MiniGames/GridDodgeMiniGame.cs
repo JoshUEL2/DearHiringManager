@@ -44,20 +44,14 @@ public class GridDodgeMiniGame : IMiniGame
     private void GenerateGrid()
     {
         safePath.Clear();
-        int cx = 0; int cy = 0;
-        safePath.Add((cx, cy));
-
-        // Generate guaranteed safe path
-        while (cx < config.gridSize - 1 || cy < config.gridSize - 1)
+        var visited = new HashSet<(int, int)>();
+        var path = new List<(int, int)>();
+        
+        GeneratePathDFS(0, 0, config.gridSize - 1, config.gridSize - 1, visited, path);
+        
+        foreach (var p in path)
         {
-            if (cx == config.gridSize - 1) cy++;
-            else if (cy == config.gridSize - 1) cx++;
-            else
-            {
-                if (Random.value > 0.5f) cx++;
-                else cy++;
-            }
-            safePath.Add((cx, cy));
+            safePath.Add(p);
         }
 
         float cellSizePct = 100f / config.gridSize;
@@ -115,6 +109,48 @@ public class GridDodgeMiniGame : IMiniGame
         playerNode.Add(playerIcon);
         
         gridBoard.Add(playerNode);
+    }
+
+    private bool GeneratePathDFS(int cx, int cy, int tx, int ty, HashSet<(int, int)> visited, List<(int, int)> path)
+    {
+        if (cx < 0 || cy < 0 || cx > tx || cy > ty) return false;
+        if (visited.Contains((cx, cy))) return false;
+
+        // Prevent 2x2 clusters of paths by ensuring we don't step adjacent to already path'd cells (other than our parent)
+        // A simple heuristic: if more than 1 neighbor is visited, it's touching itself!
+        int visitedNeighbors = 0;
+        if (visited.Contains((cx + 1, cy))) visitedNeighbors++;
+        if (visited.Contains((cx - 1, cy))) visitedNeighbors++;
+        if (visited.Contains((cx, cy + 1))) visitedNeighbors++;
+        if (visited.Contains((cx, cy - 1))) visitedNeighbors++;
+        
+        if (visitedNeighbors > 1) return false;
+
+        visited.Add((cx, cy));
+        path.Add((cx, cy));
+
+        if (cx == tx && cy == ty) return true;
+
+        var dirs = new List<(int, int)> { (1, 0), (0, 1), (-1, 0), (0, -1) };
+        for (int i = 0; i < dirs.Count; i++)
+        {
+            int temp = Random.Range(i, dirs.Count);
+            var d = dirs[i];
+            dirs[i] = dirs[temp];
+            dirs[temp] = d;
+        }
+
+        foreach (var dir in dirs)
+        {
+            if (GeneratePathDFS(cx + dir.Item1, cy + dir.Item2, tx, ty, visited, path))
+            {
+                return true;
+            }
+        }
+
+        path.RemoveAt(path.Count - 1);
+        visited.Remove((cx, cy)); // Backtrack completely
+        return false;
     }
 
     private void SetPlayerIcon()
