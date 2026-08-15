@@ -466,3 +466,17 @@ Memory consumption went from 210.8 MB to 205.2 MB.
 Total: 9.306875 ms (FindLiveObjects: 0.602125 ms CreateObjectMapping: 1.562125 ms MarkObjects: 5.400167 ms  DeleteObjects: 1.741833 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Refreshing native plugins compatible for Editor in 2.51 ms, found 2 plugins.
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6454 unused Assets / (5.4 MB). Loaded Objects now: 7339.
+Memory consumption went from 205.1 MB to 199.7 MB.
+Total: 26.615083 ms (FindLiveObjects: 0.674583 ms CreateObjectMapping: 1.649834 ms MarkObjects: 22.298916 ms  DeleteObjects: 1.991333 ms)
+
+Prepare: number of updated asset objects reloaded= 0

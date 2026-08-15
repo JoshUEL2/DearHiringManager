@@ -73,7 +73,6 @@ public partial class MiniGameManager : MonoBehaviour
     private VisualElement gridDodgeContainer, gridDodgeGrid;
     private Label gridHealthText, gridMoveText;
     private int playerGridX, playerGridY, gridGoalX, gridGoalY;
-    private int sharedInputDx = 0, sharedInputDy = 0;
     private Vector2 swipeStartPos = Vector2.zero;
 
     // WhackGrid
@@ -462,7 +461,6 @@ public partial class MiniGameManager : MonoBehaviour
     private VisualElement tsContainer, tsCard;
     private Label tsText;
     private Vector2 tsStartPos;
-    private int tsScore = 0;
     private string[] tsTickets = { "Printer is on fire", "Forgot password", "Need more RAM", "Coffee machine broken", "Server crashed" };
 
     // Phase 2 Game State Variables
@@ -620,9 +618,6 @@ public partial class MiniGameManager : MonoBehaviour
     private int sortScore = 0;
 
     // GridDodge state
-    private int gridPlayerX = 0, gridPlayerY = 2;
-
-    private int gridHP = 3;
     private VisualElement[,] gridCells;
     private HashSet<(int,int)> gridDangerCells = new HashSet<(int,int)>();
     private HashSet<(int,int)> gridPathCells = new HashSet<(int,int)>();

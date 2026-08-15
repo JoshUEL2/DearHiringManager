@@ -730,8 +730,6 @@ public partial class MiniGameManager : MonoBehaviour
     }
 
     // --- 10. CorporateGolf ---
-    private int cgRoundsPlayed = 0;
-    private int cgPerfectRounds = 0;
     private Label cgResultLabel;
     
     private void SetupCorporateGolf()

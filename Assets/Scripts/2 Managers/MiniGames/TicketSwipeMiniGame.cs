@@ -194,12 +194,16 @@ public class TicketSwipeMiniGame : IMiniGame
         if (isCorrect)
         {
             cardToAnimate.style.backgroundColor = new StyleColor(new Color(0.86f, 0.99f, 0.86f)); // Light green
-            cardToAnimate.style.borderColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green border
+            var g = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
+            cardToAnimate.style.borderTopColor = g; cardToAnimate.style.borderBottomColor = g;
+            cardToAnimate.style.borderLeftColor = g; cardToAnimate.style.borderRightColor = g;
         }
         else
         {
             cardToAnimate.style.backgroundColor = new StyleColor(new Color(0.99f, 0.86f, 0.86f)); // Light red
-            cardToAnimate.style.borderColor = new StyleColor(new Color(0.88f, 0.15f, 0.15f)); // Red border
+            var r = new StyleColor(new Color(0.88f, 0.15f, 0.15f));
+            cardToAnimate.style.borderTopColor = r; cardToAnimate.style.borderBottomColor = r;
+            cardToAnimate.style.borderLeftColor = r; cardToAnimate.style.borderRightColor = r;
             
             // Shake effect on text
             var label = cardToAnimate.Q<Label>();
