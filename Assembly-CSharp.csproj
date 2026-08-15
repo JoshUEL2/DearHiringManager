@@ -68,6 +68,7 @@
     <Compile Include="Assets/Scripts/1 Data/Systems/IWeeklySystem.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/HustlesUI.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/GridDodgeMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/NewsEventSO.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/PlayerBackstorySO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs" />

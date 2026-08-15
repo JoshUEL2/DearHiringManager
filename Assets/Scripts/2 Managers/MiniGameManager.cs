@@ -134,14 +134,14 @@ public partial class MiniGameManager : MonoBehaviour
         }
 
         root.RegisterCallback<PointerDownEvent>(ev => {
-            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            if (!isPlaying || currentConfig.type != GameType.SweepFloor) return;
             swipeStartPos = ev.position;
             root.CapturePointer(ev.pointerId);
             ev.StopPropagation();
         });
 
         root.RegisterCallback<PointerMoveEvent>(ev => {
-            if (!isPlaying || (currentConfig.type != GameType.GridDodge && currentConfig.type != GameType.SweepFloor)) return;
+            if (!isPlaying || currentConfig.type != GameType.SweepFloor) return;
             ev.StopPropagation(); // Prevent ScrollView from intercepting drag!
         });
 
@@ -150,15 +150,8 @@ public partial class MiniGameManager : MonoBehaviour
             {
                 root.ReleasePointer(ev.pointerId);
             }
-            if (!isPlaying || currentConfig == null || currentConfig.type != GameType.GridDodge) return;
-            Vector2 delta = (Vector2)ev.position - swipeStartPos;
-            if (delta.magnitude > 30f)
-            {
-                int dx = 0, dy = 0;
-                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y)) dx = delta.x > 0 ? 1 : -1;
-                else dy = delta.y > 0 ? 1 : -1;
-                HandleGridDodgeInput(dx, dy);
-            }
+            if (!isPlaying) return;
+            // SweepFloor doesn't use swipe release for logic, so just cleanup here
             ev.StopPropagation();
         });
 
@@ -175,11 +168,7 @@ public partial class MiniGameManager : MonoBehaviour
             
             ev.StopPropagation();
 
-            if (currentConfig.type == GameType.GridDodge)
-            {
-                HandleGridDodgeInput(dx, dy);
-            }
-            else if (currentConfig.type == GameType.SweepFloor)
+            if (currentConfig.type == GameType.SweepFloor)
             {
                 int nx = sweepPlayerX + dx;
                 int ny = sweepPlayerY + dy;
@@ -742,10 +731,7 @@ public partial class MiniGameManager : MonoBehaviour
         sortScoreText = root.Q<Label>("SortScoreText");
         sortTimerText = root.Q<Label>("SortTimerText");
 
-        // GridDodge
-        gridDodgeGrid = root.Q<VisualElement>("GridDodgeGrid");
-        gridHealthText = root.Q<Label>("GridHealthText");
-        gridMoveText = root.Q<Label>("GridMoveText");
+
 
         // WhackGrid
         whackGrid = root.Q<VisualElement>("WhackGrid");
@@ -1412,11 +1398,7 @@ public partial class MiniGameManager : MonoBehaviour
                 activeGameRoutine = StartCoroutine(FallingSortRoutine());
                 break;
                 
-            case GameType.GridDodge:
-                gridDodgeContainer.style.display = DisplayStyle.Flex;
-                SetupGridDodge();
-                break;
-                
+
             case GameType.WhackGrid:
                 whackGridContainer.style.display = DisplayStyle.Flex;
                 whackScore = 0;

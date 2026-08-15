@@ -2,20 +2,64 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="GridDodgeContainer" style="display: none; align-items: center; margin-bottom: 20px; width: 100%; flex-direction: column;">
         
+        <ui:Style>
+            .grid-dodge-hud {
+                flex-direction: row; justify-content: space-between; width: 360px; margin-bottom: 15px; 
+                background-color: rgba(255,255,255,0.1); padding: 12px; border-radius: 16px;
+                border-width: 1px; border-color: rgba(255,255,255,0.2);
+            }
+            .grid-dodge-health {
+                background-color: #DC2626; padding: 8px 20px; border-radius: 12px; 
+                box-shadow: 0 4px 10px rgba(220,38,38,0.4);
+            }
+            .grid-dodge-health-text {
+                font-size: 22px; color: white; -unity-font-style: bold; margin: 0; padding: 0;
+            }
+            .grid-dodge-board {
+                width: 360px; height: 360px; background-color: #064E3B; border-radius: 16px; 
+                border-width: 6px; border-color: #022C22; box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
+                overflow: hidden; position: relative;
+            }
+            .grid-dodge-cell {
+                flex-grow: 1; border-width: 1px; border-color: rgba(0,0,0,0.1); 
+                border-radius: 6px; margin: 1px;
+                transition-property: background-color; transition-duration: 0.3s;
+            }
+            .grid-dodge-cell-safe {
+                background-color: #E7E5E4;
+            }
+            .grid-dodge-cell-hazard {
+                background-color: #059669; border-width: 2px; border-color: #047857;
+            }
+            .grid-dodge-cell-goal {
+                background-color: #3B82F6; border-width: 2px; border-color: #2563EB;
+            }
+            .grid-dodge-player {
+                position: absolute; width: 100%; height: 100%; 
+                align-items: center; justify-content: center;
+                transition-property: left, top; transition-duration: 0.15s; transition-timing-function: ease-out;
+            }
+            .grid-dodge-player-icon {
+                font-size: 36px; -unity-text-align: middle-center;
+            }
+            .grid-dodge-damage-overlay {
+                position: absolute; left: 0; right: 0; top: 0; bottom: 0; 
+                background-color: rgba(220, 38, 38, 0); picking-mode: ignore;
+                transition-property: background-color; transition-duration: 0.2s;
+            }
+        </ui:Style>
+
         <!-- Top HUD -->
-        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 350px; margin-bottom: 15px; background-color: rgba(0,0,0,0.1); padding: 10px; border-radius: 12px;">
-            <ui:VisualElement style="background-color: #EF4444; padding: 5px 15px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
-                <ui:Label name="GridHealthText" text="❤️ 3" style="font-size: 20px; color: white; -unity-font-style: bold; margin: 0; padding: 0;" />
-            </ui:VisualElement>
-            
-            <ui:VisualElement style="background-color: #3B82F6; padding: 5px 15px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
-                <ui:Label name="GridMoveText" text="MOVES: 0" style="font-size: 16px; color: white; -unity-font-style: bold; margin: 0; padding: 0; margin-top: 2px;" />
+        <ui:VisualElement class="grid-dodge-hud">
+            <ui:VisualElement class="grid-dodge-health">
+                <ui:Label name="GridHealthText" text="❤️ 3" class="grid-dodge-health-text" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- The Grid (Fixed 350x350 to ensure square cells) -->
-        <ui:VisualElement name="GridDodgeGrid" style="flex-direction: column; width: 350px; height: 350px; background-color: #166534; border-radius: 8px; border-width: 4px; border-color: #14532D; box-shadow: 0 10px 20px rgba(0,0,0,0.3); overflow: hidden;">
-            <!-- 25 cells generated dynamically -->
+        <!-- The Grid -->
+        <ui:VisualElement name="GridDodgeGrid" class="grid-dodge-board">
+            <!-- Background tiles and player icon injected dynamically -->
+            <ui:VisualElement name="DamageOverlay" class="grid-dodge-damage-overlay" />
         </ui:VisualElement>
 
     </ui:VisualElement>

@@ -8,6 +8,8 @@ public static class MiniGameFactory
                 return new TapMiniGame();
             case GameType.Slider:
                 return new SliderMiniGame();
+            case GameType.GridDodge:
+                return new GridDodgeMiniGame();
             // ... future ports ...
             default:
                 return new LegacyMiniGameWrapper();
