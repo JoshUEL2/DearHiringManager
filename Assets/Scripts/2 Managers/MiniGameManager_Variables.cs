@@ -513,10 +513,11 @@ public partial class MiniGameManager : MonoBehaviour
     private ActiveMiniGame currentGame;
     private MiniGameConfig currentConfig;
     private bool hasWon = false;
-    private bool isPlaying = false;
+    public bool isPlaying = false;
     private Coroutine activeGameRoutine;
+    public IMiniGame currentStrategy;
 
-    private int score = 0;
+    public int score = 0;
     private float timer = 0f;
     private int currentPhase = 1;
     

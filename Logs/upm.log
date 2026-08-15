@@ -1,13 +1,13 @@
-[2026-08-15T01:17:58.153Z][INFO] Command-line: /Applications/Unity/Hub/Editor/6000.5.4f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager server -s 12331 --ipc-path /tmp/Unity-Upm-12331.sock -l 2 --log-file '/Users/josh/Dear Hiring Manager/Logs/upm.log'
-[2026-08-15T01:17:58.176Z][INFO] IPC server started (IPC path=/tmp/Unity-Upm-12331.sock).
-[2026-08-15T01:17:58.177Z][INFO] Hint: To connect to this UPM instance, launch Unity with the command-line parameter -upmIpcPath Upm-12331.
-[2026-08-15T01:18:00.236Z][INFO] project:list-packages <-- Request received
+[2026-08-15T01:24:10.718Z][INFO] Command-line: /Applications/Unity/Hub/Editor/6000.5.4f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager server -s 12455 --ipc-path /tmp/Unity-Upm-12455.sock -l 2 --log-file '/Users/josh/Dear Hiring Manager/Logs/upm.log'
+[2026-08-15T01:24:10.730Z][INFO] IPC server started (IPC path=/tmp/Unity-Upm-12455.sock).
+[2026-08-15T01:24:10.731Z][INFO] Hint: To connect to this UPM instance, launch Unity with the command-line parameter -upmIpcPath Upm-12455.
+[2026-08-15T01:24:12.551Z][INFO] project:list-packages <-- Request received
 params: {}
-[2026-08-15T01:18:00.415Z][INFO] project:list-packages --> 200 (180 ms)
-[2026-08-15T01:18:07.676Z][INFO] project:list-packages <-- Request received
+[2026-08-15T01:24:12.676Z][INFO] project:list-packages --> 200 (125 ms)
+[2026-08-15T01:24:19.779Z][INFO] project:list-packages <-- Request received
 params: {}
-[2026-08-15T01:18:07.747Z][INFO] project:list-packages --> 200 (70 ms)
-[2026-08-15T01:18:09.707Z][INFO] project:list-packages <-- Request received
+[2026-08-15T01:24:19.854Z][INFO] project:list-packages --> 200 (75 ms)
+[2026-08-15T01:24:21.678Z][INFO] project:list-packages <-- Request received
 params: {}
-[2026-08-15T01:18:09.804Z][INFO] project:list-packages --> 200 (97 ms)
-[2026-08-15T01:18:13.670Z][INFO] Received shutdown request (SIGTERM), shutting down Unity Package Manager
+[2026-08-15T01:24:21.768Z][INFO] project:list-packages --> 200 (90 ms)
+[2026-08-15T01:24:25.715Z][INFO] Received shutdown request (SIGTERM), shutting down Unity Package Manager

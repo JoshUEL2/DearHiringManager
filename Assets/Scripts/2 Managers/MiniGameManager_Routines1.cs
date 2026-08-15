@@ -130,32 +130,6 @@ public partial class MiniGameManager : MonoBehaviour
         }
     }
 
-    private void OnTapClicked()
-    {
-        if (!isPlaying || currentConfig.type != GameType.Tap) return;
-        score++;
-        tapProgressText.text = $"Progress: {score} / {currentConfig.targetScore}";
-        if (score >= currentConfig.targetScore) MarkWinReady();
-    }
-
-    private void UpdateSliderText(float val)
-    {
-        if (currentConfig.type == GameType.Slider)
-        {
-            sliderTargetText.text = $"Current: {val:F0}% (Target: {currentConfig.sliderMin}% - {currentConfig.sliderMax}%)";
-        }
-    }
-
-    private void OnSliderSubmitted()
-    {
-        if (!isPlaying || currentConfig.type != GameType.Slider) return;
-        float val = gameSlider.value;
-        if (val >= currentConfig.sliderMin && val <= currentConfig.sliderMax)
-        {
-            MarkWinReady();
-        }
-    }
-
     private void OnChoiceClicked(string choice)
     {
         if (!isPlaying || currentConfig.type != GameType.Choice) return;
@@ -1255,7 +1229,7 @@ public partial class MiniGameManager : MonoBehaviour
         }
     }
 
-    private void MarkWinReady()
+    public void MarkWinReady()
     {
         if (currentConfig.type == GameType.TwoPhaseHeist)
         {
@@ -1283,6 +1257,8 @@ public partial class MiniGameManager : MonoBehaviour
     {
         isPlaying = false;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
+        
+        currentStrategy?.AbortGame();
 
         overlay.style.display = DisplayStyle.None;
 
@@ -1345,6 +1321,7 @@ public partial class MiniGameManager : MonoBehaviour
         if (!hasWon) return;
 
         isPlaying = false;
+        currentStrategy?.AbortGame();
         overlay.style.display = DisplayStyle.None;
         overlay.pickingMode = PickingMode.Ignore;
         var data = GameManager.Instance.currentData;

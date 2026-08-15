@@ -674,17 +674,7 @@ public partial class MiniGameManager : MonoBehaviour
             fileSorterActiveFile.RegisterCallback<PointerUpEvent>(ev => OnFileSorterUp(ev));
         }
 
-        // Tap
-        tapProgressText = root.Q<Label>("TapProgressText");
-        btnActionTap = root.Q<Button>("BtnActionTap");
-        btnActionTap.clicked += OnTapClicked;
 
-        // Slider
-        sliderTargetText = root.Q<Label>("SliderTargetText");
-        gameSlider = root.Q<Slider>("GameSlider");
-        btnSubmitSlider = root.Q<Button>("BtnSubmitSlider");
-        btnSubmitSlider.clicked += OnSliderSubmitted;
-        gameSlider.RegisterValueChangedCallback(ev => UpdateSliderText(ev.newValue));
 
         // Choice
         btnChoice1 = root.Q<Button>("BtnChoice1");
@@ -1224,8 +1214,11 @@ public partial class MiniGameManager : MonoBehaviour
 
         HideAllContainers();
         GameType typeToSetup = currentConfig.type;
-        // if (typeToSetup == GameType.TwoPhaseHeist) typeToSetup = currentConfig.phase1Type;
-        SetupGameType(typeToSetup);
+        
+        // Delegate to new Strategy Pattern
+        currentStrategy = MiniGameFactory.Create(typeToSetup);
+        currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);
+        currentStrategy.StartGame();
     }
 
     private void HideAllContainers()
@@ -1303,7 +1296,7 @@ public partial class MiniGameManager : MonoBehaviour
         if(nmContainer != null) nmContainer.style.display = DisplayStyle.None;
         if(rrContainer != null) rrContainer.style.display = DisplayStyle.None;
     }
-    private void SetupGameType(GameType type)
+    public void SetupGameType(GameType type)
     {
         switch (type)
         {
@@ -1343,16 +1336,7 @@ public partial class MiniGameManager : MonoBehaviour
                 rrContainer.style.display = DisplayStyle.Flex;
                 SetupRetroRacer();
                 break;
-            case GameType.Tap:
-                tapContainer.style.display = DisplayStyle.Flex;
-                tapProgressText.text = $"Progress: 0 / {currentConfig.targetScore}";
-                break;
 
-            case GameType.Slider:
-                sliderContainer.style.display = DisplayStyle.Flex;
-                gameSlider.value = 50f;
-                UpdateSliderText(50f);
-                break;
 
             case GameType.Choice:
                 choiceContainer.style.display = DisplayStyle.Flex;
