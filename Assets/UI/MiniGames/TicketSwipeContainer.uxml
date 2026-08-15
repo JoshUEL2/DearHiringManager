@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="TicketSwipeContainer" style="display: none; align-items: center; margin-bottom: 20px; width: 100%; flex-direction: column;">
+    <ui:VisualElement name="TicketSwipeContainer" style="display: none; flex-direction: row; justify-content: center; align-items: flex-start; width: 100%;">
         
-        <!-- Top HUD -->
-        <ui:VisualElement class="ts-hud">
-            <ui:VisualElement class="ts-hud-item ts-hud-score">
-                <ui:Label name="TsScoreText" text="SCORE: 0 / 10" class="ts-hud-text" />
+        <!-- Left Column: The Game -->
+        <ui:VisualElement style="flex-direction: column; align-items: center; width: 400px; margin-right: 20px;">
+            <!-- Top HUD -->
+            <ui:VisualElement class="ts-hud">
+                <ui:VisualElement class="ts-hud-item ts-hud-score">
+                    <ui:Label name="TsScoreText" text="SCORE: 0 / 10" class="ts-hud-text" />
+                </ui:VisualElement>
+                <ui:VisualElement class="ts-hud-item ts-hud-time">
+                    <ui:Label name="TsTimeText" text="TIME: 20.0" class="ts-hud-text" />
+                </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement class="ts-hud-item ts-hud-time">
-                <ui:Label name="TsTimeText" text="TIME: 15.0" class="ts-hud-text" />
+
+            <!-- Card Stack Area -->
+            <ui:VisualElement name="TsCardStack" class="ts-card-stack">
+                <!-- Background visual mock cards to look like a stack -->
+                <ui:VisualElement class="ts-card-mock ts-card-mock-3" />
+                <ui:VisualElement class="ts-card-mock ts-card-mock-2" />
+                <ui:VisualElement class="ts-card-mock ts-card-mock-1" />
+                <!-- Active cards will be injected here dynamically -->
+            </ui:VisualElement>
+
+            <!-- Action Buttons -->
+            <ui:VisualElement class="ts-btn-row">
+                <ui:Button name="BtnTsSpam" text="🗑️ SPAM" class="ts-btn ts-btn-spam" />
+                <ui:Button name="BtnTsResolve" text="✅ RESOLVE" class="ts-btn ts-btn-resolve" />
+                <ui:Button name="BtnTsEscalate" text="⚠️ ESCALATE" class="ts-btn ts-btn-escalate" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Card Stack Area -->
-        <ui:VisualElement name="TsCardStack" class="ts-card-stack">
-            <!-- Cards will be dynamically injected here via C# -->
-        </ui:VisualElement>
-
-        <!-- Action Buttons -->
-        <ui:VisualElement class="ts-btn-row">
-            <ui:Button name="BtnTsSpam" text="🗑️ SPAM" class="ts-btn ts-btn-spam" />
-            <ui:Button name="BtnTsResolve" text="✅ RESOLVE" class="ts-btn ts-btn-resolve" />
-            <ui:Button name="BtnTsEscalate" text="⚠️ ESCALATE" class="ts-btn ts-btn-escalate" />
+        <!-- Right Column: Post-It Note Guide -->
+        <ui:VisualElement class="ts-post-it">
+            <ui:Label text="TICKET GUIDE" class="ts-post-it-title" />
+            
+            <ui:Label text="🗑️ SPAM / DELETE" class="ts-post-it-header" style="color: #DC2626;" />
+            <ui:Label text="Obvious phishing, junk mail, 'Nigerian Princes'." class="ts-post-it-desc" />
+            
+            <ui:Label text="✅ RESOLVE / LEGIT" class="ts-post-it-header" style="color: #16A34A;" />
+            <ui:Label text="Basic user errors (Forgot password, etc)." class="ts-post-it-desc" />
+            
+            <ui:Label text="⚠️ ESCALATE" class="ts-post-it-header" style="color: #D97706;" />
+            <ui:Label text="Critical infrastructure failures (Fires, Ransomware)." class="ts-post-it-desc" />
         </ui:VisualElement>
 
     </ui:VisualElement>

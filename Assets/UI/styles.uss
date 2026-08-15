@@ -626,7 +626,7 @@
     align-items: center; justify-content: center;
 }
 .ts-card {
-    position: absolute; width: 100%; height: 100%;
+    position: absolute; width: 100%; height: 100%; left: 0; top: 0;
     background-color: #F8FAFC; border-radius: 16px; border-width: 3px; border-color: #CBD5E1;
     padding: 24px; align-items: center; justify-content: center;
     transition-property: translate, scale, opacity, background-color, border-color; 
@@ -636,14 +636,7 @@
     font-size: 28px; color: #0F172A; -unity-font-style: bold; white-space: normal; 
     -unity-text-align: middle-center;
 }
-.ts-btn-row {
-    flex-direction: row; justify-content: center; width: 450px;
-}
-.ts-btn {
-    flex-grow: 1; height: 70px; margin: 0 5px; border-radius: 14px; border-width: 2px;
-    font-size: 22px; -unity-font-style: bold; color: white;
-    transition-property: scale, background-color; transition-duration: 0.1s;
-}
+
 .ts-btn:hover {
     scale: 1.05;
 }
@@ -659,3 +652,39 @@
     background-color: #B45309; border-color: #FBBF24;
 }
 .ts-btn-escalate:hover { background-color: #D97706; }
+
+/* TicketSwipe Post-It and Fixes */
+.ts-btn-row {
+    flex-direction: row; justify-content: space-between; width: 400px;
+}
+.ts-btn {
+    width: 32%; height: 70px; margin: 0; border-radius: 12px; border-width: 2px;
+    font-size: 18px; -unity-font-style: bold; color: white; white-space: normal;
+    transition-property: scale, background-color; transition-duration: 0.1s;
+}
+
+.ts-card-mock {
+    position: absolute; width: 100%; height: 100%;
+    background-color: #E2E8F0; border-radius: 16px; border-width: 2px; border-color: #CBD5E1;
+}
+.ts-card-mock-1 { top: -6px; left: -6px; opacity: 0.8; }
+.ts-card-mock-2 { top: -12px; left: -12px; opacity: 0.6; }
+.ts-card-mock-3 { top: -18px; left: -18px; opacity: 0.4; }
+
+.ts-post-it {
+    width: 260px; background-color: #FEF08A; border-radius: 4px; padding: 15px;
+    border-bottom-width: 4px; border-right-width: 4px; border-color: #CA8A04;
+    transform-origin: center; rotate: 2deg;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* May not work in old unity, but harmless */
+}
+.ts-post-it-title {
+    font-size: 24px; -unity-font-style: bold; color: #854D0E; 
+    -unity-text-align: middle-center; margin-bottom: 15px;
+    border-bottom-width: 2px; border-color: #A16207; padding-bottom: 5px;
+}
+.ts-post-it-header {
+    font-size: 18px; -unity-font-style: bold; margin-top: 10px; margin-bottom: 2px;
+}
+.ts-post-it-desc {
+    font-size: 16px; color: #422006; white-space: normal; margin-bottom: 10px;
+}
