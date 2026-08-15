@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public bool hasHustledThisWeek = false;
     
     // private bool parkFreeThisWeek = false;
-    private float rentDiscountThisWeek = 0.0f;
+    public float rentDiscountThisWeek = 0.0f;
     public float jobMarketLuckBonus = 0.0f;
     public bool completedRegularTaskThisWeek = false;
 
@@ -30,12 +30,21 @@ public class GameManager : MonoBehaviour
 
     public GameDatabaseSO gameDatabase;
 
+    private List<IWeeklySystem> weeklySystems;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
         else 
         {
             Instance = this;
+            weeklySystems = new List<IWeeklySystem>
+            {
+                new JailSystem(),
+                new EducationSystem(),
+                new FinancialSystem(),
+                new EventSystem()
+            };
             LoadOrInitGame(); // Load data early so GameUIManager.Start doesn't hit NullReferenceException
         }
     }
@@ -76,215 +85,21 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver) return;
 
-        // --- 1. JAIL INTERCEPT LOGIC ---
-        if (currentData.jailWeeksRemaining > 0)
+        foreach (var system in weeklySystems)
         {
-            currentData.jailWeeksRemaining--;
-            
-            double rentTallyJail = currentData.rentHikeActive ? currentData.rent * 1.20 : currentData.rent;
-            double totalExpenseJail = rentTallyJail + currentData.food;
-            currentData.balance -= totalExpenseJail;
-            
-            currentData.stress = Mathf.Clamp(currentData.stress + 0.12f, 0.0f, 1.0f);
-            currentData.mentalHealth = Mathf.Clamp(1.0f - currentData.stress, 0.0f, 1.0f);
-            
-            financialHistory.Add(new FinancialSnapshot(currentData.currentWeek, currentData.balance, 0.0, totalExpenseJail));
-            currentData.hustlesCompletedThisWeek = 0;
-            for (int i = currentData.hustleCooldownWeeks.Count - 1; i >= 0; i--)
+            if (!system.ProcessWeek(currentData, this))
             {
-                currentData.hustleCooldownWeeks[i]--;
-                if (currentData.hustleCooldownWeeks[i] <= 0)
-                {
-                    currentData.hustleCooldownWeeks.RemoveAt(i);
-                    currentData.hustleCooldownNames.RemoveAt(i);
-                }
+                break;
             }
-            currentData.completedTasksThisWeek.Clear();
-            PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
-            completedRegularTaskThisWeek = false;
-            hasHustledThisWeek = false;
+        }
 
-            if (currentData.balance < 0)
-            {
-                TriggerGameOver("PRISON LIQUIDATION: Even inside a jail cell, your bills and housing rent kept rolling. Your bank balance fell below $0. The state seized all your items.");
-                return;
-            }
-            if (currentData.stress >= 1.0f)
-            {
-                TriggerGameOver("PRISON BURNOUT: The crushing brutality and high stress of incarceration cracked your system. You collapsed inside your cell block.");
-                return;
-            }
-
-            if (currentData.jailWeeksRemaining == 0)
-            {
-                currentData.zone = District.Slums;
-                currentData.rent = 50.0;
-                currentData.food = 25.0;
-                currentData.jobTitle = "Unemployed";
-                activeNewsFeed = $"🚨 RELEASED FROM JAIL! You served your sentence and stepped out onto the Slums streets. Billed weekly rent/food: -${totalExpenseJail:F0}.";
-            }
-            else
-            {
-                activeNewsFeed = $"🔒 PRISON JOURNAL: Serving week behind bars. Sentenced remaining: {currentData.jailWeeksRemaining} weeks. Billed home expenses: -${totalExpenseJail:F0}.";
-            }
-
+        if (!isGameOver)
+        {
             currentData.currentWeek++;
+            TickCooldowns();
             CycleJobs();
             SaveGame();
-            return; 
         }
-
-        // --- 1.5. EDUCATION PROGRESS CHECKS ---
-        if (!string.IsNullOrEmpty(currentData.activeEducationTitle))
-        {
-            currentData.balance -= currentData.weeklyEducationCost;
-            currentData.stress = Mathf.Clamp(currentData.stress + currentData.weeklyEducationStress, 0.0f, 1.0f);
-            currentData.mentalHealth = Mathf.Clamp(1.0f - currentData.stress, 0.0f, 1.0f);
-            currentData.currentEducationProgressWeeks++;
-
-            Debug.Log($"[EDUCATION STATUS] Studied for {currentData.activeEducationTitle} ({currentData.currentEducationProgressWeeks}/{currentData.totalEducationWeeksRequested} weeks). Cost paid: -${currentData.weeklyEducationCost}. Study Stress: +{(currentData.weeklyEducationStress * 100):F0}%");
-
-            if (currentData.currentEducationProgressWeeks >= currentData.totalEducationWeeksRequested)
-            {
-                string completedTitle = currentData.activeEducationTitle;
-                CompleteCourse(completedTitle);
-                
-                CVManager.AddEducationToCV(completedTitle);
-                
-                Debug.Log($"[ACADEMIC MAJESTY] Congratulations! You officially completed your {completedTitle} qualification!");
-                
-                currentData.activeEducationTitle = "";
-                currentData.currentEducationProgressWeeks = 0;
-                currentData.totalEducationWeeksRequested = 0;
-                currentData.weeklyEducationCost = 0.0;
-                currentData.weeklyEducationStress = 0.0f;
-            }
-        }
-
-        // --- 2. NORMAL JOB SALARY LOGIC ---
-        double baseSalary = GetBaseSalary(currentData.jobTitle);
-        
-        if (currentData.jobTitle == "Dishwasher") currentData.dishwasherWeeks++;
-        else if (currentData.jobTitle == "Junior React Trainee") currentData.juniorDevWeeks++;
-
-        int jobLevel = PlayerPrefs.GetInt("jobLevel", 1); 
-        int currentJobHours = PlayerPrefs.GetInt("currentJobHours", 40); 
-        double levelMultiplier = 1.0 + (jobLevel - 1) * 0.20;
-        double hoursMultiplier = currentJobHours / 40.0;
-        double weeklySalary = baseSalary * levelMultiplier * hoursMultiplier;
-
-        double rentTally = currentData.rentHikeActive ? currentData.rent * 1.20 : currentData.rent;
-        rentTally = System.Math.Max(0.0, rentTally - rentDiscountThisWeek);
-        double totalExpense = rentTally + currentData.food;
-        
-        currentData.balance += (weeklySalary - totalExpense);
-        financialHistory.Add(new FinancialSnapshot(currentData.currentWeek, currentData.balance, weeklySalary, totalExpense));
-
-        currentData.hustlesCompletedThisWeek = 0;
-        for (int i = currentData.hustleCooldownWeeks.Count - 1; i >= 0; i--)
-        {
-            currentData.hustleCooldownWeeks[i]--;
-            if (currentData.hustleCooldownWeeks[i] <= 0)
-            {
-                currentData.hustleCooldownWeeks.RemoveAt(i);
-                currentData.hustleCooldownNames.RemoveAt(i);
-            }
-        }
-        if (currentData.jobTitle != "Unemployed" && !completedRegularTaskThisWeek)
-        {
-            string oldJob = currentData.jobTitle;
-            currentData.jobTitle = "Unemployed";
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
-                title = "FIRED!", 
-                description = $"You failed to complete your 3 required weekly tasks for {oldJob}. You have been terminated and security has escorted you off the premises." 
-            });
-        }
-
-        currentData.completedTasksThisWeek.Clear();
-        PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
-        completedRegularTaskThisWeek = false;
-        hasHustledThisWeek = false;
-        activeNewsFeed = $"Week {currentData.currentWeek}: Earned ${weeklySalary:F0}. Paid ${totalExpense:F0} in living expenses.";
-
-        if (currentData.jobTitle == "Unemployed")
-        {
-            currentData.stress = Mathf.Clamp(currentData.stress + 0.06f, 0.0f, 1.0f);
-        }
-
-        currentData.mentalHealth = Mathf.Clamp(1.0f - currentData.stress, 0.0f, 1.0f);
-
-        if (currentData.balance < 0)
-        {
-            TriggerGameOver("EVICTED! Your bank account went below $0. Debt collectors seized your bed, and the landlord locked you out.");
-            return;
-        }
-
-        if (currentData.stress >= 1.0f)
-        {
-            if (UnityEngine.Random.value < 0.60f)
-            {
-                TriggerGameOver("HEART ATTACK! The 100% stress crushed your cardiovascular system. You died.");
-                return;
-            }
-        }
-
-        if (currentData.currentWeek % 3 == 0)
-        {
-            currentData.rent *= 1.12;
-            currentData.food *= 1.10;
-        }
-
-        activeEventPopup = null;
-        if (Random.value < 0.60f)
-        {
-            DrawRandomEvent();
-        }
-
-        TickCooldowns();
-        CycleJobs();
-        currentData.currentWeek++;
-        
-        // --- NEWS EVENTS LOGIC ---
-        // Tick down existing events
-        for (int i = currentData.activeNewsEvents.Count - 1; i >= 0; i--)
-        {
-            currentData.activeNewsEvents[i].remainingWeeks--;
-            if (currentData.activeNewsEvents[i].remainingWeeks <= 0)
-            {
-                activeNewsFeed += $"\n[NEWS EXPIRED] Impact of '{currentData.activeNewsEvents[i].headline}' has worn off.";
-                currentData.activeNewsEvents.RemoveAt(i);
-            }
-        }
-
-        // Roll for new event
-        if (Random.value < 0.70f)
-        {
-            var newEventTemplate = gameDatabase.newsEvents[Random.Range(0, gameDatabase.newsEvents.Count)];
-            var activeEvent = new ActiveNewsEvent {
-                headline = newEventTemplate.headline,
-                luckType = newEventTemplate.luckType,
-                luckModifier = newEventTemplate.luckModifier,
-                remainingWeeks = newEventTemplate.durationWeeks
-            };
-            currentData.activeNewsEvents.Add(activeEvent);
-            string impactStr = (activeEvent.luckModifier > 0 ? "+" : "") + (activeEvent.luckModifier * 100).ToString("F0") + "%";
-            activeNewsFeed += $"\n[BREAKING NEWS] {activeEvent.headline}\n-> {activeEvent.luckType} luck modified by {impactStr} for {activeEvent.remainingWeeks} weeks.";
-        }
-        
-        if (activeEventPopup != null)
-        {
-            activeNewsFeed += $"\n[EVENT] {activeEventPopup.title}: {activeEventPopup.description}";
-        }
-
-        // --- NEW LINE: Output the weekly summary to the UI Terminal! ---
-        Debug.Log(activeNewsFeed); 
-        
-        if (activeEventPopup != null)
-        {
-            global::GameUIManager.Instance.ShowPopup(activeEventPopup);
-        }
-        
-        SaveGame();
     }
 
     public float GetEffectiveLuck(JobSector category)
@@ -394,7 +209,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DrawRandomEvent()
+    public void DrawRandomEvent()
     {
         // Keep for end-of-week events if needed, but we don't trigger the UI popup directly here since it's used for weekly flow
         float averageJobLuck = (currentData.luckManualService + currentData.luckHospitality + currentData.luckTechnology + currentData.luckCorporate) / 4.0f;
@@ -491,7 +306,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private double GetBaseSalary(string title)
+    public double GetBaseSalary(string title)
     {
         switch (title)
         {

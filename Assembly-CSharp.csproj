@@ -62,6 +62,8 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/GameOverUI.cs" />
     <Compile Include="Assets/Scripts/3 UI/FinancialGraphUI.cs" />
+    <Compile Include="Assets/Scripts/1 Data/Systems/EducationSystem.cs" />
+    <Compile Include="Assets/Scripts/1 Data/Systems/IWeeklySystem.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/HustlesUI.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/NewsEventSO.cs" />
@@ -73,13 +75,16 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines4.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines2.cs" />
+    <Compile Include="Assets/Scripts/1 Data/Systems/FinancialSystem.cs" />
     <Compile Include="Assets/Scripts/2 Managers/CVManager.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/JobListingSO.cs" />
     <Compile Include="Assets/Scripts/3 UI/JailUI.cs" />
+    <Compile Include="Assets/Scripts/1 Data/Systems/EventSystem.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines5.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/RandomEventSO.cs" />
+    <Compile Include="Assets/Scripts/1 Data/Systems/JailSystem.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameDataModels.cs" />
     <Compile Include="Assets/Scripts/3 UI/CareerUI.cs" />
   </ItemGroup>
