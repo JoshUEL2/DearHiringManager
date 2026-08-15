@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     public string gameOverReason = "";
 
     [Header("Dynamic Game State")]
-    public RandomEvent activeEventPopup = null;
+    public RandomEventSO activeEventPopup = null;
     public string activeNewsFeed = "OFFICIAL REPORT: Sector surveillance grid 100% online. Real estate and utilities stable.";
-    public List<JobListing> availableJobOpenings = new List<JobListing>();
+    public List<JobListingSO> availableJobOpenings = new List<JobListingSO>();
     [System.NonSerialized]
     public Dictionary<string, int> rejectedJobsCooldown = new Dictionary<string, int>();
     public List<FinancialSnapshot> financialHistory = new List<FinancialSnapshot>();
@@ -28,18 +28,7 @@ public class GameManager : MonoBehaviour
     // Helper to allow existing EducationUI script to access the list easily
     public List<string> completedCourses => currentData.completedCourses;
 
-    private readonly List<JobListing> masterJobList = new List<JobListing>
-    {
-        new JobListing("Dishwasher", "Wash grease. Zero requirements. Unpaid trial, bring your own soap.", 120.0, new MapOfReq(0, 0, false, false, false, false, false, false), "Slums", true),
-        new JobListing("Scrap Metal Sorter", "Rummage through radioactive electronic scraps.", 150.0, new MapOfReq(0, 0, false, false, false, false, false, false), "Slums", false),
-        new JobListing("Street Corner Sign Spinner", "Attract clients to high-society medical experimental trials.", 180.0, new MapOfReq(0, 0, false, false, false, false, false, false), "Slums", true),
-        new JobListing("Fast Food Shift Manager", "Complicated shift scheduling. Requires standard PhD (Academic Dr) OR 3 weeks Dishwasher experience.", 400.0, new MapOfReq(3, 0, true, false, false, true, false, false), "Suburbs", false),
-        new JobListing("Corporate Cubicle Drone", "Process visual flow forms. Requires PHD, MBA, or Bootcamp.", 650.0, new MapOfReq(0, 0, false, false, false, false, false, false), "Suburbs", false),
-        new JobListing("Junior React Trainee", "Type safe centering of divs. Requires PHD, MBA, or Bootcamp + 2 weeks dishwasher experience.", 900.0, new MapOfReq(2, 0, false, false, true, true, false, false), "Suburbs", true),
-        new JobListing("Dystopian Quality Assurance Tester", "Hunt visual bugs. Requires Bootcamp.", 750.0, new MapOfReq(0, 0, false, false, true, false, false, false), "Suburbs", false),
-        new JobListing("Executive Interstellar CEO", "Sign spreadsheets. Must live in Financial District, have an MBA, and Nepotism Buff active.", 12000.0, new MapOfReq(0, 0, false, true, false, false, true, true), "Financial District", false),
-        new JobListing("AI Prophecy Alignment Director", "Align digital high-minds. Requires PhD, MBA, and Financial District Residency.", 15000.0, new MapOfReq(0, 0, true, true, false, false, false, true), "Financial District", false)
-    };
+    public GameDatabaseSO gameDatabase;
 
     private void Awake()
     {
@@ -128,7 +117,7 @@ public class GameManager : MonoBehaviour
 
             if (currentData.jailWeeksRemaining == 0)
             {
-                currentData.zone = "Slums";
+                currentData.zone = District.Slums;
                 currentData.rent = 50.0;
                 currentData.food = 25.0;
                 currentData.jobTitle = "Unemployed";
@@ -270,7 +259,7 @@ public class GameManager : MonoBehaviour
         // Roll for new event
         if (Random.value < 0.70f)
         {
-            var newEventTemplate = NewsEventContent.AllEvents[Random.Range(0, NewsEventContent.AllEvents.Count)];
+            var newEventTemplate = gameDatabase.newsEvents[Random.Range(0, gameDatabase.newsEvents.Count)];
             var activeEvent = new ActiveNewsEvent {
                 headline = newEventTemplate.headline,
                 luckType = newEventTemplate.luckType,
@@ -298,21 +287,21 @@ public class GameManager : MonoBehaviour
         SaveGame();
     }
 
-    public float GetEffectiveLuck(string category)
+    public float GetEffectiveLuck(JobSector category)
     {
         float baseLuck = 0f;
-        switch (category.ToLower())
+        switch (category)
         {
-            case "manual": baseLuck = currentData.luckManualService; break;
-            case "hospitality": baseLuck = currentData.luckHospitality; break;
-            case "tech": baseLuck = currentData.luckTechnology; break;
-            case "corp": baseLuck = currentData.luckCorporate; break;
+            case JobSector.Manual: baseLuck = currentData.luckManualService; break;
+            case JobSector.Hospitality: baseLuck = currentData.luckHospitality; break;
+            case JobSector.Tech: baseLuck = currentData.luckTechnology; break;
+            case JobSector.Corp: baseLuck = currentData.luckCorporate; break;
         }
 
         float modifier = 0f;
         foreach (var ev in currentData.activeNewsEvents)
         {
-            if (ev.luckType.ToLower() == category.ToLower() || ev.luckType.ToLower() == "all")
+            if (ev.luckType == category || ev.luckType == JobSector.All)
             {
                 modifier += ev.luckModifier;
             }
@@ -336,72 +325,72 @@ public class GameManager : MonoBehaviour
         if (title == "PhD (Greasology)") currentData.hasPhd = true;
 
         var boost = GetCourseBoost(title);
-        if (boost.category != "None")
+        if (boost.category != JobSector.None)
         {
             float amt = boost.amount;
             switch (boost.category)
             {
-                case "Manual": currentData.luckManualService = Mathf.Clamp(currentData.luckManualService + amt, 0f, 1f); break;
-                case "Hospitality": currentData.luckHospitality = Mathf.Clamp(currentData.luckHospitality + amt, 0f, 1f); break;
-                case "Technology": currentData.luckTechnology = Mathf.Clamp(currentData.luckTechnology + amt, 0f, 1f); break;
-                case "Corporate": currentData.luckCorporate = Mathf.Clamp(currentData.luckCorporate + amt, 0f, 1f); break;
+                case JobSector.Manual: currentData.luckManualService = Mathf.Clamp(currentData.luckManualService + amt, 0f, 1f); break;
+                case JobSector.Hospitality: currentData.luckHospitality = Mathf.Clamp(currentData.luckHospitality + amt, 0f, 1f); break;
+                case JobSector.Tech: currentData.luckTechnology = Mathf.Clamp(currentData.luckTechnology + amt, 0f, 1f); break;
+                case JobSector.Corp: currentData.luckCorporate = Mathf.Clamp(currentData.luckCorporate + amt, 0f, 1f); break;
             }
         }
     }
 
-    private (string category, float amount) GetCourseBoost(string title)
+    private (JobSector category, float amount) GetCourseBoost(string title)
     {
         switch (title)
         {
-            case "React Bootcamp": return ("Technology", 0.08f);
-            case "MS in Reactive Component Lifecycle": return ("Technology", 0.12f);
-            case "PhD in Virtual DOM & Fiber Splicing": return ("Technology", 0.18f);
+            case "React Bootcamp": return (JobSector.Tech, 0.08f);
+            case "MS in Reactive Component Lifecycle": return (JobSector.Tech, 0.12f);
+            case "PhD in Virtual DOM & Fiber Splicing": return (JobSector.Tech, 0.18f);
 
-            case "BA (Trash Sorting)": return ("Manual", 0.05f);
-            case "MA (Corp Aggression)": return ("Corporate", 0.10f);
-            case "PhD (Greasology)": return ("Corporate", 0.15f);
+            case "BA (Trash Sorting)": return (JobSector.Manual, 0.05f);
+            case "MA (Corp Aggression)": return (JobSector.Corp, 0.10f);
+            case "PhD (Greasology)": return (JobSector.Corp, 0.15f);
 
-            case "Solar Energy Certification": return ("Manual", 0.05f);
-            case "MS in Photovoltaic Science": return ("Manual", 0.08f);
-            case "PhD (Solar Quantum Fusion)": return ("Manual", 0.12f);
+            case "Solar Energy Certification": return (JobSector.Manual, 0.05f);
+            case "MS in Photovoltaic Science": return (JobSector.Manual, 0.08f);
+            case "PhD (Solar Quantum Fusion)": return (JobSector.Manual, 0.12f);
 
-            case "Certified Barista Basics": return ("Hospitality", 0.05f);
-            case "MS in Artisan Latte Artistry": return ("Hospitality", 0.08f);
-            case "PhD (Sensory Siphon Extraction)": return ("Hospitality", 0.12f);
+            case "Certified Barista Basics": return (JobSector.Hospitality, 0.05f);
+            case "MS in Artisan Latte Artistry": return (JobSector.Hospitality, 0.08f);
+            case "PhD (Sensory Siphon Extraction)": return (JobSector.Hospitality, 0.12f);
 
-            case "Plumbing Systems 101": return ("Manual", 0.05f);
-            case "MS in Liquid Logic Architecture": return ("Manual", 0.08f);
-            case "PhD (Hydrodynamic Resonance)": return ("Manual", 0.12f);
+            case "Plumbing Systems 101": return (JobSector.Manual, 0.05f);
+            case "MS in Liquid Logic Architecture": return (JobSector.Manual, 0.08f);
+            case "PhD (Hydrodynamic Resonance)": return (JobSector.Manual, 0.12f);
 
-            case "Basics of Hologram Projection": return ("Technology", 0.05f);
-            case "MS in High-Fidelity Persona Design": return ("Technology", 0.08f);
-            case "PhD (Synthetic Neural Theater)": return ("Technology", 0.12f);
+            case "Basics of Hologram Projection": return (JobSector.Tech, 0.05f);
+            case "MS in High-Fidelity Persona Design": return (JobSector.Tech, 0.08f);
+            case "PhD (Synthetic Neural Theater)": return (JobSector.Tech, 0.12f);
 
-            case "Introductory Algae Biology": return ("Manual", 0.05f);
-            case "MS in Bioluminescent Agriculture": return ("Technology", 0.08f);
-            case "PhD (Chloroplast Optimization)": return ("Technology", 0.12f);
+            case "Introductory Algae Biology": return (JobSector.Manual, 0.05f);
+            case "MS in Bioluminescent Agriculture": return (JobSector.Tech, 0.08f);
+            case "PhD (Chloroplast Optimization)": return (JobSector.Tech, 0.12f);
 
-            case "Basic Courier Route Navigation": return ("Manual", 0.05f);
-            case "MS in Advanced Logistical Trajectories": return ("Manual", 0.08f);
-            case "PhD (Sub-orbital Route Design)": return ("Manual", 0.12f);
+            case "Basic Courier Route Navigation": return (JobSector.Manual, 0.05f);
+            case "MS in Advanced Logistical Trajectories": return (JobSector.Manual, 0.08f);
+            case "PhD (Sub-orbital Route Design)": return (JobSector.Manual, 0.12f);
 
-            case "Drone Core Mechanics": return ("Technology", 0.05f);
-            case "MS in Autonomous Aviatronic Engineering": return ("Technology", 0.08f);
-            case "PhD (Robotic Aerodynamics)": return ("Technology", 0.12f);
+            case "Drone Core Mechanics": return (JobSector.Tech, 0.05f);
+            case "MS in Autonomous Aviatronic Engineering": return (JobSector.Tech, 0.08f);
+            case "PhD (Robotic Aerodynamics)": return (JobSector.Tech, 0.12f);
 
-            case "Introduction to Cybersecurity": return ("Technology", 0.05f);
-            case "MS in Network Cryptographic Defense": return ("Technology", 0.08f);
-            case "PhD (Quantum Memory Cryptology)": return ("Technology", 0.12f);
+            case "Introduction to Cybersecurity": return (JobSector.Tech, 0.05f);
+            case "MS in Network Cryptographic Defense": return (JobSector.Tech, 0.08f);
+            case "PhD (Quantum Memory Cryptology)": return (JobSector.Tech, 0.12f);
 
-            case "Artisanal Beverage Blending": return ("Hospitality", 0.05f);
-            case "MS in Gaseous Flavor Infusion": return ("Hospitality", 0.08f);
-            case "PhD (Carbonated Chemistry Dynamics)": return ("Hospitality", 0.12f);
+            case "Artisanal Beverage Blending": return (JobSector.Hospitality, 0.05f);
+            case "MS in Gaseous Flavor Infusion": return (JobSector.Hospitality, 0.08f);
+            case "PhD (Carbonated Chemistry Dynamics)": return (JobSector.Hospitality, 0.12f);
 
-            case "Retro Typewriter Restorations": return ("Corporate", 0.05f);
-            case "MS in Precision Chronograph Preservation": return ("Corporate", 0.08f);
-            case "PhD (Chronological Mechanical Archeology)": return ("Corporate", 0.12f);
+            case "Retro Typewriter Restorations": return (JobSector.Corp, 0.05f);
+            case "MS in Precision Chronograph Preservation": return (JobSector.Corp, 0.08f);
+            case "PhD (Chronological Mechanical Archeology)": return (JobSector.Corp, 0.12f);
 
-            default: return ("None", 0.0f);
+            default: return (JobSector.None, 0.0f);
         }
     }
 
@@ -412,21 +401,21 @@ public class GameManager : MonoBehaviour
         
         bool isGood = Random.value < (0.50f + (averageJobLuck - 0.40f) * 0.35f);
         activeEventPopup = isGood 
-            ? DystopianContent.GoodEvents[Random.Range(0, DystopianContent.GoodEvents.Count)] 
-            : DystopianContent.BadEvents[Random.Range(0, DystopianContent.BadEvents.Count)];
+            ? gameDatabase.goodEvents[Random.Range(0, gameDatabase.goodEvents.Count)] 
+            : gameDatabase.badEvents[Random.Range(0, gameDatabase.badEvents.Count)];
 
         currentData.balance = System.Math.Max(0.0, currentData.balance + activeEventPopup.cashOffset);
         currentData.stress = Mathf.Clamp(currentData.stress + activeEventPopup.stressOffset, 0.0f, 1.0f);
         currentData.mentalHealth = Mathf.Clamp(1.0f - currentData.stress, 0.0f, 1.0f);
 
-        if (!string.IsNullOrEmpty(activeEventPopup.luckType))
+        if (activeEventPopup.luckType != JobSector.None)
         {
             switch (activeEventPopup.luckType)
             {
-                case "manual": currentData.luckManualService = Mathf.Clamp(currentData.luckManualService + activeEventPopup.luckOffset, 0f, 1f); break;
-                case "hospitality": currentData.luckHospitality = Mathf.Clamp(currentData.luckHospitality + activeEventPopup.luckOffset, 0f, 1f); break;
-                case "tech": currentData.luckTechnology = Mathf.Clamp(currentData.luckTechnology + activeEventPopup.luckOffset, 0f, 1f); break;
-                case "corp": currentData.luckCorporate = Mathf.Clamp(currentData.luckCorporate + activeEventPopup.luckOffset, 0f, 1f); break;
+                case JobSector.Manual: currentData.luckManualService = Mathf.Clamp(currentData.luckManualService + activeEventPopup.luckOffset, 0f, 1f); break;
+                case JobSector.Hospitality: currentData.luckHospitality = Mathf.Clamp(currentData.luckHospitality + activeEventPopup.luckOffset, 0f, 1f); break;
+                case JobSector.Tech: currentData.luckTechnology = Mathf.Clamp(currentData.luckTechnology + activeEventPopup.luckOffset, 0f, 1f); break;
+                case JobSector.Corp: currentData.luckCorporate = Mathf.Clamp(currentData.luckCorporate + activeEventPopup.luckOffset, 0f, 1f); break;
             }
         }
     }
@@ -447,7 +436,7 @@ public class GameManager : MonoBehaviour
     public void CycleJobs()
     {
         availableJobOpenings.Clear();
-        var zoneJobs = masterJobList.FindAll(j => j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0));
+        var zoneJobs = gameDatabase.jobs.FindAll(j => j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0));
 
         foreach (var job in zoneJobs)
         {

@@ -49,19 +49,19 @@ public class MigrationUI : MonoBehaviour
         currentDistrictText.text = $"Current District: {data.zone}";
         
         // 1. Evaluate Slums Eligibility (Always true)
-        btnMoveSlums.SetEnabled(data.zone != "Slums");
-        btnMoveSlums.text = data.zone == "Slums" ? "Current Home" : "Migrate (Free)";
+        btnMoveSlums.SetEnabled(data.zone != District.Slums);
+        btnMoveSlums.text = data.zone == District.Slums ? "Current Home" : "Migrate (Free)";
 
         // 2. Evaluate Suburbs Eligibility ($1200 cash req)
         bool suburbsEligible = data.balance >= 1200.0;
-        btnMoveSuburbs.SetEnabled(suburbsEligible && data.zone != "Suburbs");
-        btnMoveSuburbs.text = data.zone == "Suburbs" ? "Current Home" : (suburbsEligible ? "Migrate ($600)" : "Locked");
+        btnMoveSuburbs.SetEnabled(suburbsEligible && data.zone != District.Suburbs);
+        btnMoveSuburbs.text = data.zone == District.Suburbs ? "Current Home" : (suburbsEligible ? "Migrate ($600)" : "Locked");
 
         // 3. Evaluate Financial District Eligibility ($8000 cash req + Degree)
         bool hasDegree = data.hasPhd || data.hasMba || data.hasBootcamp;
         bool financialEligible = data.balance >= 8000.0 && hasDegree;
-        btnMoveFinancial.SetEnabled(financialEligible && data.zone != "Financial District");
-        btnMoveFinancial.text = data.zone == "Financial District" ? "Current Home" : (financialEligible ? "Migrate ($3,000)" : "Locked");
+        btnMoveFinancial.SetEnabled(financialEligible && data.zone != District.FinancialDistrict);
+        btnMoveFinancial.text = data.zone == District.FinancialDistrict ? "Current Home" : (financialEligible ? "Migrate ($3,000)" : "Locked");
 
         migrationOverlay.style.display = DisplayStyle.Flex;
         migrationOverlay.pickingMode = PickingMode.Position;
@@ -84,7 +84,7 @@ public class MigrationUI : MonoBehaviour
         if (data.balance >= transitionCost)
         {
             data.balance -= transitionCost;
-            data.zone = targetZone;
+            data.zone = System.Enum.Parse<District>(targetZone.Replace(" ", ""));
 
             // Apply new district living costs
             if (targetZone == "Slums")

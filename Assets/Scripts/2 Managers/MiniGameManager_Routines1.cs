@@ -1321,7 +1321,7 @@ public partial class MiniGameManager : MonoBehaviour
             {
                 data.jailWeeksRemaining = hustle.jailSentence;
                 data.jobTitle = "Unemployed";
-                data.zone = "Slums";
+                data.zone = District.Slums;
                 double fine = data.balance * 0.20;
                 data.balance -= fine;
             }
@@ -1361,7 +1361,7 @@ public partial class MiniGameManager : MonoBehaviour
                 {
                     data.jailWeeksRemaining = hustle.jailSentence;
                     data.jobTitle = "Unemployed";
-                    data.zone = "Slums";
+                    data.zone = District.Slums;
                     double fine = data.balance * 0.20;
                     data.balance -= fine;
                     data.historyLogsJson += $@"

@@ -241,7 +241,7 @@ public class CareerUI
         if (jobScrollView == null) return;
         jobScrollView.Clear();
 
-        List<JobListing> activeJobs = GameManager.Instance.availableJobOpenings;
+        List<JobListingSO> activeJobs = GameManager.Instance.availableJobOpenings;
 
         if (activeJobs == null || activeJobs.Count == 0)
         {
@@ -353,12 +353,12 @@ public class CareerUI
         }
     }
 
-    private bool CheckPreReqs(JobListing job, out string errorMsg)
+    private bool CheckPreReqs(JobListingSO job, out string errorMsg)
     {
         var data = GameManager.Instance.currentData;
         errorMsg = "";
 
-        if (job.reqs.requiresFinancialDistrict && data.zone != "Financial District")
+        if (job.requiresFinancialDistrict && data.zone != District.FinancialDistrict)
         {
             errorMsg = "Requires high society residential status. You cannot apply unless residing in the Financial District!";
             return false;
@@ -399,23 +399,23 @@ public class CareerUI
         return true;
     }
 
-    private float CalculateHireChance(JobListing job)
+    private float CalculateHireChance(JobListingSO job)
     {
         var data = GameManager.Instance.currentData;
         float genreLuck = 0.40f;
         switch (job.title)
         {
-            case "Dishwasher": case "Scrap Metal Sorter": case "Street Corner Sign Spinner": genreLuck = GameManager.Instance.GetEffectiveLuck("manual"); break;
-            case "Fast Food Shift Manager": genreLuck = GameManager.Instance.GetEffectiveLuck("hospitality"); break;
-            case "Corporate Cubicle Drone": case "Executive Interstellar CEO": case "AI Prophecy Alignment Director": genreLuck = GameManager.Instance.GetEffectiveLuck("corp"); break;
-            case "Junior React Trainee": case "Corporate Quality Assurance Tester": genreLuck = GameManager.Instance.GetEffectiveLuck("tech"); break;
+            case "Dishwasher": case "Scrap Metal Sorter": case "Street Corner Sign Spinner": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Manual); break;
+            case "Fast Food Shift Manager": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality); break;
+            case "Corporate Cubicle Drone": case "Executive Interstellar CEO": case "AI Prophecy Alignment Director": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Corp); break;
+            case "Junior React Trainee": case "Corporate Quality Assurance Tester": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Tech); break;
         }
         genreLuck += GameManager.Instance.jobMarketLuckBonus;
         float stressFactorPenalty = data.stress * 0.25f;
         return Mathf.Clamp(genreLuck - stressFactorPenalty, 0.05f, 0.95f);
     }
 
-    private void OnApplyClicked(JobListing job)
+    private void OnApplyClicked(JobListingSO job)
     {
         var data = GameManager.Instance.currentData;
 

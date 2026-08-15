@@ -24,7 +24,7 @@ public class SavedGame
     public float stress = 0.1f;
     public double rent = 75.0;
     public double food = 25.0;
-    public string zone = "Slums"; 
+    public District zone = District.Slums; 
     public string jobTitle = "Unemployed";
     public int dishwasherWeeks = 0;
     public int juniorDevWeeks = 0;
@@ -70,21 +70,12 @@ public class SavedGame
     public List<string> cvEntries = new List<string>();
 }
 
-// Replaces models from GameViewModel.kt
-[Serializable]
-public class NewsEvent
-{
-    public string headline;
-    public string luckType; // "manual", "hospitality", "tech", "corp"
-    public float luckModifier;
-    public int durationWeeks;
-}
 
 [System.Serializable]
 public class ActiveNewsEvent
 {
     public string headline;
-    public string luckType;
+    public JobSector luckType;
     public float luckModifier;
     public int remainingWeeks;
 }
@@ -127,26 +118,7 @@ public class ActiveMiniGame
     }
 }
 
-[Serializable]
-public class JobListing
-{
-    public string title;
-    public string description;
-    public double weeklySalary;
-    public MapOfReq reqs;
-    public string district;
-    public bool isPartTime;
 
-    public JobListing(string title, string description, double weeklySalary, MapOfReq reqs, string district = "Slums", bool isPartTime = false)
-    {
-        this.title = title;
-        this.description = description;
-        this.weeklySalary = weeklySalary;
-        this.reqs = reqs;
-        this.district = district;
-        this.isPartTime = isPartTime;
-    }
-}
 
 [Serializable]
 public class MapOfReq
@@ -192,34 +164,9 @@ public class SideHustleItem
     }
 }
 
-// Replaces models from DystopianContent.kt
-[Serializable]
-public class PlayerBackstory
-{
-    public int id;
-    public string title;
-    public string description;
-    public double startingCash;
-    public float startingStress;
-    public float startingManualLuck;
-    public float startingHospitalityLuck;
-    public float startingTechLuck;
-    public float startingCorpLuck;
 
-    public PlayerBackstory(int id, string title, string description, double startingCash, float startingStress, float startingManualLuck, float startingHospitalityLuck, float startingTechLuck, float startingCorpLuck)
-    {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.startingCash = startingCash;
-        this.startingStress = startingStress;
-        this.startingManualLuck = startingManualLuck;
-        this.startingHospitalityLuck = startingHospitalityLuck;
-        this.startingTechLuck = startingTechLuck;
-        this.startingCorpLuck = startingCorpLuck;
-    }
-}
 
+// 1. The History Record model for your graveyard
 [Serializable]
 public class RandomEvent
 {
@@ -243,7 +190,6 @@ public class RandomEvent
     }
 }
 
-// 1. The History Record model for your graveyard
 [System.Serializable]
 public class HistoryRecord
 {

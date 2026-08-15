@@ -23,7 +23,7 @@ public class GameUIManager : MonoBehaviour
     private TextField nameInput;
     private Button btnRandomizeBackstory, beginButton;
     private Label backstoryTitleText, backstoryDescText, startCashText, startStressText;
-    private PlayerBackstory selectedBackstory;
+    private PlayerBackstorySO selectedBackstory;
 
     // Dashboard Elements
     private Label playerNameText, subTitleText, cashText, expenseText, jobText, districtText, logText, jailWeeksText;
@@ -392,13 +392,13 @@ public class GameUIManager : MonoBehaviour
             panel.Add(rowContainer);
         };
 
-        CreateRow("Manual/Service (Dishwasher)", GameManager.Instance.GetEffectiveLuck("manual"));
-        CreateRow("Hospitality/Shift Manager", GameManager.Instance.GetEffectiveLuck("hospitality"));
-        CreateRow("Tech/Junior Dev", GameManager.Instance.GetEffectiveLuck("tech"));
-        CreateRow("Corporate/Admin", GameManager.Instance.GetEffectiveLuck("corp"));
+        CreateRow("Manual/Service (Dishwasher)", GameManager.Instance.GetEffectiveLuck(JobSector.Manual));
+        CreateRow("Hospitality/Shift Manager", GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality));
+        CreateRow("Tech/Junior Dev", GameManager.Instance.GetEffectiveLuck(JobSector.Tech));
+        CreateRow("Corporate/Admin", GameManager.Instance.GetEffectiveLuck(JobSector.Corp));
 
         // Average
-        float avgLuck = (GameManager.Instance.GetEffectiveLuck("manual") + GameManager.Instance.GetEffectiveLuck("hospitality") + GameManager.Instance.GetEffectiveLuck("tech") + GameManager.Instance.GetEffectiveLuck("corp")) / 4f;
+        float avgLuck = (GameManager.Instance.GetEffectiveLuck(JobSector.Manual) + GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality) + GameManager.Instance.GetEffectiveLuck(JobSector.Tech) + GameManager.Instance.GetEffectiveLuck(JobSector.Corp)) / 4f;
         
         var avgBlock = new VisualElement();
         avgBlock.style.backgroundColor = new StyleColor(new Color(0.97f, 0.98f, 0.98f));
@@ -440,8 +440,9 @@ public class GameUIManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(nameInput.value)) return;
 
-        int randomIndex = Random.Range(0, DystopianContent.Backstories.Count);
-        selectedBackstory = DystopianContent.Backstories[randomIndex];
+        var backstories = GameManager.Instance.gameDatabase.backstories;
+        int randomIndex = Random.Range(0, backstories.Count);
+        selectedBackstory = backstories[randomIndex];
 
         backstoryTitleText.text = $"Assigned Biography: {selectedBackstory.title}";
         
@@ -485,7 +486,7 @@ public class GameUIManager : MonoBehaviour
         data.luckCorporate = selectedBackstory.startingCorpLuck;
 
         data.jobTitle = "Unemployed";
-        data.zone = "Slums";
+        data.zone = District.Slums;
         data.currentWeek = 1;
 
         // CRITICAL: cycle jobs so the careers tab has jobs on day 1
@@ -624,7 +625,7 @@ public class GameUIManager : MonoBehaviour
         var roots = new[] { dashboardRoot, careersRoot, hustlesRoot, educationRoot, activitiesRoot };
         
         float stressPct = data.stress * 100f;
-        float averageJobLuck = (GameManager.Instance.GetEffectiveLuck("manual") + GameManager.Instance.GetEffectiveLuck("hospitality") + GameManager.Instance.GetEffectiveLuck("tech") + GameManager.Instance.GetEffectiveLuck("corp")) / 4.0f;
+        float averageJobLuck = (GameManager.Instance.GetEffectiveLuck(JobSector.Manual) + GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality) + GameManager.Instance.GetEffectiveLuck(JobSector.Tech) + GameManager.Instance.GetEffectiveLuck(JobSector.Corp)) / 4.0f;
         float luckPct = averageJobLuck * 100f; 
         float perfPct = data.promotionProgress * 100f;
         Color stressColor = stressPct >= 80 ? Color.red : (stressPct >= 50 ? Color.yellow : Color.green);
@@ -636,11 +637,11 @@ public class GameUIManager : MonoBehaviour
             var topCard = root.Q<VisualElement>(className: "top-card");
             if (topCard != null)
             {
-                if (data.zone == "Slums") 
+                if (data.zone == District.Slums) 
                     topCard.style.backgroundColor = new StyleColor(new Color(0.20f, 0.11f, 0.08f, 0.88f)); // Brown rust
-                else if (data.zone == "Suburbs") 
+                else if (data.zone == District.Suburbs) 
                     topCard.style.backgroundColor = new StyleColor(new Color(0.08f, 0.16f, 0.09f, 0.88f)); // Green
-                else if (data.zone == "Financial District") 
+                else if (data.zone == District.FinancialDistrict) 
                     topCard.style.backgroundColor = new StyleColor(new Color(0.05f, 0.10f, 0.18f, 0.88f)); // Blue slate
             }
 
@@ -660,7 +661,7 @@ public class GameUIManager : MonoBehaviour
             if (jText != null) jText.text = data.jobTitle;
             
             var dText = root.Q<Label>("DistrictText");
-            if (dText != null) dText.text = data.zone;
+            if (dText != null) dText.text = data.zone.ToString();
 
             RefreshLogDisplay();
             
@@ -697,7 +698,7 @@ public class GameUIManager : MonoBehaviour
             var luckBtn = root.Q<Button>("BtnInfoLuck");
             if (luckBtn != null) luckBtn.clicked += () => 
             {
-                string info = $"Manual Service: {(GameManager.Instance.GetEffectiveLuck("manual")*100):F0}%\nHospitality: {(GameManager.Instance.GetEffectiveLuck("hospitality")*100):F0}%\nTechnology: {(GameManager.Instance.GetEffectiveLuck("tech")*100):F0}%\nCorporate: {(GameManager.Instance.GetEffectiveLuck("corp")*100):F0}%";
+                string info = $"Manual Service: {(GameManager.Instance.GetEffectiveLuck(JobSector.Manual)*100):F0}%\nHospitality: {(GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality)*100):F0}%\nTechnology: {(GameManager.Instance.GetEffectiveLuck(JobSector.Tech)*100):F0}%\nCorporate: {(GameManager.Instance.GetEffectiveLuck(JobSector.Corp)*100):F0}%";
                 ShowPopup(new RandomEvent("Job Luck Breakdown", info, 0.0, 0.0f, ""));
             };
         }
@@ -882,6 +883,11 @@ public class GameUIManager : MonoBehaviour
                     terminalScrollView.verticalScroller.value = terminalScrollView.verticalScroller.highValue;
             });
         }
+    }
+
+    public void ShowPopup(RandomEventSO ev, System.Action onAcknowledge = null)
+    {
+        ShowPopup(new RandomEvent(ev.title, ev.description, ev.cashOffset, ev.stressOffset, ev.luckType.ToString(), ev.luckOffset), onAcknowledge);
     }
 
     public void ShowPopup(RandomEvent ev, System.Action onAcknowledge = null)

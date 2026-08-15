@@ -53,6 +53,7 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.5.4f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/TargetingPacks/netstandard2.1/analyzers/dotnet/roslyn4.0/cs/System.Text.Json.SourceGeneration.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/1 Data/Enums.cs" />
     <Compile Include="Assets/Scripts/3 UI/EducationUI.cs" />
     <Compile Include="Assets/Scripts/2 Managers/GameUIManager.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Variables.cs" />
@@ -63,19 +64,22 @@
     <Compile Include="Assets/Scripts/3 UI/FinancialGraphUI.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/HustlesUI.cs" />
-    <Compile Include="Assets/Scripts/1 Data/NewsEventContent.cs" />
+    <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/NewsEventSO.cs" />
+    <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/PlayerBackstorySO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines3.cs" />
     <Compile Include="Assets/Scripts/3 UI/ActivitiesUI.cs" />
-    <Compile Include="Assets/Scripts/1 Data/DystopianContent.cs" />
     <Compile Include="Assets/Scripts/1 Data/SaveSystem.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines4.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines2.cs" />
     <Compile Include="Assets/Scripts/2 Managers/CVManager.cs" />
+    <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/JobListingSO.cs" />
     <Compile Include="Assets/Scripts/3 UI/JailUI.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines5.cs" />
+    <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
+    <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/RandomEventSO.cs" />
     <Compile Include="Assets/Scripts/1 Data/GameDataModels.cs" />
     <Compile Include="Assets/Scripts/3 UI/CareerUI.cs" />
   </ItemGroup>

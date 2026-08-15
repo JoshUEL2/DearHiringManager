@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6288d2d15ec34db5aba6277374960fe, type: 3}
+  m_Name: Job_ExecutiveInterstellarCEO
+  m_EditorClassIdentifier: Assembly-CSharp::JobListingSO
+  title: Executive Interstellar CEO
+  description: Sign spreadsheets. Must live in Financial District, have an MBA, and
+    Nepotism Buff active.
+  weeklySalary: 12000
+  district: 2
+  isPartTime: 0
+  dishwasherWeeksNeeded: 0
+  juniorDevWeeksNeeded: 0
+  phdNeeded: 0
+  mbaNeeded: 1
+  bootcampNeeded: 0
+  isEntryLevelShiftSubstitute: 0
+  nepotismNeeded: 1
+  requiresFinancialDistrict: 1
