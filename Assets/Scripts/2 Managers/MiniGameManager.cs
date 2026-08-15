@@ -887,11 +887,7 @@ public partial class MiniGameManager : MonoBehaviour
         wbContainer = root.Q<VisualElement>("WhackABugContainer");
         if (wbContainer != null) wbGrid = wbContainer.Q<VisualElement>("BugGrid");
 
-        tsContainer = root.Q<VisualElement>("TicketSwipeContainer");
-        if (tsContainer != null)
-        {
-            // Rebuilt dynamically in SetupTicketSwipe
-        }
+
 
         // Phase 2 UI
         csContainer = root.Q<VisualElement>("ConstructionSiteContainer");
@@ -1095,7 +1091,7 @@ public partial class MiniGameManager : MonoBehaviour
         // FALLBACK TASKS (6 tasks)
         // =============================================
         AddConfigFull("Respond to supervisor", new MiniGameConfig { type = GameType.FranticBackspace, timeLimit = 6f, instructions = "FRANTIC BACKSPACE! DELETE YOUR HONEST THOUGHTS!" });
-        AddConfigFull("Categorize ticket logs", new MiniGameConfig { type = GameType.TicketSwipe, timeLimit = 15f, targetScore = 5, instructions = "Swipe left for Spam, right for Legit, up for Escalate!" });
+        AddConfigFull("Categorize ticket logs", new MiniGameConfig { type = GameType.TicketSwipe, timeLimit = 20f, targetScore = 10, instructions = "Correctly categorize 10 tickets before time runs out!" });
         AddConfigFull("Format summary dashboards", new MiniGameConfig { type = GameType.FormatDashboard, timeLimit = 15f, instructions = "Make it POP! Swipe all 3 sliders up and HOLD them in the green!" });
         AddConfigFull("Do corporate sprint tasks aggressively", new MiniGameConfig { type = GameType.KanbanBoard, timeLimit = 15f, kanbanTicketCount = 12, instructions = "Drag ALL tickets to IN PROGRESS then DONE! FAST!" });
         AddConfigFull("Stay overnight to align marketing pitch variables", new MiniGameConfig { type = GameType.NightShiftPitch, timeLimit = 15f, instructions = "Drink coffee to stay awake and align the variables!" });
@@ -1298,10 +1294,7 @@ public partial class MiniGameManager : MonoBehaviour
                 wbContainer.style.display = DisplayStyle.Flex;
                 SetupWhackABug();
                 break;
-            case GameType.TicketSwipe:
-                tsContainer.style.display = DisplayStyle.Flex;
-                SetupTicketSwipe();
-                break;
+
             case GameType.ConstructionSite:
                 csContainer.style.display = DisplayStyle.Flex;
                 SetupConstructionSite();

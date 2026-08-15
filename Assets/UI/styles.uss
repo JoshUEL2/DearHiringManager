@@ -604,3 +604,58 @@
     transition-property: background-color; transition-duration: 0.2s;
     border-radius: 12px;
 }
+
+/* TicketSwipe Specific Styles */
+.ts-hud {
+    flex-direction: row; justify-content: space-between; width: 400px; margin-bottom: 20px; 
+}
+.ts-hud-item {
+    padding: 10px 20px; border-radius: 12px; border-width: 2px;
+}
+.ts-hud-score {
+    background-color: #1E3A8A; border-color: #3B82F6;
+}
+.ts-hud-time {
+    background-color: #7F1D1D; border-color: #EF4444;
+}
+.ts-hud-text {
+    font-size: 24px; color: white; -unity-font-style: bold; margin: 0; padding: 0;
+}
+.ts-card-stack {
+    width: 400px; height: 260px; position: relative; margin-bottom: 30px;
+    align-items: center; justify-content: center;
+}
+.ts-card {
+    position: absolute; width: 100%; height: 100%;
+    background-color: #F8FAFC; border-radius: 16px; border-width: 3px; border-color: #CBD5E1;
+    padding: 24px; align-items: center; justify-content: center;
+    transition-property: translate, scale, opacity, background-color, border-color; 
+    transition-duration: 0.3s; transition-timing-function: ease-out;
+}
+.ts-card-text {
+    font-size: 28px; color: #0F172A; -unity-font-style: bold; white-space: normal; 
+    -unity-text-align: middle-center;
+}
+.ts-btn-row {
+    flex-direction: row; justify-content: center; width: 450px;
+}
+.ts-btn {
+    flex-grow: 1; height: 70px; margin: 0 5px; border-radius: 14px; border-width: 2px;
+    font-size: 22px; -unity-font-style: bold; color: white;
+    transition-property: scale, background-color; transition-duration: 0.1s;
+}
+.ts-btn:hover {
+    scale: 1.05;
+}
+.ts-btn-spam {
+    background-color: #B91C1C; border-color: #F87171;
+}
+.ts-btn-spam:hover { background-color: #DC2626; }
+.ts-btn-resolve {
+    background-color: #15803D; border-color: #4ADE80;
+}
+.ts-btn-resolve:hover { background-color: #16A34A; }
+.ts-btn-escalate {
+    background-color: #B45309; border-color: #FBBF24;
+}
+.ts-btn-escalate:hover { background-color: #D97706; }
