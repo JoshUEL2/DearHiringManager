@@ -33,7 +33,7 @@ public class ConstructionSiteMiniGame : IMiniGame
     private const float WallWidth = 700f;
     private const float WallHeight = 400f;
     private const float ScannerSize = 220f;
-    private const float HotspotSize = 120f;
+    private const float HotspotSize = 30f;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -151,6 +151,8 @@ public class ConstructionSiteMiniGame : IMiniGame
 
     private IEnumerator GameRoutine()
     {
+        float blipIntensity = 0f;
+
         while (manager.isPlaying)
         {
             float dt = Time.deltaTime;
@@ -158,31 +160,59 @@ public class ConstructionSiteMiniGame : IMiniGame
             
             if (radarSweep != null)
             {
-                radarAngle += dt * 60f; // Slower rotation
+                radarAngle += dt * 100f; // Speed up slightly as requested
                 radarSweep.style.rotate = new StyleRotate(new Rotate(new Angle(radarAngle, AngleUnit.Degree)));
             }
             
             // Check Proximity
             Vector2 scannerCenter = scannerPos + new Vector2(ScannerSize/2f, ScannerSize/2f);
             Vector2 hotspotCenter = hotspotPos + new Vector2(HotspotSize/2f, HotspotSize/2f);
+            Vector2 dir = hotspotCenter - scannerCenter;
             
-            float distance = Vector2.Distance(scannerCenter, hotspotCenter);
-            float maxScanDistance = 80f; // Must be fairly precise
+            float distance = dir.magnitude;
+            float maxScanDistance = 25f; // Must hover exactly over the small center circle
+
+            // Calculate angle for radar blip
+            float angleToHotspot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            if (angleToHotspot < 0) angleToHotspot += 360f;
+            
+            float normalizedRadar = radarAngle % 360f;
+            // radar covers normalizedRadar to normalizedRadar + 90
+            float angleDiff = Mathf.DeltaAngle(normalizedRadar + 45f, angleToHotspot);
+
+            if (distance < ScannerSize / 2f && Mathf.Abs(angleDiff) < 45f)
+            {
+                blipIntensity = 1f; // Radar sweep passed over it
+            }
+            else
+            {
+                blipIntensity -= dt * 1.5f;
+            }
+            if (blipIntensity < 0) blipIntensity = 0f;
 
             if (distance < maxScanDistance)
             {
                 analysisTime += dt;
                 statusText.text = "ANALYZING...";
                 statusText.style.color = new StyleColor(new Color(0.98f, 0.8f, 0.08f)); // Yellow
+                
+                // Pulsing glow when analyzing
+                float pulse = 0.8f + 0.2f * Mathf.Sin(Time.time * 15f);
+                hotspot.style.scale = new StyleScale(new Scale(new Vector2(pulse, pulse)));
+                hotspot.style.opacity = 1f;
             }
             else
             {
-                // Lose progress if you move away? Let's just pause progress, or slightly decay.
                 analysisTime -= dt * 0.5f; 
                 if (analysisTime < 0) analysisTime = 0;
                 
                 statusText.text = "SEARCHING...";
                 statusText.style.color = new StyleColor(new Color(0.22f, 0.74f, 0.97f)); // Blue
+                
+                // Radar blip scale/opacity
+                float scale = 0.5f + 0.5f * blipIntensity;
+                hotspot.style.scale = new StyleScale(new Scale(new Vector2(scale, scale)));
+                hotspot.style.opacity = 0.15f + 0.85f * blipIntensity;
             }
 
             // Update UI
