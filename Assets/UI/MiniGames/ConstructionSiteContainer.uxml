@@ -4,46 +4,35 @@
         
         <!-- Top HUD Area -->
         <ui:VisualElement class="cs-hud">
-            <ui:VisualElement class="cs-hud-panel">
-                <ui:Label name="CsInspectionText" text="INSPECTION: 0.0s / 10.0s" class="cs-hud-text" />
-            </ui:VisualElement>
-            <ui:VisualElement class="cs-hud-panel">
-                <ui:Label name="CsTimeText" text="TIME LEFT: 20.0s" class="cs-hud-text" />
-            </ui:VisualElement>
+            <ui:Label text="THERMAL SCAN: LOCATE STRUCTURAL FAULT" class="cs-hud-title" />
+            <ui:Label name="CsTimeText" text="TIME: 15.0s" class="cs-hud-time" />
         </ui:VisualElement>
 
-        <!-- Wind Indicator -->
-        <ui:VisualElement class="cs-wind-panel">
-            <ui:Label name="CsWindLabel" text="WIND: CALM" class="cs-wind-text" />
-            <ui:VisualElement name="CsWindBar" class="cs-wind-bar">
-                <ui:VisualElement name="CsWindFill" class="cs-wind-fill" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-
-        <!-- The I-Beam Track -->
-        <ui:VisualElement class="cs-track-area">
-            <!-- Structural I-Beam Background -->
-            <ui:VisualElement class="cs-beam">
-                <ui:VisualElement class="cs-beam-rivet-row top-rivets" />
-                <ui:VisualElement class="cs-beam-rivet-row bottom-rivets" />
-            </ui:VisualElement>
+        <!-- The Concrete Wall (Game Area) -->
+        <ui:VisualElement name="CsWall" class="cs-wall">
             
-            <!-- Dynamic Safe Zone -->
-            <ui:VisualElement name="CsBalanceZone" class="cs-zone" />
-            
-            <!-- Player Marker (Inspector Hard Hat) -->
-            <ui:VisualElement name="CsPlayerMarker" class="cs-player">
-                <ui:Label text="👷" class="cs-player-icon" />
+            <!-- The Scanner Viewport (Draggable) -->
+            <ui:VisualElement name="CsScanner" class="cs-scanner">
+                
+                <!-- The Thermal Vision Layer (Inverse Translated) -->
+                <ui:VisualElement name="CsThermalLayer" class="cs-thermal-layer">
+                    <!-- The Hidden Hotspot -->
+                    <ui:VisualElement name="CsHotspot" class="cs-hotspot">
+                        <ui:VisualElement class="cs-hotspot-core" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Scanner Glass & UI Overlays (Stays with the scanner) -->
+                <ui:VisualElement class="cs-scanner-glass">
+                    <ui:VisualElement class="cs-reticle" />
+                    <ui:VisualElement name="CsProgressBar" class="cs-progress-bar">
+                        <ui:VisualElement name="CsProgressFill" class="cs-progress-fill" />
+                    </ui:VisualElement>
+                    <ui:Label name="CsStatusText" text="SCANNING..." class="cs-status-text" />
+                </ui:VisualElement>
+
             </ui:VisualElement>
-        </ui:VisualElement>
 
-        <!-- Screen Flash for Danger -->
-        <ui:VisualElement name="CsDangerFlash" class="cs-danger-flash" />
-
-        <!-- Heavy Machinery Controls -->
-        <ui:VisualElement class="cs-controls">
-            <ui:Button name="BtnCsLeft" text="⬅️ LEAN LEFT" class="cs-btn cs-btn-left" />
-            <ui:Button name="BtnCsRight" text="LEAN RIGHT ➡️" class="cs-btn cs-btn-right" />
         </ui:VisualElement>
 
     </ui:VisualElement>
