@@ -1261,10 +1261,8 @@ public partial class MiniGameManager : MonoBehaviour
         if(cvContainer != null) cvContainer.style.display = DisplayStyle.None;
         if(qaContainer != null) qaContainer.style.display = DisplayStyle.None;
         if(wbContainer != null) wbContainer.style.display = DisplayStyle.None;
-        if(tsContainer != null) tsContainer.style.display = DisplayStyle.None;
 
         // Phase 2 Custom
-        if(csContainer != null) csContainer.style.display = DisplayStyle.None;
         if(ztContainer != null) ztContainer.style.display = DisplayStyle.None;
         if(isContainer != null) isContainer.style.display = DisplayStyle.None;
         if(nmContainer != null) nmContainer.style.display = DisplayStyle.None;
