@@ -24,6 +24,7 @@
 
                 <!-- Scanner Glass & UI Overlays (Stays with the scanner) -->
                 <ui:VisualElement class="cs-scanner-glass">
+                    <ui:VisualElement name="CsRadarSweep" class="cs-radar-sweep" />
                     <ui:VisualElement class="cs-reticle" />
                     <ui:VisualElement name="CsProgressBar" class="cs-progress-bar">
                         <ui:VisualElement name="CsProgressFill" class="cs-progress-fill" />

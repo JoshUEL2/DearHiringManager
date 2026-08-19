@@ -1126,7 +1126,7 @@ public partial class MiniGameManager : MonoBehaviour
         FinishGame();
     }
 
-    private void AbortGame()
+    public void AbortGame()
     {
         isPlaying = false;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);

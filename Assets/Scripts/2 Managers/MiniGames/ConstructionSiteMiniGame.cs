@@ -15,10 +15,12 @@ public class ConstructionSiteMiniGame : IMiniGame
     private VisualElement thermalLayer;
     private VisualElement hotspot;
     private VisualElement progressFill;
+    private VisualElement radarSweep;
 
     private float timeRemaining = 15f;
     private float analysisTime = 0f;
     private float requiredAnalysis = 3f;
+    private float radarAngle = 0f;
 
     // Draggable state
     private bool isDragging = false;
@@ -47,18 +49,17 @@ public class ConstructionSiteMiniGame : IMiniGame
         thermalLayer = container.Q<VisualElement>("CsThermalLayer");
         hotspot = container.Q<VisualElement>("CsHotspot");
         progressFill = container.Q<VisualElement>("CsProgressFill");
+        radarSweep = container.Q<VisualElement>("CsRadarSweep");
 
         // Dragging events (register on both so you can click anywhere to scan)
         wall.RegisterCallback<PointerDownEvent>(OnPointerDown);
         wall.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         wall.RegisterCallback<PointerUpEvent>(OnPointerUp);
-        wall.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
         wall.RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
 
         scanner.RegisterCallback<PointerDownEvent>(OnPointerDown);
         scanner.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         scanner.RegisterCallback<PointerUpEvent>(OnPointerUp);
-        scanner.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
         scanner.RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
     }
 
@@ -107,11 +108,6 @@ public class ConstructionSiteMiniGame : IMiniGame
         }
     }
     
-    private void OnPointerLeave(PointerLeaveEvent e)
-    {
-        isDragging = false;
-    }
-
     private void OnPointerCaptureOut(PointerCaptureOutEvent e)
     {
         isDragging = false;
@@ -166,6 +162,12 @@ public class ConstructionSiteMiniGame : IMiniGame
             float dt = Time.deltaTime;
             timeRemaining -= dt;
             
+            if (radarSweep != null)
+            {
+                radarAngle += dt * 360f; // 1 full rotation per second
+                radarSweep.style.rotate = new Rotate(new Angle(radarAngle, AngleUnit.Degree));
+            }
+            
             // Check Proximity
             Vector2 scannerCenter = scannerPos + new Vector2(ScannerSize/2f, ScannerSize/2f);
             Vector2 hotspotCenter = hotspotPos + new Vector2(HotspotSize/2f, HotspotSize/2f);
@@ -203,7 +205,7 @@ public class ConstructionSiteMiniGame : IMiniGame
             }
             else if (timeRemaining <= 0)
             {
-                manager.isPlaying = false; // Time's up! Fail.
+                manager.AbortGame(); // Time's up! Fail.
                 yield break;
             }
 

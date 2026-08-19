@@ -241,7 +241,7 @@ public class TicketSwipeMiniGame : IMiniGame
             {
                 timeRemaining = 0;
                 UpdateHUD();
-                manager.isPlaying = false; // Fail
+                manager.AbortGame(); // Fail
                 yield break;
             }
             UpdateHUD();

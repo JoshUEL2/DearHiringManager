@@ -757,3 +757,14 @@
 .cs-status-text {
     position: absolute; bottom: 10px; font-size: 14px; color: #38BDF8; -unity-font-style: bold;
 }
+
+.cs-radar-sweep {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    top: 110px;
+    left: 110px;
+    background-color: rgba(56, 189, 248, 0.4);
+    border-bottom-right-radius: 110px;
+    transform-origin: 0% 0%;
+}

@@ -244,7 +244,7 @@ public class GridDodgeMiniGame : IMiniGame
             // We extracted it. If health hits 0, we need to fail the game.
             // Currently, the manager only handles WIN (MarkWinReady).
             // So if health hits 0, we can just abort/fail.
-            manager.isPlaying = false;
+            manager.AbortGame();
         }
     }
 
