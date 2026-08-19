@@ -15,6 +15,7 @@ public static class MiniGameFactory
             case GameType.ConstructionSite:
                 return new ConstructionSiteMiniGame();
             // ... future ports ...
+            case GameType.QATriage: return new QATriageMiniGame();
             default:
                 return new LegacyMiniGameWrapper();
         }

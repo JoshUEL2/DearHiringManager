@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="QATriageContainer" style="display: none;">
-        <ui:Label text="QATriageContainer (Under Construction)" style="font-size: 24px; color: white;" />
+    <ui:VisualElement name="QATriageContainer" class="qa-main" style="display: none;">
+        
+        <!-- The Wooden Desk Background -->
+        <ui:VisualElement class="qa-desk">
+            
+            <!-- Top HUD -->
+            <ui:VisualElement class="qa-hud">
+                <ui:Label name="QaTitle" text="BUG REPORT TRIAGE" class="qa-hud-title" />
+                <ui:Label name="QaScoreText" text="FILED: 0 / 5" class="qa-hud-score" />
+                <ui:Label name="QaTimeText" text="TIME: 20.0s" class="qa-hud-time" />
+            </ui:VisualElement>
+
+            <!-- Center Play Area -->
+            <ui:VisualElement class="qa-play-area">
+                
+                <!-- The Paper Document -->
+                <ui:VisualElement name="QaPaper" class="qa-paper qa-paper-slide-in">
+                    <ui:Label text="BUG REPORT" class="qa-paper-header" />
+                    <ui:Label name="QaBugLog" text="NullReferenceException in Login()" class="qa-paper-log" />
+                    
+                    <ui:VisualElement class="qa-paper-stamps-area">
+                        <ui:VisualElement class="qa-stamp-box">
+                            <ui:Label text="SEVERITY" class="qa-stamp-box-title" />
+                            <ui:Label name="QaSevInk" text="" class="qa-ink qa-ink-red" />
+                        </ui:VisualElement>
+                        
+                        <ui:VisualElement class="qa-stamp-box">
+                            <ui:Label text="CATEGORY" class="qa-stamp-box-title" />
+                            <ui:Label name="QaCatInk" text="" class="qa-ink qa-ink-blue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+            </ui:VisualElement>
+
+            <!-- Bottom Controls: The Stamps & Submit -->
+            <ui:VisualElement class="qa-controls">
+                
+                <ui:VisualElement class="qa-stamp-group">
+                    <ui:Label text="SEVERITY STAMPS" class="qa-group-title" />
+                    <ui:VisualElement class="qa-stamp-row">
+                        <ui:Button name="QaBtnSev0" text="MINOR" class="qa-stamp-btn qa-stamp-btn-red" />
+                        <ui:Button name="QaBtnSev1" text="MAJOR" class="qa-stamp-btn qa-stamp-btn-red" />
+                        <ui:Button name="QaBtnSev2" text="CRITICAL" class="qa-stamp-btn qa-stamp-btn-red" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement class="qa-submit-group">
+                    <ui:Button name="QaBtnSubmit" text="FILE TICKET" class="qa-submit-btn" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="qa-stamp-group">
+                    <ui:Label text="CATEGORY STAMPS" class="qa-group-title" />
+                    <ui:VisualElement class="qa-stamp-row">
+                        <ui:Button name="QaBtnCat0" text="UI" class="qa-stamp-btn qa-stamp-btn-blue" />
+                        <ui:Button name="QaBtnCat1" text="NETWORK" class="qa-stamp-btn qa-stamp-btn-blue" />
+                        <ui:Button name="QaBtnCat2" text="LOGIC" class="qa-stamp-btn qa-stamp-btn-blue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+            </ui:VisualElement>
+
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

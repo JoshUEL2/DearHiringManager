@@ -775,3 +775,229 @@
     border-bottom-right-radius: 110px;
     transform-origin: 0% 0%;
 }
+
+/* ======================================================== */
+/* QA Triage: Bureaucratic Bug Stamping */
+/* ======================================================== */
+
+.qa-main {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.qa-desk {
+    width: 100%;
+    height: 100%;
+    background-color: #5C4033; /* Dark mahogany wood color */
+    flex-direction: column;
+}
+
+.qa-hud {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: rgba(0,0,0,0.4);
+    border-bottom-width: 4px;
+    border-bottom-color: #3e2b22;
+}
+
+.qa-hud-title {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: #FBBF24;
+}
+
+.qa-hud-score {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: #34D399;
+}
+
+.qa-hud-time {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: #F87171;
+}
+
+.qa-play-area {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.qa-paper {
+    width: 600px;
+    height: 350px;
+    background-color: #FDFBF7;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #D4D4D8;
+    padding: 20px;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.5);
+    flex-direction: column;
+}
+
+.qa-paper-slide-in {
+    translate: 0px 0px;
+    transition: translate 0.3s ease-out-back;
+}
+
+.qa-paper-slide-out {
+    translate: 1000px 0px;
+    transition: translate 0.3s ease-in;
+}
+
+.qa-paper-slide-hidden {
+    translate: -1000px 0px;
+    transition: none;
+}
+
+.qa-paper-header {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: #3F3F46;
+    -unity-text-align: middle-center;
+    border-bottom-width: 2px;
+    border-bottom-color: #E4E4E7;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.qa-paper-log {
+    font-size: 24px;
+    color: #18181B;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    flex-grow: 1;
+    -unity-font-definition: none; /* Monospace fallback */
+}
+
+.qa-paper-stamps-area {
+    flex-direction: row;
+    justify-content: space-around;
+    height: 120px;
+    margin-top: 20px;
+}
+
+.qa-stamp-box {
+    width: 200px;
+    border-width: 3px;
+    border-color: #A1A1AA;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10px;
+    position: relative;
+}
+
+.qa-stamp-box-title {
+    font-size: 16px;
+    color: #71717A;
+    -unity-font-style: bold;
+}
+
+.qa-ink {
+    position: absolute;
+    top: 35px;
+    font-size: 36px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    opacity: 0;
+    transition: opacity 0.15s, scale 0.15s ease-out-bounce;
+    scale: 2 2;
+}
+
+.qa-ink-visible {
+    opacity: 0.85;
+    scale: 1 1;
+}
+
+.qa-ink-red {
+    color: #DC2626;
+}
+
+.qa-ink-blue {
+    color: #2563EB;
+}
+
+.qa-controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 40px;
+    background-color: rgba(0,0,0,0.5);
+    border-top-width: 4px;
+    border-top-color: #3e2b22;
+}
+
+.qa-stamp-group {
+    flex-direction: column;
+    align-items: center;
+}
+
+.qa-group-title {
+    font-size: 18px;
+    color: #D4D4D8;
+    margin-bottom: 10px;
+    -unity-font-style: bold;
+}
+
+.qa-stamp-row {
+    flex-direction: row;
+}
+
+.qa-stamp-btn {
+    width: 120px;
+    height: 60px;
+    margin: 0 10px;
+    border-radius: 8px;
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: white;
+    border-width: 4px;
+    border-bottom-width: 8px;
+    transition: translate 0.1s, border-bottom-width 0.1s;
+}
+
+.qa-stamp-btn:active {
+    border-bottom-width: 4px;
+    translate: 0 4px;
+}
+
+.qa-stamp-btn-red {
+    background-color: #B91C1C;
+    border-color: #7F1D1D;
+}
+
+.qa-stamp-btn-blue {
+    background-color: #1D4ED8;
+    border-color: #1E3A8A;
+}
+
+.qa-submit-group {
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.qa-submit-btn {
+    width: 200px;
+    height: 80px;
+    background-color: #047857;
+    border-color: #064E3B;
+    border-width: 4px;
+    border-bottom-width: 12px;
+    border-radius: 12px;
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: white;
+    transition: translate 0.1s, border-bottom-width 0.1s;
+}
+
+.qa-submit-btn:active {
+    border-bottom-width: 4px;
+    translate: 0 8px;
+}

@@ -878,11 +878,7 @@ public partial class MiniGameManager : MonoBehaviour
         cvContainer = root.Q<VisualElement>("CloggedVentsContainer");
         if (cvContainer != null) cvGrid = cvContainer.Q<VisualElement>("VentsGrid");
 
-        qaContainer = root.Q<VisualElement>("QATriageContainer");
-        if (qaContainer != null)
-        {
-            // Rebuilt dynamically in SetupQATriage
-        }
+        
 
         wbContainer = root.Q<VisualElement>("WhackABugContainer");
         if (wbContainer != null) wbGrid = wbContainer.Q<VisualElement>("BugGrid");
@@ -1259,7 +1255,7 @@ public partial class MiniGameManager : MonoBehaviour
 
         // Phase 1 Custom
         if(cvContainer != null) cvContainer.style.display = DisplayStyle.None;
-        if(qaContainer != null) qaContainer.style.display = DisplayStyle.None;
+        
         if(wbContainer != null) wbContainer.style.display = DisplayStyle.None;
 
         // Phase 2 Custom
@@ -1277,8 +1273,7 @@ public partial class MiniGameManager : MonoBehaviour
                 SetupCloggedVents();
                 break;
             case GameType.QATriage:
-                qaContainer.style.display = DisplayStyle.Flex;
-                SetupQATriage();
+                // Handled by Strategy
                 break;
             case GameType.WhackABug:
                 wbContainer.style.display = DisplayStyle.Flex;
