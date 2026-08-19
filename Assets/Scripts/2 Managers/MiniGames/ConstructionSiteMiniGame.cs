@@ -48,19 +48,39 @@ public class ConstructionSiteMiniGame : IMiniGame
         hotspot = container.Q<VisualElement>("CsHotspot");
         progressFill = container.Q<VisualElement>("CsProgressFill");
 
-        // Dragging events
-        scanner.RegisterCallback<PointerDownEvent>(OnPointerDown);
+        // Dragging events (register on both so you can click anywhere to scan)
+        wall.RegisterCallback<PointerDownEvent>(OnPointerDown);
         wall.RegisterCallback<PointerMoveEvent>(OnPointerMove);
         wall.RegisterCallback<PointerUpEvent>(OnPointerUp);
-        wall.RegisterCallback<PointerLeaveEvent>(OnPointerUp);
+        wall.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+        wall.RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
+
+        scanner.RegisterCallback<PointerDownEvent>(OnPointerDown);
+        scanner.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+        scanner.RegisterCallback<PointerUpEvent>(OnPointerUp);
+        scanner.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+        scanner.RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
     }
 
     private void OnPointerDown(PointerDownEvent e)
     {
         isDragging = true;
-        dragStartPos = e.position;
+        
+        // Snap scanner to pointer immediately
+        Vector2 localPos = wall.WorldToLocal(e.position);
+        scannerPos = localPos - new Vector2(ScannerSize / 2f, ScannerSize / 2f);
+        scannerPos.x = Mathf.Clamp(scannerPos.x, 0, WallWidth - ScannerSize);
+        scannerPos.y = Mathf.Clamp(scannerPos.y, 0, WallHeight - ScannerSize);
+        UpdateScannerTransform();
+
+        dragStartPos = (Vector2)e.position;
         scannerStartPos = scannerPos;
-        scanner.CapturePointer(e.pointerId);
+        
+        var target = e.target as VisualElement;
+        if (target != null)
+        {
+            target.CapturePointer(e.pointerId);
+        }
     }
 
     private void OnPointerMove(PointerMoveEvent e)
@@ -80,13 +100,19 @@ public class ConstructionSiteMiniGame : IMiniGame
     private void OnPointerUp(PointerUpEvent e)
     {
         isDragging = false;
-        if (scanner.HasPointerCapture(e.pointerId))
+        var target = e.target as VisualElement;
+        if (target != null && target.HasPointerCapture(e.pointerId))
         {
-            scanner.ReleasePointer(e.pointerId);
+            target.ReleasePointer(e.pointerId);
         }
     }
     
-    private void OnPointerUp(PointerLeaveEvent e)
+    private void OnPointerLeave(PointerLeaveEvent e)
+    {
+        isDragging = false;
+    }
+
+    private void OnPointerCaptureOut(PointerCaptureOutEvent e)
     {
         isDragging = false;
     }
