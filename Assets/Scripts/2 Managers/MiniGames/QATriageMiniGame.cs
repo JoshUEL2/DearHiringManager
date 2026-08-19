@@ -82,12 +82,15 @@ public class QATriageMiniGame : IMiniGame
 
     private Vector2 currentTranslate = Vector2.zero;
     
+    private Vector2 lastPointerPos;
+    
     private void OnPointerDown(PointerDownEvent e)
     {
         if (!manager.isPlaying) return;
         isDragging = true;
         paper.CapturePointer(e.pointerId);
         dragStartPointerPos = e.position;
+        lastPointerPos = e.position;
         paperStartPos = currentTranslate;
         
         e.StopPropagation();
@@ -97,16 +100,16 @@ public class QATriageMiniGame : IMiniGame
     {
         if (!isDragging || !manager.isPlaying) return;
         
+        lastPointerPos = e.position;
         Vector2 delta = (Vector2)e.position - dragStartPointerPos;
         currentTranslate = paperStartPos + delta;
         
         paper.style.translate = new StyleTranslate(new Translate(currentTranslate.x, currentTranslate.y, 0));
         
         // Highlight folders if hovering
-        Rect paperRect = paper.worldBound;
         for (int i = 0; i < 3; i++)
         {
-            if (folders[i].worldBound.Overlaps(paperRect))
+            if (folders[i].worldBound.Contains(e.position))
             {
                 folders[i].AddToClassList("qa-folder-hover");
             }
@@ -128,7 +131,7 @@ public class QATriageMiniGame : IMiniGame
             paper.ReleasePointer(e.pointerId);
         }
         
-        CheckDrop();
+        CheckDrop(lastPointerPos);
         e.StopPropagation();
     }
 
@@ -136,18 +139,17 @@ public class QATriageMiniGame : IMiniGame
     {
         if (!isDragging) return;
         isDragging = false;
-        CheckDrop();
+        CheckDrop(lastPointerPos);
     }
 
-    private void CheckDrop()
+    private void CheckDrop(Vector2 pointerPos)
     {
-        Rect paperRect = paper.worldBound;
         int droppedFolderIndex = -1;
         
         for (int i = 0; i < 3; i++)
         {
             folders[i].RemoveFromClassList("qa-folder-hover");
-            if (folders[i].worldBound.Overlaps(paperRect))
+            if (folders[i].worldBound.Contains(pointerPos))
             {
                 droppedFolderIndex = i;
             }

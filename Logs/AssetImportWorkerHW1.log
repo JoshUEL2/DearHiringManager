@@ -1391,3 +1391,99 @@ Memory consumption went from 307.1 MB to 299.9 MB.
 Total: 9.922250 ms (FindLiveObjects: 0.417750 ms CreateObjectMapping: 1.728959 ms MarkObjects: 4.954333 ms  DeleteObjects: 2.813458 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+[Licensing::Client] Successfully resolved entitlement details
+Begin MonoManager ReloadAssembly
+Thread 0x16e06b000 may have been prematurely finalized
+Native extension for iOS target not found
+2026-08-20 00:09:12.871 Unity[12710:13655161] [XcodeApplications] Expected com.apple.dt.Xcode CFBundleIdentifier but found com.microsoft.VSCode in /Applications/Visual Studio Code.app/Contents/Info.plist
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.766 seconds
+Domain Reload Profiling: 1485ms
+	BeginReloadAssembly (194ms)
+		DisableScriptedObjects (10ms)
+		CreateAndSetChildDomain (44ms)
+	RebuildCommonClasses (8ms)
+	RebuildNativeTypeToScriptingClass (16ms)
+	initialDomainReloadingComplete (39ms)
+	LoadAllAssembliesAndSetupDomain (460ms)
+		LoadAssemblies (265ms)
+		AnalyzeDomain (169ms)
+			TypeCache.Refresh (16ms)
+			BuildScriptInfoCaches (145ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (767ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (89ms)
+			BeforeProcessingInitializeOnLoad (76ms)
+			ProcessInitializeOnLoadAttributes (332ms)
+			ProcessInitializeOnLoadMethodAttributes (81ms)
+		AwakeInstancesAfterBackupRestoration (15ms)
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6467 unused Assets / (7.0 MB). Loaded Objects now: 7395.
+Memory consumption went from 314.1 MB to 307.2 MB.
+Total: 11.066667 ms (FindLiveObjects: 0.428458 ms CreateObjectMapping: 1.689333 ms MarkObjects: 6.061625 ms  DeleteObjects: 2.884583 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+========================================================================
+Received Prepare
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Thread 0x16e06b000 may have been prematurely finalized
+Native extension for iOS target not found
+2026-08-20 00:09:20.994 Unity[12710:13655161] [XcodeApplications] Expected com.apple.dt.Xcode CFBundleIdentifier but found com.microsoft.VSCode in /Applications/Visual Studio Code.app/Contents/Info.plist
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] Unable to send message (not connected to server process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.723 seconds
+Domain Reload Profiling: 1268ms
+	BeginReloadAssembly (154ms)
+		DisableScriptedObjects (6ms)
+		CreateAndSetChildDomain (32ms)
+	RebuildCommonClasses (8ms)
+	RebuildNativeTypeToScriptingClass (16ms)
+	initialDomainReloadingComplete (42ms)
+	LoadAllAssembliesAndSetupDomain (324ms)
+		LoadAssemblies (264ms)
+		AnalyzeDomain (21ms)
+			TypeCache.Refresh (10ms)
+			ResolveRequiredComponents (7ms)
+	FinalizeReload (724ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (16ms)
+			BeforeProcessingInitializeOnLoad (76ms)
+			ProcessInitializeOnLoadAttributes (338ms)
+			ProcessInitializeOnLoadMethodAttributes (86ms)
+		AwakeInstancesAfterBackupRestoration (15ms)
+WARNING: Shader Unsupported: 'Universal Render Pipeline/VR/SpatialMapping/Wireframe' - All subshaders removed
+WARNING: Shader Did you use #pragma only_renderers and omit this platform?
+WARNING: Shader If subshaders removal was intentional, you may have forgotten turning Fallback off?
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6467 unused Assets / (5.5 MB). Loaded Objects now: 7398.
+Memory consumption went from 321.1 MB to 315.6 MB.
+Total: 10.893000 ms (FindLiveObjects: 0.785209 ms CreateObjectMapping: 2.006541 ms MarkObjects: 6.157250 ms  DeleteObjects: 1.943625 ms)
+
+Prepare: number of updated asset objects reloaded= 0
