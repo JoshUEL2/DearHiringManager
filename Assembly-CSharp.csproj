@@ -88,6 +88,7 @@
     <Compile Include="Assets/Scripts/3 UI/JailUI.cs" />
     <Compile Include="Assets/Scripts/1 Data/Systems/EventSystem.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines5.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/QATriageMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/RandomEventSO.cs" />
