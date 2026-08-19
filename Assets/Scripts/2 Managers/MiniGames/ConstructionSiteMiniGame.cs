@@ -67,7 +67,7 @@ public class ConstructionSiteMiniGame : IMiniGame
     {
         if (!isDragging) return;
         
-        Vector2 delta = e.position - dragStartPos;
+        Vector2 delta = (Vector2)e.position - dragStartPos;
         scannerPos = scannerStartPos + delta;
         
         // Clamp scanner to wall bounds
