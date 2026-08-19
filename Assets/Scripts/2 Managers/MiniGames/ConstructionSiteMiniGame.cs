@@ -66,30 +66,24 @@ public class ConstructionSiteMiniGame : IMiniGame
     private void OnPointerDown(PointerDownEvent e)
     {
         isDragging = true;
-        
-        // Snap scanner to pointer immediately
-        Vector2 localPos = wall.WorldToLocal(e.position);
-        scannerPos = localPos - new Vector2(ScannerSize / 2f, ScannerSize / 2f);
-        scannerPos.x = Mathf.Clamp(scannerPos.x, 0, WallWidth - ScannerSize);
-        scannerPos.y = Mathf.Clamp(scannerPos.y, 0, WallHeight - ScannerSize);
-        UpdateScannerTransform();
+        wall.CapturePointer(e.pointerId);
 
-        dragStartPos = (Vector2)e.position;
-        scannerStartPos = scannerPos;
-        
-        var target = e.target as VisualElement;
-        if (target != null)
-        {
-            target.CapturePointer(e.pointerId);
-        }
+        UpdatePositionFromPointer(e.position);
+        e.StopPropagation();
     }
 
     private void OnPointerMove(PointerMoveEvent e)
     {
         if (!isDragging) return;
         
-        Vector2 delta = (Vector2)e.position - dragStartPos;
-        scannerPos = scannerStartPos + delta;
+        UpdatePositionFromPointer(e.position);
+        e.StopPropagation();
+    }
+
+    private void UpdatePositionFromPointer(Vector3 pointerWorldPos)
+    {
+        Vector2 localPos = wall.WorldToLocal(pointerWorldPos);
+        scannerPos = localPos - new Vector2(ScannerSize / 2f, ScannerSize / 2f);
         
         // Clamp scanner to wall bounds
         scannerPos.x = Mathf.Clamp(scannerPos.x, 0, WallWidth - ScannerSize);
@@ -101,11 +95,11 @@ public class ConstructionSiteMiniGame : IMiniGame
     private void OnPointerUp(PointerUpEvent e)
     {
         isDragging = false;
-        var target = e.target as VisualElement;
-        if (target != null && target.HasPointerCapture(e.pointerId))
+        if (wall.HasPointerCapture(e.pointerId))
         {
-            target.ReleasePointer(e.pointerId);
+            wall.ReleasePointer(e.pointerId);
         }
+        e.StopPropagation();
     }
     
     private void OnPointerCaptureOut(PointerCaptureOutEvent e)
@@ -164,8 +158,8 @@ public class ConstructionSiteMiniGame : IMiniGame
             
             if (radarSweep != null)
             {
-                radarAngle += dt * 360f; // 1 full rotation per second
-                radarSweep.style.rotate = new Rotate(new Angle(radarAngle, AngleUnit.Degree));
+                radarAngle += dt * 60f; // Slower rotation
+                radarSweep.style.rotate = new StyleRotate(new Rotate(new Angle(radarAngle, AngleUnit.Degree)));
             }
             
             // Check Proximity
