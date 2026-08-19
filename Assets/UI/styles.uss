@@ -848,6 +848,7 @@
 }
 
 .qa-paper-drag {
+    transition: scale 0.15s ease-out;
     width: 400px;
     height: 220px;
     background-color: #FDFBF7;
@@ -877,4 +878,9 @@
     -unity-text-align: middle-center;
     white-space: normal;
     flex-grow: 1;
+}
+
+.qa-paper-hovering-folder {
+    scale: 0.5 0.5;
+    opacity: 0.7;
 }

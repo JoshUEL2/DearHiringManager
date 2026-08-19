@@ -67,6 +67,7 @@ public class QATriageMiniGame : IMiniGame
         
         currentTranslate = Vector2.zero;
         paper.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        paper.RemoveFromClassList("qa-paper-hovering-folder");
 
         UpdateScoreText();
         LoadNextBug();
@@ -107,16 +108,27 @@ public class QATriageMiniGame : IMiniGame
         paper.style.translate = new StyleTranslate(new Translate(currentTranslate.x, currentTranslate.y, 0));
         
         // Highlight folders if hovering
+        bool isHoveringFolder = false;
         for (int i = 0; i < 3; i++)
         {
             if (folders[i].worldBound.Contains(e.position))
             {
                 folders[i].AddToClassList("qa-folder-hover");
+                isHoveringFolder = true;
             }
             else
             {
                 folders[i].RemoveFromClassList("qa-folder-hover");
             }
+        }
+        
+        if (isHoveringFolder)
+        {
+            paper.AddToClassList("qa-paper-hovering-folder");
+        }
+        else
+        {
+            paper.RemoveFromClassList("qa-paper-hovering-folder");
         }
         
         e.StopPropagation();
@@ -145,6 +157,8 @@ public class QATriageMiniGame : IMiniGame
     private void CheckDrop(Vector2 pointerPos)
     {
         int droppedFolderIndex = -1;
+        
+        paper.RemoveFromClassList("qa-paper-hovering-folder");
         
         for (int i = 0; i < 3; i++)
         {
