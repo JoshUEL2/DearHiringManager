@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="GitMergeContainer" class="gm-main" style="display: none;">
+        
+        <ui:VisualElement class="gm-hud">
+            <ui:Label name="GmScoreText" text="RESOLVED: 0 / 5" class="gm-hud-score" />
+            <ui:Label name="GmTimeText" text="TIME: 15.0s" class="gm-hud-time" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="gm-objective-box">
+            <ui:Label text="OBJECTIVE:" class="gm-objective-title" />
+            <ui:Label name="GmObjectiveText" text="Implement Dark Mode" class="gm-objective-value" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="gm-editor-window">
+            
+            <ui:VisualElement class="gm-editor-header">
+                <ui:Label text="merge_conflict.cs" class="gm-editor-tab" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement name="GmConflictArea" class="gm-conflict-area">
+                
+                <ui:Button name="GmCurrentBtn" class="gm-block-btn gm-block-current">
+                    <ui:Label text="&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current Change)" class="gm-block-header gm-text-green" />
+                    <ui:Label name="GmCurrentCodeText" text="theme = 'light';" class="gm-block-code" />
+                </ui:Button>
+
+                <ui:VisualElement class="gm-separator">
+                    <ui:Label text="=======================" class="gm-separator-text" />
+                </ui:VisualElement>
+
+                <ui:Button name="GmIncomingBtn" class="gm-block-btn gm-block-incoming">
+                    <ui:Label text="&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/dark-mode (Incoming Change)" class="gm-block-header gm-text-blue" />
+                    <ui:Label name="GmIncomingCodeText" text="theme = 'dark';" class="gm-block-code" />
+                </ui:Button>
+
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

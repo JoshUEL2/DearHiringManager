@@ -1041,7 +1041,7 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Fix CSS layout locations", new MiniGameConfig { type = GameType.CenterDiv, timeLimit = 15f, centerDivTargets = 3, centerDivSpeedMin = 300f, centerDivSpeedMax = 700f, instructions = "Center the div exactly!" });
         AddConfigFull("Fix CSS layout sizes", new MiniGameConfig { type = GameType.SizeMatch, timeLimit = 15f, instructions = "Match the exact size!" });
         AddConfigFull("Center content icons", new MiniGameConfig { type = GameType.DragCenter, timeLimit = 15f, instructions = "Drag the icon perfectly to the center!" });
-        AddConfigFull("Resolve Git merge conflicts", new MiniGameConfig { type = GameType.CodeBreaker, codeSymbols = new string[]{"{","}","<",">","=","/"}, codeLength = 4, maxAttempts = 6, instructions = "Fix the merge conflicts!" });
+        AddConfigFull("Resolve Git merge conflicts", new MiniGameConfig { type = GameType.GitMerge, timeLimit = 15f, targetScore = 5, instructions = "Tap the correct block to resolve conflicts!" });
         AddConfigFull("Debug CSS at 3 AM", new MiniGameConfig { type = GameType.CoffeeWork, timeLimit = 15f, coffeeDrainRate = 22f, coffeeBoost = 20f, workProgressPerTap = 5f, instructions = "Debug CSS & Drink coffee!" });
         AddConfigFull("Inject untested code", new MiniGameConfig { type = GameType.StealthInject, timeLimit = 15f, instructions = "Hold INJECT while the reviewer is distracted!" });
 

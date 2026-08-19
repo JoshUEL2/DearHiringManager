@@ -16,6 +16,7 @@ public static class MiniGameFactory
                 return new ConstructionSiteMiniGame();
             // ... future ports ...
             case GameType.QATriage: return new QATriageMiniGame();
+            case GameType.GitMerge: return new GitMergeMiniGame();
             default:
                 return new LegacyMiniGameWrapper();
         }
