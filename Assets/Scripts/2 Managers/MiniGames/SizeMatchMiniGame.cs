@@ -65,17 +65,32 @@ public class SizeMatchMiniGame : IMiniGame
         {
             score++;
             UpdateScoreText();
-            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(true));
+
+            // Flash green
+            changingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
+            changingBox.schedule.Execute(() => {
+                if (changingBox != null) changingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f));
+            }).StartingIn(200);
 
             if (score >= 3)
             {
-                changingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
                 manager.MarkWinReady();
+            }
+            else
+            {
+                // Reset scale for next round
+                currentScale = 0.2f;
+                scaleDir = 1f;
             }
         }
         else
         {
-            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(false));
+            // Flash red
+            changingBox.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.22f));
+            changingBox.schedule.Execute(() => {
+                if (changingBox != null) changingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f));
+            }).StartingIn(200);
+
             timeRemaining -= 1.5f;
         }
     }
@@ -127,7 +142,18 @@ public class SizeMatchMiniGame : IMiniGame
 
             if (changingBox != null)
             {
-                changingBox.style.scale = new StyleScale(new Scale(new Vector2(currentScale, currentScale)));
+                changingBox.style.width = new Length(200f * currentScale, LengthUnit.Pixel);
+                changingBox.style.height = new Length(150f * currentScale, LengthUnit.Pixel);
+                
+                // Update text to TAP when in tolerance range
+                if (Mathf.Abs(currentScale - 1.0f) <= 0.1f)
+                {
+                    changingBox.text = "TAP";
+                }
+                else
+                {
+                    changingBox.text = "this";
+                }
             }
 
             yield return null;

@@ -11,11 +11,8 @@
                         <!-- Static target box -->
                         <ui:VisualElement name="SmTargetBox" style="position: absolute; width: 200px; height: 150px; border-width: 6px; border-color: #334155; border-radius: 10px; background-color: rgba(51, 65, 85, 0.2);" />
                         
-                        <!-- Pulsating foreground box (Button for click detection) -->
+                        <!-- Pulsating foreground box (Button) -->
                         <ui:Button name="SmBtnChangingBox" text="this" style="position: absolute; width: 50px; height: 50px; background-color: #F59E0B; color: #0F172A; font-size: 24px; -unity-font-style: bold; border-radius: 8px; border-width: 4px; border-color: #D97706; padding: 0; margin: 0; transition: background-color 0.1s;" />
                     </ui:VisualElement>
-
-                    <!-- Flash overlay for feedback -->
-                    <ui:VisualElement name="SmFlashOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; opacity: 0;" />
                 </ui:VisualElement>
 </ui:UXML>
