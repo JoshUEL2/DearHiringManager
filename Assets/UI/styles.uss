@@ -922,6 +922,7 @@
 
 .gm-editor-window {
     flex-grow: 1;
+    min-height: 400px;
     margin: 20px;
     background-color: #1E1E1E;
     border-width: 2px;
@@ -1070,6 +1071,7 @@
 
 .css-canvas {
     flex-grow: 1;
+    min-height: 350px;
     position: relative;
     background-color: #111827;
     align-items: center;

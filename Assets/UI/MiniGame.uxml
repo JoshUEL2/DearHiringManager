@@ -89,7 +89,7 @@
                 <ui:Instance template="AcidRainContainer" />
                 <ui:Instance template="AutomatedTestsContainer" />
                 <ui:Instance template="BalanceMeterContainer" />
-                <ui:Instance template="CenterDivContainer" />
+                <ui:Instance template="CenterDivContainer" style="flex-grow: 1; min-height: 500px;" />
                 <ui:Instance template="ChartAdjusterContainer" />
                 <ui:Instance template="ChoiceGameContainer" />
                 <ui:Instance template="CloggedVentsContainer" />
@@ -101,7 +101,7 @@
                 <ui:Instance template="CorporateGolfContainer" />
                 <ui:Instance template="DialogueChainContainer" />
                 <ui:Instance template="DocumentSignerContainer" />
-                <ui:Instance template="DragCenterContainer" />
+                <ui:Instance template="DragCenterContainer" style="flex-grow: 1; min-height: 500px;" />
                 <ui:Instance template="DragMatchContainer" />
                 <ui:Instance template="FallingSortContainer" />
                 <ui:Instance template="FileSorterContainer" />
@@ -125,17 +125,17 @@
                 <ui:Instance template="OrderQueueContainer" />
                 <ui:Instance template="PumpGameContainer" />
                 <ui:Instance template="QATriageContainer" />
-                <ui:Instance template="GitMergeContainer" />
-                <ui:Instance template="CenterDivContainer" />
-                <ui:Instance template="SizeMatchContainer" />
-                <ui:Instance template="DragCenterContainer" />
+                <ui:Instance template="GitMergeContainer" style="flex-grow: 1; min-height: 500px;" />
+                <ui:Instance template="CenterDivContainer" style="flex-grow: 1; min-height: 500px;" />
+                <ui:Instance template="SizeMatchContainer" style="flex-grow: 1; min-height: 500px;" />
+                <ui:Instance template="DragCenterContainer" style="flex-grow: 1; min-height: 500px;" />
                 <ui:Instance template="RecycleBottlesContainer" />
                 <ui:Instance template="RetroRacerContainer" />
                 <ui:Instance template="RewardLogicContainer" />
                 <ui:Instance template="ScrubPlateContainer" />
                 <ui:Instance template="SentienceArrayContainer" />
                 <ui:Instance template="SequenceGameContainer" />
-                <ui:Instance template="SizeMatchContainer" />
+                <ui:Instance template="SizeMatchContainer" style="flex-grow: 1; min-height: 500px;" />
                 <ui:Instance template="SkimATMContainer" />
                 <ui:Instance template="SliderGameContainer" />
                 <ui:Instance template="SnatchBriefcaseContainer" />
