@@ -445,10 +445,6 @@ public partial class MiniGameManager : MonoBehaviour
     private Button btnQASubmit;
     private List<Button> qaSevBtns = new List<Button>();
     private List<Button> qaCatBtns = new List<Button>();
-    private int qaCurrentLogIndex = 0;
-    private int qaSelectedSev = -1;
-    private int qaSelectedCat = -1;
-    private int qaScore = 0;
 
     // WhackABug
     private VisualElement wbContainer, wbGrid;
@@ -505,7 +501,7 @@ public partial class MiniGameManager : MonoBehaviour
     private float rrTargetLeft = 50f;
 
     private float atSuiteProgress = 0f;
-    private ActiveMiniGame currentGame;
+    public ActiveMiniGame currentGame;
     private MiniGameConfig currentConfig;
     private bool hasWon = false;
     public bool isPlaying = false;

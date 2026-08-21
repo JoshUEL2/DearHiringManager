@@ -17,7 +17,7 @@ public class SceneSetupExporter : EditorWindow
         sb.AppendLine("Reviewing UIDocuments and Manager Scripts...\n");
 
         // Find all UIDocuments in the scene using the updated Unity API
-        UIDocument[] uiDocs = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+        UIDocument[] uiDocs = FindObjectsByType<UIDocument>(FindObjectsInactive.Include);
         
         foreach (var doc in uiDocs)
         {
@@ -39,7 +39,7 @@ public class SceneSetupExporter : EditorWindow
         }
 
         // Catch the GameManager using the updated Unity API
-        GameManager gm = FindFirstObjectByType<GameManager>();
+        GameManager gm = FindAnyObjectByType<GameManager>();
         if (gm != null)
         {
             sb.AppendLine($"⚙️ GameManager Found on GameObject: {gm.gameObject.name}");
