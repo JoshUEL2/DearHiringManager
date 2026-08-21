@@ -447,7 +447,8 @@ public class GameUIManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(nameInput.value)) return;
 
-        var backstories = GameManager.Instance.gameDatabase.backstories;
+        var backstories = GameManager.Instance.gameDatabase.backstories.FindAll(b => b != null);
+        if (backstories.Count == 0) return;
         int randomIndex = Random.Range(0, backstories.Count);
         selectedBackstory = backstories[randomIndex];
 

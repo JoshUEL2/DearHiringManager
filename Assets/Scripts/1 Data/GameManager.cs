@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
             currentData.completedCourses.Add(title);
         }
 
-        var course = gameDatabase.courses.Find(c => c.title == title);
+        var course = gameDatabase.courses.Find(c => c != null && c.title == title);
         if (course != null)
         {
             if (course.unlocksBootcamp) currentData.hasBootcamp = true;
@@ -153,15 +153,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public RandomEventSO GetRandomEvent()
+    {
+        var validGood = gameDatabase.goodEvents.FindAll(e => e != null);
+        var validBad = gameDatabase.badEvents.FindAll(e => e != null);
+        
+        if (validGood.Count == 0 && validBad.Count == 0) return null;
+
+        var pool = (Random.value < 0.30f) 
+            ? (validGood.Count > 0 ? validGood : validBad)
+            : (validBad.Count > 0 ? validBad : validGood);
+
+        return pool[Random.Range(0, pool.Count)];
+    }
+
     public void DrawRandomEvent()
     {
         // Keep for end-of-week events if needed, but we don't trigger the UI popup directly here since it's used for weekly flow
         float averageJobLuck = (currentData.luckManualService + currentData.luckHospitality + currentData.luckTechnology + currentData.luckCorporate) / 4.0f;
         
-        bool isGood = Random.value < (0.50f + (averageJobLuck - 0.40f) * 0.35f);
-        activeEventPopup = isGood 
-            ? gameDatabase.goodEvents[Random.Range(0, gameDatabase.goodEvents.Count)] 
-            : gameDatabase.badEvents[Random.Range(0, gameDatabase.badEvents.Count)];
+        activeEventPopup = GetRandomEvent();
+        if (activeEventPopup == null) return;
 
         currentData.balance = System.Math.Max(0.0, currentData.balance + activeEventPopup.cashOffset);
         currentData.stress = Mathf.Clamp(currentData.stress + activeEventPopup.stressOffset, 0.0f, 1.0f);
@@ -195,7 +207,7 @@ public class GameManager : MonoBehaviour
     public void CycleJobs()
     {
         availableJobOpenings.Clear();
-        var zoneJobs = gameDatabase.jobs.FindAll(j => j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0));
+        var zoneJobs = gameDatabase.jobs.FindAll(j => j != null && j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0));
 
         foreach (var job in zoneJobs)
         {
@@ -252,7 +264,7 @@ public class GameManager : MonoBehaviour
 
     public double GetBaseSalary(string title)
     {
-        var job = gameDatabase.jobs.Find(j => j.title == title);
+        var job = gameDatabase.jobs.Find(j => j != null && j.title == title);
         if (job != null)
         {
             return job.weeklySalary;

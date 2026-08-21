@@ -148,7 +148,7 @@ public class CareerUI
         extraTasksStatus.text = extDone ? "✓ DONE THIS WEEK" : "⚠️ PENDING";
         extraTasksStatus.style.color = new StyleColor(extDone ? new Color(0.22f, 0.74f, 0.97f) : new Color(0.9f, 0.3f, 0.24f));
 
-        var jobSO = GameManager.Instance.gameDatabase.jobs.Find(j => j.title == data.jobTitle);
+        var jobSO = GameManager.Instance.gameDatabase.jobs.Find(j => j != null && j.title == data.jobTitle);
         var regularTasks = jobSO != null ? jobSO.regularTasks : new List<JobTask>();
         var extraTasks = jobSO != null ? jobSO.extraTasks : new List<JobTask>();
 

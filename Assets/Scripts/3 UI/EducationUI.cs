@@ -73,6 +73,8 @@ public class EducationUI
 
         foreach (var course in GameManager.Instance.gameDatabase.courses)
         {
+            if (course == null) continue;
+
             // Print Track Headers
             if (course.trackName != currentTrack)
             {

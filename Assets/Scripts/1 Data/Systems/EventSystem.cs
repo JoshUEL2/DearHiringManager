@@ -25,7 +25,10 @@ public class EventSystem : IWeeklySystem
         // Roll for new event
         if (Random.value < 0.70f)
         {
-            var newEventTemplate = manager.gameDatabase.newsEvents[Random.Range(0, manager.gameDatabase.newsEvents.Count)];
+            var validEvents = manager.gameDatabase.newsEvents.FindAll(e => e != null);
+            if (validEvents.Count > 0)
+            {
+                var newEventTemplate = validEvents[Random.Range(0, validEvents.Count)];
             var activeEvent = new ActiveNewsEvent {
                 headline = newEventTemplate.headline,
                 luckType = newEventTemplate.luckType,
@@ -35,6 +38,7 @@ public class EventSystem : IWeeklySystem
             data.activeNewsEvents.Add(activeEvent);
             string impactStr = (activeEvent.luckModifier > 0 ? "+" : "") + (activeEvent.luckModifier * 100).ToString("F0") + "%";
             manager.activeNewsFeed += $"\n[BREAKING NEWS] {activeEvent.headline}\n-> {activeEvent.luckType} luck modified by {impactStr} for {activeEvent.remainingWeeks} weeks.";
+            }
         }
         
         if (manager.activeEventPopup != null)
