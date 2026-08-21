@@ -737,75 +737,24 @@ public class GameUIManager : MonoBehaviour
             return;
         }
 
-        // Color Setup
-        Color cardBg; ColorUtility.TryParseHtmlString("#0F172A", out cardBg);
-        Color lightBlue; ColorUtility.TryParseHtmlString("#38BDF8", out lightBlue);
-        Color redBadge; ColorUtility.TryParseHtmlString("#E74C3C", out redBadge);
-        Color yellowName; ColorUtility.TryParseHtmlString("#F1C40F", out yellowName);
-        Color grayText; ColorUtility.TryParseHtmlString("#94A3B8", out grayText);
+        var template = Resources.Load<VisualTreeAsset>("UI/HistoryRecordTemplate");
+        if (template == null)
+        {
+            Debug.LogError("Could not find UI/HistoryRecordTemplate in Resources.");
+            return;
+        }
 
         foreach (var record in history)
         {
-            // Main Card Background
-            VisualElement card = new VisualElement();
-            card.AddToClassList("card"); 
-            card.style.backgroundColor = new StyleColor(cardBg);
-            card.style.paddingBottom = 15; card.style.paddingTop = 15;
-            card.style.paddingLeft = 15; card.style.paddingRight = 15;
-            card.style.marginBottom = 10;
+            VisualElement card = template.Instantiate().Q<VisualElement>(className: "card");
 
-            // Top Row: Player Name & Death Reason Badge
-            VisualElement topRow = new VisualElement();
-            topRow.AddToClassList("row");
-            
             string pName = string.IsNullOrEmpty(record.playerName) ? "Unknown Citizen" : record.playerName;
-            Label nameLbl = new Label(pName);
-            nameLbl.style.color = new StyleColor(yellowName);
-            nameLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            nameLbl.style.fontSize = 34;
-            
-            Label badgeLbl = new Label(record.endingAchieved);
-            badgeLbl.style.backgroundColor = new StyleColor(redBadge);
-            badgeLbl.style.color = Color.white;
-            badgeLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            badgeLbl.style.fontSize = 24;
-            badgeLbl.style.paddingLeft = 20; badgeLbl.style.paddingRight = 20;
-            badgeLbl.style.paddingTop = 8; badgeLbl.style.paddingBottom = 8;
-            badgeLbl.style.borderTopLeftRadius = 12; badgeLbl.style.borderTopRightRadius = 12;
-            badgeLbl.style.borderBottomLeftRadius = 12; badgeLbl.style.borderBottomRightRadius = 12;
-            
-            topRow.Add(nameLbl);
-            topRow.Add(badgeLbl);
+            card.Q<Label>("PlayerName").text = pName;
+            card.Q<Label>("DeathBadge").text = record.endingAchieved;
+            card.Q<Label>("JobTitle").text = record.highestJob;
+            card.Q<Label>("WeeksSurvived").text = $"Survived: {record.weeksSurvived} weeks";
+            card.Q<Label>("FinalBank").text = $"Bank: ${record.finalBalance:F2}";
 
-            // Middle Row: Job Title
-            Label jobLbl = new Label(record.highestJob);
-            jobLbl.style.color = new StyleColor(lightBlue);
-            jobLbl.style.fontSize = 28;
-            jobLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            jobLbl.style.marginTop = 10;
-            jobLbl.style.marginBottom = 20;
-
-            // Bottom Row: Stats
-            VisualElement bottomRow = new VisualElement();
-            bottomRow.AddToClassList("row");
-            
-            Label survivedLbl = new Label($"Survived: {record.weeksSurvived} weeks");
-            survivedLbl.style.color = new StyleColor(grayText);
-            survivedLbl.style.fontSize = 24;
-            
-            Label bankLbl = new Label($"Bank: ${record.finalBalance:F2}");
-            bankLbl.style.color = new StyleColor(grayText);
-            bankLbl.style.fontSize = 24;
-
-            bottomRow.Add(survivedLbl);
-            bottomRow.Add(bankLbl);
-
-            // Assemble everything into the card
-            card.Add(topRow);
-            card.Add(jobLbl);
-            card.Add(bottomRow);
-
-            // Add card to the scroll view container
             historyContainer.Add(card);
         }
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement class="card" style="background-color: rgb(15, 23, 42); padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; margin-bottom: 10px;">
+        <ui:VisualElement class="row" style="flex-direction: row; justify-content: space-between;">
+            <ui:Label name="PlayerName" style="color: rgb(241, 196, 15); -unity-font-style: bold; font-size: 34px;" />
+            <ui:Label name="DeathBadge" style="background-color: rgb(231, 76, 60); color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 24px; padding-left: 20px; padding-right: 20px; padding-top: 8px; padding-bottom: 8px; border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px;" />
+        </ui:VisualElement>
+        <ui:Label name="JobTitle" style="color: rgb(56, 189, 248); font-size: 28px; -unity-font-style: bold; margin-top: 10px; margin-bottom: 20px;" />
+        <ui:VisualElement class="row" style="flex-direction: row; justify-content: space-between;">
+            <ui:Label name="WeeksSurvived" style="color: rgb(148, 163, 184); font-size: 24px;" />
+            <ui:Label name="FinalBank" style="color: rgb(148, 163, 184); font-size: 24px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
