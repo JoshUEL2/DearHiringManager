@@ -922,8 +922,7 @@
 .gm-objective-value { font-size: 24px; -unity-font-style: bold; color: #E4E4E7; }
 
 .gm-editor-window {
-    flex-grow: 1;
-    min-height: 400px;
+    height: 400px;
     margin: 20px;
     background-color: #1E1E1E;
     border-width: 2px;
@@ -1072,8 +1071,7 @@
 }
 
 .css-canvas {
-    flex-grow: 1;
-    min-height: 350px;
+    height: 350px;
     position: relative;
     background-color: #111827;
     align-items: center;

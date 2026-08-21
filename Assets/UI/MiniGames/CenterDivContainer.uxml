@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="CenterDivContainer" class="css-main" style="display: none;">
+    <ui:VisualElement name="CenterDivContainer" class="css-main" style="display: none; height: 500px;">
         
         <ui:VisualElement class="css-hud">
             <ui:Label name="CdScoreText" text="CENTERED: 0 / 3" class="css-hud-score" />

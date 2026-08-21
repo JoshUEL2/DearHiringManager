@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="GitMergeContainer" class="gm-main" style="display: none;">
+    <ui:VisualElement name="GitMergeContainer" class="gm-main" style="display: none; height: 500px;">
         
         <ui:VisualElement class="gm-hud">
             <ui:Label name="GmScoreText" text="RESOLVED: 0 / 5" class="gm-hud-score" />
