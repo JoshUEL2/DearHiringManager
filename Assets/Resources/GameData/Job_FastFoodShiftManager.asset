@@ -26,3 +26,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 1
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Check fryer oil temperature
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Restock condiment stations
+    stressCost: 0.04
+    readinessBoost: 0
+  - taskName: Handle customer complaint
+    stressCost: 0.08
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Emergency food prep rush
+    stressCost: 0.18
+    readinessBoost: 0.3
+  - taskName: Deep clean grease traps
+    stressCost: 0.14
+    readinessBoost: 0.22
+  - taskName: Train new hire on POS system
+    stressCost: 0.12
+    readinessBoost: 0.2

@@ -25,3 +25,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Sort iron from copper
+    stressCost: 0.05
+    readinessBoost: 0
+  - taskName: Stack rusty steel pipes
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Clear conveyor dust filters
+    stressCost: 0.05
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Inspect lithium reactor tubes
+    stressCost: 0.15
+    readinessBoost: 0.25
+  - taskName: Carry tungsten girders
+    stressCost: 0.18
+    readinessBoost: 0.35
+  - taskName: Audit sewage drainage lines
+    stressCost: 0.11
+    readinessBoost: 0.18

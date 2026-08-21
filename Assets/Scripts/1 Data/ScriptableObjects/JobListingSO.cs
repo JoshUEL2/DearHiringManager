@@ -19,4 +19,16 @@ public class JobListingSO : ScriptableObject
     public bool isEntryLevelShiftSubstitute;
     public bool nepotismNeeded;
     public bool requiresFinancialDistrict;
+
+    [Header("Tasks")]
+    public System.Collections.Generic.List<JobTask> regularTasks = new System.Collections.Generic.List<JobTask>();
+    public System.Collections.Generic.List<JobTask> extraTasks = new System.Collections.Generic.List<JobTask>();
+}
+
+[System.Serializable]
+public class JobTask
+{
+    public string taskName;
+    public float stressCost;
+    public float readinessBoost;
 }

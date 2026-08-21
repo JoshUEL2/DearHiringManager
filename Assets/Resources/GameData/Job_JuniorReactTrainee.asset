@@ -26,3 +26,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 1
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Test program accuracy
+    stressCost: 0.04
+    readinessBoost: 0
+  - taskName: Fix CSS layout locations
+    stressCost: 0.05
+    readinessBoost: 0
+  - taskName: Center content icons
+    stressCost: 0.04
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Resolve Git merge conflicts
+    stressCost: 0.12
+    readinessBoost: 0.22
+  - taskName: Debug CSS at 3 AM
+    stressCost: 0.14
+    readinessBoost: 0.28
+  - taskName: Inject untested code
+    stressCost: 0.16
+    readinessBoost: 0.35

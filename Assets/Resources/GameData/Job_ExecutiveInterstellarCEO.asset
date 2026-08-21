@@ -26,3 +26,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 1
   requiresFinancialDistrict: 1
+  regularTasks:
+  - taskName: Approve quarterly budget
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Board meeting presentation
+    stressCost: 0.08
+    readinessBoost: 0
+  - taskName: Sign regulatory compliance docs
+    stressCost: 0.04
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Hostile takeover negotiations
+    stressCost: 0.18
+    readinessBoost: 0.35
+  - taskName: Fire underperforming VP
+    stressCost: 0.12
+    readinessBoost: 0.22
+  - taskName: Construction site inspection
+    stressCost: 0.15
+    readinessBoost: 0.28

@@ -25,3 +25,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Send weekly TPS reports
+    stressCost: 0.05
+    readinessBoost: 0
+  - taskName: Attend 3-hour video call
+    stressCost: 0.07
+    readinessBoost: 0
+  - taskName: Reorganize shared drive
+    stressCost: 0.06
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Corporate sprint tasks
+    stressCost: 0.12
+    readinessBoost: 0.2
+  - taskName: Overnight marketing pitch
+    stressCost: 0.16
+    readinessBoost: 0.28
+  - taskName: Agree with executive complaints
+    stressCost: 0.1
+    readinessBoost: 0.18

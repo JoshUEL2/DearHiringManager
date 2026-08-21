@@ -25,3 +25,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Spin arrow sign in traffic
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Dance with sign for tourists
+    stressCost: 0.05
+    readinessBoost: 0
+  - taskName: Wipe smog off the neon arrow
+    stressCost: 0.04
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Perform a triple backflip spin
+    stressCost: 0.15
+    readinessBoost: 0.25
+  - taskName: Hold sign in acid rain storm
+    stressCost: 0.18
+    readinessBoost: 0.3
+  - taskName: Fight rival sign spinner
+    stressCost: 0.16
+    readinessBoost: 0.28

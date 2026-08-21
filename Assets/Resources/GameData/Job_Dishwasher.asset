@@ -25,3 +25,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Scrub dinner plates
+    stressCost: 0.05
+    readinessBoost: 0
+  - taskName: Sweep kitchen floors
+    stressCost: 0.04
+    readinessBoost: 0
+  - taskName: Mop grease spills
+    stressCost: 0.05
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Scour microwave grease
+    stressCost: 0.12
+    readinessBoost: 0.2
+  - taskName: Deep scrub waste containers
+    stressCost: 0.16
+    readinessBoost: 0.32
+  - taskName: Clean fryer grease vats
+    stressCost: 0.1
+    readinessBoost: 0.15

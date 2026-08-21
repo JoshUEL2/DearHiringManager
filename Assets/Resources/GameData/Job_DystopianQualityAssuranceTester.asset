@@ -25,3 +25,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 0
+  regularTasks:
+  - taskName: Run automated test suite
+    stressCost: 0.04
+    readinessBoost: 0
+  - taskName: File bug report
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Verify hotfix deployment
+    stressCost: 0.05
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Regression test full app
+    stressCost: 0.15
+    readinessBoost: 0.25
+  - taskName: Stress test server load
+    stressCost: 0.14
+    readinessBoost: 0.22
+  - taskName: Write flaky test workaround
+    stressCost: 0.12
+    readinessBoost: 0.2

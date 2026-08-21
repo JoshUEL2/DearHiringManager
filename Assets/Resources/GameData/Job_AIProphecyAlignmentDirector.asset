@@ -26,3 +26,23 @@ MonoBehaviour:
   isEntryLevelShiftSubstitute: 0
   nepotismNeeded: 0
   requiresFinancialDistrict: 1
+  regularTasks:
+  - taskName: Calibrate neural alignment matrix
+    stressCost: 0.08
+    readinessBoost: 0
+  - taskName: Review AI ethics proposals
+    stressCost: 0.06
+    readinessBoost: 0
+  - taskName: Monitor sentience detection array
+    stressCost: 0.07
+    readinessBoost: 0
+  extraTasks:
+  - taskName: Emergency AI containment protocol
+    stressCost: 0.22
+    readinessBoost: 0.4
+  - taskName: Align superintelligence reward function
+    stressCost: 0.18
+    readinessBoost: 0.32
+  - taskName: Present findings to Galactic Council
+    stressCost: 0.15
+    readinessBoost: 0.25
