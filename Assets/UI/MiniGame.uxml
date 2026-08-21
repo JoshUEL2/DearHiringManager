@@ -83,7 +83,7 @@
             <ui:Label name="OperationNameText" text="[Name]" style="font-size: 38px; -unity-font-style: bold; color: #38BDF8; margin-bottom: 10px; -unity-text-align: middle-center;" />
             <ui:Label name="InstructionsText" text="[Instructions go here]" style="font-size: 28px; color: #FFFFFF; white-space: normal; margin-bottom: 30px; -unity-text-align: middle-center;" />
 
-            <ui:ScrollView style="flex-grow: 1; min-height: 500px; max-height: 900px;">
+            <ui:ScrollView style="flex-grow: 1; min-height: 500px; max-height: 900px; width: 100%;">
                 <ui:Instance template="AcidRainContainer" />
                 <ui:Instance template="AutomatedTestsContainer" />
                 <ui:Instance template="BalanceMeterContainer" />
