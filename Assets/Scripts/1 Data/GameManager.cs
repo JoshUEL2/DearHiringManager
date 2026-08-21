@@ -134,78 +134,22 @@ public class GameManager : MonoBehaviour
             currentData.completedCourses.Add(title);
         }
 
-        if (title == "React Bootcamp") currentData.hasBootcamp = true;
-        if (title == "BA (Trash Sorting)") currentData.hasBa = true;
-        if (title == "MA (Corp Aggression)") currentData.hasMa = true;
-        if (title == "PhD (Greasology)") currentData.hasPhd = true;
-
-        var boost = GetCourseBoost(title);
-        if (boost.category != JobSector.None)
+        var course = gameDatabase.courses.Find(c => c.title == title);
+        if (course != null)
         {
-            float amt = boost.amount;
-            switch (boost.category)
+            if (course.unlocksBootcamp) currentData.hasBootcamp = true;
+            if (course.unlocksBA) currentData.hasBa = true;
+            if (course.unlocksMA) currentData.hasMa = true;
+            if (course.unlocksPhD) currentData.hasPhd = true;
+
+            float amt = course.luckBoostAmount;
+            switch (course.luckCategory)
             {
                 case JobSector.Manual: currentData.luckManualService = Mathf.Clamp(currentData.luckManualService + amt, 0f, 1f); break;
                 case JobSector.Hospitality: currentData.luckHospitality = Mathf.Clamp(currentData.luckHospitality + amt, 0f, 1f); break;
                 case JobSector.Tech: currentData.luckTechnology = Mathf.Clamp(currentData.luckTechnology + amt, 0f, 1f); break;
                 case JobSector.Corp: currentData.luckCorporate = Mathf.Clamp(currentData.luckCorporate + amt, 0f, 1f); break;
             }
-        }
-    }
-
-    private (JobSector category, float amount) GetCourseBoost(string title)
-    {
-        switch (title)
-        {
-            case "React Bootcamp": return (JobSector.Tech, 0.08f);
-            case "MS in Reactive Component Lifecycle": return (JobSector.Tech, 0.12f);
-            case "PhD in Virtual DOM & Fiber Splicing": return (JobSector.Tech, 0.18f);
-
-            case "BA (Trash Sorting)": return (JobSector.Manual, 0.05f);
-            case "MA (Corp Aggression)": return (JobSector.Corp, 0.10f);
-            case "PhD (Greasology)": return (JobSector.Corp, 0.15f);
-
-            case "Solar Energy Certification": return (JobSector.Manual, 0.05f);
-            case "MS in Photovoltaic Science": return (JobSector.Manual, 0.08f);
-            case "PhD (Solar Quantum Fusion)": return (JobSector.Manual, 0.12f);
-
-            case "Certified Barista Basics": return (JobSector.Hospitality, 0.05f);
-            case "MS in Artisan Latte Artistry": return (JobSector.Hospitality, 0.08f);
-            case "PhD (Sensory Siphon Extraction)": return (JobSector.Hospitality, 0.12f);
-
-            case "Plumbing Systems 101": return (JobSector.Manual, 0.05f);
-            case "MS in Liquid Logic Architecture": return (JobSector.Manual, 0.08f);
-            case "PhD (Hydrodynamic Resonance)": return (JobSector.Manual, 0.12f);
-
-            case "Basics of Hologram Projection": return (JobSector.Tech, 0.05f);
-            case "MS in High-Fidelity Persona Design": return (JobSector.Tech, 0.08f);
-            case "PhD (Synthetic Neural Theater)": return (JobSector.Tech, 0.12f);
-
-            case "Introductory Algae Biology": return (JobSector.Manual, 0.05f);
-            case "MS in Bioluminescent Agriculture": return (JobSector.Tech, 0.08f);
-            case "PhD (Chloroplast Optimization)": return (JobSector.Tech, 0.12f);
-
-            case "Basic Courier Route Navigation": return (JobSector.Manual, 0.05f);
-            case "MS in Advanced Logistical Trajectories": return (JobSector.Manual, 0.08f);
-            case "PhD (Sub-orbital Route Design)": return (JobSector.Manual, 0.12f);
-
-            case "Drone Core Mechanics": return (JobSector.Tech, 0.05f);
-            case "MS in Autonomous Aviatronic Engineering": return (JobSector.Tech, 0.08f);
-            case "PhD (Robotic Aerodynamics)": return (JobSector.Tech, 0.12f);
-
-            case "Introduction to Cybersecurity": return (JobSector.Tech, 0.05f);
-            case "MS in Network Cryptographic Defense": return (JobSector.Tech, 0.08f);
-            case "PhD (Quantum Memory Cryptology)": return (JobSector.Tech, 0.12f);
-
-            case "Artisanal Beverage Blending": return (JobSector.Hospitality, 0.05f);
-            case "MS in Gaseous Flavor Infusion": return (JobSector.Hospitality, 0.08f);
-            case "PhD (Carbonated Chemistry Dynamics)": return (JobSector.Hospitality, 0.12f);
-
-            case "Retro Typewriter Restorations": return (JobSector.Corp, 0.05f);
-            case "MS in Precision Chronograph Preservation": return (JobSector.Corp, 0.08f);
-            case "PhD (Chronological Mechanical Archeology)": return (JobSector.Corp, 0.12f);
-
-            default: return (JobSector.None, 0.0f);
         }
     }
 

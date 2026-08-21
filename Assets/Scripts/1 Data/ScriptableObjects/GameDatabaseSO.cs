@@ -14,4 +14,7 @@ public class GameDatabaseSO : ScriptableObject
     public List<RandomEventSO> goodEvents;
     public List<RandomEventSO> badEvents;
     public List<NewsEventSO> newsEvents;
+
+    [Header("Education")]
+    public List<CourseSO> courses;
 }
