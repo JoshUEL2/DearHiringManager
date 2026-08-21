@@ -11,7 +11,7 @@ public class SizeMatchMiniGame : IMiniGame
     private Label scoreText;
     private Label timeText;
     private VisualElement targetBox;
-    private VisualElement changingBox;
+    private Button changingBox; // Button so clicks work at all sizes
     private VisualElement flashOverlay;
 
     private int score = 0;
@@ -25,13 +25,14 @@ public class SizeMatchMiniGame : IMiniGame
         this.config = config;
         container = root.Q<VisualElement>("SizeMatchContainer");
 
-        scoreText = container.Q<Label>("SmScoreText");
-        timeText = container.Q<Label>("SmTimeText");
+        // Use the ORIGINAL element names from the UXML
+        scoreText = container.Q<Label>("SmRoundText");
+        timeText = container.Q<Label>("SmTimerText");
         targetBox = container.Q<VisualElement>("SmTargetBox");
-        changingBox = container.Q<VisualElement>("SmChangingBox");
+        changingBox = container.Q<Button>("SmBtnChangingBox");
         flashOverlay = container.Q<VisualElement>("SmFlashOverlay");
 
-        changingBox.RegisterCallback<PointerDownEvent>(OnBoxClicked);
+        changingBox.clicked += OnBoxClicked;
     }
 
     public void StartGame()
@@ -41,7 +42,7 @@ public class SizeMatchMiniGame : IMiniGame
         currentScale = 0.2f;
         scaleDir = 1f;
         container.style.display = DisplayStyle.Flex;
-        changingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.84f, 0.13f)); // Yellow
+        changingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); // Orange
 
         UpdateScoreText();
         manager.StartCoroutine(GameRoutine());
@@ -50,21 +51,21 @@ public class SizeMatchMiniGame : IMiniGame
     public void AbortGame()
     {
         container.style.display = DisplayStyle.None;
-        changingBox.UnregisterCallback<PointerDownEvent>(OnBoxClicked);
+        changingBox.clicked -= OnBoxClicked;
     }
 
-    private void OnBoxClicked(PointerDownEvent e)
+    private void OnBoxClicked()
     {
         if (!manager.isPlaying) return;
 
         float diff = Mathf.Abs(currentScale - 1.0f);
-        float tolerance = 0.15f; // Slightly forgiving
+        float tolerance = 0.1f; // Match legacy tolerance
 
         if (diff <= tolerance)
         {
             score++;
             UpdateScoreText();
-            manager.StartCoroutine(FlashEffect(true));
+            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(true));
 
             if (score >= 3)
             {
@@ -74,15 +75,14 @@ public class SizeMatchMiniGame : IMiniGame
         }
         else
         {
-            manager.StartCoroutine(FlashEffect(false));
-            timeRemaining -= 2f;
+            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(false));
+            timeRemaining -= 1.5f;
         }
-        
-        e.StopPropagation();
     }
 
     private IEnumerator FlashEffect(bool success)
     {
+        if (flashOverlay == null) yield break;
         flashOverlay.style.opacity = 1f;
         flashOverlay.style.backgroundColor = success ? new StyleColor(Color.white) : new StyleColor(new Color(0.9f, 0.1f, 0.1f, 0.5f));
         yield return new WaitForSeconds(0.1f);
@@ -93,7 +93,7 @@ public class SizeMatchMiniGame : IMiniGame
     {
         if (scoreText != null)
         {
-            scoreText.text = $"MATCHED: {score} / 3";
+            scoreText.text = $"Matched: {score}/3";
         }
     }
 
@@ -103,7 +103,7 @@ public class SizeMatchMiniGame : IMiniGame
         {
             float dt = Time.deltaTime;
             timeRemaining -= dt;
-            if (timeText != null) timeText.text = $"TIME: {Mathf.Max(0, timeRemaining):F1}s";
+            if (timeText != null) timeText.text = $"{Mathf.Max(0, timeRemaining):F1}s";
 
             if (timeRemaining <= 0)
             {

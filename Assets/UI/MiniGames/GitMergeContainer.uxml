@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="GitMergeContainer" class="gm-main" style="display: none; height: 500px;">
+    <ui:VisualElement name="GitMergeContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
         
-        <ui:VisualElement class="gm-hud">
-            <ui:Label name="GmScoreText" text="RESOLVED: 0 / 5" class="gm-hud-score" />
-            <ui:Label name="GmTimeText" text="TIME: 15.0s" class="gm-hud-time" />
+        <!-- HUD -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+            <ui:Label name="GmScoreText" text="RESOLVED: 0 / 5" style="font-size: 26px; color: #4ADE80; -unity-font-style: bold;" />
+            <ui:Label name="GmTimeText" text="TIME: 15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
         </ui:VisualElement>
 
-        <ui:VisualElement class="gm-objective-box">
-            <ui:Label text="OBJECTIVE:" class="gm-objective-title" />
-            <ui:Label name="GmObjectiveText" text="Implement Dark Mode" class="gm-objective-value" />
+        <!-- Objective -->
+        <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px; padding: 10px; background-color: #1E293B; border-radius: 8px; border-width: 1px; border-color: #334155;">
+            <ui:Label text="OBJECTIVE:" style="font-size: 20px; color: #A1A1AA; margin-right: 15px;" />
+            <ui:Label name="GmObjectiveText" text="Implement Dark Mode" style="font-size: 24px; -unity-font-style: bold; color: #E4E4E7;" />
         </ui:VisualElement>
 
-        <ui:VisualElement class="gm-editor-window">
+        <!-- Editor Window -->
+        <ui:VisualElement style="background-color: #1E1E1E; border-width: 2px; border-color: #3C3C3C; border-radius: 8px; overflow: hidden;">
             
-            <ui:VisualElement class="gm-editor-header">
-                <ui:Label text="merge_conflict.cs" class="gm-editor-tab" />
+            <!-- Editor Header -->
+            <ui:VisualElement style="background-color: #2D2D2D; padding: 8px 15px; border-bottom-width: 1px; border-color: #3C3C3C;">
+                <ui:Label text="merge_conflict.cs" style="font-size: 18px; color: #CCCCCC;" />
             </ui:VisualElement>
             
-            <ui:VisualElement name="GmConflictArea" class="gm-conflict-area">
+            <!-- Conflict Area -->
+            <ui:VisualElement name="GmConflictArea" style="padding: 10px;">
                 
-                <ui:Button name="GmCurrentBtn" class="gm-block-btn gm-block-current">
-                    <ui:Label text="&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current Change)" class="gm-block-header gm-text-green" />
-                    <ui:Label name="GmCurrentCodeText" text="theme = 'light';" class="gm-block-code" />
+                <ui:Button name="GmCurrentBtn" style="margin-bottom: 5px; padding: 15px; background-color: rgba(5, 150, 105, 0.1); border-width: 1px; border-color: #065F46; border-radius: 6px;">
+                    <ui:Label text="&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current Change)" style="font-size: 16px; -unity-font-style: bold; color: #34D399; margin-bottom: 8px;" />
+                    <ui:Label name="GmCurrentCodeText" text="theme = 'light';" style="font-size: 20px; color: #A7F3D0; -unity-font-style: bold;" />
                 </ui:Button>
 
-                <ui:VisualElement class="gm-separator">
-                    <ui:Label text="=======================" class="gm-separator-text" />
+                <ui:VisualElement style="align-items: center; padding: 5px;">
+                    <ui:Label text="=======================" style="font-size: 14px; color: #71717A; -unity-font-style: bold; letter-spacing: 3px;" />
                 </ui:VisualElement>
 
-                <ui:Button name="GmIncomingBtn" class="gm-block-btn gm-block-incoming">
-                    <ui:Label text="&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/dark-mode (Incoming Change)" class="gm-block-header gm-text-blue" />
-                    <ui:Label name="GmIncomingCodeText" text="theme = 'dark';" class="gm-block-code" />
+                <ui:Button name="GmIncomingBtn" style="margin-top: 5px; padding: 15px; background-color: rgba(37, 99, 235, 0.1); border-width: 1px; border-color: #1E3A8A; border-radius: 6px;">
+                    <ui:Label text="&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/dark-mode (Incoming Change)" style="font-size: 16px; -unity-font-style: bold; color: #60A5FA; margin-bottom: 8px;" />
+                    <ui:Label name="GmIncomingCodeText" text="theme = 'dark';" style="font-size: 20px; color: #BFDBFE; -unity-font-style: bold;" />
                 </ui:Button>
 
             </ui:VisualElement>

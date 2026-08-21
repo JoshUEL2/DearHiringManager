@@ -922,6 +922,8 @@ public partial class MiniGameManager : MonoBehaviour
         nmContainer = root.Q<VisualElement>("NameMemoryContainer");
         // NameMemory UI elements are queried in SetupNameMemory() now
 
+        gitMergeContainer = root.Q<VisualElement>("GitMergeContainer");
+
         rrContainer = root.Q<UnityEngine.UIElements.VisualElement>("RetroRacerContainer");
         if (rrContainer != null)
         {
@@ -1263,6 +1265,7 @@ public partial class MiniGameManager : MonoBehaviour
         if(isContainer != null) isContainer.style.display = DisplayStyle.None;
         if(nmContainer != null) nmContainer.style.display = DisplayStyle.None;
         if(rrContainer != null) rrContainer.style.display = DisplayStyle.None;
+        if(gitMergeContainer != null) gitMergeContainer.style.display = DisplayStyle.None;
     }
     public void SetupGameType(GameType type)
     {

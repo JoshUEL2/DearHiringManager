@@ -8,14 +8,15 @@ public class DragCenterMiniGame : IMiniGame
     private MiniGameConfig config;
     private VisualElement container;
 
-    private Label scoreText;
-    private Label timeText;
+    private Label scoreText;   // DcRoundText (round counter)
+    private Label timeText;    // DcTimerText
     private VisualElement workArea;
-    private VisualElement draggableIcon;
-    private Button confirmBtn;
+    private Label draggableIcon; // Label with emoji
+    private Button confirmBtn;   // DcBtnConfirm
     private VisualElement targetCrosshair;
     private VisualElement scoreArea;
-    private Label scoreValueText;
+    private Label scoreValueText;  // DcScoreText (accuracy %)
+    private VisualElement scoreBarFill; // DcScoreBarFill
 
     private int score = 0;
     private float timeRemaining = 15f;
@@ -28,14 +29,16 @@ public class DragCenterMiniGame : IMiniGame
         this.config = config;
         container = root.Q<VisualElement>("DragCenterContainer");
 
-        scoreText = container.Q<Label>("DcScoreText");
-        timeText = container.Q<Label>("DcTimeText");
+        // Use the ORIGINAL element names from the UXML
+        scoreText = container.Q<Label>("DcRoundText");
+        timeText = container.Q<Label>("DcTimerText");
         workArea = container.Q<VisualElement>("DcWorkArea");
-        draggableIcon = container.Q<VisualElement>("DcDraggableIcon");
-        confirmBtn = container.Q<Button>("DcConfirmBtn");
+        draggableIcon = container.Q<Label>("DcDraggableIcon");
+        confirmBtn = container.Q<Button>("DcBtnConfirm");
         targetCrosshair = container.Q<VisualElement>("DcTargetCrosshair");
         scoreArea = container.Q<VisualElement>("DcScoreArea");
-        scoreValueText = container.Q<Label>("DcScoreValueText");
+        scoreValueText = container.Q<Label>("DcScoreText");
+        scoreBarFill = container.Q<VisualElement>("DcScoreBarFill");
 
         draggableIcon.RegisterCallback<PointerDownEvent>(OnPointerDown);
         draggableIcon.RegisterCallback<PointerMoveEvent>(OnPointerMove);
@@ -138,22 +141,23 @@ public class DragCenterMiniGame : IMiniGame
         float actualDist = Mathf.Sqrt(distX*distX + distY*distY);
         
         float matchPercent = Mathf.Clamp01(1f - (actualDist / maxDist)) * 100f;
-        // Make it easier: if within 8%, consider it perfect
-        if (actualDist < 8f) matchPercent = 100f; 
         
         scoreArea.style.display = DisplayStyle.Flex;
-        scoreValueText.text = $"{matchPercent:F0}% MATCH";
+        if (scoreValueText != null) scoreValueText.text = $"Accuracy: {matchPercent:F0}%";
         
-        if (matchPercent >= 95f)
+        // Animate the score bar
+        if (scoreBarFill != null) scoreBarFill.style.width = new Length(matchPercent, LengthUnit.Percent);
+        
+        if (matchPercent >= 90f) // Use legacy 90% threshold
         {
-            scoreValueText.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
+            if (scoreValueText != null) scoreValueText.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
             score++;
             UpdateScoreText();
         }
         else
         {
-            scoreValueText.style.color = new StyleColor(new Color(0.9f, 0.1f, 0.1f)); // Red
-            timeRemaining -= 2f;
+            if (scoreValueText != null) scoreValueText.style.color = new StyleColor(new Color(0.9f, 0.1f, 0.1f)); // Red
+            timeRemaining -= 1.5f;
         }
         
         yield return new WaitForSeconds(1f);
@@ -172,7 +176,7 @@ public class DragCenterMiniGame : IMiniGame
     {
         if (scoreText != null)
         {
-            scoreText.text = $"CENTERED: {score} / 3";
+            scoreText.text = $"Centered: {score}/3";
         }
     }
 
@@ -183,7 +187,7 @@ public class DragCenterMiniGame : IMiniGame
             if (!isScoring)
             {
                 timeRemaining -= Time.deltaTime;
-                if (timeText != null) timeText.text = $"TIME: {Mathf.Max(0, timeRemaining):F1}s";
+                if (timeText != null) timeText.text = $"{Mathf.Max(0, timeRemaining):F1}s";
 
                 if (timeRemaining <= 0)
                 {

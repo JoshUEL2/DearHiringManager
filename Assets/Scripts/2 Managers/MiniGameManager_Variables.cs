@@ -486,6 +486,9 @@ public partial class MiniGameManager : MonoBehaviour
     private int nmCorrectIndex = -1;
     private bool nmIsAnsweringPhase = false;
 
+    // GitMerge
+    private UnityEngine.UIElements.VisualElement gitMergeContainer;
+
     // RetroRacer
     private UnityEngine.UIElements.VisualElement rrContainer;
     private UnityEngine.UIElements.Label rrPlayer;

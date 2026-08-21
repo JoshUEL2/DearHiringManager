@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="CenterDivContainer" class="css-main" style="display: none; height: 500px;">
-        
-        <ui:VisualElement class="css-hud">
-            <ui:Label name="CdScoreText" text="CENTERED: 0 / 3" class="css-hud-score" />
-            <ui:Label name="CdTimeText" text="TIME: 15.0s" class="css-hud-time" />
-        </ui:VisualElement>
+<ui:VisualElement name="CenterDivContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+                        <ui:Label name="CdRoundText" text="Centered: 0/3" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                        <ui:Label name="CdTimerText" text="15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
+                    </ui:VisualElement>
 
-        <ui:VisualElement class="css-code-box">
-            <ui:Label text=".container {" class="css-code-line" />
-            <ui:Label text="    justify-content: center;" class="css-code-line css-code-highlight" />
-            <ui:Label text="}" class="css-code-line" />
-        </ui:VisualElement>
+                    <!-- The Browser Window -->
+                    <ui:VisualElement style="background-color: #E2E8F0; width: 100%; height: 350px; border-radius: 10px; margin-bottom: 30px; position: relative; overflow: hidden; border-width: 4px; border-color: #94A3B8;">
+                        <!-- Target dashed box -->
+                        <ui:VisualElement name="CdTargetBox" style="position: absolute; left: 50%; top: 50%; width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; border-width: 4px; border-color: #3B82F6; border-radius: 10px; background-color: rgba(59, 130, 246, 0.2);" />
+                        <!-- Sliding solid box -->
+                        <ui:VisualElement name="CdMovingBox" style="position: absolute; left: 0%; top: 50%; width: 100px; height: 100px; margin-top: -50px; background-color: #F59E0B; border-radius: 8px; border-width: 4px; border-color: #D97706;" />
+                    </ui:VisualElement>
 
-        <ui:VisualElement class="css-canvas">
-            <ui:VisualElement class="css-grid-bg" />
-            
-            <ui:VisualElement class="cd-track">
-                <ui:VisualElement name="CdTargetBox" class="cd-target" />
-                <ui:VisualElement name="CdMovingBox" class="cd-moving" />
-            </ui:VisualElement>
+                    <!-- Center Button -->
+                    <ui:Button name="CdBtnCenter" text="[ margin: auto; ]" class="popup-button" style="width: 90%; align-self: center; background-color: #38BDF8; color: #0F172A; font-size: 38px; -unity-font-style: bold; border-radius: 20px; padding: 35px; border-width: 4px; border-color: #0284C7;" />
 
-            <ui:Button name="CdCenterBtn" text="SET POSITION" class="css-btn" />
-            <ui:VisualElement name="CdFlashOverlay" class="css-flash-overlay" />
-        </ui:VisualElement>
-
-    </ui:VisualElement>
+                    <!-- Flash overlay for feedback -->
+                    <ui:VisualElement name="CdFlashOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; opacity: 0;" />
+                </ui:VisualElement>
 </ui:UXML>

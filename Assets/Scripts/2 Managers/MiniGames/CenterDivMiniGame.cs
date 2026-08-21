@@ -27,11 +27,12 @@ public class CenterDivMiniGame : IMiniGame
         this.config = config;
         container = root.Q<VisualElement>("CenterDivContainer");
 
-        scoreText = container.Q<Label>("CdScoreText");
-        timeText = container.Q<Label>("CdTimeText");
+        // Use the ORIGINAL element names from the UXML
+        scoreText = container.Q<Label>("CdRoundText");
+        timeText = container.Q<Label>("CdTimerText");
         targetBox = container.Q<VisualElement>("CdTargetBox");
         movingBox = container.Q<VisualElement>("CdMovingBox");
-        centerBtn = container.Q<Button>("CdCenterBtn");
+        centerBtn = container.Q<Button>("CdBtnCenter");
         flashOverlay = container.Q<VisualElement>("CdFlashOverlay");
 
         centerBtn.clicked += OnCenterClicked;
@@ -65,7 +66,7 @@ public class CenterDivMiniGame : IMiniGame
         movingBoxPos = Random.value > 0.5f ? 0f : 100f;
         movingBoxDir = movingBoxPos == 0f ? 1f : -1f;
         
-        movingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.84f, 0.96f)); // Cyan
+        movingBox.style.backgroundColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); // Orange
     }
 
     private void OnCenterClicked()
@@ -80,7 +81,7 @@ public class CenterDivMiniGame : IMiniGame
         {
             score++;
             UpdateScoreText();
-            manager.StartCoroutine(FlashEffect(true));
+            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(true));
 
             if (score >= config.centerDivTargets)
             {
@@ -94,13 +95,14 @@ public class CenterDivMiniGame : IMiniGame
         }
         else
         {
-            manager.StartCoroutine(FlashEffect(false));
-            timeRemaining -= 2f;
+            if (flashOverlay != null) manager.StartCoroutine(FlashEffect(false));
+            timeRemaining -= 1.5f;
         }
     }
 
     private IEnumerator FlashEffect(bool success)
     {
+        if (flashOverlay == null) yield break;
         flashOverlay.style.opacity = 1f;
         flashOverlay.style.backgroundColor = success ? new StyleColor(Color.white) : new StyleColor(new Color(0.9f, 0.1f, 0.1f, 0.5f));
         yield return new WaitForSeconds(0.1f);
@@ -111,7 +113,7 @@ public class CenterDivMiniGame : IMiniGame
     {
         if (scoreText != null)
         {
-            scoreText.text = $"CENTERED: {score} / {config.centerDivTargets}";
+            scoreText.text = $"Centered: {score}/{config.centerDivTargets}";
         }
     }
 
@@ -121,7 +123,7 @@ public class CenterDivMiniGame : IMiniGame
         {
             float dt = Time.deltaTime;
             timeRemaining -= dt;
-            if (timeText != null) timeText.text = $"TIME: {Mathf.Max(0, timeRemaining):F1}s";
+            if (timeText != null) timeText.text = $"{Mathf.Max(0, timeRemaining):F1}s";
 
             if (timeRemaining <= 0)
             {
@@ -129,7 +131,8 @@ public class CenterDivMiniGame : IMiniGame
                 yield break;
             }
 
-            movingBoxPos += currentSpeed * movingBoxDir * dt * 0.05f; 
+            // Use the same speed math as the legacy coroutine: (speed / 10f) * dt
+            movingBoxPos += (currentSpeed / 10f) * movingBoxDir * dt;
             if (movingBoxPos > 100f)
             {
                 movingBoxPos = 100f;
