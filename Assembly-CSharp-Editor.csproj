@@ -57,6 +57,7 @@
     <Compile Include="Assets/Editor/SceneSetupExporter.cs" />
     <Compile Include="Assets/Editor/JobDataMigrator.cs" />
     <Compile Include="Assets/Editor/CourseGenerator.cs" />
+    <Compile Include="Assets/Editor/LogSniffer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
