@@ -230,7 +230,7 @@ public class EducationUI
 
         if (!string.IsNullOrEmpty(data.activeEducationTitle))
         {
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "ENROLLMENT ERROR", 
                 description = "You are already studying for a degree. Drop out first!" 
             });
@@ -239,7 +239,7 @@ public class EducationUI
 
         if (data.balance < course.cost)
         {
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "TUITION REJECT", 
                 description = "Insufficient funds to cover the first week of tuition." 
             });
@@ -252,12 +252,12 @@ public class EducationUI
         GameManager.Instance.currentData.weeklyEducationCost = course.cost;
         GameManager.Instance.currentData.weeklyEducationStress = course.stress;
 
-        global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+        GameEvents.TriggerShowPopup(new RandomEvent { 
             title = "ENROLLED!", 
             description = $"You are now studying for: {course.title}.\n\n<color=#E74C3C>Tuition of ${course.cost} was deducted and will recur weekly.</color>" 
         }, () => {
             GameManager.Instance.CheckHeartAttack(() => {
-                global::GameUIManager.Instance.SwitchToDashboard();
+                GameEvents.TriggerSwitchToDashboard();
             });
         });
         GameManager.Instance.SaveGame();
@@ -272,12 +272,12 @@ public class EducationUI
         GameManager.Instance.currentData.weeklyEducationCost = 0.0;
         GameManager.Instance.currentData.weeklyEducationStress = 0.0f;
 
-        global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+        GameEvents.TriggerShowPopup(new RandomEvent { 
             title = "DROPPED OUT", 
             description = "You abandoned your studies. Prior investments lost." 
         }, () => {
             GameManager.Instance.CheckHeartAttack(() => {
-                global::GameUIManager.Instance.SwitchToDashboard();
+                GameEvents.TriggerSwitchToDashboard();
             });
         });
         GameManager.Instance.SaveGame();

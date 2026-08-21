@@ -37,7 +37,7 @@ public class FinancialSystem : IWeeklySystem
         {
             string oldJob = data.jobTitle;
             data.jobTitle = "Unemployed";
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "FIRED!", 
                 description = $"You failed to complete your 3 required weekly tasks for {oldJob}. You have been terminated and security has escorted you off the premises." 
             });

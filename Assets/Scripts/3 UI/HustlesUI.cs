@@ -133,7 +133,7 @@ public class HustlesUI
         var data = GameManager.Instance.currentData;
         if (data.hustlesCompletedThisWeek >= 3)
         {
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "EXHAUSTION", 
                 description = "You've reached your maximum of 3 side hustles this week. You must advance the week (+ Week) to recover your stamina." 
             });

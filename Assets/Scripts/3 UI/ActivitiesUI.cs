@@ -55,7 +55,7 @@ public class ActivitiesUI
         }
         else
         {
-            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "INSUFFICIENT FUNDS", 
                 description = $"You need <color=#E74C3C>${cost}</color> to purchase {actName}." 
             });
@@ -80,7 +80,7 @@ public class ActivitiesUI
         }
         else
         {
-            global::GameUIManager.Instance?.ShowPopup(new RandomEvent { 
+            GameEvents.TriggerShowPopup(new RandomEvent { 
                 title = "INSUFFICIENT FUNDS", 
                 description = $"You need <color=#E74C3C>${cost}</color> to attend this networking mixer." 
             });

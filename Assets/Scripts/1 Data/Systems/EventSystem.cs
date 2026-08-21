@@ -47,7 +47,7 @@ public class EventSystem : IWeeklySystem
         
         if (manager.activeEventPopup != null)
         {
-            global::GameUIManager.Instance.ShowPopup(manager.activeEventPopup);
+            GameEvents.TriggerShowPopup(manager.activeEventPopup);
         }
 
         return true;

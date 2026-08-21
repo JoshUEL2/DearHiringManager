@@ -49,6 +49,10 @@ public class GameUIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        GameEvents.OnShowPopupSO += ShowPopup;
+        GameEvents.OnShowPopup += ShowPopup;
+        GameEvents.OnSwitchToDashboard += SwitchToDashboard;
+
         creationRoot = creationDocument.rootVisualElement;
         dashboardRoot = dashboardDocument.rootVisualElement;
         careersRoot = careersDocument.rootVisualElement;
@@ -204,6 +208,9 @@ public class GameUIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        GameEvents.OnShowPopupSO -= ShowPopup;
+        GameEvents.OnShowPopup -= ShowPopup;
+        GameEvents.OnSwitchToDashboard -= SwitchToDashboard;
         Application.logMessageReceived -= OnDebugLogReceived;
     }
 
