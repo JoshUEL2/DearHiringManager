@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour
         else 
         {
             Instance = this;
+            if (gameDatabase == null)
+            {
+                gameDatabase = Resources.Load<GameDatabaseSO>("GameData/GameDatabase");
+            }
             weeklySystems = new List<IWeeklySystem>
             {
                 new JailSystem(),
