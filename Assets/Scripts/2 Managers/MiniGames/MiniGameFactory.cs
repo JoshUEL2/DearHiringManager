@@ -17,6 +17,9 @@ public static class MiniGameFactory
             // ... future ports ...
             case GameType.QATriage: return new QATriageMiniGame();
             case GameType.GitMerge: return new GitMergeMiniGame();
+            case GameType.CenterDiv: return new CenterDivMiniGame();
+            case GameType.SizeMatch: return new SizeMatchMiniGame();
+            case GameType.DragCenter: return new DragCenterMiniGame();
             default:
                 return new LegacyMiniGameWrapper();
         }

@@ -42,6 +42,9 @@
     <ui:Template name="PumpGameContainer" src="MiniGames/PumpGameContainer.uxml" />
     <ui:Template name="QATriageContainer" src="MiniGames/QATriageContainer.uxml" />
     <ui:Template name="GitMergeContainer" src="MiniGames/GitMergeContainer.uxml" />
+    <ui:Template name="CenterDivContainer" src="MiniGames/CenterDivContainer.uxml" />
+    <ui:Template name="SizeMatchContainer" src="MiniGames/SizeMatchContainer.uxml" />
+    <ui:Template name="DragCenterContainer" src="MiniGames/DragCenterContainer.uxml" />
     <ui:Template name="RecycleBottlesContainer" src="MiniGames/RecycleBottlesContainer.uxml" />
     <ui:Template name="RetroRacerContainer" src="MiniGames/RetroRacerContainer.uxml" />
     <ui:Template name="RewardLogicContainer" src="MiniGames/RewardLogicContainer.uxml" />
@@ -123,6 +126,9 @@
                 <ui:Instance template="PumpGameContainer" />
                 <ui:Instance template="QATriageContainer" />
                 <ui:Instance template="GitMergeContainer" />
+                <ui:Instance template="CenterDivContainer" />
+                <ui:Instance template="SizeMatchContainer" />
+                <ui:Instance template="DragCenterContainer" />
                 <ui:Instance template="RecycleBottlesContainer" />
                 <ui:Instance template="RetroRacerContainer" />
                 <ui:Instance template="RewardLogicContainer" />

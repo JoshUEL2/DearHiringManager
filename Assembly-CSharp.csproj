@@ -71,6 +71,7 @@
     <Compile Include="Assets/Scripts/3 UI/HustlesUI.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/GridDodgeMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/NewsEventSO.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/GitMergeMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/PlayerBackstorySO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines3.cs" />
@@ -101,6 +102,7 @@
     <None Include="Assets/UI/MiniGames/SentienceArrayContainer.uxml" />
     <None Include="Assets/UI/MiniGames/NeuralAlignerContainer.uxml" />
     <None Include="Assets/UI/MiniGames/TapGameContainer.uxml" />
+    <None Include="Assets/UI/MiniGames/GitMergeContainer.uxml" />
     <None Include="Assets/UI/MiniGames/ContainmentProtocolContainer.uxml" />
     <None Include="Assets/UI/MiniGames/ConstructionSiteContainer.uxml" />
     <None Include="Assets/UI/MiniGames/NameMemoryContainer.uxml" />
