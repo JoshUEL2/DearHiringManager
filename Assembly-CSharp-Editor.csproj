@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs" />
     <Compile Include="Assets/Editor/SceneSetupExporter.cs" />
+    <Compile Include="Assets/Editor/JobDataMigrator.cs" />
+    <Compile Include="Assets/Editor/CourseGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -49,7 +49,7 @@ public partial class MiniGameManager : MonoBehaviour
     
 
     
-    private void EndGame(bool win)
+    public void EndGame(bool win)
     {
         if (win)
             MarkWinReady();

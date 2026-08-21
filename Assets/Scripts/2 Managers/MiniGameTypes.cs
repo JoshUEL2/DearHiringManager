@@ -18,6 +18,7 @@ public class MiniGameConfig
     public string correctChoice;
     public int sequenceLength;
     public int pairs;
+    public bool canFail = true;
     
     // TimingRing
     public int timingRounds = 3;

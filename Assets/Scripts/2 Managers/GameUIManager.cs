@@ -217,37 +217,42 @@ public class GameUIManager : MonoBehaviour
     private void Start()
     {
         // Initialize all tab controllers (they are plain C# classes, not MonoBehaviours)
-        CareerUI.Instance = new CareerUI();
-        CareerUI.Instance.Initialize(careersDocument);
+        // Each wrapped in try-catch so one failure doesn't block the rest or the debug menu
+        try { CareerUI.Instance = new CareerUI(); CareerUI.Instance.Initialize(careersDocument); }
+        catch (System.Exception e) { Debug.LogError($"[GameUIManager] CareerUI init failed: {e}"); }
 
-        HustlesUI.Instance = new HustlesUI();
-        HustlesUI.Instance.Initialize(hustlesDocument);
+        try { HustlesUI.Instance = new HustlesUI(); HustlesUI.Instance.Initialize(hustlesDocument); }
+        catch (System.Exception e) { Debug.LogError($"[GameUIManager] HustlesUI init failed: {e}"); }
 
-        EducationUI.Instance = new EducationUI();
-        EducationUI.Instance.Initialize(educationDocument);
+        try { EducationUI.Instance = new EducationUI(); EducationUI.Instance.Initialize(educationDocument); }
+        catch (System.Exception e) { Debug.LogError($"[GameUIManager] EducationUI init failed: {e}"); }
 
-        ActivitiesUI.Instance = new ActivitiesUI();
-        ActivitiesUI.Instance.Initialize(activitiesDocument);
+        try { ActivitiesUI.Instance = new ActivitiesUI(); ActivitiesUI.Instance.Initialize(activitiesDocument); }
+        catch (System.Exception e) { Debug.LogError($"[GameUIManager] ActivitiesUI init failed: {e}"); }
 
-        Debug.Log("[GameUIManager] All tab controllers initialized.");
+        Debug.Log("[GameUIManager] Tab controller initialization complete.");
 
         // Strictly check if a save file actually exists on the hard drive
-        if (SaveSystem.LoadActiveGame() != null)
+        try
         {
-            Debug.Log("[GameUIManager] Save file found on disk! Skipping character creation.");
-            CheckJailStatus(); 
+            if (SaveSystem.LoadActiveGame() != null)
+            {
+                Debug.Log("[GameUIManager] Save file found on disk! Skipping character creation.");
+                CheckJailStatus(); 
+            }
+            else
+            {
+                Debug.Log("[GameUIManager] No save file found. Starting character creation.");
+                HideAllTabs();
+                creationRoot.style.display = DisplayStyle.Flex;
+                creationRoot.pickingMode = PickingMode.Position;
+                step1Container.style.display = DisplayStyle.Flex;
+                step2Container.style.display = DisplayStyle.None;
+            }
         }
-        else
-        {
-            Debug.Log("[GameUIManager] No save file found. Starting character creation.");
-            HideAllTabs();
-            creationRoot.style.display = DisplayStyle.Flex;
-            creationRoot.pickingMode = PickingMode.Position;
-            step1Container.style.display = DisplayStyle.Flex;
-            step2Container.style.display = DisplayStyle.None;
-        }
+        catch (System.Exception e) { Debug.LogError($"[GameUIManager] Save check failed: {e}"); }
 
-        // Initialize Debug Menu
+        // Initialize Debug Menu - ALWAYS runs regardless of above errors
         SetupDebugMenu();
     }
 
