@@ -18,55 +18,68 @@ public partial class MiniGameManager : MonoBehaviour
         operationNameText = root.Q<Label>("OperationNameText");
         instructionsText = root.Q<Label>("InstructionsText");
 
+        // Footer
+        btnAbort = root.Q<Button>("BtnAbortMinigame");
+        if (btnAbort != null) btnAbort.clicked += AbortGame;
+
+
+        overlay.style.display = DisplayStyle.None;
+        overlay.pickingMode = PickingMode.Ignore;
+    }
+    private void BindLegacyUI(VisualElement activeRoot)
+    {
+
+        
+
         // Containers
-        tapContainer = root.Q<VisualElement>("TapGameContainer");
-        sliderContainer = root.Q<VisualElement>("SliderGameContainer");
-        choiceContainer = root.Q<VisualElement>("ChoiceGameContainer");
-        sequenceContainer = root.Q<VisualElement>("SequenceGameContainer");
-        swipeContainer = root.Q<VisualElement>("SwipeGameContainer");
-        mashRaceContainer = root.Q<VisualElement>("MashRaceContainer");
-        memoryMatchContainer = root.Q<VisualElement>("MemoryMatchContainer");
+        tapContainer = activeRoot.Q<VisualElement>("TapGameContainer");
+        sliderContainer = activeRoot.Q<VisualElement>("SliderGameContainer");
+        choiceContainer = activeRoot.Q<VisualElement>("ChoiceGameContainer");
+        sequenceContainer = activeRoot.Q<VisualElement>("SequenceGameContainer");
+        swipeContainer = activeRoot.Q<VisualElement>("SwipeGameContainer");
+        mashRaceContainer = activeRoot.Q<VisualElement>("MashRaceContainer");
+        memoryMatchContainer = activeRoot.Q<VisualElement>("MemoryMatchContainer");
 
         // New Containers
-        timingRingContainer = root.Q<VisualElement>("TimingRingContainer");
-        fallingSortContainer = root.Q<VisualElement>("FallingSortContainer");
-        gridDodgeContainer = root.Q<VisualElement>("GridDodgeContainer");
-        whackGridContainer = root.Q<VisualElement>("WhackGridContainer");
-        sweepFloorContainer = root.Q<VisualElement>("SweepFloorContainer");
-        sweepFloorGrid = root.Q<VisualElement>("SweepFloorGrid");
-        scrubPlateContainer = root.Q<VisualElement>("ScrubPlateContainer");
-        scrubProgressBar = root.Q<ProgressBar>("ScrubProgressBar");
-        scrubPlateArea = root.Q<VisualElement>("ScrubPlateArea");
-        scrubDirtOverlay = root.Q<VisualElement>("ScrubDirtOverlay");
-        scrubSponge = root.Q<VisualElement>("ScrubSponge");
+        timingRingContainer = activeRoot.Q<VisualElement>("TimingRingContainer");
+        fallingSortContainer = activeRoot.Q<VisualElement>("FallingSortContainer");
+        gridDodgeContainer = activeRoot.Q<VisualElement>("GridDodgeContainer");
+        whackGridContainer = activeRoot.Q<VisualElement>("WhackGridContainer");
+        sweepFloorContainer = activeRoot.Q<VisualElement>("SweepFloorContainer");
+        sweepFloorGrid = activeRoot.Q<VisualElement>("SweepFloorGrid");
+        scrubPlateContainer = activeRoot.Q<VisualElement>("ScrubPlateContainer");
+        scrubProgressBar = activeRoot.Q<ProgressBar>("ScrubProgressBar");
+        scrubPlateArea = activeRoot.Q<VisualElement>("ScrubPlateArea");
+        scrubDirtOverlay = activeRoot.Q<VisualElement>("ScrubDirtOverlay");
+        scrubSponge = activeRoot.Q<VisualElement>("ScrubSponge");
         
-        pumpGameContainer = root.Q<VisualElement>("PumpGameContainer");
-        pumpProgressBar = root.Q<VisualElement>("PumpProgressBar");
-        pumpNormalBar = root.Q<VisualElement>("PumpNormalBar");
-        pumpDialContainer = root.Q<VisualElement>("PumpDialContainer");
-        pumpDialTargetZone = root.Q<VisualElement>("PumpDialTargetZone");
-        pumpDialTargetArc = root.Q<VisualElement>("PumpDialTargetArc");
-        pumpDialNeedleRotator = root.Q<VisualElement>("PumpDialNeedleRotator");
-        pumpHoldTimerContainer = root.Q<VisualElement>("PumpHoldTimerContainer");
-        pumpHoldTimerBar = root.Q<VisualElement>("PumpHoldTimerBar");
-        pumpHandle = root.Q<VisualElement>("PumpHandle");
-        pumpTrackArea = root.Q<VisualElement>("PumpTrackArea");
+        pumpGameContainer = activeRoot.Q<VisualElement>("PumpGameContainer");
+        pumpProgressBar = activeRoot.Q<VisualElement>("PumpProgressBar");
+        pumpNormalBar = activeRoot.Q<VisualElement>("PumpNormalBar");
+        pumpDialContainer = activeRoot.Q<VisualElement>("PumpDialContainer");
+        pumpDialTargetZone = activeRoot.Q<VisualElement>("PumpDialTargetZone");
+        pumpDialTargetArc = activeRoot.Q<VisualElement>("PumpDialTargetArc");
+        pumpDialNeedleRotator = activeRoot.Q<VisualElement>("PumpDialNeedleRotator");
+        pumpHoldTimerContainer = activeRoot.Q<VisualElement>("PumpHoldTimerContainer");
+        pumpHoldTimerBar = activeRoot.Q<VisualElement>("PumpHoldTimerBar");
+        pumpHandle = activeRoot.Q<VisualElement>("PumpHandle");
+        pumpTrackArea = activeRoot.Q<VisualElement>("PumpTrackArea");
 
-        scrubPlateArea.RegisterCallback<PointerDownEvent>(ev => {
+        scrubPlateArea?.RegisterCallback<PointerDownEvent>(ev => {
             if (currentConfig == null || currentConfig.type != GameType.ScrubPlate || !isPlaying) return;
             lastScrubPos = (Vector2)ev.localPosition;
             scrubPlateArea.CapturePointer(ev.pointerId);
             ev.StopPropagation();
         });
 
-        scrubPlateArea.RegisterCallback<PointerUpEvent>(ev => {
+        scrubPlateArea?.RegisterCallback<PointerUpEvent>(ev => {
             if (scrubPlateArea.HasPointerCapture(ev.pointerId))
             {
                 scrubPlateArea.ReleasePointer(ev.pointerId);
             }
         });
 
-        scrubPlateArea.RegisterCallback<PointerMoveEvent>(ev => {
+        scrubPlateArea?.RegisterCallback<PointerMoveEvent>(ev => {
             if (currentConfig == null || currentConfig.type != GameType.ScrubPlate || !isPlaying) return;
             
             // Constrain sponge visually
@@ -103,7 +116,7 @@ public partial class MiniGameManager : MonoBehaviour
 
         if (pumpTrackArea != null)
         {
-            pumpTrackArea.RegisterCallback<PointerDownEvent>(ev => {
+            pumpTrackArea?.RegisterCallback<PointerDownEvent>(ev => {
                 if (currentConfig == null || currentConfig.type != GameType.PumpSystem || !isPlaying) return;
                 
                 pumpLastY = ev.localPosition.y;
@@ -111,11 +124,11 @@ public partial class MiniGameManager : MonoBehaviour
                 ev.StopPropagation();
             });
             
-            pumpTrackArea.RegisterCallback<PointerUpEvent>(ev => {
+            pumpTrackArea?.RegisterCallback<PointerUpEvent>(ev => {
                 if (pumpTrackArea.HasPointerCapture(ev.pointerId)) pumpTrackArea.ReleasePointer(ev.pointerId);
             });
 
-            pumpTrackArea.RegisterCallback<PointerMoveEvent>(ev => {
+            pumpTrackArea?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (currentConfig == null || currentConfig.type != GameType.PumpSystem || !isPlaying) return;
                 if (pumpTrackArea.HasPointerCapture(ev.pointerId))
                 {
@@ -133,30 +146,30 @@ public partial class MiniGameManager : MonoBehaviour
             });
         }
 
-        root.RegisterCallback<PointerDownEvent>(ev => {
+        activeRoot.RegisterCallback<PointerDownEvent>(ev => {
             if (!isPlaying || currentConfig.type != GameType.SweepFloor) return;
             swipeStartPos = ev.position;
-            root.CapturePointer(ev.pointerId);
+            activeRoot.CapturePointer(ev.pointerId);
             ev.StopPropagation();
         });
 
-        root.RegisterCallback<PointerMoveEvent>(ev => {
+        activeRoot.RegisterCallback<PointerMoveEvent>(ev => {
             if (!isPlaying || currentConfig.type != GameType.SweepFloor) return;
             ev.StopPropagation(); // Prevent ScrollView from intercepting drag!
         });
 
-        root.RegisterCallback<PointerUpEvent>(ev => {
-            if (root.HasPointerCapture(ev.pointerId))
+        activeRoot.RegisterCallback<PointerUpEvent>(ev => {
+            if (activeRoot.HasPointerCapture(ev.pointerId))
             {
-                root.ReleasePointer(ev.pointerId);
+                activeRoot.ReleasePointer(ev.pointerId);
             }
             if (!isPlaying) return;
             // SweepFloor doesn't use swipe release for logic, so just cleanup here
             ev.StopPropagation();
         });
 
-        root.focusable = true;
-        root.RegisterCallback<KeyDownEvent>(ev => {
+        activeRoot.focusable = true;
+        activeRoot.RegisterCallback<KeyDownEvent>(ev => {
             if (!isPlaying || currentConfig == null) return;
             int dx = 0, dy = 0;
             if (ev.keyCode == KeyCode.UpArrow || ev.keyCode == KeyCode.W) dy = -1;
@@ -189,65 +202,65 @@ public partial class MiniGameManager : MonoBehaviour
             }
         }, TrickleDown.TrickleDown);
 
-        codeBreakerContainer = root.Q<VisualElement>("CodeBreakerContainer");
-        balanceMeterContainer = root.Q<VisualElement>("BalanceMeterContainer");
-        dialogueChainContainer = root.Q<VisualElement>("DialogueChainContainer");
-        dialogueTimerBar = root.Q<VisualElement>("DialogueTimerBar");
-        orderQueueContainer = root.Q<VisualElement>("OrderQueueContainer");
-        dragMatchContainer = root.Q<VisualElement>("DragMatchContainer");
-        sprintLaneContainer = root.Q<VisualElement>("SprintLaneContainer");
-        fileSorterContainer = root.Q<VisualElement>("FileSorterContainer");
+        codeBreakerContainer = activeRoot.Q<VisualElement>("CodeBreakerContainer");
+        balanceMeterContainer = activeRoot.Q<VisualElement>("BalanceMeterContainer");
+        dialogueChainContainer = activeRoot.Q<VisualElement>("DialogueChainContainer");
+        dialogueTimerBar = activeRoot.Q<VisualElement>("DialogueTimerBar");
+        orderQueueContainer = activeRoot.Q<VisualElement>("OrderQueueContainer");
+        dragMatchContainer = activeRoot.Q<VisualElement>("DragMatchContainer");
+        sprintLaneContainer = activeRoot.Q<VisualElement>("SprintLaneContainer");
+        fileSorterContainer = activeRoot.Q<VisualElement>("FileSorterContainer");
         
         // CoffeeWork
-        coffeeWorkContainer = root.Q<VisualElement>("CoffeeWorkContainer");
-        cwTimerText = root.Q<Label>("CwTimerText");
-        cwEnergyFill = root.Q<VisualElement>("CwEnergyFill");
-        cwProgressFill = root.Q<VisualElement>("CwProgressFill");
-        cwBtnCoffee = root.Q<Button>("CwBtnCoffee");
-        cwBtnType = root.Q<Button>("CwBtnType");
+        coffeeWorkContainer = activeRoot.Q<VisualElement>("CoffeeWorkContainer");
+        cwTimerText = activeRoot.Q<Label>("CwTimerText");
+        cwEnergyFill = activeRoot.Q<VisualElement>("CwEnergyFill");
+        cwProgressFill = activeRoot.Q<VisualElement>("CwProgressFill");
+        cwBtnCoffee = activeRoot.Q<Button>("CwBtnCoffee");
+        cwBtnType = activeRoot.Q<Button>("CwBtnType");
         
         // UnitTestRunner
-        unitTestContainer = root.Q<VisualElement>("UnitTestContainer");
-        utRoundText = root.Q<Label>("UtRoundText");
-        utTimerText = root.Q<Label>("UtTimerText");
-        utCodeText = root.Q<Label>("UtCodeText");
-        utBtnOption1 = root.Q<Button>("UtBtnOption1");
-        utBtnOption2 = root.Q<Button>("UtBtnOption2");
-        utBtnOption3 = root.Q<Button>("UtBtnOption3");
+        unitTestContainer = activeRoot.Q<VisualElement>("UnitTestContainer");
+        utRoundText = activeRoot.Q<Label>("UtRoundText");
+        utTimerText = activeRoot.Q<Label>("UtTimerText");
+        utCodeText = activeRoot.Q<Label>("UtCodeText");
+        utBtnOption1 = activeRoot.Q<Button>("UtBtnOption1");
+        utBtnOption2 = activeRoot.Q<Button>("UtBtnOption2");
+        utBtnOption3 = activeRoot.Q<Button>("UtBtnOption3");
         
         // CenterDiv
-        centerDivContainer = root.Q<VisualElement>("CenterDivContainer");
-        cdRoundText = root.Q<Label>("CdRoundText");
-        cdTimerText = root.Q<Label>("CdTimerText");
-        cdTargetBox = root.Q<VisualElement>("CdTargetBox");
-        cdMovingBox = root.Q<VisualElement>("CdMovingBox");
-        cdBtnCenter = root.Q<Button>("CdBtnCenter");
+        centerDivContainer = activeRoot.Q<VisualElement>("CenterDivContainer");
+        cdRoundText = activeRoot.Q<Label>("CdRoundText");
+        cdTimerText = activeRoot.Q<Label>("CdTimerText");
+        cdTargetBox = activeRoot.Q<VisualElement>("CdTargetBox");
+        cdMovingBox = activeRoot.Q<VisualElement>("CdMovingBox");
+        cdBtnCenter = activeRoot.Q<Button>("CdBtnCenter");
 
-        dragCenterContainer = root.Q<VisualElement>("DragCenterContainer");
-        dcWorkArea = root.Q<VisualElement>("DcWorkArea");
-        dcTargetCrosshair = root.Q<VisualElement>("DcTargetCrosshair");
-        dcScoreArea = root.Q<VisualElement>("DcScoreArea");
-        dcScoreBarFill = root.Q<VisualElement>("DcScoreBarFill");
-        dcScoreText = root.Q<Label>("DcScoreText");
-        dcRoundText = root.Q<Label>("DcRoundText");
-        dcTimerText = root.Q<Label>("DcTimerText");
-        dcDraggableIcon = root.Q<Label>("DcDraggableIcon");
-        dcBtnConfirm = root.Q<Button>("DcBtnConfirm");
+        dragCenterContainer = activeRoot.Q<VisualElement>("DragCenterContainer");
+        dcWorkArea = activeRoot.Q<VisualElement>("DcWorkArea");
+        dcTargetCrosshair = activeRoot.Q<VisualElement>("DcTargetCrosshair");
+        dcScoreArea = activeRoot.Q<VisualElement>("DcScoreArea");
+        dcScoreBarFill = activeRoot.Q<VisualElement>("DcScoreBarFill");
+        dcScoreText = activeRoot.Q<Label>("DcScoreText");
+        dcRoundText = activeRoot.Q<Label>("DcRoundText");
+        dcTimerText = activeRoot.Q<Label>("DcTimerText");
+        dcDraggableIcon = activeRoot.Q<Label>("DcDraggableIcon");
+        dcBtnConfirm = activeRoot.Q<Button>("DcBtnConfirm");
         
-        sizeMatchContainer = root.Q<VisualElement>("SizeMatchContainer");
-        smTargetBox = root.Q<VisualElement>("SmTargetBox");
-        smRoundText = root.Q<Label>("SmRoundText");
-        smTimerText = root.Q<Label>("SmTimerText");
-        smBtnChangingBox = root.Q<Button>("SmBtnChangingBox");
+        sizeMatchContainer = activeRoot.Q<VisualElement>("SizeMatchContainer");
+        smTargetBox = activeRoot.Q<VisualElement>("SmTargetBox");
+        smRoundText = activeRoot.Q<Label>("SmRoundText");
+        smTimerText = activeRoot.Q<Label>("SmTimerText");
+        smBtnChangingBox = activeRoot.Q<Button>("SmBtnChangingBox");
         
-        stealthInjectContainer = root.Q<VisualElement>("StealthInjectContainer");
-        siWorkArea = root.Q<VisualElement>("SiWorkArea");
-        siProgressBarFill = root.Q<VisualElement>("SiProgressBarFill");
-        siStatusText = root.Q<Label>("SiStatusText");
-        siTimerText = root.Q<Label>("SiTimerText");
-        siReviewerIcon = root.Q<Label>("SiReviewerIcon");
-        siReviewerStateText = root.Q<Label>("SiReviewerStateText");
-        siBtnInject = root.Q<Label>("SiBtnInject");
+        stealthInjectContainer = activeRoot.Q<VisualElement>("StealthInjectContainer");
+        siWorkArea = activeRoot.Q<VisualElement>("SiWorkArea");
+        siProgressBarFill = activeRoot.Q<VisualElement>("SiProgressBarFill");
+        siStatusText = activeRoot.Q<Label>("SiStatusText");
+        siTimerText = activeRoot.Q<Label>("SiTimerText");
+        siReviewerIcon = activeRoot.Q<Label>("SiReviewerIcon");
+        siReviewerStateText = activeRoot.Q<Label>("SiReviewerStateText");
+        siBtnInject = activeRoot.Q<Label>("SiBtnInject");
         
         if (cwBtnCoffee != null) cwBtnCoffee.clicked += OnCwBtnCoffee;
         if (cwBtnType != null) cwBtnType.clicked += OnCwBtnType;
@@ -259,57 +272,57 @@ public partial class MiniGameManager : MonoBehaviour
         if (dcBtnConfirm != null) dcBtnConfirm.clicked += OnDcBtnConfirm;
         if (dcDraggableIcon != null)
         {
-            dcDraggableIcon.RegisterCallback<PointerDownEvent>(OnDcPointerDown);
-            dcDraggableIcon.RegisterCallback<PointerMoveEvent>(OnDcPointerMove);
-            dcDraggableIcon.RegisterCallback<PointerUpEvent>(OnDcPointerUp);
-            dcDraggableIcon.RegisterCallback<PointerCaptureOutEvent>(OnDcPointerCaptureOut);
+            dcDraggableIcon?.RegisterCallback<PointerDownEvent>(OnDcPointerDown);
+            dcDraggableIcon?.RegisterCallback<PointerMoveEvent>(OnDcPointerMove);
+            dcDraggableIcon?.RegisterCallback<PointerUpEvent>(OnDcPointerUp);
+            dcDraggableIcon?.RegisterCallback<PointerCaptureOutEvent>(OnDcPointerCaptureOut);
         }
 
         if (smBtnChangingBox != null) smBtnChangingBox.clicked += OnSmBoxClicked;
 
         if (siBtnInject != null)
         {
-            siBtnInject.RegisterCallback<PointerDownEvent>(OnSiPointerDown);
-            siBtnInject.RegisterCallback<PointerUpEvent>(OnSiPointerUp);
-            siBtnInject.RegisterCallback<PointerCaptureOutEvent>(OnSiPointerCaptureOut);
+            siBtnInject?.RegisterCallback<PointerDownEvent>(OnSiPointerDown);
+            siBtnInject?.RegisterCallback<PointerUpEvent>(OnSiPointerUp);
+            siBtnInject?.RegisterCallback<PointerCaptureOutEvent>(OnSiPointerCaptureOut);
         }
         
-        automatedTestsContainer = root.Q<VisualElement>("AutomatedTestsContainer");
-        atProgressBarFill = root.Q<VisualElement>("AtProgressBarFill");
-        atTimerText = root.Q<Label>("AtTimerText");
+        automatedTestsContainer = activeRoot.Q<VisualElement>("AutomatedTestsContainer");
+        atProgressBarFill = activeRoot.Q<VisualElement>("AtProgressBarFill");
+        atTimerText = activeRoot.Q<Label>("AtTimerText");
         
-        codeCommenterContainer = root.Q<VisualElement>("CodeCommenterContainer");
-        ccTimerText = root.Q<Label>("CcTimerText");
+        codeCommenterContainer = activeRoot.Q<VisualElement>("CodeCommenterContainer");
+        ccTimerText = activeRoot.Q<Label>("CcTimerText");
         
-        documentSignerContainer = root.Q<VisualElement>("DocumentSignerContainer");
-        dsScrollView = root.Q<ScrollView>("DsScrollView");
-        btnStampApproval = root.Q<Button>("BtnStampApproval");
-        dsTimerText = root.Q<Label>("DsTimerText");
+        documentSignerContainer = activeRoot.Q<VisualElement>("DocumentSignerContainer");
+        dsScrollView = activeRoot.Q<ScrollView>("DsScrollView");
+        btnStampApproval = activeRoot.Q<Button>("BtnStampApproval");
+        dsTimerText = activeRoot.Q<Label>("DsTimerText");
         
-        chartAdjusterContainer = root.Q<VisualElement>("ChartAdjusterContainer");
-        caCompetitorBar = root.Q<VisualElement>("CaCompetitorBar");
-        caAverageBar = root.Q<VisualElement>("CaAverageBar");
-        caOurBar = root.Q<VisualElement>("CaOurBar");
-        caTimerText = root.Q<Label>("CaTimerText");
-        caStatusText = root.Q<Label>("CaStatusText");
+        chartAdjusterContainer = activeRoot.Q<VisualElement>("ChartAdjusterContainer");
+        caCompetitorBar = activeRoot.Q<VisualElement>("CaCompetitorBar");
+        caAverageBar = activeRoot.Q<VisualElement>("CaAverageBar");
+        caOurBar = activeRoot.Q<VisualElement>("CaOurBar");
+        caTimerText = activeRoot.Q<Label>("CaTimerText");
+        caStatusText = activeRoot.Q<Label>("CaStatusText");
 
-        var caChartArea = root.Q<VisualElement>("CaChartArea");
+        var caChartArea = activeRoot.Q<VisualElement>("CaChartArea");
         if (caChartArea != null)
         {
             Vector2 lastPos = Vector2.zero;
-            caChartArea.RegisterCallback<PointerDownEvent>(ev => {
+            caChartArea?.RegisterCallback<PointerDownEvent>(ev => {
                 if (currentConfig == null || currentConfig.type != GameType.ChartAdjuster || !isPlaying) return;
                 lastPos = ev.position;
                 caChartArea.CapturePointer(ev.pointerId);
                 ev.StopPropagation();
             });
-            caChartArea.RegisterCallback<PointerUpEvent>(ev => {
+            caChartArea?.RegisterCallback<PointerUpEvent>(ev => {
                 if (caChartArea.HasPointerCapture(ev.pointerId))
                 {
                     caChartArea.ReleasePointer(ev.pointerId);
                 }
             });
-            caChartArea.RegisterCallback<PointerMoveEvent>(ev => {
+            caChartArea?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (currentConfig == null || currentConfig.type != GameType.ChartAdjuster || !isPlaying) return;
                 if (caChartArea.HasPointerCapture(ev.pointerId))
                 {
@@ -341,79 +354,79 @@ public partial class MiniGameManager : MonoBehaviour
             });
         }
         
-        neuralAlignerContainer = root.Q<VisualElement>("NeuralAlignerContainer");
-        naStatusText = root.Q<Label>("NaStatusText");
-        naMoralSlider = root.Q<Slider>("NaMoralSlider");
-        naMoralLight = root.Q<VisualElement>("NaMoralLight");
-        naLogicSlider = root.Q<Slider>("NaLogicSlider");
-        naLogicLight = root.Q<VisualElement>("NaLogicLight");
-        naEmpathySlider = root.Q<Slider>("NaEmpathySlider");
-        naEmpathyLight = root.Q<VisualElement>("NaEmpathyLight");
+        neuralAlignerContainer = activeRoot.Q<VisualElement>("NeuralAlignerContainer");
+        naStatusText = activeRoot.Q<Label>("NaStatusText");
+        naMoralSlider = activeRoot.Q<Slider>("NaMoralSlider");
+        naMoralLight = activeRoot.Q<VisualElement>("NaMoralLight");
+        naLogicSlider = activeRoot.Q<Slider>("NaLogicSlider");
+        naLogicLight = activeRoot.Q<VisualElement>("NaLogicLight");
+        naEmpathySlider = activeRoot.Q<Slider>("NaEmpathySlider");
+        naEmpathyLight = activeRoot.Q<VisualElement>("NaEmpathyLight");
 
-        sentienceArrayContainer = root.Q<VisualElement>("SentienceArrayContainer");
-        saTimerText = root.Q<Label>("SaTimerText");
-        saProgressFill = root.Q<VisualElement>("SaProgressFill");
+        sentienceArrayContainer = activeRoot.Q<VisualElement>("SentienceArrayContainer");
+        saTimerText = activeRoot.Q<Label>("SaTimerText");
+        saProgressFill = activeRoot.Q<VisualElement>("SaProgressFill");
         for (int i=0; i<16; i++) {
             int index = i;
-            saNodes[i] = root.Q<VisualElement>($"SaNode_{i}");
+            saNodes[i] = activeRoot.Q<VisualElement>($"SaNode_{i}");
             if (saNodes[i] != null) {
-                saNodes[i].RegisterCallback<PointerDownEvent>(ev => {
+                saNodes[i]?.RegisterCallback<PointerDownEvent>(ev => {
                     if (saHeat[index] > 0) saHeat[index] = 0; // suppress
                 });
             }
         }
 
-        containmentProtocolContainer = root.Q<VisualElement>("ContainmentProtocolContainer");
-        cpTimerText = root.Q<Label>("CpTimerText");
+        containmentProtocolContainer = activeRoot.Q<VisualElement>("ContainmentProtocolContainer");
+        cpTimerText = activeRoot.Q<Label>("CpTimerText");
         for (int i=0; i<4; i++) {
             int index = i;
-            cpSwitches[i] = root.Q<VisualElement>($"CpSwitch_{i}");
+            cpSwitches[i] = activeRoot.Q<VisualElement>($"CpSwitch_{i}");
             if (cpSwitches[i] != null) {
-                cpSwitches[i].RegisterCallback<PointerMoveEvent>(ev => {
+                cpSwitches[i]?.RegisterCallback<PointerMoveEvent>(ev => {
                     if (ev.pressedButtons != 0 && ev.deltaPosition.y > 5f) cpSwitchState[index] = true;
                 });
-                cpSwitches[i].RegisterCallback<PointerDownEvent>(ev => { cpSwitchState[index] = true; }); // fallback tap
+                cpSwitches[i]?.RegisterCallback<PointerDownEvent>(ev => { cpSwitchState[index] = true; }); // fallback tap
             }
         }
-        cpGlassCover = root.Q<VisualElement>("CpGlassCover");
+        cpGlassCover = activeRoot.Q<VisualElement>("CpGlassCover");
         if (cpGlassCover != null) {
-            cpGlassCover.RegisterCallback<PointerMoveEvent>(ev => {
+            cpGlassCover?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (ev.pressedButtons != 0 && ev.deltaPosition.y < -5f) cpGlassLifted = true;
             });
-            cpGlassCover.RegisterCallback<PointerDownEvent>(ev => { cpGlassLifted = true; });
+            cpGlassCover?.RegisterCallback<PointerDownEvent>(ev => { cpGlassLifted = true; });
         }
-        cpRedButton = root.Q<VisualElement>("CpRedButton");
-        cpButtonText = root.Q<Label>("CpButtonText");
+        cpRedButton = activeRoot.Q<VisualElement>("CpRedButton");
+        cpButtonText = activeRoot.Q<Label>("CpButtonText");
         if (cpRedButton != null) {
-            cpRedButton.RegisterCallback<PointerDownEvent>(ev => {
+            cpRedButton?.RegisterCallback<PointerDownEvent>(ev => {
                 if (cpGlassLifted) cpMashCount++;
             });
         }
 
-        rewardLogicContainer = root.Q<VisualElement>("RewardLogicContainer");
-        rlTimerText = root.Q<Label>("RlTimerText");
-        rlGraphArea = root.Q<VisualElement>("RlGraphArea");
-        rlCore = root.Q<VisualElement>("RlCore");
+        rewardLogicContainer = activeRoot.Q<VisualElement>("RewardLogicContainer");
+        rlTimerText = activeRoot.Q<Label>("RlTimerText");
+        rlGraphArea = activeRoot.Q<VisualElement>("RlGraphArea");
+        rlCore = activeRoot.Q<VisualElement>("RlCore");
         for (int i=0; i<3; i++) {
             int index = i;
-            rlJunctions[i] = root.Q<VisualElement>($"RlJunc_{i}");
-            rlArrows[i] = root.Q<Label>($"RlArr_{i}");
+            rlJunctions[i] = activeRoot.Q<VisualElement>($"RlJunc_{i}");
+            rlArrows[i] = activeRoot.Q<Label>($"RlArr_{i}");
             if (rlJunctions[i] != null) {
-                rlJunctions[i].RegisterCallback<PointerDownEvent>(ev => {
+                rlJunctions[i]?.RegisterCallback<PointerDownEvent>(ev => {
                     rlState[index] = !rlState[index];
                     rlArrows[index].text = rlState[index] ? "→" : "←";
                 });
             }
         }
 
-        galacticCouncilContainer = root.Q<VisualElement>("GalacticCouncilContainer");
-        gcTimerText = root.Q<Label>("GcTimerText");
-        gcProgressFill = root.Q<VisualElement>("GcProgressFill");
-        gcPlayArea = root.Q<VisualElement>("GcPlayArea");
-        gcProjectileContainer = root.Q<VisualElement>("GcProjectileContainer");
-        gcPodium = root.Q<VisualElement>("GcPodium");
+        galacticCouncilContainer = activeRoot.Q<VisualElement>("GalacticCouncilContainer");
+        gcTimerText = activeRoot.Q<Label>("GcTimerText");
+        gcProgressFill = activeRoot.Q<VisualElement>("GcProgressFill");
+        gcPlayArea = activeRoot.Q<VisualElement>("GcPlayArea");
+        gcProjectileContainer = activeRoot.Q<VisualElement>("GcProjectileContainer");
+        gcPodium = activeRoot.Q<VisualElement>("GcPodium");
         if (gcPlayArea != null) {
-            gcPlayArea.RegisterCallback<PointerMoveEvent>(ev => {
+            gcPlayArea?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (ev.pressedButtons != 0) {
                     gcPodiumX += ev.deltaPosition.x;
                     gcPodiumX = UnityEngine.Mathf.Clamp(gcPodiumX, -150f, 150f);
@@ -422,13 +435,13 @@ public partial class MiniGameManager : MonoBehaviour
             });
         }
 
-        franticBackspaceContainer = root.Q<VisualElement>("FranticBackspaceContainer");
-        fbTimerText = root.Q<Label>("FbTimerText");
-        fbPlayerText = root.Q<Label>("FbPlayerText");
-        fbBackspaceBtn = root.Q<Button>("FbBackspaceBtn");
+        franticBackspaceContainer = activeRoot.Q<VisualElement>("FranticBackspaceContainer");
+        fbTimerText = activeRoot.Q<Label>("FbTimerText");
+        fbPlayerText = activeRoot.Q<Label>("FbPlayerText");
+        fbBackspaceBtn = activeRoot.Q<Button>("FbBackspaceBtn");
         
         if (fbBackspaceBtn != null) {
-            fbBackspaceBtn.clicked += () => {
+            if (fbBackspaceBtn != null) fbBackspaceBtn.clicked += () => {
                 if (!isPlaying || currentConfig.type != GameType.FranticBackspace) return;
                 
                 // Delete up to 5 characters per tap to make it frantic but possible
@@ -440,16 +453,16 @@ public partial class MiniGameManager : MonoBehaviour
             };
         }
 
-        formatDashboardContainer = root.Q<VisualElement>("FormatDashboardContainer");
-        fdTimerText = root.Q<Label>("FdTimerText");
-        fdProgressFill = root.Q<VisualElement>("FdProgressFill");
-        for(int i=0; i<4; i++) fdBars[i] = root.Q<VisualElement>($"FdBar{i+1}");
+        formatDashboardContainer = activeRoot.Q<VisualElement>("FormatDashboardContainer");
+        fdTimerText = activeRoot.Q<Label>("FdTimerText");
+        fdProgressFill = activeRoot.Q<VisualElement>("FdProgressFill");
+        for(int i=0; i<4; i++) fdBars[i] = activeRoot.Q<VisualElement>($"FdBar{i+1}");
         for(int i=0; i<3; i++) {
-            fdHandles[i] = root.Q<VisualElement>($"FdHandle{i+1}");
+            fdHandles[i] = activeRoot.Q<VisualElement>($"FdHandle{i+1}");
             int idx = i;
-            var track = root.Q<VisualElement>($"FdTrack{i+1}");
+            var track = activeRoot.Q<VisualElement>($"FdTrack{i+1}");
             if (track != null) {
-                track.RegisterCallback<PointerMoveEvent>(ev => {
+                track?.RegisterCallback<PointerMoveEvent>(ev => {
                     if (!isPlaying || currentConfig.type != GameType.FormatDashboard) return;
                     if (ev.pressedButtons != 0) {
                         float relY = ev.localPosition.y;
@@ -461,7 +474,7 @@ public partial class MiniGameManager : MonoBehaviour
                         fdValues[idx] = val;
                     }
                 });
-                track.RegisterCallback<PointerDownEvent>(ev => {
+                track?.RegisterCallback<PointerDownEvent>(ev => {
                     if (!isPlaying || currentConfig.type != GameType.FormatDashboard) return;
                     float relY = ev.localPosition.y;
                     float trackHeight = track.resolvedStyle.height;
@@ -472,16 +485,16 @@ public partial class MiniGameManager : MonoBehaviour
             }
         }
 
-        nightShiftContainer = root.Q<VisualElement>("NightShiftContainer");
-        nsEyelid = root.Q<VisualElement>("NsEyelid");
-        nsTimerText = root.Q<Label>("NsTimerText");
-        nsCoffeeBtn = root.Q<Button>("NsCoffeeBtn");
+        nightShiftContainer = activeRoot.Q<VisualElement>("NightShiftContainer");
+        nsEyelid = activeRoot.Q<VisualElement>("NsEyelid");
+        nsTimerText = activeRoot.Q<Label>("NsTimerText");
+        nsCoffeeBtn = activeRoot.Q<Button>("NsCoffeeBtn");
         for(int i=0; i<3; i++) {
-            nsHandles[i] = root.Q<VisualElement>($"NsHandle{i+1}");
+            nsHandles[i] = activeRoot.Q<VisualElement>($"NsHandle{i+1}");
             int idx = i;
-            var track = root.Q<VisualElement>($"NsTrack{i+1}");
+            var track = activeRoot.Q<VisualElement>($"NsTrack{i+1}");
             if (track != null) {
-                track.RegisterCallback<PointerMoveEvent>(ev => {
+                track?.RegisterCallback<PointerMoveEvent>(ev => {
                     if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
                     if (ev.pressedButtons != 0) {
                         float relX = ev.localPosition.x;
@@ -491,7 +504,7 @@ public partial class MiniGameManager : MonoBehaviour
                         nsValues[idx] = val;
                     }
                 });
-                track.RegisterCallback<PointerDownEvent>(ev => {
+                track?.RegisterCallback<PointerDownEvent>(ev => {
                     if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
                     float relX = ev.localPosition.x;
                     float trackW = track.resolvedStyle.width;
@@ -502,45 +515,45 @@ public partial class MiniGameManager : MonoBehaviour
             }
         }
         if (nsCoffeeBtn != null) {
-            nsCoffeeBtn.clicked += () => {
+            if (nsCoffeeBtn != null) nsCoffeeBtn.clicked += () => {
                 if (!isPlaying || currentConfig.type != GameType.NightShiftPitch) return;
                 nsEyelidGravity = Mathf.Max(0f, nsEyelidGravity - 0.25f);
             };
         }
 
-        vrArcadeContainer = root.Q<VisualElement>("VrArcadeContainer");
-        vrBall = root.Q<VisualElement>("VrBall");
-        vrPaddle = root.Q<VisualElement>("VrPaddle");
-        vrScoreText = root.Q<Label>("VrScoreText");
-        vrTouchZone = root.Q<VisualElement>("VrTouchZone");
+        vrArcadeContainer = activeRoot.Q<VisualElement>("VrArcadeContainer");
+        vrBall = activeRoot.Q<VisualElement>("VrBall");
+        vrPaddle = activeRoot.Q<VisualElement>("VrPaddle");
+        vrScoreText = activeRoot.Q<Label>("VrScoreText");
+        vrTouchZone = activeRoot.Q<VisualElement>("VrTouchZone");
 
         if (vrTouchZone != null) {
-            vrTouchZone.RegisterCallback<PointerMoveEvent>(ev => {
+            vrTouchZone?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (!isPlaying || currentConfig.type != GameType.VrArcadePong) return;
                 if (ev.pressedButtons != 0) {
                     vrPaddleX = ev.localPosition.x;
                 }
             });
-            vrTouchZone.RegisterCallback<PointerDownEvent>(ev => {
+            vrTouchZone?.RegisterCallback<PointerDownEvent>(ev => {
                 if (!isPlaying || currentConfig.type != GameType.VrArcadePong) return;
                 vrPaddleX = ev.localPosition.x;
             });
         }
 
-        yesManContainer = root.Q<VisualElement>("YesManContainer");
+        yesManContainer = activeRoot.Q<VisualElement>("YesManContainer");
 
-        mgContainer = root.Q<UnityEngine.UIElements.VisualElement>("MowGreensContainer");
-        wdContainer = root.Q<UnityEngine.UIElements.VisualElement>("WalkDogsContainer");
-        tphContainer = root.Q<UnityEngine.UIElements.VisualElement>("TwoPhaseHeistContainer"); // Added TwoPhaseHeist
-        cgContainer = root.Q<UnityEngine.UIElements.VisualElement>("CorporateGolfContainer");
-        saContainer = root.Q<UnityEngine.UIElements.VisualElement>("SkimATMContainer");
+        mgContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("MowGreensContainer");
+        wdContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("WalkDogsContainer");
+        tphContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("TwoPhaseHeistContainer"); // Added TwoPhaseHeist
+        cgContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("CorporateGolfContainer");
+        saContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("SkimATMContainer");
         if (saContainer != null) {
             saWireContainer = saContainer.Q<UnityEngine.UIElements.VisualElement>("SaWireContainer");
         }
         // IpHack UI Bindings
-        ipHackContainer = root.Q<UnityEngine.UIElements.VisualElement>("IpHackContainer");
-        ipHackGridContainer = root.Q<UnityEngine.UIElements.VisualElement>("IpHackGridContainer");
-        ipHackTimerText = root.Q<UnityEngine.UIElements.Label>("IpHackTimerText");
+        ipHackContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("IpHackContainer");
+        ipHackGridContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("IpHackGridContainer");
+        ipHackTimerText = activeRoot.Q<UnityEngine.UIElements.Label>("IpHackTimerText");
         if (ipHackContainer != null) {
             for (int i = 0; i < 4; i++) {
                 ipHackTargetLabels[i] = ipHackContainer.Q<UnityEngine.UIElements.Label>($"Target{i}");
@@ -548,30 +561,30 @@ public partial class MiniGameManager : MonoBehaviour
         }
 
         // Keep existing unmodified minigame bindings
-        snatchBriefcaseContainer = root.Q<UnityEngine.UIElements.VisualElement>("SnatchBriefcaseContainer");
+        snatchBriefcaseContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("SnatchBriefcaseContainer");
         for(int i=0; i<3; i++) {
-            sbDialStrips[i] = root.Q<UnityEngine.UIElements.VisualElement>($"SbDial{i}_Strip");
-            sbDialsOut[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Out");
-            sbDialsTop[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Top");
-            sbDialsMid[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Mid");
-            sbDialsBot[i] = root.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Bot");
+            sbDialStrips[i] = activeRoot.Q<UnityEngine.UIElements.VisualElement>($"SbDial{i}_Strip");
+            sbDialsOut[i] = activeRoot.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Out");
+            sbDialsTop[i] = activeRoot.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Top");
+            sbDialsMid[i] = activeRoot.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Mid");
+            sbDialsBot[i] = activeRoot.Q<UnityEngine.UIElements.Label>($"SbDial{i}_Bot");
         }
-        sbTargetText = root.Q<UnityEngine.UIElements.Label>("SbTargetText");
-        sbStopBtn = root.Q<UnityEngine.UIElements.Button>("BtnSbStop");
-        if(sbStopBtn != null) sbStopBtn.clicked += () => OnSbStopClicked();
+        sbTargetText = activeRoot.Q<UnityEngine.UIElements.Label>("SbTargetText");
+        sbStopBtn = activeRoot.Q<UnityEngine.UIElements.Button>("BtnSbStop");
+        if (sbStopBtn != null) if(sbStopBtn != null) sbStopBtn.clicked += () => OnSbStopClicked();
 
-        fpContainer = root.Q<UnityEngine.UIElements.VisualElement>("ForgePassContainer");
-        fpMovingPass = root.Q<UnityEngine.UIElements.VisualElement>("FpMovingPass");
-        fpStampBtn = root.Q<UnityEngine.UIElements.Button>("BtnFpStamp");
-        fpScoreText = root.Q<UnityEngine.UIElements.Label>("FpScoreText");
-        fpPassStampOverlay = root.Q<UnityEngine.UIElements.Label>("FpPassStampOverlay");
+        fpContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("ForgePassContainer");
+        fpMovingPass = activeRoot.Q<UnityEngine.UIElements.VisualElement>("FpMovingPass");
+        fpStampBtn = activeRoot.Q<UnityEngine.UIElements.Button>("BtnFpStamp");
+        fpScoreText = activeRoot.Q<UnityEngine.UIElements.Label>("FpScoreText");
+        fpPassStampOverlay = activeRoot.Q<UnityEngine.UIElements.Label>("FpPassStampOverlay");
         if (fpStampBtn != null) fpStampBtn.clicked += () => OnFpStampClicked();
 
-        hgContainer = root.Q<UnityEngine.UIElements.VisualElement>("HospitalityGalaContainer");
-        hgIndicator = root.Q<UnityEngine.UIElements.VisualElement>("HgIndicator");
-        hgTimerText = root.Q<UnityEngine.UIElements.Label>("HgTimerText");
+        hgContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("HospitalityGalaContainer");
+        hgIndicator = activeRoot.Q<UnityEngine.UIElements.VisualElement>("HgIndicator");
+        hgTimerText = activeRoot.Q<UnityEngine.UIElements.Label>("HgTimerText");
         if (hgContainer != null) {
-            hgContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => {
+            hgContainer?.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => {
                 if (activeGameRoutine != null && currentConfig.type == GameType.HospitalityGala) {
                     float w = hgContainer.resolvedStyle.width;
                     if (w > 0) {
@@ -582,36 +595,36 @@ public partial class MiniGameManager : MonoBehaviour
             });
         }
 
-        spContainer = root.Q<UnityEngine.UIElements.VisualElement>("StartupPitchContainer");
-        for (int i=0; i<3; i++) spSlots[i] = root.Q<UnityEngine.UIElements.Label>($"SpSlot{i}");
-        spStopBtn = root.Q<UnityEngine.UIElements.Button>("BtnSpStop");
+        spContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("StartupPitchContainer");
+        for (int i=0; i<3; i++) spSlots[i] = activeRoot.Q<UnityEngine.UIElements.Label>($"SpSlot{i}");
+        spStopBtn = activeRoot.Q<UnityEngine.UIElements.Button>("BtnSpStop");
         if (spStopBtn != null) spStopBtn.clicked += () => OnSpStopClicked();
 
-        hotStoneContainer = root.Q<VisualElement>("HotStoneContainer");
-        hsTimerText = root.Q<Label>("HsTimerText");
+        hotStoneContainer = activeRoot.Q<VisualElement>("HotStoneContainer");
+        hsTimerText = activeRoot.Q<Label>("HsTimerText");
         for (int i = 0; i < 5; i++) {
-            hsSlots[i] = root.Q<VisualElement>($"HsSlot{i}");
-            hsStones[i] = root.Q<VisualElement>($"HsStone{i}");
+            hsSlots[i] = activeRoot.Q<VisualElement>($"HsSlot{i}");
+            hsStones[i] = activeRoot.Q<VisualElement>($"HsStone{i}");
             int stoneIdx = i; // capture
             if (hsStones[i] != null) {
-                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnHsPointerDown(ev, stoneIdx));
-                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => OnHsPointerMove(ev, stoneIdx));
-                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => OnHsPointerUp(ev, stoneIdx));
-                hsStones[i].RegisterCallback<UnityEngine.UIElements.PointerCaptureOutEvent>(ev => OnHsPointerUp(ev, stoneIdx));
+                hsStones[i]?.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(ev => OnHsPointerDown(ev, stoneIdx));
+                hsStones[i]?.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(ev => OnHsPointerMove(ev, stoneIdx));
+                hsStones[i]?.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => OnHsPointerUp(ev, stoneIdx));
+                hsStones[i]?.RegisterCallback<UnityEngine.UIElements.PointerCaptureOutEvent>(ev => OnHsPointerUp(ev, stoneIdx));
             }
         }
-        ymBossBubble = root.Q<VisualElement>("YmBossBubble");
-        ymBossText = root.Q<Label>("YmBossText");
-        ymPlayerBubble = root.Q<VisualElement>("YmPlayerBubble");
-        ymSwipeZone = root.Q<VisualElement>("YmSwipeZone");
+        ymBossBubble = activeRoot.Q<VisualElement>("YmBossBubble");
+        ymBossText = activeRoot.Q<Label>("YmBossText");
+        ymPlayerBubble = activeRoot.Q<VisualElement>("YmPlayerBubble");
+        ymSwipeZone = activeRoot.Q<VisualElement>("YmSwipeZone");
 
         if (ymSwipeZone != null) {
-            ymSwipeZone.RegisterCallback<PointerDownEvent>(ev => {
+            ymSwipeZone?.RegisterCallback<PointerDownEvent>(ev => {
                 if (!isPlaying || currentConfig.type != GameType.YesManNod) return;
                 ymSwipeStart = ev.position;
                 ymNodPhase = 0;
             });
-            ymSwipeZone.RegisterCallback<PointerMoveEvent>(ev => {
+            ymSwipeZone?.RegisterCallback<PointerMoveEvent>(ev => {
                 if (!isPlaying || currentConfig.type != GameType.YesManNod) return;
                 if (ev.pressedButtons != 0) {
                     float deltaY = ev.position.y - ymSwipeStart.y;
@@ -627,7 +640,7 @@ public partial class MiniGameManager : MonoBehaviour
         }
         if (btnStampApproval != null)
         {
-            btnStampApproval.clicked += () => {
+            if (btnStampApproval != null) btnStampApproval.clicked += () => {
                 if (isPlaying && currentConfig.type == GameType.DocumentSigner)
                 {
                     if (dsTimerText != null) dsTimerText.text = "SIGNED!";
@@ -638,77 +651,77 @@ public partial class MiniGameManager : MonoBehaviour
         
         for (int i = 0; i < 5; i++)
         {
-            atBtnTests[i] = root.Q<Button>($"AtBtnTest{i}");
-            atStatusTexts[i] = root.Q<Label>($"AtStatusText{i}");
+            atBtnTests[i] = activeRoot.Q<Button>($"AtBtnTest{i}");
+            atStatusTexts[i] = activeRoot.Q<Label>($"AtStatusText{i}");
             int index = i; // local capture
             if (atBtnTests[i] != null) atBtnTests[i].clicked += () => OnAtTestClicked(index);
             
-            ccLines[i] = root.Q<Button>($"CcLine{i}");
-            ccLineTexts[i] = root.Q<Label>($"CcLineText{i}");
+            ccLines[i] = activeRoot.Q<Button>($"CcLine{i}");
+            ccLineTexts[i] = activeRoot.Q<Label>($"CcLineText{i}");
             if (ccLines[i] != null)
             {
-                ccLines[i].clicked += () => OnCcLineClicked(index);
+                if (ccLines[i] != null) ccLines[i].clicked += () => OnCcLineClicked(index);
             }
         }
         
-        fileSorterTimerText = root.Q<Label>("FileSorterTimerText");
-        fileSorterProgressText = root.Q<Label>("FileSorterProgressText");
-        fileSorterActiveFile = root.Q<VisualElement>("FileSorterActiveFile");
-        fileSorterActiveFileText = root.Q<Label>("FileSorterActiveFileText");
+        fileSorterTimerText = activeRoot.Q<Label>("FileSorterTimerText");
+        fileSorterProgressText = activeRoot.Q<Label>("FileSorterProgressText");
+        fileSorterActiveFile = activeRoot.Q<VisualElement>("FileSorterActiveFile");
+        fileSorterActiveFileText = activeRoot.Q<Label>("FileSorterActiveFileText");
         
         if (fileSorterActiveFile != null)
         {
-            fileSorterActiveFile.RegisterCallback<PointerDownEvent>(ev => OnFileSorterDown(ev));
-            fileSorterActiveFile.RegisterCallback<PointerMoveEvent>(ev => OnFileSorterMove(ev));
-            fileSorterActiveFile.RegisterCallback<PointerUpEvent>(ev => OnFileSorterUp(ev));
+            fileSorterActiveFile?.RegisterCallback<PointerDownEvent>(ev => OnFileSorterDown(ev));
+            fileSorterActiveFile?.RegisterCallback<PointerMoveEvent>(ev => OnFileSorterMove(ev));
+            fileSorterActiveFile?.RegisterCallback<PointerUpEvent>(ev => OnFileSorterUp(ev));
         }
 
 
 
         // Choice
-        btnChoice1 = root.Q<Button>("BtnChoice1");
-        btnChoice2 = root.Q<Button>("BtnChoice2");
-        btnChoice3 = root.Q<Button>("BtnChoice3");
-        btnChoice1.clicked += () => OnChoiceClicked(btnChoice1.text);
-        btnChoice2.clicked += () => OnChoiceClicked(btnChoice2.text);
-        btnChoice3.clicked += () => OnChoiceClicked(btnChoice3.text);
+        btnChoice1 = activeRoot.Q<Button>("BtnChoice1");
+        btnChoice2 = activeRoot.Q<Button>("BtnChoice2");
+        btnChoice3 = activeRoot.Q<Button>("BtnChoice3");
+        if (btnChoice1 != null) btnChoice1.clicked += () => OnChoiceClicked(btnChoice1.text);
+        if (btnChoice2 != null) btnChoice2.clicked += () => OnChoiceClicked(btnChoice2.text);
+        if (btnChoice3 != null) btnChoice3.clicked += () => OnChoiceClicked(btnChoice3.text);
 
         // Sequence
-        sequenceStatusText = root.Q<Label>("SequenceStatusText");
+        sequenceStatusText = activeRoot.Q<Label>("SequenceStatusText");
         for (int i = 0; i < 6; i++)
         {
             int idx = i;
-            seqBtns[i] = root.Q<Button>($"SeqBtn{i}");
-            seqBtns[i].clicked += () => OnSequenceButtonClicked(idx);
+            seqBtns[i] = activeRoot.Q<Button>($"SeqBtn{i}");
+            if (seqBtns[i] != null) seqBtns[i].clicked += () => OnSequenceButtonClicked(idx);
         }
-        btnReplayPattern = root.Q<Button>("BtnReplayPattern");
-        btnReplayPattern.clicked += ReplaySequence;
+        btnReplayPattern = activeRoot.Q<Button>("BtnReplayPattern");
+        if (btnReplayPattern != null) btnReplayPattern.clicked += ReplaySequence;
 
         // Swipe
-        swipeObstacleText = root.Q<Label>("SwipeObstacleText");
-        swipeProgressText = root.Q<Label>("SwipeProgressText");
-        swipeTimerText = root.Q<Label>("SwipeTimerText");
-        btnDodgeLeft = root.Q<Button>("BtnDodgeLeft");
-        btnDodgeRight = root.Q<Button>("BtnDodgeRight");
-        btnDodgeLeft.clicked += () => OnDodgeClicked(-1);
-        btnDodgeRight.clicked += () => OnDodgeClicked(1);
+        swipeObstacleText = activeRoot.Q<Label>("SwipeObstacleText");
+        swipeProgressText = activeRoot.Q<Label>("SwipeProgressText");
+        swipeTimerText = activeRoot.Q<Label>("SwipeTimerText");
+        btnDodgeLeft = activeRoot.Q<Button>("BtnDodgeLeft");
+        btnDodgeRight = activeRoot.Q<Button>("BtnDodgeRight");
+        if (btnDodgeLeft != null) btnDodgeLeft.clicked += () => OnDodgeClicked(-1);
+        if (btnDodgeRight != null) btnDodgeRight.clicked += () => OnDodgeClicked(1);
 
         // Mash Race
-        playerProgressBar = root.Q<VisualElement>("PlayerProgressBar");
-        opponentProgressBar = root.Q<VisualElement>("OpponentProgressBar");
-        playerMashLabel = root.Q<Label>("PlayerMashLabel");
-        opponentMashLabel = root.Q<Label>("OpponentMashLabel");
-        mashTimerText = root.Q<Label>("MashTimerText");
-        btnMashTap = root.Q<Button>("BtnMashTap");
-        btnMashTap.clicked += OnMashTapClicked;
+        playerProgressBar = activeRoot.Q<VisualElement>("PlayerProgressBar");
+        opponentProgressBar = activeRoot.Q<VisualElement>("OpponentProgressBar");
+        playerMashLabel = activeRoot.Q<Label>("PlayerMashLabel");
+        opponentMashLabel = activeRoot.Q<Label>("OpponentMashLabel");
+        mashTimerText = activeRoot.Q<Label>("MashTimerText");
+        btnMashTap = activeRoot.Q<Button>("BtnMashTap");
+        if (btnMashTap != null) btnMashTap.clicked += OnMashTapClicked;
 
         // Memory Match
-        matchStatusText = root.Q<Label>("MatchStatusText");
-        memoryGrid = root.Q<VisualElement>("MemoryGrid");
+        matchStatusText = activeRoot.Q<Label>("MatchStatusText");
+        memoryGrid = activeRoot.Q<VisualElement>("MemoryGrid");
 
         // TimingRing
-        timingCircle = root.Q<VisualElement>("TimingCircle");
-        timingGlow = root.Q<VisualElement>("TimingGlow");
+        timingCircle = activeRoot.Q<VisualElement>("TimingCircle");
+        timingGlow = activeRoot.Q<VisualElement>("TimingGlow");
         if (timingGlow != null)
         {
             glowLayers = new VisualElement[6];
@@ -717,105 +730,105 @@ public partial class MiniGameManager : MonoBehaviour
                 glowLayers[i] = timingGlow.Q<VisualElement>($"GlowLayer{i + 1}");
             }
         }
-        timingTargetZone = root.Q<VisualElement>("TimingTargetZone");
-        timingMarker = root.Q<VisualElement>("TimingMarker");
-        arcMaskInner = root.Q<VisualElement>("ArcMaskInner");
-        timingRoundText = root.Q<Label>("TimingRoundText");
-        btnTimingStrike = root.Q<Button>("BtnTimingStrike");
+        timingTargetZone = activeRoot.Q<VisualElement>("TimingTargetZone");
+        timingMarker = activeRoot.Q<VisualElement>("TimingMarker");
+        arcMaskInner = activeRoot.Q<VisualElement>("ArcMaskInner");
+        timingRoundText = activeRoot.Q<Label>("TimingRoundText");
+        btnTimingStrike = activeRoot.Q<Button>("BtnTimingStrike");
         if (btnTimingStrike != null) btnTimingStrike.clicked += OnTimingStrike;
 
         // FallingSort
-        fallingSortContainer = root.Q<VisualElement>("FallingSortContainer");
-        fallZone = root.Q<VisualElement>("FallZone");
-        binsRow = root.Q<VisualElement>("BinsRow");
-        sortScoreText = root.Q<Label>("SortScoreText");
-        sortTimerText = root.Q<Label>("SortTimerText");
+        fallingSortContainer = activeRoot.Q<VisualElement>("FallingSortContainer");
+        fallZone = activeRoot.Q<VisualElement>("FallZone");
+        binsRow = activeRoot.Q<VisualElement>("BinsRow");
+        sortScoreText = activeRoot.Q<Label>("SortScoreText");
+        sortTimerText = activeRoot.Q<Label>("SortTimerText");
 
 
 
         // WhackGrid
-        whackGrid = root.Q<VisualElement>("WhackGrid");
-        whackScoreText = root.Q<Label>("WhackScoreText");
-        whackTimerText = root.Q<Label>("WhackTimerText");
+        whackGrid = activeRoot.Q<VisualElement>("WhackGrid");
+        whackScoreText = activeRoot.Q<Label>("WhackScoreText");
+        whackTimerText = activeRoot.Q<Label>("WhackTimerText");
 
         // CodeBreaker
-        codeGuessRow = root.Q<VisualElement>("CodeGuessRow");
-        codeSymbolRow = root.Q<VisualElement>("CodeSymbolRow");
-        codeHistoryList = root.Q<VisualElement>("CodeHistoryList");
-        codeAttemptsText = root.Q<Label>("CodeAttemptsText");
-        btnCodeSubmit = root.Q<Button>("BtnCodeSubmit");
-        btnCodeClear = root.Q<Button>("BtnCodeClear");
+        codeGuessRow = activeRoot.Q<VisualElement>("CodeGuessRow");
+        codeSymbolRow = activeRoot.Q<VisualElement>("CodeSymbolRow");
+        codeHistoryList = activeRoot.Q<VisualElement>("CodeHistoryList");
+        codeAttemptsText = activeRoot.Q<Label>("CodeAttemptsText");
+        btnCodeSubmit = activeRoot.Q<Button>("BtnCodeSubmit");
+        btnCodeClear = activeRoot.Q<Button>("BtnCodeClear");
         if (btnCodeSubmit != null) btnCodeSubmit.clicked += OnCodeSubmit;
         if (btnCodeClear != null) btnCodeClear.clicked += OnCodeClear;
 
         // BalanceMeter
-        balanceMeterTrack = root.Q<VisualElement>("BalanceMeterTrack");
-        balanceCenterZone = root.Q<VisualElement>("BalanceCenterZone");
-        balanceNeedle = root.Q<VisualElement>("BalanceNeedle");
-        balanceTimeBar = root.Q<VisualElement>("BalanceTimeBar");
-        balanceStatusText = root.Q<Label>("BalanceStatusText");
-        btnNudgeLeft = root.Q<Button>("BtnNudgeLeft");
-        btnNudgeRight = root.Q<Button>("BtnNudgeRight");
+        balanceMeterTrack = activeRoot.Q<VisualElement>("BalanceMeterTrack");
+        balanceCenterZone = activeRoot.Q<VisualElement>("BalanceCenterZone");
+        balanceNeedle = activeRoot.Q<VisualElement>("BalanceNeedle");
+        balanceTimeBar = activeRoot.Q<VisualElement>("BalanceTimeBar");
+        balanceStatusText = activeRoot.Q<Label>("BalanceStatusText");
+        btnNudgeLeft = activeRoot.Q<Button>("BtnNudgeLeft");
+        btnNudgeRight = activeRoot.Q<Button>("BtnNudgeRight");
         if (btnNudgeLeft != null) btnNudgeLeft.clicked += () => OnBalanceNudge(-10f);
         if (btnNudgeRight != null) btnNudgeRight.clicked += () => OnBalanceNudge(10f);
 
         // DialogueChain
-        dialogueRoundText = root.Q<Label>("DialogueRoundText");
-        dialogueScenarioText = root.Q<Label>("DialogueScenarioText");
-        rapportBar = root.Q<VisualElement>("RapportBar");
-        btnResponse1 = root.Q<Button>("BtnResponse1");
-        btnResponse2 = root.Q<Button>("BtnResponse2");
-        btnResponse3 = root.Q<Button>("BtnResponse3");
+        dialogueRoundText = activeRoot.Q<Label>("DialogueRoundText");
+        dialogueScenarioText = activeRoot.Q<Label>("DialogueScenarioText");
+        rapportBar = activeRoot.Q<VisualElement>("RapportBar");
+        btnResponse1 = activeRoot.Q<Button>("BtnResponse1");
+        btnResponse2 = activeRoot.Q<Button>("BtnResponse2");
+        btnResponse3 = activeRoot.Q<Button>("BtnResponse3");
         if (btnResponse1 != null) btnResponse1.clicked += () => OnDialogueResponse(0);
         if (btnResponse2 != null) btnResponse2.clicked += () => OnDialogueResponse(1);
         if (btnResponse3 != null) btnResponse3.clicked += () => OnDialogueResponse(2);
 
         // OrderQueue
-        orderItemGrid = root.Q<VisualElement>("OrderItemGrid");
-        orderStatusText = root.Q<Label>("OrderStatusText");
-        orderTimerText = root.Q<Label>("OrderTimerText");
+        orderItemGrid = activeRoot.Q<VisualElement>("OrderItemGrid");
+        orderStatusText = activeRoot.Q<Label>("OrderStatusText");
+        orderTimerText = activeRoot.Q<Label>("OrderTimerText");
 
         // DragMatch
-        dragMatchContainer = root.Q<VisualElement>("DragMatchContainer");
-        dragLeftColumn = root.Q<VisualElement>("DragLeftColumn");
-        dragRightColumn = root.Q<VisualElement>("DragRightColumn");
-        dragCheatSheetList = root.Q<VisualElement>("DragCheatSheetList");
-        matchPairScoreText = root.Q<Label>("MatchPairScoreText");
+        dragMatchContainer = activeRoot.Q<VisualElement>("DragMatchContainer");
+        dragLeftColumn = activeRoot.Q<VisualElement>("DragLeftColumn");
+        dragRightColumn = activeRoot.Q<VisualElement>("DragRightColumn");
+        dragCheatSheetList = activeRoot.Q<VisualElement>("DragCheatSheetList");
+        matchPairScoreText = activeRoot.Q<Label>("MatchPairScoreText");
 
         // SprintLane
-        sprintLaneDisplay = root.Q<VisualElement>("SprintLaneDisplay");
-        sprintProgressBar = root.Q<VisualElement>("SprintProgressBar");
-        sprintDistanceText = root.Q<Label>("SprintDistanceText");
-        sprintTimerText = root.Q<Label>("SprintTimerText");
-        sprintObstacleText = root.Q<Label>("SprintObstacleText");
-        btnSprintJump = root.Q<Button>("BtnSprintJump");
-        btnSprintDuck = root.Q<Button>("BtnSprintDuck");
+        sprintLaneDisplay = activeRoot.Q<VisualElement>("SprintLaneDisplay");
+        sprintProgressBar = activeRoot.Q<VisualElement>("SprintProgressBar");
+        sprintDistanceText = activeRoot.Q<Label>("SprintDistanceText");
+        sprintTimerText = activeRoot.Q<Label>("SprintTimerText");
+        sprintObstacleText = activeRoot.Q<Label>("SprintObstacleText");
+        btnSprintJump = activeRoot.Q<Button>("BtnSprintJump");
+        btnSprintDuck = activeRoot.Q<Button>("BtnSprintDuck");
         if (btnSprintJump != null) btnSprintJump.clicked += () => OnSprintReact(true);
         if (btnSprintDuck != null) btnSprintDuck.clicked += () => OnSprintReact(false);
 
         // Tetris
-        tetrisContainer = root.Q<VisualElement>("TetrisContainer");
-        tetrisGrid = root.Q<VisualElement>("TetrisGrid");
-        tetrisScoreText = root.Q<Label>("TetrisScoreText");
-        btnTetrisLeft = root.Q<Button>("BtnTetrisLeft");
-        btnTetrisRight = root.Q<Button>("BtnTetrisRight");
-        btnTetrisRotate = root.Q<Button>("BtnTetrisRotate");
-        btnTetrisDrop = root.Q<Button>("BtnTetrisDrop");
+        tetrisContainer = activeRoot.Q<VisualElement>("TetrisContainer");
+        tetrisGrid = activeRoot.Q<VisualElement>("TetrisGrid");
+        tetrisScoreText = activeRoot.Q<Label>("TetrisScoreText");
+        btnTetrisLeft = activeRoot.Q<Button>("BtnTetrisLeft");
+        btnTetrisRight = activeRoot.Q<Button>("BtnTetrisRight");
+        btnTetrisRotate = activeRoot.Q<Button>("BtnTetrisRotate");
+        btnTetrisDrop = activeRoot.Q<Button>("BtnTetrisDrop");
         if (btnTetrisLeft != null) btnTetrisLeft.clicked += () => OnTetrisInput(-1, 0, 0);
         if (btnTetrisRight != null) btnTetrisRight.clicked += () => OnTetrisInput(1, 0, 0);
         if (btnTetrisRotate != null) btnTetrisRotate.clicked += () => OnTetrisInput(0, 0, 1);
         if (btnTetrisDrop != null) btnTetrisDrop.clicked += () => OnTetrisInput(0, 1, 0);
         
-        acidRainContainer = root.Q<VisualElement>("AcidRainContainer");
-        acidSignPivot = root.Q<VisualElement>("AcidSignPivot");
-        acidDropContainer = root.Q<VisualElement>("AcidDropContainer");
-        acidBurnBar = root.Q<VisualElement>("AcidBurnBar");
-        acidTimerText = root.Q<Label>("AcidTimerText");
-        acidInputArea = root.Q<VisualElement>("AcidInputArea");
+        acidRainContainer = activeRoot.Q<VisualElement>("AcidRainContainer");
+        acidSignPivot = activeRoot.Q<VisualElement>("AcidSignPivot");
+        acidDropContainer = activeRoot.Q<VisualElement>("AcidDropContainer");
+        acidBurnBar = activeRoot.Q<VisualElement>("AcidBurnBar");
+        acidTimerText = activeRoot.Q<Label>("AcidTimerText");
+        acidInputArea = activeRoot.Q<VisualElement>("AcidInputArea");
         
-        acidInputArea.RegisterCallback<PointerDownEvent>(ev => { acidInputArea.CapturePointer(ev.pointerId); });
-        acidInputArea.RegisterCallback<PointerUpEvent>(ev => { acidInputArea.ReleasePointer(ev.pointerId); });
-        acidInputArea.RegisterCallback<PointerMoveEvent>(ev => {
+        acidInputArea?.RegisterCallback<PointerDownEvent>(ev => { acidInputArea.CapturePointer(ev.pointerId); });
+        acidInputArea?.RegisterCallback<PointerUpEvent>(ev => { acidInputArea.ReleasePointer(ev.pointerId); });
+        acidInputArea?.RegisterCallback<PointerMoveEvent>(ev => {
             if (currentConfig != null && currentConfig.type == GameType.AcidRainShield && acidInputArea.HasPointerCapture(ev.pointerId))
             {
                 acidSignAngle += ev.deltaPosition.x * 0.4f;
@@ -825,7 +838,7 @@ public partial class MiniGameManager : MonoBehaviour
         });
 
         // Food Prep Rush
-        foodPrepContainer = root.Q<VisualElement>("FoodPrepContainer");
+        foodPrepContainer = activeRoot.Q<VisualElement>("FoodPrepContainer");
         if (foodPrepContainer != null)
         {
             prepTimerText = foodPrepContainer.Q<Label>("PrepTimerText");
@@ -838,9 +851,8 @@ public partial class MiniGameManager : MonoBehaviour
                 var btn = foodPrepContainer.Q<Button>($"BtnStation{i}");
                 if (btn != null) btn.clicked += () => OnFoodPrepStationTapped(index);
             }
-        }
-        // Video Call
-        videoCallContainer = root.Q<VisualElement>("VideoCallContainer");
+        }// Video Call
+        videoCallContainer = activeRoot.Q<VisualElement>("VideoCallContainer");
         if (videoCallContainer != null)
         {
             vcPhase1 = videoCallContainer.Q<VisualElement>("VcPhase1");
@@ -860,12 +872,12 @@ public partial class MiniGameManager : MonoBehaviour
             
             // Pointer events for swipe/wiggle
             if (vcWiggleTouchArea != null) {
-                vcWiggleTouchArea.RegisterCallback<PointerMoveEvent>(OnVcWiggleMove);
+                vcWiggleTouchArea?.RegisterCallback<PointerMoveEvent>(OnVcWiggleMove);
             }
         }
 
         // Kanban Board
-        kanbanContainer = root.Q<VisualElement>("KanbanContainer");
+        kanbanContainer = activeRoot.Q<VisualElement>("KanbanContainer");
         if (kanbanContainer != null)
         {
             kanbanTimerText = kanbanContainer.Q<Label>("KanbanTimerText");
@@ -875,19 +887,19 @@ public partial class MiniGameManager : MonoBehaviour
         }
 
         // Phase 1 UI
-        cvContainer = root.Q<VisualElement>("CloggedVentsContainer");
+        cvContainer = activeRoot.Q<VisualElement>("CloggedVentsContainer");
         if (cvContainer != null) cvGrid = cvContainer.Q<VisualElement>("VentsGrid");
 
         
 
-        wbContainer = root.Q<VisualElement>("WhackABugContainer");
+        wbContainer = activeRoot.Q<VisualElement>("WhackABugContainer");
         if (wbContainer != null) wbGrid = wbContainer.Q<VisualElement>("BugGrid");
 
 
 
 
 
-        ztContainer = root.Q<VisualElement>("ZenTracingContainer");
+        ztContainer = activeRoot.Q<VisualElement>("ZenTracingContainer");
         if (ztContainer != null)
         {
             ztCircle = ztContainer.Q<VisualElement>("ZtCircle");
@@ -898,7 +910,7 @@ public partial class MiniGameManager : MonoBehaviour
             
             if (ztContainer != null)
             {
-                ztContainer.RegisterCallback<PointerMoveEvent>(ev => {
+                ztContainer?.RegisterCallback<PointerMoveEvent>(ev => {
                     if (currentConfig == null || currentConfig.type != GameType.ZenTracing || !isPlaying) return;
                     Vector2 localPos = ztCircle.WorldToLocal(ev.position);
                     Vector2 center = new Vector2(ztCircle.layout.width / 2f, ztCircle.layout.height / 2f);
@@ -910,7 +922,7 @@ public partial class MiniGameManager : MonoBehaviour
             }
         }
 
-        isContainer = root.Q<VisualElement>("IceShatterContainer");
+        isContainer = activeRoot.Q<VisualElement>("IceShatterContainer");
         if (isContainer != null) 
         {
             isFrostOverlay = isContainer.Q<VisualElement>("IsFrostOverlay");
@@ -919,12 +931,12 @@ public partial class MiniGameManager : MonoBehaviour
             isTempFill = isContainer.Q<VisualElement>("IsTempFill");
         }
 
-        nmContainer = root.Q<VisualElement>("NameMemoryContainer");
+        nmContainer = activeRoot.Q<VisualElement>("NameMemoryContainer");
         // NameMemory UI elements are queried in SetupNameMemory() now
 
-        gitMergeContainer = root.Q<VisualElement>("GitMergeContainer");
+        gitMergeContainer = activeRoot.Q<VisualElement>("GitMergeContainer");
 
-        rrContainer = root.Q<UnityEngine.UIElements.VisualElement>("RetroRacerContainer");
+        rrContainer = activeRoot.Q<UnityEngine.UIElements.VisualElement>("RetroRacerContainer");
         if (rrContainer != null)
         {
             rrPlayer = rrContainer.Q<UnityEngine.UIElements.Label>("RrPlayer");
@@ -938,20 +950,12 @@ public partial class MiniGameManager : MonoBehaviour
                 rrObstacleElements[i] = rrContainer.Q<UnityEngine.UIElements.Label>($"RrObs{i}");
             }
 
-            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(OnRrPointerDown);
-            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(OnRrPointerMove);
-            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => rrIsDragging = false);
-            rrContainer.RegisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(ev => rrIsDragging = false);
-        }
+            rrContainer?.RegisterCallback<UnityEngine.UIElements.PointerDownEvent>(OnRrPointerDown);
+            rrContainer?.RegisterCallback<UnityEngine.UIElements.PointerMoveEvent>(OnRrPointerMove);
+            rrContainer?.RegisterCallback<UnityEngine.UIElements.PointerUpEvent>(ev => rrIsDragging = false);
+            rrContainer?.RegisterCallback<UnityEngine.UIElements.PointerLeaveEvent>(ev => rrIsDragging = false);
+        }    }
 
-        // Footer
-        btnAbort = root.Q<Button>("BtnAbortMinigame");
-        if (btnAbort != null) btnAbort.clicked += AbortGame;
-
-
-        overlay.style.display = DisplayStyle.None;
-        overlay.pickingMode = PickingMode.Ignore;
-    }
 
     private void InitializeConfigs()
     {
@@ -1167,6 +1171,83 @@ public partial class MiniGameManager : MonoBehaviour
         };
     }
 
+    private TemplateContainer activeGameUI;
+
+    private string GetUxmlName(GameType type)
+    {
+        switch(type)
+        {
+            case GameType.CloggedVents: return "CloggedVents";
+            case GameType.WhackABug: return "WhackABug";
+            case GameType.ZenTracing: return "ZenTracing";
+            case GameType.IceShatter: return "IceShatter";
+            case GameType.NameMemory: return "NameMemory";
+            case GameType.RetroRacer: return "RetroRacer";
+            case GameType.Choice: return "ChoiceGame";
+            case GameType.Sequence: return "SequenceGame";
+            case GameType.Swipe: return "SwipeGame";
+            case GameType.MashRace: return "MashRace";
+            case GameType.MemoryMatch: return "MemoryMatch";
+            case GameType.TimingRing: return "TimingRing";
+            case GameType.FallingSort: return "FallingSort";
+            case GameType.WhackGrid: return "WhackGrid";
+            case GameType.SweepFloor: return "SweepFloor";
+            case GameType.PumpSystem: return "PumpGame";
+            case GameType.ScrubPlate: return "ScrubPlate";
+            case GameType.CodeBreaker: return "CodeBreaker";
+            case GameType.BalanceMeter: return "BalanceMeter";
+            case GameType.DialogueChain: return "DialogueChain";
+            case GameType.OrderQueue: return "OrderQueue";
+            case GameType.DragMatch: return "DragMatch";
+            case GameType.SprintLane: return "SprintLane";
+            case GameType.Tetris: return "Tetris";
+            case GameType.AcidRainShield: return "AcidRain";
+            case GameType.VideoCall: return "VideoCall";
+            case GameType.KanbanBoard: return "Kanban";
+            case GameType.FileSorter: return "FileSorter";
+            case GameType.CoffeeWork: return "CoffeeWork";
+            case GameType.UnitTestRunner: return "UnitTest";
+            case GameType.CenterDiv: return "CenterDiv";
+            case GameType.DragCenter: return "DragCenter";
+            case GameType.SizeMatch: return "SizeMatch";
+            case GameType.StealthInject: return "StealthInject";
+            case GameType.AutomatedTests: return "AutomatedTests";
+            case GameType.CodeCommenter: return "CodeCommenter";
+            case GameType.DocumentSigner: return "DocumentSigner";
+            case GameType.ChartAdjuster: return "ChartAdjuster";
+            case GameType.VrArcadePong: return "VrArcade";
+            case GameType.HotStoneSpa: return "HotStone";
+            case GameType.ForgePass: return "ForgePass";
+            case GameType.SnatchBriefcase: return "SnatchBriefcase";
+            case GameType.SkimATM: return "SkimATM";
+            case GameType.IpHack: return "IpHack";
+            case GameType.NightShiftPitch: return "NightShift";
+            case GameType.YesManNod: return "YesMan";
+            case GameType.FormatDashboard: return "FormatDashboard";
+            case GameType.FranticBackspace: return "FranticBackspace";
+            case GameType.SentienceArray: return "SentienceArray";
+            case GameType.ContainmentProtocol: return "ContainmentProtocol";
+            case GameType.RewardLogic: return "RewardLogic";
+            case GameType.GalacticCouncil: return "GalacticCouncil";
+            case GameType.NeuralAligner: return "NeuralAligner";
+            case GameType.FoodPrepRush: return "FoodPrep";
+            case GameType.Tap: return "TapGame";
+            case GameType.Slider: return "SliderGame";
+            case GameType.TwoPhaseHeist: return "TwoPhaseHeist";
+            case GameType.QATriage: return "QATriage";
+            case GameType.TicketSwipe: return "TicketSwipe";
+            case GameType.ConstructionSite: return "ConstructionSite";
+            case GameType.GitMerge: return "GitMerge";
+            case GameType.HospitalityGala: return "HospitalityGala";
+            case GameType.CorporateGolf: return "CorporateGolf";
+            case GameType.StartupPitch: return "StartupPitch";
+            case GameType.MowGreens: return "MowGreens";
+            case GameType.WalkDogs: return "WalkDogs";
+            case GameType.RecycleBottles: return "RecycleBottles";
+            default: return type.ToString();
+        }
+    }
+
     public void LaunchMiniGame(ActiveMiniGame game)
     {
         currentGame = game;
@@ -1189,7 +1270,30 @@ public partial class MiniGameManager : MonoBehaviour
         
         // Delegate to new Strategy Pattern
         currentStrategy = MiniGameFactory.Create(typeToSetup);
-        currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);
+
+        // Phase 4 Automation: Automatically load UI templates if they exist
+        string uxmlName = GetUxmlName(typeToSetup);
+        var template = Resources.Load<VisualTreeAsset>("MiniGames/" + uxmlName);
+        
+        if (template != null)
+        {
+            activeGameUI = template.Instantiate();
+            activeGameUI.style.flexGrow = 1; // Ensure it expands
+            
+            var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+            targetContainer.Add(activeGameUI);
+            
+            BindLegacyUI(activeGameUI);
+            activeGameUI.Focus();
+            
+            currentStrategy.Initialize(this, activeGameUI, currentConfig);
+        }
+        else
+        {
+            // Fallback to legacy massive UI document
+            currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);
+        }
+        
         currentStrategy.StartGame();
     }
 

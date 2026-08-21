@@ -37,10 +37,25 @@ public class GameOverUI : MonoBehaviour
         gameOverOverlay.pickingMode = PickingMode.Ignore;
     }
 
-    private void Update()
+    private void Start()
     {
-        // Monitor the GameManager. The moment the player dies or wins, trigger the screen.
-        if (!hasTriggered && GameManager.Instance != null && GameManager.Instance.isGameOver)
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameOver += HandleGameOverEvent;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameOver -= HandleGameOverEvent;
+        }
+    }
+
+    private void HandleGameOverEvent(string reason)
+    {
+        if (!hasTriggered)
         {
             ShowGameOver();
         }

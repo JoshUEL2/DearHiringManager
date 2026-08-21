@@ -1134,6 +1134,12 @@ public partial class MiniGameManager : MonoBehaviour
         currentStrategy?.AbortGame();
 
         overlay.style.display = DisplayStyle.None;
+        
+        if (activeGameUI != null)
+        {
+            activeGameUI.RemoveFromHierarchy();
+            activeGameUI = null;
+        }
 
         if (currentGame != null && currentGame.category == "side_hustle")
         {
@@ -1196,6 +1202,12 @@ public partial class MiniGameManager : MonoBehaviour
         isPlaying = false;
         currentStrategy?.AbortGame();
         overlay.style.display = DisplayStyle.None;
+
+        if (activeGameUI != null)
+        {
+            activeGameUI.RemoveFromHierarchy();
+            activeGameUI = null;
+        }
         overlay.pickingMode = PickingMode.Ignore;
         var data = GameManager.Instance.currentData;
 

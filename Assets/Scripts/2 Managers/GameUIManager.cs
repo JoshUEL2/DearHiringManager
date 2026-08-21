@@ -47,6 +47,15 @@ public class GameUIManager : MonoBehaviour
         Instance = this;
     }
 
+    private MigrationUI _migrationUI;
+    private MigrationUI MigrationUI => _migrationUI != null ? _migrationUI : (_migrationUI = FindAnyObjectByType<MigrationUI>());
+
+    private FinancialGraphUI _financialGraphUI;
+    private FinancialGraphUI FinancialGraphUI => _financialGraphUI != null ? _financialGraphUI : (_financialGraphUI = FindAnyObjectByType<FinancialGraphUI>());
+
+    private EventPopupUI _eventPopupUI;
+    private EventPopupUI EventPopupUI => _eventPopupUI != null ? _eventPopupUI : (_eventPopupUI = FindAnyObjectByType<EventPopupUI>());
+
     private void OnEnable()
     {
         GameEvents.OnShowPopupSO += ShowPopup;
@@ -136,9 +145,9 @@ public class GameUIManager : MonoBehaviour
         Application.logMessageReceived += OnDebugLogReceived;
 
         // BINDINGS (Updated to fix obsolete warnings)
-        dashboardRoot.Q<Button>("BtnOpenMigration")?.RegisterCallback<ClickEvent>(ev => FindAnyObjectByType<MigrationUI>()?.OpenPortal());
-        dashboardRoot.Q<Label>("CashText")?.parent.RegisterCallback<ClickEvent>(ev => FindAnyObjectByType<FinancialGraphUI>()?.OpenGraph());
-        dashboardRoot.Q<Label>("ExpenseText")?.parent.RegisterCallback<ClickEvent>(ev => FindAnyObjectByType<FinancialGraphUI>()?.OpenGraph());
+        dashboardRoot.Q<Button>("BtnOpenMigration")?.RegisterCallback<ClickEvent>(ev => MigrationUI?.OpenPortal());
+        dashboardRoot.Q<Label>("CashText")?.parent.RegisterCallback<ClickEvent>(ev => FinancialGraphUI?.OpenGraph());
+        dashboardRoot.Q<Label>("ExpenseText")?.parent.RegisterCallback<ClickEvent>(ev => FinancialGraphUI?.OpenGraph());
 
         // Setup Jail
         jailWeeksText = jailRoot.Q<Label>("JailWeeksText");
@@ -181,21 +190,21 @@ public class GameUIManager : MonoBehaviour
         });
         
         root.Q<VisualElement>("ColExpenses")?.RegisterCallback<ClickEvent>(ev => {
-            FindAnyObjectByType<EventPopupUI>()?.ShowEvent(new RandomEvent { 
+            EventPopupUI?.ShowEvent(new RandomEvent { 
                 title = "WEEKLY EXPENSES", 
                 description = "The automatic deductions that hit your account every week. This includes housing, food, and active education costs." 
             });
         });
         
         root.Q<VisualElement>("ColJob")?.RegisterCallback<ClickEvent>(ev => {
-            FindAnyObjectByType<EventPopupUI>()?.ShowEvent(new RandomEvent { 
+            EventPopupUI?.ShowEvent(new RandomEvent { 
                 title = "CURRENT JOB", 
                 description = "Your primary source of income. Failing to click '+ Week' enough times to fulfill your duties may result in termination." 
             });
         });
         
         root.Q<VisualElement>("ColDistrict")?.RegisterCallback<ClickEvent>(ev => {
-            FindAnyObjectByType<MigrationUI>()?.OpenPortal();
+            MigrationUI?.OpenPortal();
         });
         
         // Ensure Settings gear also works globally
@@ -274,8 +283,7 @@ public class GameUIManager : MonoBehaviour
                 {
                     foreach (var kvp in MiniGameManager.Instance.GameConfigs)
                     {
-                        bool isCompleted = kvp.Value.type == GameType.KanbanBoard || kvp.Value.type == GameType.ScrubPlate || kvp.Value.type == GameType.SweepFloor || kvp.Value.type == GameType.PumpSystem || kvp.Value.type == GameType.FallingSort || kvp.Value.type == GameType.DragMatch || kvp.Value.type == GameType.GridDodge || kvp.Value.type == GameType.Tetris || kvp.Value.type == GameType.DialogueChain || kvp.Value.type == GameType.CoffeeWork || kvp.Value.type == GameType.UnitTestRunner || kvp.Value.type == GameType.CenterDiv || kvp.Value.type == GameType.DragCenter || kvp.Value.type == GameType.SizeMatch || kvp.Value.type == GameType.StealthInject || kvp.Value.type == GameType.AutomatedTests || kvp.Value.type == GameType.CodeCommenter || kvp.Key == "Format summary dashboards" || kvp.Key == "Respond to supervisor" || kvp.Key == "Stay overnight to align marketing pitch variables" || kvp.Key == "Agree verbally with automated executive complaints" || kvp.Key == "Capsule Arcade VR" || kvp.Key == "Monitor sentience detection array" || kvp.Key == "Emergency AI containment protocol" || kvp.Key == "Align superintelligence reward function" || kvp.Key == "Present findings to Galactic Council" || kvp.Key == "Calibrate neural alignment matrix" || kvp.Key == "Approve quarterly budget" || kvp.Key == "Board meeting presentation" || kvp.Key == "Verify hotfix deployment" || kvp.Key == "Stress test server load" || kvp.Key == "Write flaky test workaround" || kvp.Key == "Dance with sign for tourists" || kvp.Key == "Perform a triple backflip spin" || kvp.Key == "Spin arrow sign in traffic" || kvp.Key == "Hold sign in acid rain storm" || kvp.Key == "Fight rival sign spinner" || kvp.Key == "Handle customer complaint" || kvp.Key == "Emergency food prep rush" || kvp.Key == "Train new hire on POS system" || kvp.Key == "Send weekly TPS reports" || kvp.Key == "Attend 3-hour video call" || kvp.Key == "Reorganize shared drive" || kvp.Key == "Resolve Git merge conflicts" || kvp.Key == "Fix CSS layout sizes" || kvp.Key == "Fix CSS layout locations" || kvp.Key == "Walk in the Park" || kvp.Key == "Capsule Arcade VR" || kvp.Key == "Volcanic Hot Stone Spa" || kvp.Key == "Suburban Sensory Mud Spa" || kvp.Key == "Luxury Cryo Therapy" || kvp.Key == "Industrial Dive Bar";
-                        var b = new Button { text = (isCompleted ? "✅ " : "") + kvp.Key };
+                        var b = new Button { text = kvp.Key };
                         b.style.paddingTop = 20; b.style.paddingBottom = 20; b.style.marginBottom = 10;
                         b.style.fontSize = 28; b.style.color = Color.white;
                         b.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));

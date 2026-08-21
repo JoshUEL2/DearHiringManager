@@ -71,3 +71,842 @@ UnityEngine.Debug:LogError (object)
 GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:228)
 
 ---
+[Error] The UXML file set for the UIDocument could not be cloned.
+UnityEngine.UIElements.UIDocument:OnEnable () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/UIDocument.cs:446)
+
+---
+[Exception] ArgumentException: The input asset name cannot be empty.
+UnityEngine.AssetBundle.LoadAsset (System.String name, System.Type type) (at /Users/bokken/build/output/unity/unity/Modules/AssetBundle/Managed/AssetBundle.bindings.cs:242)
+UnityEditor.EditorGUIUtility.Load (System.String filename, System.Type type) (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorGUIUtility.cs:1310)
+UnityEditor.EditorGUIUtility.Load (System.String path) (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorGUIUtility.cs:1291)
+UnityEditor.UIElements.StyleSheets.StyleSheetResourceUtil.LoadResource (System.String pathName, System.Type type, System.Single displayDpiScaling) (at /Users/bokken/build/output/unity/unity/Editor/Mono/UIElements/StyleSheets/StyleSheetResourceUtil.cs:36)
+UnityEngine.UIElements.Panel.LoadResource (System.String pathName, System.Type type, System.Single dpiScaling) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:1222)
+UnityEngine.UIElements.VisualTreeAsset.ResolveTemplate (System.String templateName) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:926)
+UnityEngine.UIElements.TemplateAsset.Instantiate (UnityEngine.UIElements.CreationContext cc, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/TemplateAsset.cs:116)
+UnityEngine.UIElements.VisualTreeAsset.Create (UnityEngine.UIElements.VisualElementAsset asset, UnityEngine.UIElements.CreationContext ctx, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:1019)
+UnityEngine.UIElements.VisualTreeAsset.CloneSetupRecursively (UnityEngine.UIElements.VisualElementAsset asset, UnityEngine.UIElements.CreationContext context, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:654)
+UnityEngine.UIElements.VisualTreeAsset.CloneSetupRecursively (UnityEngine.UIElements.VisualElementAsset asset, UnityEngine.UIElements.CreationContext context, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:716)
+UnityEngine.UIElements.VisualTreeAsset.CloneSetupRecursively (UnityEngine.UIElements.VisualElementAsset asset, UnityEngine.UIElements.CreationContext context, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:716)
+UnityEngine.UIElements.VisualTreeAsset.CloneSetupRecursively (UnityEngine.UIElements.VisualElementAsset asset, UnityEngine.UIElements.CreationContext context, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:716)
+UnityEngine.UIElements.VisualTreeAsset.CloneTree (UnityEngine.UIElements.VisualElement target, UnityEngine.UIElements.CreationContext cc, UnityEngine.UIElements.VisualElementAssetReferenceTable+DocumentNode parentAuthoringNode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:633)
+UnityEngine.UIElements.VisualTreeAsset.CloneTree (UnityEngine.UIElements.VisualElement target, System.Int32& firstElementIndex, System.Int32& elementAddedCount) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:574)
+UnityEngine.UIElements.VisualTreeAsset.CloneTree (UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UXML/VisualTreeAsset.cs:551)
+UnityEngine.UIElements.UIDocument.RecreateUI () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/UIDocument.cs:820)
+UnityEngine.UIElements.UIDocument:OnEnable() (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/UIDocument.cs:446)
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/AcidRainContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/AutomatedTestsContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/BalanceMeterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CenterDivContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ChartAdjusterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ChoiceGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CloggedVentsContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CodeBreakerContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CodeCommenterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CoffeeWorkContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ConstructionSiteContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ContainmentProtocolContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/CorporateGolfContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/DialogueChainContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/DocumentSignerContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/DragCenterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/DragMatchContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/FallingSortContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/FileSorterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/FoodPrepContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ForgePassContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/FormatDashboardContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/FranticBackspaceContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/GalacticCouncilContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/GridDodgeContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/HospitalityGalaContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/HotStoneContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/IceShatterContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/IpHackContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/KanbanContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/MashRaceContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/MemoryMatchContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/MowGreensContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/NameMemoryContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/NeuralAlignerContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/NightShiftContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/OrderQueueContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/PumpGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/QATriageContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/GitMergeContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/RecycleBottlesContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/RetroRacerContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/RewardLogicContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ScrubPlateContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SentienceArrayContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SequenceGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SizeMatchContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SkimATMContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SliderGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SnatchBriefcaseContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SprintLaneContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/StartupPitchContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/StealthInjectContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SweepFloorContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/SwipeGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/TapGameContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/TetrisContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/TicketSwipeContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/TimingRingContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/TwoPhaseHeistContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/UnitTestContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/VideoCallContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/VrArcadeContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/WalkDogsContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/WhackABugContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/WhackGridContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/YesManContainer.uxml
+
+---
+[Error]  (2,2): Semantic - The specified URI refers to an invalid asset : Assets/UI/MiniGames/ZenTracingContainer.uxml
+
+---
+[Error]  (87,18): Semantic - Unknown template name 'AcidRainContainer'
+
+---
+[Error]  (88,18): Semantic - Unknown template name 'AutomatedTestsContainer'
+
+---
+[Error]  (89,18): Semantic - Unknown template name 'BalanceMeterContainer'
+
+---
+[Error]  (90,18): Semantic - Unknown template name 'CenterDivContainer'
+
+---
+[Error]  (91,18): Semantic - Unknown template name 'ChartAdjusterContainer'
+
+---
+[Error]  (92,18): Semantic - Unknown template name 'ChoiceGameContainer'
+
+---
+[Error]  (93,18): Semantic - Unknown template name 'CloggedVentsContainer'
+
+---
+[Error]  (94,18): Semantic - Unknown template name 'CodeBreakerContainer'
+
+---
+[Error]  (95,18): Semantic - Unknown template name 'CodeCommenterContainer'
+
+---
+[Error]  (96,18): Semantic - Unknown template name 'CoffeeWorkContainer'
+
+---
+[Error]  (97,18): Semantic - Unknown template name 'ConstructionSiteContainer'
+
+---
+[Error]  (98,18): Semantic - Unknown template name 'ContainmentProtocolContainer'
+
+---
+[Error]  (99,18): Semantic - Unknown template name 'CorporateGolfContainer'
+
+---
+[Error]  (100,18): Semantic - Unknown template name 'DialogueChainContainer'
+
+---
+[Error]  (101,18): Semantic - Unknown template name 'DocumentSignerContainer'
+
+---
+[Error]  (102,18): Semantic - Unknown template name 'DragCenterContainer'
+
+---
+[Error]  (103,18): Semantic - Unknown template name 'DragMatchContainer'
+
+---
+[Error]  (104,18): Semantic - Unknown template name 'FallingSortContainer'
+
+---
+[Error]  (105,18): Semantic - Unknown template name 'FileSorterContainer'
+
+---
+[Error]  (106,18): Semantic - Unknown template name 'FoodPrepContainer'
+
+---
+[Error]  (107,18): Semantic - Unknown template name 'ForgePassContainer'
+
+---
+[Error]  (108,18): Semantic - Unknown template name 'FormatDashboardContainer'
+
+---
+[Error]  (109,18): Semantic - Unknown template name 'FranticBackspaceContainer'
+
+---
+[Error]  (110,18): Semantic - Unknown template name 'GalacticCouncilContainer'
+
+---
+[Error]  (111,18): Semantic - Unknown template name 'GridDodgeContainer'
+
+---
+[Error]  (112,18): Semantic - Unknown template name 'HospitalityGalaContainer'
+
+---
+[Error]  (113,18): Semantic - Unknown template name 'HotStoneContainer'
+
+---
+[Error]  (114,18): Semantic - Unknown template name 'IceShatterContainer'
+
+---
+[Error]  (115,18): Semantic - Unknown template name 'IpHackContainer'
+
+---
+[Error]  (116,18): Semantic - Unknown template name 'KanbanContainer'
+
+---
+[Error]  (117,18): Semantic - Unknown template name 'MashRaceContainer'
+
+---
+[Error]  (118,18): Semantic - Unknown template name 'MemoryMatchContainer'
+
+---
+[Error]  (119,18): Semantic - Unknown template name 'MowGreensContainer'
+
+---
+[Error]  (120,18): Semantic - Unknown template name 'NameMemoryContainer'
+
+---
+[Error]  (121,18): Semantic - Unknown template name 'NeuralAlignerContainer'
+
+---
+[Error]  (122,18): Semantic - Unknown template name 'NightShiftContainer'
+
+---
+[Error]  (123,18): Semantic - Unknown template name 'OrderQueueContainer'
+
+---
+[Error]  (124,18): Semantic - Unknown template name 'PumpGameContainer'
+
+---
+[Error]  (125,18): Semantic - Unknown template name 'QATriageContainer'
+
+---
+[Error]  (126,18): Semantic - Unknown template name 'GitMergeContainer'
+
+---
+[Error]  (128,18): Semantic - Unknown template name 'RecycleBottlesContainer'
+
+---
+[Error]  (129,18): Semantic - Unknown template name 'RetroRacerContainer'
+
+---
+[Error]  (130,18): Semantic - Unknown template name 'RewardLogicContainer'
+
+---
+[Error]  (131,18): Semantic - Unknown template name 'ScrubPlateContainer'
+
+---
+[Error]  (132,18): Semantic - Unknown template name 'SentienceArrayContainer'
+
+---
+[Error]  (133,18): Semantic - Unknown template name 'SequenceGameContainer'
+
+---
+[Error]  (134,18): Semantic - Unknown template name 'SizeMatchContainer'
+
+---
+[Error]  (135,18): Semantic - Unknown template name 'SkimATMContainer'
+
+---
+[Error]  (136,18): Semantic - Unknown template name 'SliderGameContainer'
+
+---
+[Error]  (137,18): Semantic - Unknown template name 'SnatchBriefcaseContainer'
+
+---
+[Error]  (138,18): Semantic - Unknown template name 'SprintLaneContainer'
+
+---
+[Error]  (139,18): Semantic - Unknown template name 'StartupPitchContainer'
+
+---
+[Error]  (140,18): Semantic - Unknown template name 'StealthInjectContainer'
+
+---
+[Error]  (141,18): Semantic - Unknown template name 'SweepFloorContainer'
+
+---
+[Error]  (142,18): Semantic - Unknown template name 'SwipeGameContainer'
+
+---
+[Error]  (143,18): Semantic - Unknown template name 'TapGameContainer'
+
+---
+[Error]  (144,18): Semantic - Unknown template name 'TetrisContainer'
+
+---
+[Error]  (145,18): Semantic - Unknown template name 'TicketSwipeContainer'
+
+---
+[Error]  (146,18): Semantic - Unknown template name 'TimingRingContainer'
+
+---
+[Error]  (147,18): Semantic - Unknown template name 'TwoPhaseHeistContainer'
+
+---
+[Error]  (148,18): Semantic - Unknown template name 'UnitTestContainer'
+
+---
+[Error]  (149,18): Semantic - Unknown template name 'VideoCallContainer'
+
+---
+[Error]  (150,18): Semantic - Unknown template name 'VrArcadeContainer'
+
+---
+[Error]  (151,18): Semantic - Unknown template name 'WalkDogsContainer'
+
+---
+[Error]  (152,18): Semantic - Unknown template name 'WhackABugContainer'
+
+---
+[Error]  (153,18): Semantic - Unknown template name 'WhackGridContainer'
+
+---
+[Error]  (154,18): Semantic - Unknown template name 'YesManContainer'
+
+---
+[Error]  (155,18): Semantic - Unknown template name 'ZenTracingContainer'
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:55)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:55)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:55)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:55)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.SetupGameType (GameType type) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1397)
+LegacyMiniGameWrapper.StartGame () (at Assets/Scripts/2 Managers/MiniGames/LegacyMiniGameWrapper.cs:17)
+MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1290)
+GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.SetupGameType (GameType type) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1667)
+LegacyMiniGameWrapper.StartGame () (at Assets/Scripts/2 Managers/MiniGames/LegacyMiniGameWrapper.cs:17)
+MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1290)
+GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.BindLegacyUI (UnityEngine.UIElements.VisualElement activeRoot) (at Assets/Scripts/2 Managers/MiniGameManager.cs:68)
+MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1286)
+GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+FallingSortMiniGame.AbortGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:53)
+MiniGameManager.AbortGame () (at Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs:1134)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.BindLegacyUI (UnityEngine.UIElements.VisualElement activeRoot) (at Assets/Scripts/2 Managers/MiniGameManager.cs:68)
+MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1286)
+GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+MiniGameManager.BindLegacyUI (UnityEngine.UIElements.VisualElement activeRoot) (at Assets/Scripts/2 Managers/MiniGameManager.cs:68)
+MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:1286)
+GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
+UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
+UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
+UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
+UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---

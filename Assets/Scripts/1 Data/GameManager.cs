@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     private List<IWeeklySystem> weeklySystems;
 
+    public System.Action<string> OnGameOver;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
@@ -138,7 +140,16 @@ public class GameManager : MonoBehaviour
             currentData.completedCourses.Add(title);
         }
 
-        var course = gameDatabase.courses.Find(c => c != null && c.title == title);
+        CourseSO course = null;
+        foreach (var c in gameDatabase.courses)
+        {
+            if (c != null && c.title == title)
+            {
+                course = c;
+                break;
+            }
+        }
+        
         if (course != null)
         {
             if (course.unlocksBootcamp) currentData.hasBootcamp = true;
@@ -157,16 +168,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private List<RandomEventSO> _validGoodCache;
+    private List<RandomEventSO> _validBadCache;
+
     public RandomEventSO GetRandomEvent()
     {
-        var validGood = gameDatabase.goodEvents.FindAll(e => e != null);
-        var validBad = gameDatabase.badEvents.FindAll(e => e != null);
+        if (_validGoodCache == null)
+        {
+            _validGoodCache = new List<RandomEventSO>();
+            foreach (var e in gameDatabase.goodEvents) if (e != null) _validGoodCache.Add(e);
+        }
+        if (_validBadCache == null)
+        {
+            _validBadCache = new List<RandomEventSO>();
+            foreach (var e in gameDatabase.badEvents) if (e != null) _validBadCache.Add(e);
+        }
         
-        if (validGood.Count == 0 && validBad.Count == 0) return null;
+        if (_validGoodCache.Count == 0 && _validBadCache.Count == 0) return null;
 
         var pool = (Random.value < 0.30f) 
-            ? (validGood.Count > 0 ? validGood : validBad)
-            : (validBad.Count > 0 ? validBad : validGood);
+            ? (_validGoodCache.Count > 0 ? _validGoodCache : _validBadCache)
+            : (_validBadCache.Count > 0 ? _validBadCache : _validGoodCache);
 
         return pool[Random.Range(0, pool.Count)];
     }
@@ -208,12 +230,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private List<JobListingSO> _zoneJobsCache = new List<JobListingSO>();
+
     public void CycleJobs()
     {
         availableJobOpenings.Clear();
-        var zoneJobs = gameDatabase.jobs.FindAll(j => j != null && j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0));
+        _zoneJobsCache.Clear();
 
-        foreach (var job in zoneJobs)
+        foreach (var j in gameDatabase.jobs)
+        {
+            if (j != null && j.district == currentData.zone && (!rejectedJobsCooldown.ContainsKey(j.title) || rejectedJobsCooldown[j.title] <= 0))
+            {
+                _zoneJobsCache.Add(j);
+            }
+        }
+
+        foreach (var job in _zoneJobsCache)
         {
             if (Random.value < 0.85f)
             {
@@ -221,9 +253,9 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        if (availableJobOpenings.Count == 0 && zoneJobs.Count > 0)
+        if (availableJobOpenings.Count == 0 && _zoneJobsCache.Count > 0)
         {
-            availableJobOpenings.Add(zoneJobs[Random.Range(0, zoneJobs.Count)]);
+            availableJobOpenings.Add(_zoneJobsCache[Random.Range(0, _zoneJobsCache.Count)]);
         }
     }
 
@@ -250,8 +282,7 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         gameOverReason = reason;
         
-        // Note: The GameOverUI.cs script monitors GameManager in its Update() loop
-        // and will automatically display the death screen when isGameOver becomes true.
+        OnGameOver?.Invoke(reason);
     }
 
     public void CheckHeartAttack(System.Action onSafe)
@@ -268,10 +299,12 @@ public class GameManager : MonoBehaviour
 
     public double GetBaseSalary(string title)
     {
-        var job = gameDatabase.jobs.Find(j => j != null && j.title == title);
-        if (job != null)
+        foreach (var j in gameDatabase.jobs)
         {
-            return job.weeklySalary;
+            if (j != null && j.title == title)
+            {
+                return j.weeklySalary;
+            }
         }
         return 0.0;
     }
