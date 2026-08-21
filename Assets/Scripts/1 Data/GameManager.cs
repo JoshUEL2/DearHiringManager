@@ -308,18 +308,11 @@ public class GameManager : MonoBehaviour
 
     public double GetBaseSalary(string title)
     {
-        switch (title)
+        var job = gameDatabase.jobs.Find(j => j.title == title);
+        if (job != null)
         {
-            case "Dishwasher": return 120.0;
-            case "Scrap Metal Sorter": return 150.0;
-            case "Street Corner Sign Spinner": return 180.0;
-            case "Fast Food Shift Manager": return 400.0;
-            case "Corporate Cubicle Drone": return 650.0;
-            case "Junior React Trainee": return 900.0;
-            case "Corporate Quality Assurance Tester": return 750.0;
-            case "Executive Interstellar CEO": return 12000.0;
-            case "AI Prophecy Alignment Director": return 15000.0;
-            default: return 0.0;
+            return job.weeklySalary;
         }
+        return 0.0;
     }
 }
