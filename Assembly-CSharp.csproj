@@ -61,6 +61,7 @@
     <Compile Include="Assets/Scripts/3 UI/MigrationUI.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/ConstructionSiteMiniGame.cs" />
     <Compile Include="Assets/Scripts/3 UI/EventPopupUI.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/SizeMatchMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/TapMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager.cs" />
     <Compile Include="Assets/Scripts/3 UI/GameOverUI.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/GitMergeMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/PlayerBackstorySO.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines1.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/CenterDivMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines3.cs" />
     <Compile Include="Assets/Scripts/3 UI/ActivitiesUI.cs" />
     <Compile Include="Assets/Scripts/1 Data/SaveSystem.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/JobListingSO.cs" />
     <Compile Include="Assets/Scripts/3 UI/JailUI.cs" />
     <Compile Include="Assets/Scripts/1 Data/Systems/EventSystem.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/DragCenterMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGameManager_Routines5.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/QATriageMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />
