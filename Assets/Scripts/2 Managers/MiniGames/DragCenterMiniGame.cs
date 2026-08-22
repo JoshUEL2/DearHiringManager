@@ -38,6 +38,7 @@ public class DragCenterMiniGame : IMiniGame
         this.manager = manager;
         this.config = config;
         container = root.Q<VisualElement>("DragCenterContainer");
+        container.style.width = new Length(100f, LengthUnit.Percent);
 
         scoreText = container.Q<Label>("DcRoundText");
         timeText = container.Q<Label>("DcTimerText");

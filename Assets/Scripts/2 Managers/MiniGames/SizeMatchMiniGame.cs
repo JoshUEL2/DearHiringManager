@@ -35,6 +35,7 @@ public class SizeMatchMiniGame : IMiniGame
         this.manager = manager;
         this.config = config;
         container = root.Q<VisualElement>("SizeMatchContainer");
+        container.style.width = new Length(100f, LengthUnit.Percent);
 
         scoreText = container.Q<Label>("SmRoundText");
         timeText = container.Q<Label>("SmTimerText");
