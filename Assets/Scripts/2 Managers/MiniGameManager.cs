@@ -25,7 +25,6 @@ public partial class MiniGameManager : MonoBehaviour
 
         overlay.style.display = DisplayStyle.None;
         overlay.pickingMode = PickingMode.Ignore;}
-    private void BindLegacyUI(VisualElement activeRoot) { }
 
     private void InitializeConfigs()
     {
@@ -324,7 +323,6 @@ public partial class MiniGameManager : MonoBehaviour
         overlay.style.display = DisplayStyle.Flex;
         overlay.pickingMode = PickingMode.Position;
 
-        HideAllContainers();
         GameType typeToSetup = currentConfig.type;
         
         // Delegate to new Strategy Pattern
@@ -342,7 +340,6 @@ public partial class MiniGameManager : MonoBehaviour
             var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
             targetContainer.Add(activeGameUI);
             
-            BindLegacyUI(activeGameUI);
             activeGameUI.Focus();
             
             currentStrategy.Initialize(this, activeGameUI, currentConfig);}
@@ -353,496 +350,41 @@ public partial class MiniGameManager : MonoBehaviour
         
         currentStrategy.StartGame();}
 
-    private void HideAllContainers() { }
-
-    public void SetupGameType(GameType type)
+    public void LaunchPhase(GameType typeToSetup)
     {
-        switch (type)
-        {
-            case GameType.CloggedVents:
-                cvContainer.style.display = DisplayStyle.Flex;
-                SetupCloggedVents();
-                break;
-            case GameType.QATriage:
-                // Handled by Strategy
-                break;
-            case GameType.WhackABug:
-                wbContainer.style.display = DisplayStyle.Flex;
-                SetupWhackABug();
-                break;
-
-
-            case GameType.ZenTracing:
-                ztContainer.style.display = DisplayStyle.Flex;
-                SetupZenTracing();
-                break;
-            case GameType.IceShatter:
-                isContainer.style.display = DisplayStyle.Flex;
-                SetupIceShatter();
-                break;
-            case GameType.NameMemory:
-                nmContainer.style.display = DisplayStyle.Flex;
-                SetupNameMemory();
-                break;
-            case GameType.RetroRacer:
-                rrContainer.style.display = DisplayStyle.Flex;
-                SetupRetroRacer();
-                break;
-
-
-            case GameType.Choice:
-                choiceContainer.style.display = DisplayStyle.Flex;
-                btnChoice1.text = currentConfig.choices[0];
-                btnChoice2.text = currentConfig.choices[1];
-                btnChoice3.text = currentConfig.choices[2];
-                break;
-
-            case GameType.Sequence:
-                sequenceContainer.style.display = DisplayStyle.Flex;
-                if (btnReplayPattern != null)
-                    btnReplayPattern.style.display = (currentGame.name == "Perform a triple backflip spin") ? DisplayStyle.None : DisplayStyle.Flex;
-                GenerateSequence(currentConfig.sequenceLength);
-                activeGameRoutine = StartCoroutine(PlaySequenceRoutine());
-                break;
-
-            case GameType.Swipe:
-                swipeContainer.style.display = DisplayStyle.Flex;
-                score = 0;
-                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
-                swipeProgressText.text = $"Dodged: {score} / {currentConfig.targetScore}";
-                activeGameRoutine = StartCoroutine(SwipeGameRoutine());
-                break;
-
-            case GameType.MashRace:
-                mashRaceContainer.style.display = DisplayStyle.Flex;
-                score = 0;
-                playerMashProgress = 0f;
-                opponentProgress = 0f;
-                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 10f;
-                playerProgressBar.style.width = new Length(0, LengthUnit.Percent);
-                opponentProgressBar.style.width = new Length(0, LengthUnit.Percent);
-                
-                if (currentGame.name == "Stress test server load")
-                {
-                    if (playerMashLabel != null) { playerMashLabel.text = "INCOMING TRAFFIC"; playerMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#e67e22", out Color c1) ? c1 : Color.yellow);}
-                    if (opponentMashLabel != null) { opponentMashLabel.text = "SERVER LOAD (HEAT)"; opponentMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#e74c3c", out Color c2) ? c2 : Color.red);}
-                    playerProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#e67e22", out Color c3) ? c3 : Color.yellow);
-                    opponentProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#e74c3c", out Color c4) ? c4 : Color.red);
-                    mashRaceContainer.style.backgroundColor = new StyleColor(new Color(0.1f, 0.05f, 0.05f));}
-                else
-                {
-                    if (playerMashLabel != null) { playerMashLabel.text = "YOUR PROGRESS"; playerMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#2ECC71", out Color c5) ? c5 : Color.green);}
-                    if (opponentMashLabel != null) { opponentMashLabel.text = "OPPONENT"; opponentMashLabel.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#E74C3C", out Color c6) ? c6 : Color.red);}
-                    playerProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#2ECC71", out Color c7) ? c7 : Color.green);
-                    opponentProgressBar.style.backgroundColor = new StyleColor(ColorUtility.TryParseHtmlString("#E74C3C", out Color c8) ? c8 : Color.red);
-                    mashRaceContainer.style.backgroundColor = new StyleColor(Color.clear);}
-
-                activeGameRoutine = StartCoroutine(MashRaceRoutine());
-                break;
-
-            case GameType.MemoryMatch:
-                memoryMatchContainer.style.display = DisplayStyle.Flex;
-                SetupMemoryMatch(currentConfig.pairs);
-                break;
-
-            case GameType.TimingRing:
-                timingRingContainer.style.display = DisplayStyle.Flex;
-                timingTargetAngle = Random.Range(0f, 360f);
-                timingMarkerAngle = 0f;
-                timingSpinDir = 1;
-                timingCurrentRound = 0;
-                activeGameRoutine = StartCoroutine(TimingRingRoutine());
-                break;
-                
-            case GameType.FallingSort:
-                fallingSortContainer.style.display = DisplayStyle.Flex;
-                SetupFallingSort();
-                sortScore = 0;
-                timer = currentConfig.sortTimeLimit;
-                activeGameRoutine = StartCoroutine(FallingSortRoutine());
-                break;
-                
-
-            case GameType.WhackGrid:
-                whackGridContainer.style.display = DisplayStyle.Flex;
-                whackScore = 0;
-                timer = currentConfig.whackTime;
-                SetupWhackGrid();
-                activeGameRoutine = StartCoroutine(WhackGridRoutine());
-                break;
-                
-            case GameType.SweepFloor:
-                sweepFloorContainer.style.display = DisplayStyle.Flex;
-                SetupSweepFloor();
-                miniGameDocument.rootVisualElement.Focus();
-                activeGameRoutine = StartCoroutine(SweepFloorRoutine());
-                break;
-                
-            case GameType.PumpSystem:
-                pumpGameContainer.style.display = DisplayStyle.Flex;
-                pumpProgress = 0f;
-                pumpHoldTimer = 0f;
-                pumpProgressBar.style.height = Length.Percent(0f);
-                pumpHandle.style.top = Length.Percent(0f);
-                
-                if (currentConfig.pumpIsBalanceMode)
-                {
-                    pumpNormalBar.style.display = DisplayStyle.None;
-                    pumpDialContainer.style.display = DisplayStyle.Flex;
-                    
-                    pumpHoldTimerContainer.style.display = DisplayStyle.Flex;
-                    pumpHoldTimerBar.style.width = Length.Percent(0f);
-                    
-                    float minAngle = -120f + (currentConfig.pumpBalanceTargetMin * 240f);
-                    float maxAngle = -120f + (currentConfig.pumpBalanceTargetMax * 240f);
-                    float greenSweep = maxAngle - minAngle;
-                    
-                    float maskRot = 90f - greenSweep;
-                    float zoneRot = minAngle - maskRot;
-                    
-                    pumpDialTargetZone.style.rotate = new StyleRotate(new Rotate(new Angle(zoneRot)));
-                    pumpDialTargetArc.style.rotate = new StyleRotate(new Rotate(new Angle(maskRot)));
-                    
-                    pumpDialNeedleRotator.style.rotate = new StyleRotate(new Rotate(new Angle(-120f)));}
-                else
-                {
-                    pumpNormalBar.style.display = DisplayStyle.Flex;
-                    pumpDialContainer.style.display = DisplayStyle.None;
-                    pumpHoldTimerContainer.style.display = DisplayStyle.None;}
-                
-                activeGameRoutine = StartCoroutine(PumpSystemRoutine());
-                break;
-                
-            case GameType.ScrubPlate:
-                scrubPlateContainer.style.display = DisplayStyle.Flex;
-                SetupScrubPlate();
-                activeGameRoutine = StartCoroutine(ScrubPlateRoutine());
-                break;
-                
-            case GameType.CodeBreaker:
-                codeBreakerContainer.style.display = DisplayStyle.Flex;
-                SetupCodeBreaker();
-                break;
-                
-            case GameType.BalanceMeter:
-                balanceMeterContainer.style.display = DisplayStyle.Flex;
-                balanceValue = 50f;
-                balanceTimeInZone = 0f;
-                activeGameRoutine = StartCoroutine(BalanceMeterRoutine());
-                break;
-                
-            case GameType.DialogueChain:
-                dialogueChainContainer.style.display = DisplayStyle.Flex;
-                dialogueRound = 0;
-                rapportValue = 0.5f;
-                UpdateDialogueUI();
-                activeGameRoutine = StartCoroutine(DialogueChainRoutine());
-                break;
-                
-            case GameType.OrderQueue:
-                orderQueueContainer.style.display = DisplayStyle.Flex;
-                if (currentGame.name == "Train new hire on POS system")
-                {
-                    orderQueueContainer.style.backgroundColor = new StyleColor(new Color(0.05f, 0.12f, 0.05f));
-                    orderQueueContainer.style.borderTopWidth = 15;
-                    orderQueueContainer.style.borderBottomWidth = 15;
-                    orderQueueContainer.style.borderLeftWidth = 15;
-                    orderQueueContainer.style.borderRightWidth = 15;
-                    orderQueueContainer.style.borderTopColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
-                    orderQueueContainer.style.borderBottomColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
-                    orderQueueContainer.style.borderLeftColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
-                    orderQueueContainer.style.borderRightColor = new StyleColor(new Color(0.85f, 0.85f, 0.8f));
-                    orderQueueContainer.style.borderTopLeftRadius = 20;
-                    orderQueueContainer.style.borderTopRightRadius = 20;
-                    orderQueueContainer.style.borderBottomLeftRadius = 20;
-                    orderQueueContainer.style.borderBottomRightRadius = 20;
-                    orderQueueContainer.style.paddingTop = 20;
-                    orderQueueContainer.style.paddingBottom = 20;
-                    
-                    orderStatusText.style.color = new StyleColor(new Color(0.2f, 1f, 0.2f));
-                    orderStatusText.text = "POS READY\nMEMORIZE INPUT:";}
-                else if (currentGame.name == "Verify hotfix deployment")
-                {
-                    Color ghBg = ColorUtility.TryParseHtmlString("#0d1117", out Color c1) ? c1 : new Color(0.05f, 0.06f, 0.09f);
-                    Color ghBorder = ColorUtility.TryParseHtmlString("#30363d", out Color c2) ? c2 : new Color(0.18f, 0.21f, 0.23f);
-                    
-                    orderQueueContainer.style.backgroundColor = new StyleColor(ghBg);
-                    orderQueueContainer.style.borderTopWidth = 2;
-                    orderQueueContainer.style.borderBottomWidth = 2;
-                    orderQueueContainer.style.borderLeftWidth = 2;
-                    orderQueueContainer.style.borderRightWidth = 2;
-                    orderQueueContainer.style.borderTopColor = new StyleColor(ghBorder);
-                    orderQueueContainer.style.borderBottomColor = new StyleColor(ghBorder);
-                    orderQueueContainer.style.borderLeftColor = new StyleColor(ghBorder);
-                    orderQueueContainer.style.borderRightColor = new StyleColor(ghBorder);
-                    orderQueueContainer.style.borderTopLeftRadius = 10;
-                    orderQueueContainer.style.borderTopRightRadius = 10;
-                    orderQueueContainer.style.borderBottomLeftRadius = 10;
-                    orderQueueContainer.style.borderBottomRightRadius = 10;
-                    orderQueueContainer.style.paddingTop = 20;
-                    orderQueueContainer.style.paddingBottom = 20;
-                    
-                    orderStatusText.style.color = new StyleColor(ColorUtility.TryParseHtmlString("#c9d1d9", out Color c3) ? c3 : Color.white);
-                    orderStatusText.text = "VERIFY WORKFLOW RUN";}
-                else
-                {
-                    orderQueueContainer.style.backgroundColor = new StyleColor(Color.clear);
-                    orderQueueContainer.style.borderTopWidth = 0;
-                    orderQueueContainer.style.borderBottomWidth = 0;
-                    orderQueueContainer.style.borderLeftWidth = 0;
-                    orderQueueContainer.style.borderRightWidth = 0;
-                    orderQueueContainer.style.paddingTop = 0;
-                    orderQueueContainer.style.paddingBottom = 0;
-                    
-                    orderStatusText.style.color = new StyleColor(new Color(0.94f, 0.76f, 0.05f));
-                    orderStatusText.text = "MEMORIZE THE ORDER!";}
-                activeGameRoutine = StartCoroutine(OrderQueueRoutine());
-                break;
-                
-            case GameType.DragMatch:
-                dragMatchContainer.style.display = DisplayStyle.Flex;
-                SetupDragMatch();
-                break;
-                
-            case GameType.SprintLane:
-                sprintLaneContainer.style.display = DisplayStyle.Flex;
-                sprintDistance = 0;
-                sprintProgressBar.style.width = new Length(0, LengthUnit.Percent);
-                activeGameRoutine = StartCoroutine(SprintLaneRoutine());
-                break;
-                
-            case GameType.Tetris:
-                tetrisContainer.style.display = DisplayStyle.Flex;
-                SetupTetris();
-                activeGameRoutine = StartCoroutine(TetrisRoutine());
-                break;
-                
-            case GameType.AcidRainShield:
-                acidRainContainer.style.display = DisplayStyle.Flex;
-                acidBurn = 0f;
-                acidSignAngle = -90f;
-                acidSignPivot.style.rotate = new StyleRotate(new Rotate(new Angle(0f, AngleUnit.Degree)));
-                acidBurnBar.style.width = new Length(0, LengthUnit.Percent);
-                acidDropContainer.Clear();
-                activeGameRoutine = StartCoroutine(AcidRainRoutine());
-                break;
-
-            case GameType.VideoCall:
-                videoCallContainer.style.display = DisplayStyle.Flex;
-                SetupVideoCall();
-                break;
-                
-            case GameType.KanbanBoard:
-                kanbanContainer.style.display = DisplayStyle.Flex;
-                SetupKanbanBoard();
-                break;
-                
-            case GameType.FileSorter:
-                if (fileSorterContainer != null) fileSorterContainer.style.display = DisplayStyle.Flex;
-                SetupFileSorter();
-                break;
-
-            case GameType.CoffeeWork:
-                if (coffeeWorkContainer != null) coffeeWorkContainer.style.display = DisplayStyle.Flex;
-                SetupCoffeeWork();
-                break;
-                
-            case GameType.UnitTestRunner:
-                unitTestContainer.style.display = DisplayStyle.Flex;
-                SetupUnitTest();
-                break;
-                
-            case GameType.CenterDiv:
-                centerDivContainer.style.display = DisplayStyle.Flex;
-                SetupCenterDiv();
-                break;
-                
-            case GameType.DragCenter:
-                if (dragCenterContainer != null) dragCenterContainer.style.display = DisplayStyle.Flex;
-                dcPoints = 0;
-                SetupDragCenter();
-                break;
-                
-            case GameType.SizeMatch:
-                if (sizeMatchContainer != null) sizeMatchContainer.style.display = DisplayStyle.Flex;
-                smPoints = 0;
-                SetupSizeMatch();
-                break;
-
-            case GameType.StealthInject:
-                if (stealthInjectContainer != null) stealthInjectContainer.style.display = DisplayStyle.Flex;
-                SetupStealthInject();
-                break;
-
-            case GameType.AutomatedTests:
-                if (automatedTestsContainer != null) automatedTestsContainer.style.display = DisplayStyle.Flex;
-                SetupAutomatedTests();
-                break;
-                
-            case GameType.CodeCommenter:
-                if (codeCommenterContainer != null) codeCommenterContainer.style.display = DisplayStyle.Flex;
-                SetupCodeCommenter();
-                break;
-
-            case GameType.DocumentSigner:
-                if (documentSignerContainer != null) documentSignerContainer.style.display = DisplayStyle.Flex;
-                SetupDocumentSigner();
-                break;
-                
-            case GameType.ChartAdjuster:
-                if (chartAdjusterContainer != null) chartAdjusterContainer.style.display = DisplayStyle.Flex;
-                SetupChartAdjuster();
-                break;
-                
-
-
-
-
-            case GameType.VrArcadePong:
-                if (vrArcadeContainer != null) vrArcadeContainer.style.display = DisplayStyle.Flex;
-                SetupVrArcadePong();
-                break;
-            case GameType.HotStoneSpa:
-                if (hotStoneContainer != null) hotStoneContainer.style.display = DisplayStyle.Flex;
-                SetupHotStoneSpa();
-                break;
-            case GameType.MowGreens:
-                if (mgContainer != null) mgContainer.style.display = DisplayStyle.Flex;
-                SetupMowGreens();
-                break;
-            case GameType.WalkDogs:
-                if (wdContainer != null) wdContainer.style.display = DisplayStyle.Flex;
-                SetupWalkDogs();
-                break;
-            case GameType.TwoPhaseHeist:
-                if (tphContainer != null) tphContainer.style.display = DisplayStyle.Flex;
-                SetupTwoPhaseHeist();
-                break;
-            case GameType.ForgePass:
-                if (fpContainer != null) fpContainer.style.display = DisplayStyle.Flex;
-                SetupForgePass();
-                break;
-            case GameType.SnatchBriefcase:
-                if (snatchBriefcaseContainer != null) snatchBriefcaseContainer.style.display = DisplayStyle.Flex;
-                SetupSnatchBriefcase();
-                break;
-            case GameType.SkimATM:
-                if (saContainer != null) saContainer.style.display = DisplayStyle.Flex;
-                SetupSkimATM();
-                break;
-            case GameType.IpHack:
-                if (ipHackContainer != null) ipHackContainer.style.display = DisplayStyle.Flex;
-                SetupIpHack();
-                break;
-            case GameType.HospitalityGala:
-                if (hgContainer != null) hgContainer.style.display = DisplayStyle.Flex;
-                SetupHospitalityGala();
-                break;
-            case GameType.StartupPitch:
-                if (spContainer != null) spContainer.style.display = DisplayStyle.Flex;
-                SetupStartupPitch();
-                break;
-            case GameType.CorporateGolf:
-                if (cgContainer != null) cgContainer.style.display = DisplayStyle.Flex;
-                SetupCorporateGolf();
-                break;
-            case GameType.NightShiftPitch:
-                if (nightShiftContainer != null) nightShiftContainer.style.display = DisplayStyle.Flex;
-                SetupNightShiftPitch();
-                break;
-            case GameType.YesManNod:
-                if (yesManContainer != null) yesManContainer.style.display = DisplayStyle.Flex;
-                SetupYesManNod();
-                break;
-            case GameType.FormatDashboard:
-                if (formatDashboardContainer != null) formatDashboardContainer.style.display = DisplayStyle.Flex;
-                SetupFormatDashboard();
-                break;
-            case GameType.FranticBackspace:
-                if (franticBackspaceContainer != null) franticBackspaceContainer.style.display = DisplayStyle.Flex;
-                SetupFranticBackspace();
-                break;
-            case GameType.SentienceArray:
-                if (sentienceArrayContainer != null) sentienceArrayContainer.style.display = DisplayStyle.Flex;
-                SetupSentienceArray();
-                break;
-            case GameType.ContainmentProtocol:
-                if (containmentProtocolContainer != null) containmentProtocolContainer.style.display = DisplayStyle.Flex;
-                SetupContainmentProtocol();
-                break;
-            case GameType.RewardLogic:
-                if (rewardLogicContainer != null) rewardLogicContainer.style.display = DisplayStyle.Flex;
-                SetupRewardLogic();
-                break;
-            case GameType.GalacticCouncil:
-                if (galacticCouncilContainer != null) galacticCouncilContainer.style.display = DisplayStyle.Flex;
-                SetupGalacticCouncil();
-                break;
-            case GameType.NeuralAligner:
-                if (neuralAlignerContainer != null) neuralAlignerContainer.style.display = DisplayStyle.Flex;
-                SetupNeuralAligner();
-                break;
-
-            case GameType.FoodPrepRush:
-                foodPrepContainer.style.display = DisplayStyle.Flex;
-                score = 0;
-                timer = currentConfig.timeLimit > 0 ? currentConfig.timeLimit : 15f;
-                prepTimerText.text = $"{timer:0.0}s";
-                prepScoreText.text = $"Prepped: 0 / {currentConfig.targetScore}";
-                for(int i=0; i<4; i++)
-                {
-                    prepProgress[i] = 0f;
-                    prepFreezes[i] = 0f;
-                    prepBars[i].style.height = new Length(0, LengthUnit.Percent);
-                    prepStatus[i].text = "";}
-                activeGameRoutine = StartCoroutine(FoodPrepRoutine());
-                break;}}
-
-    private void SetupFallingSort()
-    {
-        fallZone.Clear();
-        binsRow.Clear();
+        if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
         
-        Color[] binColors = new Color[] {
-            new Color(0.9f, 0.3f, 0.3f), // Red
-            new Color(0.3f, 0.8f, 0.3f), // Green
-            new Color(0.9f, 0.8f, 0.2f), // Yellow};
-        
-        for (int i = 0; i < currentConfig.binLabels.Length; i++)
+        currentStrategy?.AbortGame();
+
+        if (activeGameUI != null)
         {
-            var bin = new VisualElement();
-            bin.style.flexGrow = 1;
-            bin.style.backgroundColor = new StyleColor(binColors[i % binColors.Length]);
-            bin.style.borderLeftWidth = 4;
-            bin.style.borderRightWidth = 4;
-            bin.style.borderTopWidth = 0;
-            bin.style.borderBottomWidth = 4;
-            bin.style.borderLeftColor = new StyleColor(Color.black);
-            bin.style.borderRightColor = new StyleColor(Color.black);
-            bin.style.borderBottomColor = new StyleColor(Color.black);
+            activeGameUI.RemoveFromHierarchy();
+            activeGameUI = null;
+        }
+
+        currentStrategy = MiniGameFactory.Create(typeToSetup);
+        string uxmlName = GetUxmlName(typeToSetup);
+        var template = Resources.Load<VisualTreeAsset>("MiniGames/" + uxmlName);
+        
+        if (template != null)
+        {
+            activeGameUI = template.Instantiate();
+            activeGameUI.style.flexGrow = 1;
             
-            // Bin Shape
-            bin.style.borderBottomLeftRadius = 20;
-            bin.style.borderBottomRightRadius = 20;
-            bin.style.borderTopLeftRadius = 5;
-            bin.style.borderTopRightRadius = 5;
+            var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+            targetContainer.Add(activeGameUI);
             
-            bin.style.marginRight = 10;
-            bin.style.marginLeft = 10;
-            bin.style.justifyContent = Justify.Center;
-            bin.style.alignItems = Align.Center;
-            
-            // Extract just the emoji if present, else use full text
-            string fullText = currentConfig.fallingItems[i];
-            string emojiText = fullText;
-            if (fullText.Contains(" ")) emojiText = fullText.Split(' ')[0];
-            
-            var label = new Label(emojiText); 
-            label.style.fontSize = 50;
-            label.style.color = Color.white;
-            bin.Add(label);
-            
-            binsRow.Add(bin);}}
+            activeGameUI.Focus();
+            currentStrategy.Initialize(this, activeGameUI, currentConfig);
+        }
+        else
+        {
+            currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);
+        }
+        
+        currentStrategy.StartGame();
+    }
+
     public void MarkWinReady()
     {
         if (currentConfig.type == GameType.TwoPhaseHeist)
@@ -850,12 +392,12 @@ public partial class MiniGameManager : MonoBehaviour
             if (currentPhase == 1) {
                 currentPhase = 2;
                 if (instructionsText != null) instructionsText.text = "Phase 2: HACK!";
-                SetupGameType(currentConfig.phase2Type);
+                LaunchPhase(currentConfig.phase2Type);
                 return;
             } else if (currentPhase == 2 && currentConfig.phase3Type != 0) {
                 currentPhase = 3;
                 if (instructionsText != null) instructionsText.text = "Phase 3: ESCAPE!";
-                SetupGameType(currentConfig.phase3Type);
+                LaunchPhase(currentConfig.phase3Type);
                 return;
             }
         }
@@ -865,6 +407,17 @@ public partial class MiniGameManager : MonoBehaviour
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
 
         FinishGame();
+    }
+
+    public void EndGame(bool won)
+    {
+        if (won) MarkWinReady();
+        else AbortGame();
+    }
+
+    public void FailGame()
+    {
+        AbortGame();
     }
 
     public void AbortGame()

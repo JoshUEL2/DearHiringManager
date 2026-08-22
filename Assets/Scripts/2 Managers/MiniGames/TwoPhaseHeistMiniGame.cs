@@ -52,8 +52,7 @@ public class TwoPhaseHeistMiniGame : IMiniGame
             if (flashTimer <= 0f)
             {
                 manager.isPlaying = false;
-                manager.HideAllContainers();
-                manager.SetupGameType(config.phase1Type);
+                manager.LaunchPhase(config.phase1Type);
                 yield break;
             }
             yield return null;

@@ -53,14 +53,14 @@ public class ForgePassMiniGame : IMiniGame
         fpPassPos = -250f;
         fpIsPaused = false;
         
-        if (fpScoreText != null) fpScoreText.text = $\"FORGED: {fpSuccessfulStamps} / 1\";
-        if (fpStampBtn != null) fpStampBtn.text = \"STAMP NOW! (3 LIVES)\";
+        if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 1";
+        if (fpStampBtn != null) fpStampBtn.text = "STAMP NOW! (3 LIVES)";
         if (fpMovingPass != null) {
             fpMovingPass.style.left = fpPassPos;
             fpMovingPass.style.backgroundColor = new StyleColor(new Color(0.97f, 0.98f, 0.98f));
         }
         if (fpPassStampOverlay != null) {
-            fpPassStampOverlay.text = \"\";
+            fpPassStampOverlay.text = "";
             fpPassStampOverlay.style.color = Color.clear;
         }
 
@@ -85,7 +85,7 @@ public class ForgePassMiniGame : IMiniGame
         if (!manager.isPlaying || fpIsPaused) return;
         
         Vector2 passCenter = fpMovingPass.worldBound.center;
-        VisualElement stampZone = fpContainer.Q<VisualElement>(\"FpStampZone\");
+        VisualElement stampZone = fpContainer.Q<VisualElement>("FpStampZone");
         Vector2 stampCenter = stampZone.worldBound.center;
         
         float dist = Vector2.Distance(passCenter, stampCenter);
@@ -99,7 +99,7 @@ public class ForgePassMiniGame : IMiniGame
         fpIsPaused = true;
         
         if (fpPassStampOverlay != null) {
-            fpPassStampOverlay.text = success ? \"APPROVED\" : \"REJECTED\";
+            fpPassStampOverlay.text = success ? "APPROVED" : "REJECTED";
             fpPassStampOverlay.style.color = success ? new Color(0.06f, 0.73f, 0.51f, 0.9f) : new Color(0.94f, 0.27f, 0.27f, 0.9f);
             
             fpPassStampOverlay.style.scale = new StyleScale(new Scale(new Vector3(3f, 3f, 1f)));
@@ -121,7 +121,7 @@ public class ForgePassMiniGame : IMiniGame
         
         if (success) {
             fpSuccessfulStamps++;
-            if (fpScoreText != null) fpScoreText.text = $\"FORGED: {fpSuccessfulStamps} / 1\";
+            if (fpScoreText != null) fpScoreText.text = $"FORGED: {fpSuccessfulStamps} / 1";
             if (fpSuccessfulStamps >= 1) {
                 manager.MarkWinReady();
                 yield break;
@@ -132,13 +132,13 @@ public class ForgePassMiniGame : IMiniGame
                 manager.AbortGame();
                 yield break;
             }
-            if (fpStampBtn != null) fpStampBtn.text = $\"STAMP NOW! ({3 - fpAttempts} LIVES)\";
+            if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
         }
         
         fpSpeed += 250f;
         fpPassPos = -250f;
         if (fpPassStampOverlay != null) {
-            fpPassStampOverlay.text = \"\";
+            fpPassStampOverlay.text = "";
             fpPassStampOverlay.style.color = Color.clear;
         }
         
@@ -161,7 +161,7 @@ public class ForgePassMiniGame : IMiniGame
                     } else {
                         fpSpeed += 250f;
                         fpPassPos = -250f;
-                        if (fpStampBtn != null) fpStampBtn.text = $\"STAMP NOW! ({3 - fpAttempts} LIVES)\";
+                        if (fpStampBtn != null) fpStampBtn.text = $"STAMP NOW! ({3 - fpAttempts} LIVES)";
                     }
                 }
                 

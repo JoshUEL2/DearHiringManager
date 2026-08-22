@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc40b216e5844513af762070d3ee2cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  currentData:
+  _currentData:
     playerName: 
     currentWeek: 1
     balance: 500
@@ -721,22 +721,22 @@ MonoBehaviour:
     luckCorporate: 0.1
     mentalHealth: 0.8
     promotionProgress: 0
-  isGameOver: 0
-  gameOverReason: 
-  activeEventPopup:
+  _isGameOver: 0
+  _gameOverReason: 
+  _activeEventPopup:
     title: 
     description: 
     cashOffset: 0
     stressOffset: 0
     luckType: 
     luckOffset: 0
-  activeNewsFeed: 'OFFICIAL REPORT: Sector surveillance grid 100% online. Real estate
+  _activeNewsFeed: 'OFFICIAL REPORT: Sector surveillance grid 100% online. Real estate
     and utilities stable.'
-  availableJobOpenings: []
-  financialHistory: []
-  hasHustledThisWeek: 0
-  jobMarketLuckBonus: 0
-  completedRegularTaskThisWeek: 0
+  _availableJobOpenings: []
+  _financialHistory: []
+  _hasHustledThisWeek: 0
+  _jobMarketLuckBonus: 0
+  _completedRegularTaskThisWeek: 0
 --- !u!4 &1326822133
 Transform:
   m_ObjectHideFlags: 0
@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf48745117b3e41039b0c4c994f94c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameManager
-  miniGameDocument: {fileID: 1905333128}
+  _miniGameDocument: {fileID: 1905333128}
 --- !u!114 &1905333128
 MonoBehaviour:
   m_ObjectHideFlags: 0

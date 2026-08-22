@@ -1,54 +1,55 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     [Header("Active Game State")]
-    [SerializeField] private SavedGame _currentData;
+    [FormerlySerializedAs("currentData")] [SerializeField] private SavedGame _currentData;
     public SavedGame currentData { get => _currentData; set => _currentData = value; }
 
-    [SerializeField] private bool _isGameOver = false;
+    [FormerlySerializedAs("isGameOver")] [SerializeField] private bool _isGameOver = false;
     public bool isGameOver { get => _isGameOver; set => _isGameOver = value; }
 
-    [SerializeField] private string _gameOverReason = "";
+    [FormerlySerializedAs("gameOverReason")] [SerializeField] private string _gameOverReason = "";
     public string gameOverReason { get => _gameOverReason; set => _gameOverReason = value; }
 
     [Header("Dynamic Game State")]
-    [SerializeField] private RandomEventSO _activeEventPopup = null;
+    [FormerlySerializedAs("activeEventPopup")] [SerializeField] private RandomEventSO _activeEventPopup = null;
     public RandomEventSO activeEventPopup { get => _activeEventPopup; set => _activeEventPopup = value; }
 
-    [SerializeField] private string _activeNewsFeed = "OFFICIAL REPORT: Sector surveillance grid 100% online. Real estate and utilities stable.";
+    [FormerlySerializedAs("activeNewsFeed")] [SerializeField] private string _activeNewsFeed = "OFFICIAL REPORT: Sector surveillance grid 100% online. Real estate and utilities stable.";
     public string activeNewsFeed { get => _activeNewsFeed; set => _activeNewsFeed = value; }
 
-    [SerializeField] private List<JobListingSO> _availableJobOpenings = new List<JobListingSO>();
+    [FormerlySerializedAs("availableJobOpenings")] [SerializeField] private List<JobListingSO> _availableJobOpenings = new List<JobListingSO>();
     public List<JobListingSO> availableJobOpenings { get => _availableJobOpenings; set => _availableJobOpenings = value; }
 
     [System.NonSerialized]
     private Dictionary<string, int> _rejectedJobsCooldown = new Dictionary<string, int>();
     public Dictionary<string, int> rejectedJobsCooldown { get => _rejectedJobsCooldown; set => _rejectedJobsCooldown = value; }
 
-    [SerializeField] private List<FinancialSnapshot> _financialHistory = new List<FinancialSnapshot>();
+    [FormerlySerializedAs("financialHistory")] [SerializeField] private List<FinancialSnapshot> _financialHistory = new List<FinancialSnapshot>();
     public List<FinancialSnapshot> financialHistory { get => _financialHistory; set => _financialHistory = value; }
     
-    [SerializeField] private bool _hasHustledThisWeek = false;
+    [FormerlySerializedAs("hasHustledThisWeek")] [SerializeField] private bool _hasHustledThisWeek = false;
     public bool hasHustledThisWeek { get => _hasHustledThisWeek; set => _hasHustledThisWeek = value; }
     
     // private bool parkFreeThisWeek = false;
-    [SerializeField] private float _rentDiscountThisWeek = 0.0f;
+    [FormerlySerializedAs("rentDiscountThisWeek")] [SerializeField] private float _rentDiscountThisWeek = 0.0f;
     public float rentDiscountThisWeek { get => _rentDiscountThisWeek; set => _rentDiscountThisWeek = value; }
 
-    [SerializeField] private float _jobMarketLuckBonus = 0.0f;
+    [FormerlySerializedAs("jobMarketLuckBonus")] [SerializeField] private float _jobMarketLuckBonus = 0.0f;
     public float jobMarketLuckBonus { get => _jobMarketLuckBonus; set => _jobMarketLuckBonus = value; }
 
-    [SerializeField] private bool _completedRegularTaskThisWeek = false;
+    [FormerlySerializedAs("completedRegularTaskThisWeek")] [SerializeField] private bool _completedRegularTaskThisWeek = false;
     public bool completedRegularTaskThisWeek { get => _completedRegularTaskThisWeek; set => _completedRegularTaskThisWeek = value; }
 
     // Helper to allow existing EducationUI script to access the list easily
     public List<string> completedCourses => currentData.completedCourses;
 
-    [SerializeField] private GameDatabaseSO _gameDatabase;
+    [FormerlySerializedAs("gameDatabase")] [SerializeField] private GameDatabaseSO _gameDatabase;
     public GameDatabaseSO gameDatabase { get => _gameDatabase; set => _gameDatabase = value; }
 
     private List<IWeeklySystem> weeklySystems;

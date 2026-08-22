@@ -13,8 +13,8 @@ public class LegacyMiniGameWrapper : IMiniGame
 
     public void StartGame()
     {
-        // Route to the old massive SetupGameType switch statement
-        manager.SetupGameType(config.type);
+        UnityEngine.Debug.LogError($"Legacy minigame {config.type} has not been implemented in a strategy! Aborting.");
+        manager.AbortGame();
     }
 
     public void AbortGame()
