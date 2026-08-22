@@ -5,26 +5,27 @@ using System.Collections.Generic;
 
 public class FallingSortMiniGame : IMiniGame
 {
-    private MiniGameManager manager;
-    private MiniGameConfig config;
-    private VisualElement container;
-
-    private VisualElement fallZone;
-    private VisualElement binsRow;
-    private Label sortScoreText;
-    private Label sortTimerText;
-
-    private int sortScore = 0;
-    private float timer = 0f;
-
     private class FallingItemData
     {
         public VisualElement element;
         public Vector2 position;
         public Vector2 velocity;
-        public bool isDragging;
         public int typeId;
+        public bool isDragging;
     }
+
+    private MiniGameManager manager;
+    private MiniGameConfig config;
+    private VisualElement container;
+
+    private VisualElement fallZone;
+    private VisualElement binContainer;
+    private Label sortScoreText;
+    private Label sortTimerText;
+
+    private int sortScore = 0;
+    private float timer = 30f;
+    private bool isPlaying = false;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -32,74 +33,45 @@ public class FallingSortMiniGame : IMiniGame
         this.config = config;
         
         container = root.Q<VisualElement>("FallingSortContainer");
-        fallZone = root.Q<VisualElement>("FallZone");
-        binsRow = root.Q<VisualElement>("BinsRow");
-        sortScoreText = root.Q<Label>("SortScoreText");
-        sortTimerText = root.Q<Label>("SortTimerText");
+        fallZone = container.Q<VisualElement>("FallZone");
+        binContainer = container.Q<VisualElement>("BinContainer");
+        sortScoreText = container.Q<Label>("SortScoreText");
+        sortTimerText = container.Q<Label>("SortTimerText");
     }
 
     public void StartGame()
     {
+        isPlaying = true;
         sortScore = 0;
-        timer = config.timeLimit > 0 ? config.timeLimit : 15f;
-        container.style.display = DisplayStyle.Flex;
+        timer = config.sortTimeLimit > 0 ? config.sortTimeLimit : 30f;
+        
+        if (sortScoreText != null) sortScoreText.text = $"Sorted: 0 / {config.sortTarget}";
+        
+        if (binContainer != null && config.binLabels != null)
+        {
+            binContainer.Clear();
+            foreach (var label in config.binLabels)
+            {
+                var lbl = new Label(label);
+                lbl.style.flexGrow = 1;
+                lbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+                lbl.style.fontSize = 24;
+                lbl.style.borderTopWidth = 2; lbl.style.borderLeftWidth = 2; lbl.style.borderRightWidth = 2;
+                lbl.style.borderTopColor = Color.white; lbl.style.borderLeftColor = Color.white; lbl.style.borderRightColor = Color.white;
+                binContainer.Add(lbl);
+            }
+        }
+        
+        if (fallZone != null) fallZone.Clear();
 
-        SetupFallingSort();
+        container.style.display = DisplayStyle.Flex;
         manager.StartCoroutine(FallingSortRoutine());
     }
 
     public void AbortGame()
     {
+        isPlaying = false;
         container.style.display = DisplayStyle.None;
-    }
-
-    private void SetupFallingSort()
-    {
-        fallZone.Clear();
-        binsRow.Clear();
-        
-        Color[] binColors = new Color[] {
-            new Color(0.9f, 0.3f, 0.3f), // Red
-            new Color(0.3f, 0.8f, 0.3f), // Green
-            new Color(0.9f, 0.8f, 0.2f), // Yellow
-        };
-        
-        for (int i = 0; i < config.binLabels.Length; i++)
-        {
-            var bin = new VisualElement();
-            bin.style.flexGrow = 1;
-            bin.style.backgroundColor = new StyleColor(binColors[i % binColors.Length]);
-            bin.style.borderLeftWidth = 4;
-            bin.style.borderRightWidth = 4;
-            bin.style.borderTopWidth = 0;
-            bin.style.borderBottomWidth = 4;
-            bin.style.borderLeftColor = new StyleColor(Color.black);
-            bin.style.borderRightColor = new StyleColor(Color.black);
-            bin.style.borderBottomColor = new StyleColor(Color.black);
-            
-            // Bin Shape
-            bin.style.borderBottomLeftRadius = 20;
-            bin.style.borderBottomRightRadius = 20;
-            bin.style.borderTopLeftRadius = 5;
-            bin.style.borderTopRightRadius = 5;
-            
-            bin.style.marginRight = 10;
-            bin.style.marginLeft = 10;
-            bin.style.justifyContent = Justify.Center;
-            bin.style.alignItems = Align.Center;
-            
-            // Extract just the emoji if present, else use full text
-            string fullText = config.fallingItems[i];
-            string emojiText = fullText;
-            if (fullText.Contains(" ")) emojiText = fullText.Split(' ')[0];
-            
-            var label = new Label(emojiText); 
-            label.style.fontSize = 50;
-            label.style.color = Color.white;
-            bin.Add(label);
-            
-            binsRow.Add(bin);
-        }
     }
 
     private IEnumerator FallingSortRoutine()
@@ -108,9 +80,9 @@ public class FallingSortMiniGame : IMiniGame
         float spawnTimer = 0f;
         int itemsSpawned = 0;
         int totalToDrop = 10;
-        float gravity = 600f; // Slower falling
+        float gravity = 600f; 
 
-        while (manager.isPlaying && sortScore < config.sortTarget && timer > 0)
+        while (isPlaying && manager.isPlaying && sortScore < config.sortTarget && timer > 0)
         {
             if (sortScoreText != null) sortScoreText.text = $"Sorted: {sortScore} / {config.sortTarget}";
             if (sortTimerText != null) sortTimerText.text = $"Time: {Mathf.Ceil(timer)}s";
@@ -126,7 +98,7 @@ public class FallingSortMiniGame : IMiniGame
                 label.style.position = Position.Absolute;
                 label.style.fontSize = 50;
                 
-                float startX = Random.Range(50f, fallZone.resolvedStyle.width - 100f);
+                float startX = Random.Range(50f, Mathf.Max(60f, fallZone.resolvedStyle.width - 100f));
                 
                 FallingItemData itemData = new FallingItemData {
                     element = label,
@@ -136,7 +108,7 @@ public class FallingSortMiniGame : IMiniGame
                 };
                 
                 label.RegisterCallback<PointerDownEvent>(ev => {
-                    if (!manager.isPlaying) return;
+                    if (!isPlaying || !manager.isPlaying) return;
                     itemData.isDragging = true;
                     itemData.velocity = Vector2.zero;
                     label.CapturePointer(ev.pointerId);
@@ -157,15 +129,15 @@ public class FallingSortMiniGame : IMiniGame
                     }
                 });
 
-                fallZone.Add(label);
+                if (fallZone != null) fallZone.Add(label);
                 activeItems.Add(itemData);
                 itemsSpawned++;
-                spawnTimer = 2.0f; // 2 second gap
+                spawnTimer = 2.0f; 
             }
             if (spawnTimer > 0f) spawnTimer -= Time.deltaTime;
 
-            float w = fallZone.resolvedStyle.width;
-            float h = fallZone.resolvedStyle.height;
+            float w = fallZone != null ? fallZone.resolvedStyle.width : 500f;
+            float h = fallZone != null ? fallZone.resolvedStyle.height : 500f;
 
             for (int i = activeItems.Count - 1; i >= 0; i--)
             {
@@ -198,27 +170,39 @@ public class FallingSortMiniGame : IMiniGame
                         sortScore++;
                     }
                     
-                    // Whether wrong or right, destroy the item when it falls in. No bouncing.
-                    fallZone.Remove(item.element);
+                    if (fallZone != null) fallZone.Remove(item.element);
                     activeItems.RemoveAt(i);
                     
-                    if (sortScore >= config.sortTarget) manager.MarkWinReady();
+                    if (sortScore >= config.sortTarget)
+                    {
+                        isPlaying = false;
+                        manager.MarkWinReady();
+                    }
                 }
             }
 
-            // If we've dropped all 10 items and the box is empty, the game ends.
             if (itemsSpawned >= totalToDrop && activeItems.Count == 0)
             {
-                if (sortScore >= config.sortTarget || !config.canFail) manager.MarkWinReady();
-                else { manager.AbortGame(); yield break; }
+                if (sortScore >= config.sortTarget || (manager.currentGame != null && !manager.currentGame.canFail))
+                {
+                    isPlaying = false;
+                    manager.MarkWinReady();
+                }
+                else 
+                { 
+                    isPlaying = false; 
+                    manager.AbortGame(); 
+                    yield break; 
+                }
             }
 
-            if (timer <= 0 && config.canFail)
+            if (timer <= 0 && manager.currentGame != null && manager.currentGame.canFail)
             {
+                isPlaying = false;
                 manager.AbortGame();
                 yield break;
             }
-            else if (timer <= 0 && !config.canFail && sortScore < config.sortTarget)
+            else if (timer <= 0 && manager.currentGame != null && !manager.currentGame.canFail && sortScore < config.sortTarget)
             {
                 timer = 20f; 
             }

@@ -2,7 +2,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
 <ui:VisualElement name="DragCenterContainer" style="display: none; margin-bottom: 30px; padding: 20px;">
                     <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
-                        <ui:Label name="DcRoundText" text="Centered: 0/3" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
+                        <ui:Label name="DcRoundText" text="Chances left: 3" style="font-size: 26px; color: #94A3B8; -unity-font-style: bold;" />
                         <ui:Label name="DcTimerText" text="15.0s" style="font-size: 26px; color: #F87171; -unity-font-style: bold;" />
                     </ui:VisualElement>
 

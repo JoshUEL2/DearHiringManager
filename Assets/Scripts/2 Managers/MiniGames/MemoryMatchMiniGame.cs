@@ -11,13 +11,15 @@ public class MemoryMatchMiniGame : IMiniGame
 
     private VisualElement memoryGrid;
     private Label matchStatusText;
-
+    
     private List<Button> memoryCards = new List<Button>();
     private List<string> memoryValues = new List<string>();
+    
+    private int score = 0;
     private int flippedIndex1 = -1;
     private int flippedIndex2 = -1;
     private bool isCheckingMatch = false;
-    private int score = 0;
+    private bool isPlaying = false;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -25,30 +27,35 @@ public class MemoryMatchMiniGame : IMiniGame
         this.config = config;
         
         container = root.Q<VisualElement>("MemoryMatchContainer");
-        memoryGrid = root.Q<VisualElement>("MemoryGrid");
-        matchStatusText = root.Q<Label>("MatchStatusText");
+        memoryGrid = container.Q<VisualElement>("MemoryGrid");
+        matchStatusText = container.Q<Label>("MatchStatusText");
     }
 
     public void StartGame()
     {
+        isPlaying = true;
+        isCheckingMatch = false;
+        flippedIndex1 = -1;
+        flippedIndex2 = -1;
+        score = 0;
+        
+        SetupMemoryMatch(config.pairs > 0 ? config.pairs : 4);
         container.style.display = DisplayStyle.Flex;
-        SetupMemoryMatch(config.pairs);
     }
 
     public void AbortGame()
     {
+        isPlaying = false;
         container.style.display = DisplayStyle.None;
     }
 
     private void SetupMemoryMatch(int pairs)
     {
-        memoryGrid.Clear();
+        if (memoryGrid != null) memoryGrid.Clear();
         memoryCards.Clear();
         memoryValues.Clear();
-        score = 0;
         
-        if (matchStatusText != null)
-            matchStatusText.text = $"Pairs Found: 0 / {pairs}";
+        if (matchStatusText != null) matchStatusText.text = $"Pairs Found: 0 / {pairs}";
 
         List<string> icons = new List<string> { "📈", "💼", "🏢", "📊", "💰", "☕", "📱", "📝" };
         for (int i = 0; i < pairs; i++)
@@ -72,14 +79,14 @@ public class MemoryMatchMiniGame : IMiniGame
             btn.AddToClassList("popup-button");
             btn.AddToClassList("memory-card");
             btn.clicked += () => OnMemoryCardClicked(index);
-            memoryGrid.Add(btn);
+            if (memoryGrid != null) memoryGrid.Add(btn);
             memoryCards.Add(btn);
         }
     }
 
     private void OnMemoryCardClicked(int index)
     {
-        if (!manager.isPlaying || isCheckingMatch || memoryCards[index].text != "?") return;
+        if (!isPlaying || !manager.isPlaying || isCheckingMatch || memoryCards[index].text != "?") return;
 
         memoryCards[index].text = memoryValues[index];
         memoryCards[index].RemoveFromClassList("memory-card");
@@ -104,9 +111,13 @@ public class MemoryMatchMiniGame : IMiniGame
         if (memoryValues[flippedIndex1] == memoryValues[flippedIndex2])
         {
             score++;
-            if (matchStatusText != null)
-                matchStatusText.text = $"Pairs Found: {score} / {config.pairs}";
-            if (score >= config.pairs) manager.MarkWinReady();
+            int pairs = config.pairs > 0 ? config.pairs : 4;
+            if (matchStatusText != null) matchStatusText.text = $"Pairs Found: {score} / {pairs}";
+            if (score >= pairs)
+            {
+                isPlaying = false;
+                manager.MarkWinReady();
+            }
         }
         else
         {

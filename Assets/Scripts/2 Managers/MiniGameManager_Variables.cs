@@ -9,7 +9,8 @@ public partial class MiniGameManager : MonoBehaviour
     public static MiniGameManager Instance { get; private set; }
 
     [Header("UI Document")]
-    public UIDocument miniGameDocument;
+    [SerializeField] private UIDocument _miniGameDocument;
+    public UIDocument miniGameDocument { get => _miniGameDocument; set => _miniGameDocument = value; }
 
     private VisualElement overlay;
     private UnityEngine.UIElements.Button btnAbortMinigame;
@@ -501,15 +502,25 @@ public partial class MiniGameManager : MonoBehaviour
     private float rrTargetLeft = 50f;
 
     private float atSuiteProgress = 0f;
-    public ActiveMiniGame currentGame;
+    private Dictionary<string, MiniGameConfig> gameConfigs = new Dictionary<string, MiniGameConfig>();
+
+    [SerializeField] private ActiveMiniGame _currentGame;
+    public ActiveMiniGame currentGame { get => _currentGame; set => _currentGame = value; }
+
+    [SerializeField] private bool _isPlaying = false;
+    public bool isPlaying { get => _isPlaying; set => _isPlaying = value; }
+
+    private IMiniGame _currentStrategy;
+    public IMiniGame currentStrategy { get => _currentStrategy; set => _currentStrategy = value; }
+
+    [SerializeField] private int _score = 0;
+    public int score { get => _score; set => _score = value; }
+
     private MiniGameConfig currentConfig;
     private bool hasWon = false;
-    public bool isPlaying = false;
-    private Coroutine activeGameRoutine;
-    public IMiniGame currentStrategy;
-
-    public int score = 0;
     private float timer = 0f;
+
+    private Coroutine activeGameRoutine;
     private int currentPhase = 1;
     
     // Dialogue State

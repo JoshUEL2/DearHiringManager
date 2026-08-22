@@ -8,14 +8,15 @@ public class CoffeeWorkMiniGame : IMiniGame
     private MiniGameConfig config;
     private VisualElement container;
 
-    private Label cwTimerText;
     private VisualElement cwEnergyFill;
     private VisualElement cwProgressFill;
     private Button cwBtnCoffee;
     private Button cwBtnType;
-    
+    private Label cwTimerText;
+
     private float cwEnergy = 100f;
     private float cwProgress = 0f;
+    private bool isPlaying = false;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -23,11 +24,11 @@ public class CoffeeWorkMiniGame : IMiniGame
         this.config = config;
         
         container = root.Q<VisualElement>("CoffeeWorkContainer");
-        cwTimerText = container.Q<Label>("CwTimerText");
         cwEnergyFill = container.Q<VisualElement>("CwEnergyFill");
         cwProgressFill = container.Q<VisualElement>("CwProgressFill");
         cwBtnCoffee = container.Q<Button>("CwBtnCoffee");
         cwBtnType = container.Q<Button>("CwBtnType");
+        cwTimerText = container.Q<Label>("CwTimerText");
 
         if (cwBtnCoffee != null) cwBtnCoffee.clicked += OnCwBtnCoffee;
         if (cwBtnType != null) cwBtnType.clicked += OnCwBtnType;
@@ -35,32 +36,31 @@ public class CoffeeWorkMiniGame : IMiniGame
 
     public void StartGame()
     {
-        container.style.display = DisplayStyle.Flex;
-        
+        isPlaying = true;
         cwEnergy = 100f;
         cwProgress = 0f;
+        container.style.display = DisplayStyle.Flex;
+
         UpdateCwUI();
         if (cwTimerText != null) cwTimerText.text = $"{config.timeLimit:F1}s";
         
-        // Use instructions or another config variable to decide text. 
-        // In legacy code it relied on `currentGame.name == "Debug CSS at 3 AM"`.
-        // Let's use config.instructions to deduce what it should be.
         if (cwBtnType != null)
         {
-            if (config.instructions != null && config.instructions.Contains("Debug CSS"))
+            if (manager.currentGame != null && manager.currentGame.name == "Debug CSS at 3 AM")
                 cwBtnType.text = "⌨️ DEBUG CSS";
             else
                 cwBtnType.text = "⌨️ TYPE SLIDES";
         }
-        
+
         manager.StartCoroutine(CoffeeWorkRoutine());
     }
 
     public void AbortGame()
     {
+        isPlaying = false;
         container.style.display = DisplayStyle.None;
     }
-    
+
     private void UpdateCwUI()
     {
         if (cwEnergyFill != null)
@@ -76,19 +76,20 @@ public class CoffeeWorkMiniGame : IMiniGame
 
     private void OnCwBtnCoffee()
     {
-        if (!manager.isPlaying) return;
+        if (!isPlaying || !manager.isPlaying) return;
         cwEnergy = Mathf.Clamp(cwEnergy + config.coffeeBoost, 0f, 100f);
         UpdateCwUI();
     }
 
     private void OnCwBtnType()
     {
-        if (!manager.isPlaying) return;
+        if (!isPlaying || !manager.isPlaying) return;
         cwProgress = Mathf.Clamp(cwProgress + config.workProgressPerTap, 0f, 100f);
         UpdateCwUI();
         
         if (cwProgress >= 100f)
         {
+            isPlaying = false;
             manager.MarkWinReady();
         }
     }
@@ -97,7 +98,7 @@ public class CoffeeWorkMiniGame : IMiniGame
     {
         float timer = config.timeLimit;
         
-        while (manager.isPlaying)
+        while (isPlaying && manager.isPlaying)
         {
             timer -= Time.deltaTime;
             if (cwTimerText != null) cwTimerText.text = $"{Mathf.Max(0, timer):F1}s";
@@ -107,17 +108,18 @@ public class CoffeeWorkMiniGame : IMiniGame
             
             if (cwEnergy <= 0f)
             {
-                if (cwTimerText != null) cwTimerText.text = "FELL ASLEEP!";
+                isPlaying = false;
+                manager.AbortGame(); // Fails the game
+                yield break;
+            }
+            
+            if (timer <= 0)
+            {
+                isPlaying = false;
                 manager.AbortGame();
                 yield break;
             }
             
-            if (timer <= 0f)
-            {
-                if (cwTimerText != null) cwTimerText.text = "TIME UP!";
-                manager.AbortGame();
-                yield break;
-            }
             yield return null;
         }
     }

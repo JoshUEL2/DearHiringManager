@@ -110,7 +110,7 @@ public class MigrationUI : MonoBehaviour
             GameManager.Instance.CycleJobs(); // Replaces the hallucinated line
             GameManager.Instance.SaveGame();
             
-            FindAnyObjectByType<GameUIManager>().CheckJailStatus(); // Refreshes the dashboard text
+            GameUIManager.Instance.CheckJailStatus(); // Refreshes the dashboard text
             ClosePortal();
         }
     }

@@ -6,34 +6,47 @@ public class SweepFloorMiniGame : IMiniGame
 {
     private MiniGameManager manager;
     private MiniGameConfig config;
-    private VisualElement rootElement;
     private VisualElement container;
-    private VisualElement grid;
 
-    private float[] tileTimers;
-    private VisualElement[] tiles;
-    private int playerX, playerY;
+    private VisualElement sweepFloorGrid;
+    private float[] sweepTileTimers = new float[25];
+    private VisualElement[] sweepTiles = new VisualElement[25];
+    private int sweepPlayerX = 0;
+    private int sweepPlayerY = 0;
+    private bool isPlaying = false;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
         this.manager = manager;
         this.config = config;
-        this.rootElement = root;
-        container = root.Q<VisualElement>("SweepFloorContainer");
-        grid = root.Q<VisualElement>("SweepFloorGrid");
         
-        rootElement.RegisterCallback<KeyDownEvent>(OnKeyDown);
+        container = root.Q<VisualElement>("SweepFloorContainer");
+        sweepFloorGrid = container.Q<VisualElement>("SweepFloorGrid");
     }
 
     public void StartGame()
     {
+        isPlaying = true;
+        SetupSweepFloor();
         container.style.display = DisplayStyle.Flex;
-        
-        grid.Clear();
-        tileTimers = new float[25];
-        tiles = new VisualElement[25];
-        playerX = 0;
-        playerY = 0;
+        if (manager.miniGameDocument != null) manager.miniGameDocument.rootVisualElement.Focus();
+        manager.StartCoroutine(SweepFloorRoutine());
+    }
+
+    public void AbortGame()
+    {
+        isPlaying = false;
+        container.style.display = DisplayStyle.None;
+    }
+
+    private void SetupSweepFloor()
+    {
+        if (sweepFloorGrid == null) return;
+        sweepFloorGrid.Clear();
+        sweepTileTimers = new float[25];
+        sweepTiles = new VisualElement[25];
+        sweepPlayerX = 0;
+        sweepPlayerY = 0;
         
         for (int y = 0; y < 5; y++)
         {
@@ -66,80 +79,45 @@ public class SweepFloorMiniGame : IMiniGame
                 
                 int cx = x; int cy = y;
                 cell.RegisterCallback<PointerDownEvent>(ev => {
-                    if (!manager.isPlaying) return;
-                    playerX = cx; playerY = cy;
+                    if (!isPlaying || !manager.isPlaying) return;
+                    sweepPlayerX = cx; sweepPlayerY = cy;
                 });
                 cell.RegisterCallback<PointerEnterEvent>(ev => {
-                    if (!manager.isPlaying) return;
-                    if ((ev.pressedButtons & 1) != 0) { // left click or touch hold
-                        playerX = cx; playerY = cy;
+                    if (!isPlaying || !manager.isPlaying) return;
+                    if ((ev.pressedButtons & 1) != 0) {
+                        sweepPlayerX = cx; sweepPlayerY = cy;
                     }
                 });
                 
                 row.Add(cell);
-                tiles[y * 5 + x] = cell;
+                sweepTiles[y * 5 + x] = cell;
             }
-            grid.Add(row);
-        }
-
-        manager.StartCoroutine(GameRoutine());
-    }
-
-    public void AbortGame()
-    {
-        container.style.display = DisplayStyle.None;
-        rootElement.UnregisterCallback<KeyDownEvent>(OnKeyDown);
-    }
-
-    private void OnKeyDown(KeyDownEvent ev)
-    {
-        if (!manager.isPlaying) return;
-        
-        int dx = 0, dy = 0;
-        if (ev.keyCode == KeyCode.UpArrow || ev.keyCode == KeyCode.W) dy = -1;
-        else if (ev.keyCode == KeyCode.DownArrow || ev.keyCode == KeyCode.S) dy = 1;
-        else if (ev.keyCode == KeyCode.LeftArrow || ev.keyCode == KeyCode.A) dx = -1;
-        else if (ev.keyCode == KeyCode.RightArrow || ev.keyCode == KeyCode.D) dx = 1;
-        
-        if (dx == 0 && dy == 0) return;
-        
-        ev.StopPropagation();
-
-        int nx = playerX + dx;
-        int ny = playerY + dy;
-        if (nx >= 0 && nx < 5 && ny >= 0 && ny < 5)
-        {
-            playerX = nx;
-            playerY = ny;
-            tileTimers[ny * 5 + nx] = 15f; // Instantly clean
-            Render();
+            sweepFloorGrid.Add(row);
         }
     }
 
-    private void Render()
+    private void RenderSweepFloor()
     {
         for (int i = 0; i < 25; i++)
         {
-            var cell = tiles[i];
+            var cell = sweepTiles[i];
             var icon = cell.Q<Label>("Icon");
             
-            if (tileTimers[i] > 0)
+            if (sweepTileTimers[i] > 0)
             {
-                // Clean: light brown
                 cell.style.backgroundColor = new StyleColor(new Color(0.76f, 0.6f, 0.42f));
             }
             else
             {
-                // Dirty: dark brown
                 cell.style.backgroundColor = new StyleColor(new Color(0.35f, 0.22f, 0.12f));
             }
             
             int cy = i / 5;
             int cx = i % 5;
-            if (cx == playerX && cy == playerY)
+            if (cx == sweepPlayerX && cy == sweepPlayerY)
             {
-                if (config.instructions != null && config.instructions.Contains("Mop")) icon.text = "🪣";
-                else if (config.instructions != null && config.instructions.Contains("conveyor")) icon.text = "🌪️";
+                if (manager.currentGame != null && manager.currentGame.name == "Mop grease spills") icon.text = "🪣";
+                else if (manager.currentGame != null && manager.currentGame.name == "Clear conveyor dust filters") icon.text = "🌪️";
                 else icon.text = "🧹";
             }
             else
@@ -149,32 +127,33 @@ public class SweepFloorMiniGame : IMiniGame
         }
     }
 
-    private IEnumerator GameRoutine()
+    private IEnumerator SweepFloorRoutine()
     {
-        tileTimers[playerY * 5 + playerX] = 15f;
-        Render();
+        sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
+        RenderSweepFloor();
 
-        while (manager.isPlaying)
+        while (isPlaying && manager.isPlaying)
         {
             bool allClean = true;
             for (int i = 0; i < 25; i++)
             {
-                if (tileTimers[i] > 0)
+                if (sweepTileTimers[i] > 0)
                 {
-                    tileTimers[i] -= Time.deltaTime;
-                    if (tileTimers[i] <= 0) tileTimers[i] = 0;
+                    sweepTileTimers[i] -= Time.deltaTime;
+                    if (sweepTileTimers[i] <= 0) sweepTileTimers[i] = 0;
                 }
-                if (tileTimers[i] <= 0)
+                if (sweepTileTimers[i] <= 0)
                 {
                     allClean = false;
                 }
             }
 
-            tileTimers[playerY * 5 + playerX] = 15f;
-            Render();
+            sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
+            RenderSweepFloor();
 
             if (allClean)
             {
+                isPlaying = false;
                 manager.MarkWinReady();
             }
 

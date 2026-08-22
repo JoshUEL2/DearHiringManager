@@ -147,11 +147,14 @@ public class GitMergeMiniGame : IMiniGame
         }
     }
 
+    private WaitForSeconds _wait03f = new WaitForSeconds(0.3f);
+    private WaitForSeconds _wait02f = new WaitForSeconds(0.2f);
+
     private IEnumerator ErrorShake(Button btn)
     {
         isAnimating = true;
         btn.AddToClassList("gm-error-shake");
-        yield return new WaitForSeconds(0.3f);
+        yield return _wait03f;
         btn.RemoveFromClassList("gm-error-shake");
         isAnimating = false;
     }
@@ -166,11 +169,11 @@ public class GitMergeMiniGame : IMiniGame
         rejected.style.display = DisplayStyle.None;
         accepted.AddToClassList("gm-block-merged");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return _wait02f;
         
         conflictArea.RemoveFromClassList("gm-slide-in");
         
-        yield return new WaitForSeconds(0.2f);
+        yield return _wait02f;
 
         if (score >= targetScore)
         {

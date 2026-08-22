@@ -18,7 +18,7 @@ public class DragCenterMiniGame : IMiniGame
     private Label scoreValueText;  // DcScoreText (accuracy %)
     private VisualElement scoreBarFill; // DcScoreBarFill
 
-    private int score = 0;
+    private int chances = 3;
     private float timeRemaining = 15f;
     private bool isDragging = false;
     private bool isScoring = false;
@@ -50,7 +50,7 @@ public class DragCenterMiniGame : IMiniGame
 
     public void StartGame()
     {
-        score = 0;
+        chances = 3;
         timeRemaining = config.timeLimit > 0 ? config.timeLimit : 15f;
         container.style.display = DisplayStyle.Flex;
 
@@ -151,24 +151,24 @@ public class DragCenterMiniGame : IMiniGame
         if (matchPercent >= 90f) // Use legacy 90% threshold
         {
             if (scoreValueText != null) scoreValueText.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
-            score++;
-            UpdateScoreText();
+            yield return new WaitForSeconds(1f);
+            manager.MarkWinReady(); // Win immediately!
         }
         else
         {
             if (scoreValueText != null) scoreValueText.style.color = new StyleColor(new Color(0.9f, 0.1f, 0.1f)); // Red
-            timeRemaining -= 1.5f;
-        }
-        
-        yield return new WaitForSeconds(1f);
-        
-        if (score >= 3)
-        {
-            manager.MarkWinReady();
-        }
-        else
-        {
-            ResetRound();
+            chances--;
+            UpdateScoreText();
+            yield return new WaitForSeconds(1f);
+            
+            if (chances <= 0)
+            {
+                manager.AbortGame(); // Out of chances, fail game
+            }
+            else
+            {
+                ResetRound();
+            }
         }
     }
 
@@ -176,7 +176,7 @@ public class DragCenterMiniGame : IMiniGame
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Centered: {score}/3";
+            scoreText.text = $"Chances left: {chances}";
         }
     }
 

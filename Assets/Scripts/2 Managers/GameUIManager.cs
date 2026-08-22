@@ -310,6 +310,8 @@ public class GameUIManager : MonoBehaviour
     }
 
 
+    private System.Text.StringBuilder _logBuilder;
+
     private void OnDebugLogReceived(string condition, string stackTrace, LogType type)
     {
         if (GameManager.Instance == null || GameManager.Instance.currentData == null) return;
@@ -317,12 +319,29 @@ public class GameUIManager : MonoBehaviour
         if (type == LogType.Log || type == LogType.Warning)
         {
             var data = GameManager.Instance.currentData;
+            if (_logBuilder == null) 
+            {
+                _logBuilder = new System.Text.StringBuilder(data.historyLogsJson);
+            }
+            else
+            {
+                // Sync builder in case historyLogsJson was modified elsewhere
+                if (_logBuilder.Length != data.historyLogsJson.Length)
+                {
+                    _logBuilder.Clear();
+                    _logBuilder.Append(data.historyLogsJson);
+                }
+            }
+
             string prefix = type == LogType.Warning ? "<color=#E74C3C>[ALERT]</color>" : "<color=#38BDF8>[SYS]</color>";
-            string newEntry = $"{prefix} {condition}\n\n";
-            data.historyLogsJson = data.historyLogsJson + newEntry;
+            _logBuilder.Append(prefix).Append(" ").Append(condition).Append("\n\n");
             
-            if (data.historyLogsJson.Length > 4000) data.historyLogsJson = data.historyLogsJson.Substring(data.historyLogsJson.Length - 4000);
+            if (_logBuilder.Length > 4000) 
+            {
+                _logBuilder.Remove(0, _logBuilder.Length - 4000);
+            }
             
+            data.historyLogsJson = _logBuilder.ToString();
             RefreshLogDisplay();
         }
     }
