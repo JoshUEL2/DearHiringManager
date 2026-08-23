@@ -31,7 +31,6 @@ public class CenterDivMiniGame : IMiniGame
     // Gameplay state
     private bool isPaused = false;
     private float timeAccumulator = 0f;
-    private float glitchTimer = 0f;
     private float movingBoxPos = 0f; // 0 to 100
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
@@ -136,7 +135,6 @@ public class CenterDivMiniGame : IMiniGame
         score = 0;
         timeRemaining = config.timeLimit > 0 ? config.timeLimit : 15f;
         timeAccumulator = 0f;
-        glitchTimer = 0f;
         isPaused = false;
         
         container.style.display = DisplayStyle.Flex;

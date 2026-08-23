@@ -5,27 +5,22 @@ using System.Collections.Generic;
 
 public class FallingSortMiniGame : IMiniGame
 {
-    private class FallingItemData
-    {
-        public VisualElement element;
-        public Vector2 position;
-        public Vector2 velocity;
-        public int typeId;
-        public bool isDragging;
-    }
-
     private MiniGameManager manager;
     private MiniGameConfig config;
     private VisualElement container;
 
     private VisualElement fallZone;
-    private VisualElement binContainer;
+    private VisualElement binsRow;
     private Label sortScoreText;
     private Label sortTimerText;
 
     private int sortScore = 0;
     private float timer = 30f;
     private bool isPlaying = false;
+    
+    private Label currentItemLabel;
+    private int currentItemType = -1;
+    private bool isAnimating = false;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -34,7 +29,10 @@ public class FallingSortMiniGame : IMiniGame
         
         container = root.Q<VisualElement>("FallingSortContainer");
         fallZone = container.Q<VisualElement>("FallZone");
-        binContainer = container.Q<VisualElement>("BinContainer");
+        
+        // Correctly target BinsRow
+        binsRow = container.Q<VisualElement>("BinsRow");
+        
         sortScoreText = container.Q<Label>("SortScoreText");
         sortTimerText = container.Q<Label>("SortTimerText");
     }
@@ -44,28 +42,53 @@ public class FallingSortMiniGame : IMiniGame
         isPlaying = true;
         sortScore = 0;
         timer = config.sortTimeLimit > 0 ? config.sortTimeLimit : 30f;
+        isAnimating = false;
         
         if (sortScoreText != null) sortScoreText.text = $"Sorted: 0 / {config.sortTarget}";
         
-        if (binContainer != null && config.binLabels != null)
+        if (binsRow != null && config.binLabels != null)
         {
-            binContainer.Clear();
-            foreach (var label in config.binLabels)
+            binsRow.Clear();
+            Color[] binColors = new Color[] {
+                new Color(0.94f, 0.76f, 0.05f), // Mustard Yellow
+                new Color(0.9f, 0.2f, 0.2f),    // Ketchup Red
+                new Color(0.18f, 0.8f, 0.44f),  // Relish Green
+                new Color(0.6f, 0.2f, 0.8f)     // Fallback
+            };
+
+            for (int i = 0; i < config.binLabels.Length; i++)
             {
-                var lbl = new Label(label);
-                lbl.style.flexGrow = 1;
-                lbl.style.unityTextAlign = TextAnchor.MiddleCenter;
-                lbl.style.fontSize = 24;
-                lbl.style.borderTopWidth = 2; lbl.style.borderLeftWidth = 2; lbl.style.borderRightWidth = 2;
-                lbl.style.borderTopColor = Color.white; lbl.style.borderLeftColor = Color.white; lbl.style.borderRightColor = Color.white;
-                binContainer.Add(lbl);
+                Button btn = new Button();
+                btn.text = config.binLabels[i];
+                btn.style.flexGrow = 1;
+                btn.style.marginRight = 10;
+                btn.style.marginLeft = 10;
+                btn.style.fontSize = 24;
+                btn.style.unityFontStyleAndWeight = FontStyle.Bold;
+                btn.style.color = Color.white;
+                btn.style.backgroundColor = new StyleColor(binColors[i % binColors.Length]);
+                btn.style.borderTopWidth = 2; btn.style.borderLeftWidth = 2; btn.style.borderRightWidth = 2; btn.style.borderBottomWidth = 2;
+                btn.style.borderTopColor = Color.white; btn.style.borderLeftColor = Color.white; btn.style.borderRightColor = Color.white; btn.style.borderBottomColor = Color.white;
+                btn.style.borderTopLeftRadius = 10; btn.style.borderTopRightRadius = 10; btn.style.borderBottomLeftRadius = 10; btn.style.borderBottomRightRadius = 10;
+                
+                int binIndex = i; // capture for closure
+                btn.clicked += () => OnBinClicked(binIndex, btn);
+                
+                binsRow.Add(btn);
             }
         }
         
-        if (fallZone != null) fallZone.Clear();
+        if (fallZone != null) 
+        {
+            fallZone.Clear();
+            // Center the items in the fall zone
+            fallZone.style.alignItems = Align.Center;
+            fallZone.style.justifyContent = Justify.Center;
+        }
 
         container.style.display = DisplayStyle.Flex;
-        manager.StartCoroutine(FallingSortRoutine());
+        manager.StartCoroutine(TimerRoutine());
+        manager.StartCoroutine(SpawnNextItem());
     }
 
     public void AbortGame()
@@ -73,138 +96,180 @@ public class FallingSortMiniGame : IMiniGame
         isPlaying = false;
         container.style.display = DisplayStyle.None;
     }
-
-    private IEnumerator FallingSortRoutine()
+    
+    private void OnBinClicked(int binIndex, Button btn)
     {
-        List<FallingItemData> activeItems = new List<FallingItemData>();
-        float spawnTimer = 0f;
-        int itemsSpawned = 0;
-        int totalToDrop = 10;
-        float gravity = 600f; 
+        if (!isPlaying || isAnimating || currentItemLabel == null) return;
+        
+        // Physical button press effect
+        btn.style.scale = new StyleScale(new Vector2(0.9f, 0.9f));
+        btn.schedule.Execute(() => {
+            if (btn != null) btn.style.scale = new StyleScale(new Vector2(1f, 1f));
+        }).StartingIn(100);
 
-        while (isPlaying && manager.isPlaying && sortScore < config.sortTarget && timer > 0)
+        if (binIndex == currentItemType)
         {
+            sortScore++;
             if (sortScoreText != null) sortScoreText.text = $"Sorted: {sortScore} / {config.sortTarget}";
+            manager.StartCoroutine(FlingItemRoutine(btn));
+        }
+        else
+        {
+            if (manager.currentGame != null && manager.currentGame.canFail)
+            {
+                sortScore = Mathf.Max(0, sortScore - 1);
+                if (sortScoreText != null) sortScoreText.text = $"Sorted: {sortScore} / {config.sortTarget}";
+            }
+            manager.StartCoroutine(ErrorShakeRoutine(btn));
+        }
+    }
+    
+    private IEnumerator SpawnNextItem()
+    {
+        isAnimating = true;
+        
+        if (sortScore >= config.sortTarget)
+        {
+            isPlaying = false;
+            manager.MarkWinReady();
+            yield break;
+        }
+        
+        currentItemType = Random.Range(0, config.fallingItems.Length);
+        string text = config.fallingItems[currentItemType];
+        string emojiText = text.Contains(" ") ? text.Split(' ')[0] : text; // Just grab the emoji!
+        
+        currentItemLabel = new Label(emojiText);
+        currentItemLabel.style.fontSize = 120;
+        currentItemLabel.style.position = Position.Absolute;
+        
+        // Start high up, scale 0
+        currentItemLabel.style.translate = new Translate(0, -200, 0);
+        currentItemLabel.style.scale = new StyleScale(new Vector2(0f, 0f));
+        
+        if (fallZone != null) fallZone.Add(currentItemLabel);
+        
+        // Slam down animation
+        float duration = 0.25f;
+        float elapsed = 0f;
+        while(elapsed < duration && isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float p = elapsed / duration;
+            
+            // Ease out back
+            float s = 1f + Mathf.Sin(p * Mathf.PI) * 0.3f;
+            currentItemLabel.style.scale = new StyleScale(new Vector2(s, s));
+            
+            float y = Mathf.Lerp(-200f, 0f, p);
+            currentItemLabel.style.translate = new Translate(0, y, 0);
+            
+            yield return null;
+        }
+        
+        if (currentItemLabel != null)
+        {
+            currentItemLabel.style.scale = new StyleScale(new Vector2(1f, 1f));
+            currentItemLabel.style.translate = new Translate(0, 0, 0);
+        }
+        
+        isAnimating = false;
+    }
+    
+    private IEnumerator FlingItemRoutine(Button targetBtn)
+    {
+        isAnimating = true;
+        Label movingItem = currentItemLabel;
+        currentItemLabel = null; // Clear it instantly so we can't click again
+        
+        // Flash button white
+        StyleColor originalColor = targetBtn.style.backgroundColor;
+        targetBtn.style.backgroundColor = new StyleColor(Color.white);
+        targetBtn.schedule.Execute(() => {
+            if (targetBtn != null) targetBtn.style.backgroundColor = originalColor;
+        }).StartingIn(150);
+        
+        // Figure out horizontal direction based on bin index
+        float targetX = 0f;
+        if (targetBtn.worldBound.center.x < container.worldBound.center.x - 50) targetX = -300f; // Left bin
+        else if (targetBtn.worldBound.center.x > container.worldBound.center.x + 50) targetX = 300f; // Right bin
+        
+        float duration = 0.2f;
+        float elapsed = 0f;
+        while(elapsed < duration && isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float p = elapsed / duration;
+            
+            // Fling down and towards the bin, spinning wildly
+            float x = Mathf.Lerp(0f, targetX, p);
+            float y = Mathf.Lerp(0f, 300f, p);
+            movingItem.style.translate = new Translate(x, y, 0);
+            
+            // Rotate string hack
+            float rot = Mathf.Lerp(0f, 360f, p);
+            movingItem.style.rotate = new Rotate(new Angle(rot, AngleUnit.Degree));
+            
+            movingItem.style.scale = new StyleScale(new Vector2(1f - p, 1f - p)); // Shrink as it falls in
+            
+            yield return null;
+        }
+        
+        if (fallZone != null && fallZone.Contains(movingItem)) fallZone.Remove(movingItem);
+        
+        if (isPlaying) manager.StartCoroutine(SpawnNextItem());
+    }
+    
+    private IEnumerator ErrorShakeRoutine(Button targetBtn)
+    {
+        isAnimating = true; // Lock input
+        
+        // Flash button red
+        StyleColor originalColor = targetBtn.style.backgroundColor;
+        targetBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.2f, 0.2f));
+        
+        // Screen shake
+        float duration = 0.4f;
+        float elapsed = 0f;
+        while(elapsed < duration && isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float xOffset = Mathf.Sin(elapsed * 40f) * 10f; // Violent shake
+            
+            if (currentItemLabel != null)
+                currentItemLabel.style.translate = new Translate(xOffset, 0, 0);
+                
+            yield return null;
+        }
+        
+        if (currentItemLabel != null)
+            currentItemLabel.style.translate = new Translate(0, 0, 0);
+            
+        if (targetBtn != null) 
+            targetBtn.style.backgroundColor = originalColor;
+            
+        isAnimating = false; // Unlock input to let them try again!
+    }
+
+    private IEnumerator TimerRoutine()
+    {
+        while (isPlaying && manager.isPlaying)
+        {
             if (sortTimerText != null) sortTimerText.text = $"Time: {Mathf.Ceil(timer)}s";
             timer -= Time.deltaTime;
-
-            if (itemsSpawned < totalToDrop && spawnTimer <= 0f)
+            
+            if (timer <= 0)
             {
-                int typeIdx = Random.Range(0, config.fallingItems.Length);
-                string text = config.fallingItems[typeIdx];
-                string emojiText = text.Contains(" ") ? text.Split(' ')[0] : text;
-                
-                var label = new Label(emojiText);
-                label.style.position = Position.Absolute;
-                label.style.fontSize = 50;
-                
-                float startX = Random.Range(50f, Mathf.Max(60f, fallZone.resolvedStyle.width - 100f));
-                
-                FallingItemData itemData = new FallingItemData {
-                    element = label,
-                    position = new Vector2(startX, -50),
-                    velocity = new Vector2(Random.Range(-50f, 50f), 0),
-                    typeId = typeIdx
-                };
-                
-                label.RegisterCallback<PointerDownEvent>(ev => {
-                    if (!isPlaying || !manager.isPlaying) return;
-                    itemData.isDragging = true;
-                    itemData.velocity = Vector2.zero;
-                    label.CapturePointer(ev.pointerId);
-                    ev.StopPropagation();
-                });
-                
-                label.RegisterCallback<PointerMoveEvent>(ev => {
-                    if (itemData.isDragging && label.HasPointerCapture(ev.pointerId)) {
-                        itemData.position += (Vector2)ev.deltaPosition;
-                        itemData.velocity = (Vector2)ev.deltaPosition / Time.deltaTime; 
-                    }
-                });
-                
-                label.RegisterCallback<PointerUpEvent>(ev => {
-                    if (itemData.isDragging) {
-                        itemData.isDragging = false;
-                        label.ReleasePointer(ev.pointerId);
-                    }
-                });
-
-                if (fallZone != null) fallZone.Add(label);
-                activeItems.Add(itemData);
-                itemsSpawned++;
-                spawnTimer = 2.0f; 
-            }
-            if (spawnTimer > 0f) spawnTimer -= Time.deltaTime;
-
-            float w = fallZone != null ? fallZone.resolvedStyle.width : 500f;
-            float h = fallZone != null ? fallZone.resolvedStyle.height : 500f;
-
-            for (int i = activeItems.Count - 1; i >= 0; i--)
-            {
-                var item = activeItems[i];
-                if (!item.isDragging)
-                {
-                    item.velocity.y += gravity * Time.deltaTime;
-                    item.position += item.velocity * Time.deltaTime;
-                    
-                    if (item.position.x < 0) { item.position.x = 0; item.velocity.x = 0; }
-                    if (item.position.x > w - 80f) { item.position.x = w - 80f; item.velocity.x = 0; }
-                    if (item.position.y > h - 40f) {
-                        item.position.y = h - 40f;
-                        item.velocity.y = 0;
-                        item.velocity.x = 0;
-                    }
-                }
-                
-                item.element.style.left = item.position.x;
-                item.element.style.top = item.position.y;
-                
-                if (item.position.y >= h - 60f && !item.isDragging) 
-                {
-                    float binWidth = w / config.binLabels.Length;
-                    int binIdx = Mathf.FloorToInt((item.position.x + 40f) / binWidth);
-                    binIdx = Mathf.Clamp(binIdx, 0, config.binLabels.Length - 1);
-                    
-                    if (binIdx == item.typeId)
-                    {
-                        sortScore++;
-                    }
-                    
-                    if (fallZone != null) fallZone.Remove(item.element);
-                    activeItems.RemoveAt(i);
-                    
-                    if (sortScore >= config.sortTarget)
-                    {
-                        isPlaying = false;
-                        manager.MarkWinReady();
-                    }
-                }
-            }
-
-            if (itemsSpawned >= totalToDrop && activeItems.Count == 0)
-            {
-                if (sortScore >= config.sortTarget || (manager.currentGame != null && !manager.currentGame.canFail))
+                if (manager.currentGame != null && manager.currentGame.canFail)
                 {
                     isPlaying = false;
-                    manager.MarkWinReady();
+                    manager.AbortGame();
+                    yield break;
                 }
-                else 
-                { 
-                    isPlaying = false; 
-                    manager.AbortGame(); 
-                    yield break; 
+                else if (sortScore < config.sortTarget)
+                {
+                    timer = 20f; 
                 }
-            }
-
-            if (timer <= 0 && manager.currentGame != null && manager.currentGame.canFail)
-            {
-                isPlaying = false;
-                manager.AbortGame();
-                yield break;
-            }
-            else if (timer <= 0 && manager.currentGame != null && !manager.currentGame.canFail && sortScore < config.sortTarget)
-            {
-                timer = 20f; 
             }
             yield return null;
         }

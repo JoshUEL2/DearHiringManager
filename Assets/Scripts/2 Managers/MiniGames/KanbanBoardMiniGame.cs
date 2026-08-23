@@ -13,13 +13,17 @@ public class KanbanBoardMiniGame : IMiniGame
     private VisualElement kanbanColTodo;
     private VisualElement kanbanColProgress;
     private VisualElement kanbanColDone;
+
     private List<VisualElement> kanbanTickets = new List<VisualElement>();
-    
     private VisualElement draggedTicket = null;
-    private Vector2 dragStartPos;
+    private int draggedTicketOriginalIndex = -1;
     private Vector2 pointerStartPos;
-    private int draggedTicketOriginalIndex;
+    private Vector2 dragStartPos;
+
     private int kanbanTicketsDone = 0;
+    
+    // Aesthetic prefixes
+    private string[] ticketPrefixes = { "🔴 BUG-", "🔵 TSK-", "🟣 EPC-", "🟠 OPT-" };
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -31,46 +35,108 @@ public class KanbanBoardMiniGame : IMiniGame
         kanbanColTodo = container.Q<VisualElement>("KanbanColTodo");
         kanbanColProgress = container.Q<VisualElement>("KanbanColProgress");
         kanbanColDone = container.Q<VisualElement>("KanbanColDone");
+        
+        CreateJuiceElements();
+    }
+
+    private void CreateJuiceElements()
+    {
+        // Dark Mode Linear/Jira Aesthetic
+        container.style.backgroundColor = new StyleColor(new Color(0.04f, 0.06f, 0.1f)); // Deep dark background
+        
+        StyleColor colBg = new StyleColor(new Color(0.12f, 0.16f, 0.23f)); // Tech slate columns
+        StyleColor textColor = new StyleColor(new Color(0.58f, 0.64f, 0.72f)); // Muted text for headers
+
+        var todoBox = kanbanColTodo.parent;
+        todoBox.style.backgroundColor = colBg;
+        
+        var progressBox = kanbanColProgress.parent;
+        progressBox.style.backgroundColor = colBg;
+        
+        var doneBox = kanbanColDone.parent;
+        doneBox.style.backgroundColor = colBg;
+
+        // Apply a minimum pixel width to force the popup window open, while letting them flex equally
+        todoBox.style.minWidth = 180;
+        progressBox.style.minWidth = 180;
+        doneBox.style.minWidth = 180;
+        
+        todoBox.style.flexGrow = 1;
+        progressBox.style.flexGrow = 1;
+        doneBox.style.flexGrow = 1;
+
+        System.Action<Label, string> StyleHeader = (lbl, txt) => {
+            lbl.text = txt;
+            lbl.style.color = textColor;
+            lbl.style.fontSize = 15;
+            lbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+            lbl.style.alignSelf = Align.Stretch; // Override UXML center align so it fills width
+            
+            // Distinct header block styling
+            lbl.style.backgroundColor = new StyleColor(new Color(0.08f, 0.11f, 0.16f)); 
+            
+            lbl.style.marginTop = -10;
+            lbl.style.marginLeft = -10;
+            lbl.style.marginRight = -10;
+            lbl.style.marginBottom = 10;
+            
+            lbl.style.paddingTop = 10;
+            lbl.style.paddingBottom = 10;
+            
+            lbl.style.borderTopLeftRadius = 8;
+            lbl.style.borderTopRightRadius = 8;
+            
+            lbl.style.borderBottomWidth = 2;
+            lbl.style.borderBottomColor = new StyleColor(new Color(0.04f, 0.06f, 0.1f));
+        };
+
+        StyleHeader(todoBox.Q<Label>(), "TODO");
+        StyleHeader(progressBox.Q<Label>(), "IN\nPROGRESS");
+        StyleHeader(doneBox.Q<Label>(), "DONE");
     }
 
     public void StartGame()
     {
+        kanbanTicketsDone = 0;
+        draggedTicket = null;
+        container.style.display = DisplayStyle.Flex;
+
         kanbanColTodo.Clear();
         kanbanColProgress.Clear();
         kanbanColDone.Clear();
         kanbanTickets.Clear();
-        kanbanTicketsDone = 0;
-        
-        container.style.display = DisplayStyle.Flex;
-        
-        string[] ticketPrefixes = new string[]{"BUG-", "DEV-", "UX-", "OPS-", "QA-"};
 
         for (int i = 0; i < config.kanbanTicketCount; i++)
         {
             var ticket = new VisualElement();
-            ticket.style.width = new Length(90, LengthUnit.Percent);
-            ticket.style.height = 40;
-            ticket.style.backgroundColor = new StyleColor(new Color(0.95f, 0.85f, 0.4f)); // Yellow sticky
+            ticket.style.width = new Length(95, LengthUnit.Percent); // Fills almost entire column
+            ticket.style.height = 65; // Massive touch target for mobile
             ticket.style.marginBottom = 10;
-            ticket.style.borderTopLeftRadius = 5;
-            ticket.style.borderTopRightRadius = 5;
-            ticket.style.borderBottomLeftRadius = 5;
-            ticket.style.borderBottomRightRadius = 5;
-            ticket.style.borderTopWidth = 1;
-            ticket.style.borderBottomWidth = 1;
-            ticket.style.borderLeftWidth = 1;
-            ticket.style.borderRightWidth = 1;
-            ticket.style.borderTopColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
-            ticket.style.borderBottomColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
-            ticket.style.borderLeftColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
-            ticket.style.borderRightColor = new StyleColor(new Color(0.7f, 0.6f, 0.2f));
+            ticket.style.flexShrink = 0; // Prevent vertical squishing!
+            
+            // Ticket Styling
+            ticket.style.backgroundColor = new StyleColor(new Color(0.18f, 0.22f, 0.31f)); // Slightly lighter than column
+            ticket.style.borderTopLeftRadius = 8;
+            ticket.style.borderTopRightRadius = 8;
+            ticket.style.borderBottomLeftRadius = 8;
+            ticket.style.borderBottomRightRadius = 8;
+            
+            // Accent left border
+            ticket.style.borderLeftWidth = 6;
+            ticket.style.borderLeftColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f)); // Tech blue accent
+            
             ticket.style.justifyContent = Justify.Center;
             ticket.style.alignItems = Align.Center;
             ticket.style.position = Position.Relative;
             
-            var label = new Label($"{ticketPrefixes[Random.Range(0, ticketPrefixes.Length)]}{Random.Range(100, 999)}");
-            label.style.color = Color.black;
-            label.style.fontSize = 18;
+            // Add subtle shadow (using borders since UI Toolkit shadow is complex)
+            ticket.style.borderBottomWidth = 3;
+            ticket.style.borderBottomColor = new StyleColor(new Color(0.05f, 0.08f, 0.12f));
+
+            string prefix = ticketPrefixes[Random.Range(0, ticketPrefixes.Length)];
+            var label = new Label($"{prefix}{Random.Range(100, 999)}");
+            label.style.color = new StyleColor(Color.white);
+            label.style.fontSize = 20;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
             ticket.Add(label);
 
@@ -88,7 +154,6 @@ public class KanbanBoardMiniGame : IMiniGame
     public void AbortGame()
     {
         container.style.display = DisplayStyle.None;
-        // Callbacks will be GC'd when tickets are cleared in next StartGame
     }
 
     private void OnKanbanTicketDown(PointerDownEvent evt, VisualElement ticket)
@@ -114,7 +179,13 @@ public class KanbanBoardMiniGame : IMiniGame
         ticket.style.top = localPos.y;
         ticket.style.width = currentWidth;
         
-        ticket.style.opacity = 0.8f;
+        // Physics Lift Juice
+        ticket.style.scale = new StyleScale(new Vector2(1.05f, 1.05f));
+        ticket.style.rotate = new StyleRotate(new Rotate(new Angle(3f, AngleUnit.Degree))); // Slight tilt
+        ticket.style.opacity = 0.9f;
+        ticket.style.backgroundColor = new StyleColor(new Color(0.24f, 0.28f, 0.38f)); // Brighten when held
+        ticket.BringToFront(); // Ensure it renders over everything
+        
         pointerStartPos = evt.position;
         dragStartPos = localPos;
         ticket.CapturePointer(evt.pointerId);
@@ -137,8 +208,13 @@ public class KanbanBoardMiniGame : IMiniGame
         
         ticket.ReleasePointer(evt.pointerId);
         draggedTicket = null;
+        
+        // Reset Lift Physics
+        ticket.style.scale = new StyleScale(new Vector2(1f, 1f));
+        ticket.style.rotate = new StyleRotate(new Rotate(new Angle(0f, AngleUnit.Degree)));
         ticket.style.opacity = 1f;
-        ticket.style.width = new Length(90, LengthUnit.Percent);
+        ticket.style.width = new Length(95, LengthUnit.Percent);
+        ticket.style.backgroundColor = new StyleColor(new Color(0.18f, 0.22f, 0.31f));
 
         Rect ticketRect = ticket.worldBound;
         Rect progressRect = kanbanColProgress.worldBound;
@@ -149,89 +225,101 @@ public class KanbanBoardMiniGame : IMiniGame
             if (ticket.ClassListContains("in-progress"))
             {
                 // Valid move to DONE
-                ticket.style.position = Position.Relative;
-                ticket.style.left = 0;
-                ticket.style.top = 0;
-                ticket.style.backgroundColor = new StyleColor(new Color(0.2f, 0.8f, 0.4f)); 
-                if (!ticket.Q<Label>().text.StartsWith("✅")) 
-                    ticket.Q<Label>().text = "✅ " + ticket.Q<Label>().text;
+                SnapToColumn(ticket, kanbanColDone);
                 
-                if (ticket.parent != null) ticket.parent.Remove(ticket);
-                kanbanColDone.Add(ticket);
+                // Done Juice
+                ticket.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
+                ticket.style.borderLeftColor = new StyleColor(new Color(0.05f, 0.4f, 0.15f)); 
+                
+                var label = ticket.Q<Label>();
+                if (!label.text.StartsWith("✅")) 
+                {
+                    label.text = "✅ " + label.text;
+                    label.style.color = new StyleColor(Color.black); // Contrast
+                }
+                
+                manager.StartCoroutine(BounceRoutine(ticket));
                 
                 kanbanTicketsDone++;
                 if (kanbanTicketsDone >= config.kanbanTicketCount) manager.MarkWinReady();
             }
             else
             {
-                // Tried to skip IN PROGRESS -> Shake
+                // Tried to skip IN PROGRESS -> Shake Red
                 manager.StartCoroutine(ShakeTicketRoutine(ticket, kanbanColTodo));
             }
         }
         else if (ticketRect.Overlaps(progressRect))
         {
             // Move to IN PROGRESS
-            ticket.style.position = Position.Relative;
-            ticket.style.left = 0;
-            ticket.style.top = 0;
-            if (ticket.parent != null) ticket.parent.Remove(ticket);
-
             if (!ticket.ClassListContains("in-progress")) 
             {
                 ticket.AddToClassList("in-progress");
-                kanbanColProgress.Add(ticket); // Moving to new column, just append
+                SnapToColumn(ticket, kanbanColProgress);
+                
+                // Progress Juice
+                ticket.style.borderLeftColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); // Orange accent
+                manager.StartCoroutine(BounceRoutine(ticket));
             }
             else
             {
                 // Snapping back to same column
-                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColProgress.childCount)
-                    kanbanColProgress.Insert(draggedTicketOriginalIndex, ticket);
-                else
-                    kanbanColProgress.Add(ticket);
+                SnapToColumn(ticket, kanbanColProgress, draggedTicketOriginalIndex);
             }
         }
         else
         {
             // Snap back
-            ticket.style.position = Position.Relative;
-            ticket.style.left = 0;
-            ticket.style.top = 0;
-            if (ticket.parent != null) ticket.parent.Remove(ticket);
-            
             if (ticket.ClassListContains("in-progress"))
             {
-                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColProgress.childCount)
-                    kanbanColProgress.Insert(draggedTicketOriginalIndex, ticket);
-                else
-                    kanbanColProgress.Add(ticket);
+                SnapToColumn(ticket, kanbanColProgress, draggedTicketOriginalIndex);
             }
             else
             {
-                if (draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColTodo.childCount)
-                    kanbanColTodo.Insert(draggedTicketOriginalIndex, ticket);
-                else
-                    kanbanColTodo.Add(ticket);
+                SnapToColumn(ticket, kanbanColTodo, draggedTicketOriginalIndex);
             }
         }
     }
     
+    private void SnapToColumn(VisualElement ticket, VisualElement col, int index = -1)
+    {
+        ticket.style.position = Position.Relative;
+        ticket.style.left = 0;
+        ticket.style.top = 0;
+        if (ticket.parent != null) ticket.parent.Remove(ticket);
+        
+        if (index >= 0 && index <= col.childCount) col.Insert(index, ticket);
+        else col.Add(ticket);
+    }
+    
+    private IEnumerator BounceRoutine(VisualElement ticket)
+    {
+        float duration = 0.15f;
+        float elapsed = 0f;
+        
+        while (elapsed < duration && manager.isPlaying)
+        {
+            elapsed += Time.deltaTime;
+            float p = elapsed / duration;
+            // Pop out then settle
+            float scale = 1f + (Mathf.Sin(p * Mathf.PI) * 0.1f);
+            ticket.style.scale = new StyleScale(new Vector2(scale, scale));
+            yield return null;
+        }
+        ticket.style.scale = new StyleScale(new Vector2(1f, 1f));
+    }
+
     private IEnumerator ShakeTicketRoutine(VisualElement ticket, VisualElement targetColumn)
     {
         float duration = 0.3f;
         float elapsed = 0f;
         float magnitude = 10f;
         
-        // Put it back in the list for the shake
-        ticket.style.position = Position.Relative;
-        ticket.style.left = 0;
-        ticket.style.top = 0;
-        ticket.style.width = new Length(90, LengthUnit.Percent);
-        if (ticket.parent != null) ticket.parent.Remove(ticket);
-
-        if (targetColumn == kanbanColTodo && draggedTicketOriginalIndex >= 0 && draggedTicketOriginalIndex <= kanbanColTodo.childCount)
-            kanbanColTodo.Insert(draggedTicketOriginalIndex, ticket);
-        else
-            targetColumn.Add(ticket);
+        // Error Juice
+        StyleColor originalBg = ticket.style.backgroundColor;
+        ticket.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.22f)); // Red flash
+        
+        SnapToColumn(ticket, targetColumn, draggedTicketOriginalIndex);
         
         while (elapsed < duration && manager.isPlaying)
         {
@@ -242,6 +330,7 @@ public class KanbanBoardMiniGame : IMiniGame
         }
         
         ticket.style.left = 0;
+        ticket.style.backgroundColor = originalBg; // Restore original color
     }
 
     private IEnumerator KanbanBoardRoutine()
@@ -255,12 +344,6 @@ public class KanbanBoardMiniGame : IMiniGame
             
             if (timer <= 0f)
             {
-                // Note: Is it safe to call AbortGame when time is up? CenterDiv calls manager.AbortGame() and breaks. 
-                // In legacy code it does:
-                // if (currentGame.canFail) { manager.AbortGame(); yield break; }
-                // else { MarkWinReady(); }
-                // BUT we don't have access to `currentGame` from MiniGameConfig directly unless we do something else. Wait, I'll just follow CenterDiv logic which calls manager.AbortGame().
-                
                 manager.AbortGame();
                 yield break;
             }

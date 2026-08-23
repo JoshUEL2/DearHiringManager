@@ -69,19 +69,34 @@ public partial class MiniGameManager : MonoBehaviour
         // =============================================
         AddConfigFull("Check fryer oil temperature", new MiniGameConfig { type = GameType.PumpSystem, pumpIsBalanceMode = true, pumpBalanceTargetMin = 0.6f, pumpBalanceTargetMax = 0.8f, pumpBalanceHoldTime = 3f, instructions = "Pump to maintain 170°C - 220°C for 3 seconds!"});
         AddConfigFull("Restock condiment stations", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🍯 Mustard","🥫 Ketchup","🧂 Relish"}, binLabels = new string[]{"Mustard","Ketchup","Relish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Restock the falling condiments!"});
-        AddConfigFull("Handle customer complaint", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, dialogueScenarios = new string[]{"Customer: My chips are COLD!", "Customer: I WAITED 20 MINUTES!", "Customer: There's a HAIR in my burger!", "Customer: I want to speak to YOUR MANAGER!"}, dialogueOptions = new string[][]{new string[]{"I sincerely apologise","That's not my problem","Have you tried heating them up?"},new string[]{"I'm so sorry for the wait","We're understaffed","You should've ordered online"},new string[]{"That's horrifying, let me replace it","Are you sure it's not yours?","We use synthetic ingredients"},new string[]{"I AM the manager, let me help","They're not available","Go ahead, they'll say the same"}}, dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "De-escalate the complaint!"});
+        AddConfigFull("Handle customer complaint", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, 
+dialogueScenarios = new string[]{"Customer: My chips are COLD!", "Customer: I WAITED 20 MINUTES!", "Customer: There's a HAIR in my burger!", "Customer: I want to speak to YOUR MANAGER!"}, 
+dialogueOptions = new string[][]{
+    new string[]{"I sincerely apologise", "That's not my problem", "Have you tried heating them up?", "Are you sure?", "It builds character"},
+    new string[]{"I'm so sorry for the wait", "We're understaffed", "You should've ordered online", "Time is an illusion", "Stop exaggerating"},
+    new string[]{"That's horrifying, let me replace it", "Are you sure it's not yours?", "We use synthetic ingredients", "Extra protein!", "I'll just pick it out"},
+    new string[]{"I AM the manager, let me help", "They're not available", "Go ahead, they'll say the same", "Manager is on vacation", "Who isn't?"}
+}, 
+dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "De-escalate the complaint!"});
         AddConfigFull("Emergency food prep rush", new MiniGameConfig { type = GameType.FoodPrepRush, timeLimit = 20f, targetScore = 12, instructions = "Prep food fast! Tap when in the GREEN zone!"});
         AddConfigFull("Train new hire on POS system", new MiniGameConfig { type = GameType.OrderQueue, orderItems = new string[]{"Login","Select Menu","Add Items","Apply Discount","Process Payment","Print Receipt"}, orderPreviewTime = 3f, instructions = "Show them the POS steps!"});
 
         // =============================================
         // CORPORATE CUBICLE DRONE (6 tasks)
         // =============================================
-        AddConfigFull("Send weekly TPS reports", new MiniGameConfig { type = GameType.CodeBreaker, codeSymbols = new string[]{"A","B","C","D","E","F"}, codeLength = 4, maxAttempts = 6, instructions = "Crack the system password to send reports!"});
+        AddConfigFull("Access payroll database", new MiniGameConfig { type = GameType.CodeBreaker, codeLength = 4, maxAttempts = 6, instructions = "Guess the password to access database!"});
         AddConfigFull("Attend 3-hour video call", new MiniGameConfig { type = GameType.VideoCall, timeLimit = 15f, targetScore = 1, instructions = "Pay attention!"});
         AddConfigFull("Reorganize shared drive", new MiniGameConfig { type = GameType.FileSorter, timeLimit = 18f, fileSorterTarget = 15, fileSorterItems = new string[]{"Q3_Budget.xlsx", "Q2_Payroll_Final.pdf", "Logo_v4.png", "MeetingNotes.docx", "DO_NOT_DELETE.sys", "ClientList.csv", "Q1_Forecast.xlsx", "Jan_Invoice.pdf", "Deck_v9_Final.pptx"}, instructions = "Swipe files to correct folders!"});
         AddConfigFull("Corporate sprint tasks", new MiniGameConfig { type = GameType.KanbanBoard, timeLimit = 20f, kanbanTicketCount = 8, instructions = "Drag all tickets to IN PROGRESS then DONE!"});
         AddConfigFull("Overnight marketing pitch", new MiniGameConfig { type = GameType.CoffeeWork, timeLimit = 15f, coffeeDrainRate = 22f, coffeeBoost = 20f, workProgressPerTap = 5f, instructions = "Type slides & Drink coffee to stay awake!"});
-        AddConfigFull("Agree with executive complaints", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"VP: Q3 numbers are DISASTROUS!", "VP: Marketing spent HOW MUCH?!", "VP: Why can't we be more like Apple?!"}, dialogueOptions = new string[][]{new string[]{"You're absolutely right, sir","Actually the data shows...","That's above my pay grade"},new string[]{"Outrageous, I agree completely","It was within budget actually","I'll look into it"},new string[]{"Brilliant observation, sir","We have different strengths","I'll draft a proposal"}}, dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Agree enthusiastically!"});
+        AddConfigFull("Agree with executive complaints", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, 
+dialogueScenarios = new string[]{"VP: Q3 numbers are DISASTROUS!", "VP: Marketing spent HOW MUCH?!", "VP: Why can't we be more like Apple?!"}, 
+dialogueOptions = new string[][]{
+    new string[]{"You're absolutely right, sir", "Actually the data shows...", "That's above my pay grade", "It's the economy's fault", "Numbers are subjective"},
+    new string[]{"Outrageous, I agree completely", "It was within budget actually", "I'll look into it", "Money well spent!", "It's an investment"},
+    new string[]{"Brilliant observation, sir", "We have different strengths", "I'll draft a proposal", "Apple is overrated", "We sell completely different products"}
+}, 
+dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Agree enthusiastically!"});
 
         // =============================================
         // JUNIOR REACT TRAINEE (6 tasks)
@@ -132,16 +147,49 @@ public partial class MiniGameManager : MonoBehaviour
         // =============================================
         AddConfigFull("Approve quarterly budget", new MiniGameConfig { type = GameType.DocumentSigner, timeLimit = 4f, instructions = "Scroll to the bottom and STAMP APPROVAL!"});
         AddConfigFull("Board meeting presentation", new MiniGameConfig { type = GameType.ChartAdjuster, timeLimit = 10f, instructions = "Fudge the presentation! Shrink them, grow us!"});
-        AddConfigFull("Sign regulatory compliance docs", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, dialogueScenarios = new string[]{"Legal: Clause 4.7 requires data residency","Legal: Section 12 has liability gaps","Legal: GDPR compliance needs updating","Legal: Sign here to accept all terms"}, dialogueOptions = new string[][]{new string[]{"Flag for legal review","Sign it anyway","Delegate to VP"},new string[]{"Request amendment","Ignore the gaps","That's fine"},new string[]{"Engage compliance team","We'll deal with it later","What's GDPR?"},new string[]{"Review one more time","Sign immediately","Have my assistant sign"}}, dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "Handle compliance carefully!"});
-        AddConfigFull("Hostile takeover negotiations", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"Their CEO: Our company isn't for sale","Their CEO: Your offer is insulting","Board: The shareholders are nervous","Media: Is this a hostile takeover?","Their CEO: Final counteroffer - $2B"}, dialogueOptions = new string[][]{new string[]{"Everyone has a price","Let's discuss the benefits","We'll go directly to shareholders"},new string[]{"We'll raise to fair market value","Take it or leave it","Let's find common ground"},new string[]{"This acquisition creates value","Shareholders should trust us","We'll sweeten the deal"},new string[]{"It's a strategic partnership","No comment","We're creating jobs"},new string[]{"Deal. Let's close this","We can go higher","Let me consult my board"}}, dialogueCorrectIndices = new int[]{1,0,0,0,0}, instructions = "Negotiate the takeover!"});
-        AddConfigFull("Fire underperforming VP", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.7f, dialogueScenarios = new string[]{"VP: I've been with the company 15 years!","VP: My team loves me!","VP: What about my stock options?"}, dialogueOptions = new string[][]{new string[]{"And we value that. Here's a generous package","That's exactly the problem","Security will escort you out"},new string[]{"They'll be taken care of","They'll manage without you","We're restructuring the team"},new string[]{"They'll vest on schedule","Forfeited as per contract","We'll negotiate"}}, dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Fire them smoothly!"});
+        AddConfigFull("Sign regulatory compliance docs", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, 
+dialogueScenarios = new string[]{"Legal: Clause 4.7 requires data residency","Legal: Section 12 has liability gaps","Legal: GDPR compliance needs updating","Legal: Sign here to accept all terms"}, 
+dialogueOptions = new string[][]{
+    new string[]{"Flag for legal review","Sign it anyway","Delegate to VP","I don't read these","Cross it out"},
+    new string[]{"Request amendment","Ignore the gaps","That's fine","Sounds risky but okay","We'll sue them first"},
+    new string[]{"Engage compliance team","We'll deal with it later","What's GDPR?","Just hide the data","Pay the fine"},
+    new string[]{"Review one more time","Sign immediately","Have my assistant sign","Forge the CEO's signature","Refuse to sign"}
+}, 
+dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "Handle compliance carefully!"});
+        AddConfigFull("Hostile takeover negotiations", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, 
+dialogueScenarios = new string[]{"Their CEO: Our company isn't for sale","Their CEO: Your offer is insulting","Board: The shareholders are nervous","Media: Is this a hostile takeover?","Their CEO: Final counteroffer - $2B"}, 
+dialogueOptions = new string[][]{
+    new string[]{"Everyone has a price","Let's discuss the benefits","We'll go directly to shareholders","We will crush you","Then we steal your talent"},
+    new string[]{"We'll raise to fair market value","Take it or leave it","Let's find common ground","It's more than you're worth","We withdraw the offer"},
+    new string[]{"This acquisition creates value","Shareholders should trust us","We'll sweeten the deal","Tell them to sell","Ignore the board"},
+    new string[]{"It's a strategic partnership","No comment","We're creating jobs","Yes, completely hostile","Next question"},
+    new string[]{"Deal. Let's close this","We can go higher","Let me consult my board","That's extortion","Never"}
+}, 
+dialogueCorrectIndices = new int[]{1,0,0,0,0}, instructions = "Negotiate the takeover!"});
+        AddConfigFull("Fire underperforming VP", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.7f, 
+dialogueScenarios = new string[]{"VP: I've been with the company 15 years!","VP: My team loves me!","VP: What about my stock options?"}, 
+dialogueOptions = new string[][]{
+    new string[]{"And we value that. Here's a generous package","That's exactly the problem","Security will escort you out","You should have quit","Past performance doesn't equal future results"},
+    new string[]{"They'll be taken care of","They'll manage without you","We're restructuring the team","They'll be fired too","You're delusional"},
+    new string[]{"They'll vest on schedule","Forfeited as per contract","We'll negotiate","I'm keeping them","What options?"}
+}, 
+dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Fire them smoothly!"});
         AddConfigFull("Construction site inspection", new MiniGameConfig { type = GameType.ConstructionSite, timeLimit = 15f, balanceDriftSpeed = 0f, instructions = "Scan the wall for heat leaks!"});
 
         // =============================================
         // AI PROPHECY ALIGNMENT DIRECTOR (6 tasks)
         // =============================================
         AddConfigFull("Calibrate neural alignment matrix", new MiniGameConfig { type = GameType.NeuralAligner, timeLimit = 12f, instructions = "Tune the sliders until all lights are GREEN!"});
-        AddConfigFull("Review AI ethics proposals", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, dialogueScenarios = new string[]{"Proposal: Give AI emotional awareness","Proposal: AI self-modification capabilities","Proposal: Autonomous weapons systems","Proposal: AI voting rights","Proposal: Merge human consciousness with AI"}, dialogueOptions = new string[][]{new string[]{"Approve with strict monitoring","Reject — too dangerous","Classify top-secret"},new string[]{"Reject — existential risk","Approve if sandboxed","Needs more research"},new string[]{"Absolutely not","Only for defense","Approve with oversight"},new string[]{"Premature but worth studying","Approve immediately","Reject — they're not people"},new string[]{"Fund research cautiously","Too sci-fi, reject","Approve clinical trials"}}, dialogueCorrectIndices = new int[]{0,0,0,0,0}, instructions = "Judge AI proposals!"});
+        AddConfigFull("Review AI ethics proposals", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.8f, 
+dialogueScenarios = new string[]{"Proposal: Give AI emotional awareness","Proposal: AI self-modification capabilities","Proposal: Autonomous weapons systems","Proposal: AI voting rights","Proposal: Merge human consciousness with AI"}, 
+dialogueOptions = new string[][]{
+    new string[]{"Approve with strict monitoring","Reject — too dangerous","Classify top-secret","Approve unconditionally","Sell it to the military"},
+    new string[]{"Reject — existential risk","Approve if sandboxed","Needs more research","Let them evolve","Open source it"},
+    new string[]{"Absolutely not","Only for defense","Approve with oversight","Mass produce them","Sell to highest bidder"},
+    new string[]{"Premature but worth studying","Approve immediately","Reject — they're not people","Give them my vote","Only if they vote for us"},
+    new string[]{"Fund research cautiously","Too sci-fi, reject","Approve clinical trials","I volunteer first","Ban it globally"}
+}, 
+dialogueCorrectIndices = new int[]{0,0,0,0,0}, instructions = "Judge AI proposals!"});
         AddConfigFull("Monitor sentience detection array", new MiniGameConfig { type = GameType.SentienceArray, timeLimit = 12f, instructions = "Whack the red sentience spikes!"});
         AddConfigFull("Emergency AI containment protocol", new MiniGameConfig { type = GameType.ContainmentProtocol, timeLimit = 10f, instructions = "Sever hardlines! Lift cover! Mash lockdown!"});
         AddConfigFull("Align superintelligence reward function", new MiniGameConfig { type = GameType.RewardLogic, timeLimit = 12f, instructions = "Route logic to PRESERVE humanity!"});
@@ -169,7 +217,14 @@ public partial class MiniGameManager : MonoBehaviour
         // =============================================
         // MIXERS (4 tasks)
         // =============================================
-        AddConfigFull("Industrial Dive Bar", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.6f, dialogueScenarios = new string[]{"Foreman: What brings you here?","Worker: You look too clean for this place","Bartender: Another round?"}, dialogueOptions = new string[][]{new string[]{"Looking for work connections","Just passing through","Buy everyone a round"},new string[]{"I work hard too","I just got off shift","You should see my hands"},new string[]{"Absolutely, my treat","I'll have water","One more then I'm out"}}, dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive bar!"});
+        AddConfigFull("Industrial Dive Bar", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.6f, 
+dialogueScenarios = new string[]{"Foreman: What brings you here?","Worker: You look too clean for this place","Bartender: Another round?"}, 
+dialogueOptions = new string[][]{
+    new string[]{"Looking for work connections","Just passing through","Buy everyone a round","I'm lost","Health inspector"},
+    new string[]{"I work hard too","I just got off shift","You should see my hands","I bathe regularly","My mom bought these clothes"},
+    new string[]{"Absolutely, my treat","I'll have water","One more then I'm out","Put it on his tab","I'm broke"}
+}, 
+dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive bar!"});
         AddConfigFull("Hospitality Gala", new MiniGameConfig { type = GameType.NameMemory, timeLimit = 15f, vipNames = new string[]{"Sarah from Tech", "John from Sales", "Mike from HR", "Emma from Legal"}, instructions = "Memorize the VIPs!"});
         AddConfigFull("Startup Pitch Meetup", new MiniGameConfig { type = GameType.StartupPitch, timeLimit = 15f, instructions = "Pitch the perfect buzzwords!"});
         AddConfigFull("Corporate Golf Sim", new MiniGameConfig { type = GameType.CorporateGolf, timeLimit = 15f, instructions = "Let the CEO win! Aim for the sand trap!"});
