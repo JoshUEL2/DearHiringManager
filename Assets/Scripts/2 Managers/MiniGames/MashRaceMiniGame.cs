@@ -113,13 +113,23 @@ public class MashRaceMiniGame : IMiniGame
         stampText.style.unityFontStyleAndWeight = FontStyle.Bold;
         stampText.style.unityTextAlign = TextAnchor.MiddleCenter;
         
-        stampText.style.unityTextOutlineColor = Color.black;
-        stampText.style.unityTextOutlineWidth = 4f;
+        stampText.style.fontSize = 110;
+        stampText.style.letterSpacing = 10;
+        stampText.style.rotate = new StyleRotate(new Rotate(new Angle(-12f, AngleUnit.Degree)));
+        stampText.style.textShadow = new StyleTextShadow(new TextShadow { color = new Color(0,0,0,0.8f), offset = new Vector2(12f, 15f), blurRadius = 15f });
+        
+        VisualElement backgroundFade = new VisualElement();
+        backgroundFade.style.position = Position.Absolute;
+        backgroundFade.style.width = new Length(100, LengthUnit.Percent);
+        backgroundFade.style.height = new Length(100, LengthUnit.Percent);
+        backgroundFade.style.backgroundColor = new StyleColor(new Color(0f, 0f, 0f, 0.7f));
+        backgroundFade.style.opacity = 0f;
         
         stampText.style.top = new Length(50, LengthUnit.Percent);
         stampText.style.left = new Length(50, LengthUnit.Percent);
         stampText.style.translate = new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent));
         
+        manager.miniGameDocument.rootVisualElement.Add(backgroundFade);
         manager.miniGameDocument.rootVisualElement.Add(stampText);
         
         float life = 0.8f;
@@ -129,18 +139,23 @@ public class MashRaceMiniGame : IMiniGame
             elapsed += Time.deltaTime;
             float p = elapsed / life;
             
-            float scale = Mathf.Lerp(2.5f, 1f, p * 10f);
+            float scale = Mathf.Lerp(3.5f, 1f, p * 12f);
             if (scale < 1f) scale = 1f;
             stampText.style.scale = new StyleScale(new Vector2(scale, scale));
             
+            backgroundFade.style.opacity = Mathf.Lerp(0f, 1f, p * 8f);
+            
             if (p > 0.8f) {
-                stampText.style.opacity = 1f - ((p - 0.8f) * 5f);
+                float fadeOut = 1f - ((p - 0.8f) * 5f);
+                stampText.style.opacity = fadeOut;
+                backgroundFade.style.opacity = fadeOut;
             }
             
             yield return null;
         }
         
         if (manager.miniGameDocument.rootVisualElement.Contains(stampText)) manager.miniGameDocument.rootVisualElement.Remove(stampText);
+        if (manager.miniGameDocument.rootVisualElement.Contains(backgroundFade)) manager.miniGameDocument.rootVisualElement.Remove(backgroundFade);
         
         if (isWin) manager.MarkWinReady();
         else manager.AbortGame();

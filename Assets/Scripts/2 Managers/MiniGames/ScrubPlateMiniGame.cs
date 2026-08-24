@@ -20,7 +20,14 @@ public class ScrubPlateMiniGame : IMiniGame
         this.config = config;
         container = root.Q<VisualElement>("ScrubPlateContainer");
         scrubProgressBar = root.Q<ProgressBar>("ScrubProgressBar");
+        if (scrubProgressBar != null) scrubProgressBar.style.display = DisplayStyle.None;
+        
+        container.style.flexGrow = 1;
+        container.style.minHeight = 450;
+        container.style.justifyContent = Justify.Center;
+        
         scrubPlateArea = root.Q<VisualElement>("ScrubPlateArea");
+        scrubPlateArea.style.scale = new StyleScale(new Vector2(1.15f, 1.15f));
         scrubDirtOverlay = root.Q<VisualElement>("ScrubDirtOverlay");
         scrubSponge = root.Q<VisualElement>("ScrubSponge");
 

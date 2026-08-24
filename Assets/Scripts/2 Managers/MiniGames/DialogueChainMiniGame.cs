@@ -250,18 +250,25 @@ public class DialogueChainMiniGame : IMiniGame
         ignoredText.style.unityFontStyleAndWeight = FontStyle.Bold;
         ignoredText.style.unityTextAlign = TextAnchor.MiddleCenter;
         
-        // Text Outline for legibility
-        ignoredText.style.unityTextOutlineColor = Color.black;
-        ignoredText.style.unityTextOutlineWidth = 4f;
+        ignoredText.style.fontSize = 110;
+        ignoredText.style.letterSpacing = 10;
+        ignoredText.style.rotate = new StyleRotate(new Rotate(new Angle(-12f, AngleUnit.Degree)));
+        ignoredText.style.textShadow = new StyleTextShadow(new TextShadow { color = new Color(0,0,0,0.8f), offset = new Vector2(12f, 15f), blurRadius = 15f });
         
-        // Center text in container
+        VisualElement backgroundFade = new VisualElement();
+        backgroundFade.style.position = Position.Absolute;
+        backgroundFade.style.width = new Length(100, LengthUnit.Percent);
+        backgroundFade.style.height = new Length(100, LengthUnit.Percent);
+        backgroundFade.style.backgroundColor = new StyleColor(new Color(0f, 0f, 0f, 0.7f));
+        backgroundFade.style.opacity = 0f;
+        
         ignoredText.style.top = new Length(50, LengthUnit.Percent);
         ignoredText.style.left = new Length(50, LengthUnit.Percent);
         ignoredText.style.translate = new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent));
         
+        manager.miniGameDocument.rootVisualElement.Add(backgroundFade);
         manager.miniGameDocument.rootVisualElement.Add(ignoredText);
         
-        // Pop in animation
         float life = 0.8f;
         float elapsed = 0f;
         while(elapsed < life && isPlaying)
@@ -269,20 +276,23 @@ public class DialogueChainMiniGame : IMiniGame
             elapsed += Time.deltaTime;
             float p = elapsed / life;
             
-            // Starts big, slams down to size 1
-            float scale = Mathf.Lerp(2.5f, 1f, p * 10f); // Fast snap
+            float scale = Mathf.Lerp(3.5f, 1f, p * 12f); 
             if (scale < 1f) scale = 1f;
             ignoredText.style.scale = new StyleScale(new Vector2(scale, scale));
             
-            // Fade out at the very end
+            backgroundFade.style.opacity = Mathf.Lerp(0f, 1f, p * 8f);
+            
             if (p > 0.8f) {
-                ignoredText.style.opacity = 1f - ((p - 0.8f) * 5f);
+                float fadeOut = 1f - ((p - 0.8f) * 5f);
+                ignoredText.style.opacity = fadeOut;
+                backgroundFade.style.opacity = fadeOut;
             }
             
             yield return null;
         }
         
         if (manager.miniGameDocument.rootVisualElement.Contains(ignoredText)) manager.miniGameDocument.rootVisualElement.Remove(ignoredText);
+        if (manager.miniGameDocument.rootVisualElement.Contains(backgroundFade)) manager.miniGameDocument.rootVisualElement.Remove(backgroundFade);
     }
     
     private IEnumerator AnimateFloatingText(Button parentBtn, string text, Color c)
