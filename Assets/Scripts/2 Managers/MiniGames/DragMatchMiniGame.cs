@@ -46,10 +46,11 @@ public class DragMatchMiniGame : IMiniGame
         var panel = dragLeftColumn.parent;
         if (panel == null) { manager.MarkWinReady(); yield break; }
         
-        dragLeftColumn.style.display = DisplayStyle.None;
-        dragRightColumn.style.display = DisplayStyle.None;
+        // Hide elements without collapsing layout size!
+        dragLeftColumn.style.visibility = Visibility.Hidden;
+        dragRightColumn.style.visibility = Visibility.Hidden;
         var bolt = panel.Q<Label>();
-        if (bolt != null) bolt.style.display = DisplayStyle.None;
+        if (bolt != null) bolt.style.visibility = Visibility.Hidden;
         
         var frontPanel = new VisualElement();
         frontPanel.style.position = Position.Absolute;
@@ -57,17 +58,10 @@ public class DragMatchMiniGame : IMiniGame
         frontPanel.style.top = 0; frontPanel.style.bottom = 0;
         frontPanel.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.25f)); // Matches casing
         
-        var sealText = new Label("SEALED");
-        sealText.style.color = new StyleColor(new Color(0.1f, 0.9f, 0.2f));
-        sealText.style.fontSize = 50;
-        sealText.style.unityFontStyleAndWeight = FontStyle.Bold;
-        sealText.style.position = Position.Absolute;
-        sealText.style.left = new Length(50, LengthUnit.Percent);
-        sealText.style.top = new Length(50, LengthUnit.Percent);
-        sealText.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent), 0));
-        frontPanel.Add(sealText);
+        // Trapdoor swing animation (top hinged)
+        frontPanel.style.transformOrigin = new StyleTransformOrigin(new TransformOrigin(Length.Percent(50), Length.Percent(0)));
+        frontPanel.style.rotate = new StyleRotate(new Rotate(Angle.Degrees(-90))); // Open upwards
         
-        frontPanel.style.translate = new StyleTranslate(new Translate(0, new Length(-110, LengthUnit.Percent), 0));
         panel.Add(frontPanel);
         
         float elapsed = 0f;
@@ -76,11 +70,26 @@ public class DragMatchMiniGame : IMiniGame
         {
             elapsed += UnityEngine.Time.deltaTime;
             float t = elapsed / duration;
-            float ease = 1f - UnityEngine.Mathf.Pow(1f - t, 3f);
-            frontPanel.style.translate = new StyleTranslate(new Translate(0, new Length(-110f * (1f - ease), LengthUnit.Percent), 0));
+            // Accelerating swing down (gravity)
+            float angle = UnityEngine.Mathf.Lerp(-90f, 0f, t * t * t);
+            frontPanel.style.rotate = new StyleRotate(new Rotate(Angle.Degrees(angle)));
             yield return null;
         }
-        frontPanel.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        frontPanel.style.rotate = new StyleRotate(new Rotate(Angle.Degrees(0)));
+        
+        // Clang impact shake
+        var sv = manager.miniGameDocument.rootVisualElement.Q<ScrollView>();
+        if (sv != null) {
+            float sElapsed = 0f;
+            while(sElapsed < 0.15f) {
+                sElapsed += UnityEngine.Time.deltaTime;
+                float shakeX = UnityEngine.Random.Range(-15f, 15f) * (1f - (sElapsed/0.15f));
+                float shakeY = UnityEngine.Random.Range(-15f, 15f) * (1f - (sElapsed/0.15f));
+                sv.style.translate = new StyleTranslate(new Translate(shakeX, shakeY, 0));
+                yield return null;
+            }
+            sv.style.translate = new StyleTranslate(new Translate(0, 0, 0));
+        }
         
         // Screws locking in
         for(int i=0; i<4; i++) {
@@ -154,6 +163,8 @@ public class DragMatchMiniGame : IMiniGame
             sv.style.maxHeight = 2500;
         }
         
+        dragLeftColumn.style.visibility = Visibility.Visible;
+        dragRightColumn.style.visibility = Visibility.Visible;
         dragLeftColumn.Clear();
         dragRightColumn.Clear();
         dragCheatSheetList.Clear();
