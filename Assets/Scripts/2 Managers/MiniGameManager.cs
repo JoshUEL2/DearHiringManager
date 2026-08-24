@@ -37,8 +37,8 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Sweep kitchen floors", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Sweep everywhere! Tiles get dirty again after 15s!"});
         AddConfigFull("Mop grease spills", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Mop everywhere! Tiles get dirty again after 15s!"});
         AddConfigFull("Scour microwave grease", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 15, instructions = "Fast! Scour the grease bubbles!"});
-        AddConfigFull("Power-wash the waste bins", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 20, timeLimit = 12f, instructions = "Power-wash the garbage sludge!"});
-        AddConfigFull("Scrape the burger grill", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 25, timeLimit = 10f, instructions = "Scrape the carbonized grill!"});
+        AddConfigFull("Power-wash the waste bins", new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 20, timeLimit = 5f, instructions = "Power-wash the garbage sludge!"});
+        AddConfigFull("Scrape the burger grill", new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 25, timeLimit = 10f, instructions = "Scrape the carbonized grill!"});
         AddConfigFull("Empty waste bin", new MiniGameConfig { type = GameType.IncineratorToss, instructions = "Time the tosses into the furnace!"});
         AddConfigFull("Unclog toilets", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the toilet!"});
         AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🥩 Beef","🍗 Chicken","🐟 Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!"});
@@ -232,7 +232,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         // =============================================
         // LEGAL SIDE HUSTLES (4 tasks)
         // =============================================
-        AddConfigFull("Collect Recycled Bottles", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🟢 Glass","🔵 Plastic","🟤 Aluminium"}, binLabels = new string[]{"Glass","Plastic","Metal"}, sortTarget = 10, sortTimeLimit = 20f, instructions = "Sort the recyclables!"});
+        AddConfigFull("Collect Recycled Bottles", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🍾 Glass Bottle","🥤 Plastic Cup","🥫 Metal Can"}, binLabels = new string[]{"🍾 Glass","🥤 Plastic","🥫 Metal"}, sortTarget = 10, sortTimeLimit = 20f, instructions = "Sort the recyclables!"});
         AddConfigFull("Executive Lawn Care", new MiniGameConfig { type = GameType.MowGreens, timeLimit = 15f, instructions = "Mow the grass, avoid obstacles!"});
         AddConfigFull("Walk Purebred Pedigree Dogs", new MiniGameConfig { type = GameType.WalkDogs, timeLimit = 15f, instructions = "Keep all 3 leashes in the green zone!"});
         AddConfigFull("Deliver Fast Food Order", new MiniGameConfig { type = GameType.RetroRacer, timeLimit = 20f, instructions = "Dodge traffic and deliver the food!"});
@@ -309,6 +309,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             case GameType.SweepFloor: return "SweepFloor";
             case GameType.PumpSystem: return "PumpGame";
             case GameType.ScrubPlate: return "ScrubPlate";
+            case GameType.PhysicalScrub: return "ScrubPlate";
             case GameType.CodeBreaker: return "CodeBreaker";
             case GameType.BalanceMeter: return "BalanceMeter";
             case GameType.DialogueChain: return "DialogueChain";

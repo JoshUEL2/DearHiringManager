@@ -101,6 +101,7 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/GitMergeMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/NightShiftPitchMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/ChartAdjusterMiniGame.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/AutomatedTestsMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/RecycleBottlesMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/MemoryMatchMiniGame.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/PumpSystemMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/Systems/EventSystem.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/DragCenterMiniGame.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/IncineratorTossMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/DialogueChainMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/QATriageMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />

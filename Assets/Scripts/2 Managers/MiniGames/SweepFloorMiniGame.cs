@@ -1,19 +1,33 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SweepFloorMiniGame : IMiniGame
 {
     private MiniGameManager manager;
     private MiniGameConfig config;
     private VisualElement container;
+    private VisualElement drawArea;
+    private Label toolLabel;
 
-    private VisualElement sweepFloorGrid;
     private float[] sweepTileTimers = new float[25];
-    private VisualElement[] sweepTiles = new VisualElement[25];
-    private int sweepPlayerX = 0;
-    private int sweepPlayerY = 0;
     private bool isPlaying = false;
+    private int playerGridX = 2;
+    private int playerGridY = 2;
+    private Vector2 mopVisualPos = new Vector2(200, 200);
+    private Vector2 swipeStart;
+    private bool isSwiping = false;
+    
+    private enum Theme { Kitchen, Grease }
+    private Theme currentTheme;
+
+    // For visual juice
+    private struct Dust {
+        public Vector2 pos;
+        public float offsetTime;
+    }
+    private List<Dust>[] tileDusts = new List<Dust>[25];
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -21,15 +35,88 @@ public class SweepFloorMiniGame : IMiniGame
         this.config = config;
         
         container = root.Q<VisualElement>("SweepFloorContainer");
-        sweepFloorGrid = container.Q<VisualElement>("SweepFloorGrid");
+        if (container != null)
+        {
+            container.Clear();
+            container.style.flexGrow = 1;
+            container.style.minHeight = 450;
+            container.style.alignItems = Align.Center;
+            container.style.justifyContent = Justify.Center;
+            
+            drawArea = new VisualElement();
+            drawArea.style.width = 400;
+            drawArea.style.height = 400;
+            drawArea.style.overflow = Overflow.Hidden;
+            drawArea.style.borderTopLeftRadius = 15;
+            drawArea.style.borderTopRightRadius = 15;
+            drawArea.style.borderBottomLeftRadius = 15;
+            drawArea.style.borderBottomRightRadius = 15;
+            drawArea.generateVisualContent += OnDrawGame;
+            container.Add(drawArea);
+
+            toolLabel = new Label();
+            toolLabel.style.position = Position.Absolute;
+            toolLabel.style.fontSize = 60;
+            toolLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+            drawArea.Add(toolLabel);
+
+            drawArea.focusable = true;
+            drawArea.RegisterCallback<PointerDownEvent>(ev => {
+                if (!isPlaying) return;
+                isSwiping = true;
+                drawArea.CapturePointer(ev.pointerId);
+                swipeStart = ev.position;
+            });
+            drawArea.RegisterCallback<PointerMoveEvent>(ev => {
+                // Ignore continuous dragging
+            });
+            drawArea.RegisterCallback<PointerUpEvent>(ev => {
+                if (!isPlaying || !isSwiping) return;
+                isSwiping = false;
+                if (drawArea.HasPointerCapture(ev.pointerId)) drawArea.ReleasePointer(ev.pointerId);
+                
+                Vector2 swipeDelta = (Vector2)ev.position - swipeStart;
+                if (swipeDelta.magnitude > 20f)
+                {
+                    if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
+                    {
+                        if (swipeDelta.x > 0) MovePlayer(1, 0);
+                        else MovePlayer(-1, 0);
+                    }
+                    else
+                    {
+                        if (swipeDelta.y > 0) MovePlayer(0, 1);
+                        else MovePlayer(0, -1);
+                    }
+                }
+            });
+            drawArea.RegisterCallback<NavigationMoveEvent>(ev => {
+                // STOP UI TOOLKIT FROM STEALING FOCUS WITH ARROW KEYS!
+                ev.PreventDefault();
+                ev.StopPropagation();
+            });
+            drawArea.RegisterCallback<KeyDownEvent>(ev => {
+                if (!isPlaying) return;
+                bool handled = false;
+                if (ev.keyCode == KeyCode.UpArrow || ev.keyCode == KeyCode.W) { MovePlayer(0, -1); handled = true; }
+                if (ev.keyCode == KeyCode.DownArrow || ev.keyCode == KeyCode.S) { MovePlayer(0, 1); handled = true; }
+                if (ev.keyCode == KeyCode.LeftArrow || ev.keyCode == KeyCode.A) { MovePlayer(-1, 0); handled = true; }
+                if (ev.keyCode == KeyCode.RightArrow || ev.keyCode == KeyCode.D) { MovePlayer(1, 0); handled = true; }
+                
+                if (handled) {
+                    ev.PreventDefault();
+                    ev.StopPropagation();
+                }
+            });
+        }
     }
 
     public void StartGame()
     {
         isPlaying = true;
-        SetupSweepFloor();
         container.style.display = DisplayStyle.Flex;
-        if (manager.miniGameDocument != null) manager.miniGameDocument.rootVisualElement.Focus();
+        SetupSweepFloor();
+        if (drawArea != null) drawArea.Focus(); // Ensure keyboard focus
         manager.StartCoroutine(SweepFloorRoutine());
     }
 
@@ -41,99 +128,121 @@ public class SweepFloorMiniGame : IMiniGame
 
     private void SetupSweepFloor()
     {
-        if (sweepFloorGrid == null) return;
-        sweepFloorGrid.Clear();
-        sweepTileTimers = new float[25];
-        sweepTiles = new VisualElement[25];
-        sweepPlayerX = 0;
-        sweepPlayerY = 0;
-        
-        for (int y = 0; y < 5; y++)
+        currentTheme = Theme.Kitchen;
+        toolLabel.text = "🧹";
+        if (manager.currentGame != null && manager.currentGame.name.Contains("grease"))
         {
-            var row = new VisualElement();
-            row.style.flexDirection = FlexDirection.Row;
-            row.style.flexGrow = 1;
-            for (int x = 0; x < 5; x++)
+            currentTheme = Theme.Grease;
+            toolLabel.text = "🪣";
+        }
+        
+        playerGridX = 2;
+        playerGridY = 2;
+        mopVisualPos = new Vector2(200, 200);
+        isSwiping = false;
+
+        Random.InitState(123);
+        for (int i = 0; i < 25; i++)
+        {
+            sweepTileTimers[i] = 0f; // Start completely dirty
+            
+            tileDusts[i] = new List<Dust>();
+            int cx = i % 5;
+            int cy = i / 5;
+            for (int d = 0; d < 8; d++)
             {
-                var cell = new VisualElement();
-                cell.style.flexGrow = 1;
-                cell.style.borderTopWidth = 2; cell.style.borderLeftWidth = 2; cell.style.borderRightWidth = 2; cell.style.borderBottomWidth = 2;
-                cell.style.borderTopColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
-                cell.style.borderBottomColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
-                cell.style.borderLeftColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
-                cell.style.borderRightColor = new StyleColor(new Color(0.2f, 0.1f, 0.05f));
-                cell.style.justifyContent = Justify.Center;
-                cell.style.alignItems = Align.Center;
-                cell.style.paddingTop = 0; cell.style.paddingBottom = 0; cell.style.paddingLeft = 0; cell.style.paddingRight = 0;
-                cell.style.marginTop = 0; cell.style.marginBottom = 0; cell.style.marginLeft = 0; cell.style.marginRight = 0;
-                
-                var icon = new Label("");
-                icon.style.position = Position.Absolute;
-                icon.style.left = 0; icon.style.right = 0; icon.style.top = 0; icon.style.bottom = 0;
-                icon.style.fontSize = 55;
-                icon.style.paddingTop = 0; icon.style.paddingBottom = 0; icon.style.paddingLeft = 0; icon.style.paddingRight = 0;
-                icon.style.marginTop = 0; icon.style.marginBottom = 0; icon.style.marginLeft = 0; icon.style.marginRight = 0;
-                icon.style.unityTextAlign = TextAnchor.MiddleCenter;
-                icon.name = "Icon";
-                cell.Add(icon);
-                
-                int cx = x; int cy = y;
-                cell.RegisterCallback<PointerDownEvent>(ev => {
-                    if (!isPlaying || !manager.isPlaying) return;
-                    sweepPlayerX = cx; sweepPlayerY = cy;
+                tileDusts[i].Add(new Dust {
+                    pos = new Vector2(cx * 80 + Random.Range(10, 70), cy * 80 + Random.Range(10, 70)),
+                    offsetTime = Random.Range(0f, 100f)
                 });
-                cell.RegisterCallback<PointerEnterEvent>(ev => {
-                    if (!isPlaying || !manager.isPlaying) return;
-                    if ((ev.pressedButtons & 1) != 0) {
-                        sweepPlayerX = cx; sweepPlayerY = cy;
-                    }
-                });
-                
-                row.Add(cell);
-                sweepTiles[y * 5 + x] = cell;
             }
-            sweepFloorGrid.Add(row);
         }
     }
 
-    private void RenderSweepFloor()
+    private void MovePlayer(int dx, int dy)
     {
+        playerGridX = Mathf.Clamp(playerGridX + dx, 0, 4);
+        playerGridY = Mathf.Clamp(playerGridY + dy, 0, 4);
+        sweepTileTimers[playerGridY * 5 + playerGridX] = 15f;
+    }
+
+    private void OnDrawGame(MeshGenerationContext ctx)
+    {
+        var p = ctx.painter2D;
+        float w = ctx.visualElement.layout.width;
+        float h = ctx.visualElement.layout.height;
+        if (w == 0 || h == 0) return;
+
+        // Draw Base Tiles
+        for (int y = 0; y < 5; y++)
+        {
+            for (int x = 0; x < 5; x++)
+            {
+                Rect tileRect = new Rect(x * 80, y * 80, 80, 80);
+                
+                if (currentTheme == Theme.Grease)
+                {
+                    // Checkerboard Black & White Kitchen Floor
+                    if ((x + y) % 2 == 0) p.fillColor = new Color(0.9f, 0.9f, 0.9f);
+                    else p.fillColor = new Color(0.15f, 0.15f, 0.15f);
+                }
+                else
+                {
+                    // Terracotta Ceramic Floor
+                    p.fillColor = new Color(0.7f, 0.4f, 0.25f);
+                }
+                
+                p.BeginPath(); p.MoveTo(tileRect.min); 
+                p.LineTo(new Vector2(tileRect.xMax, tileRect.yMin));
+                p.LineTo(tileRect.max);
+                p.LineTo(new Vector2(tileRect.xMin, tileRect.yMax));
+                p.Fill();
+                
+                // Grout / Border
+                p.strokeColor = new Color(0.1f, 0.1f, 0.1f, 0.3f);
+                p.lineWidth = 2f;
+                p.Stroke();
+            }
+        }
+
+        // Draw Dirt Overlays
         for (int i = 0; i < 25; i++)
         {
-            var cell = sweepTiles[i];
-            var icon = cell.Q<Label>("Icon");
+            float dirtiness = 1f - Mathf.Clamp01(sweepTileTimers[i] / 15f);
+            if (dirtiness <= 0) continue; // Perfectly clean
             
-            if (sweepTileTimers[i] > 0)
+            // Draw dust bunnies or grease blobs
+            foreach (var dust in tileDusts[i])
             {
-                cell.style.backgroundColor = new StyleColor(new Color(0.76f, 0.6f, 0.42f));
-            }
-            else
-            {
-                cell.style.backgroundColor = new StyleColor(new Color(0.35f, 0.22f, 0.12f));
-            }
-            
-            int cy = i / 5;
-            int cx = i % 5;
-            if (cx == sweepPlayerX && cy == sweepPlayerY)
-            {
-                if (manager.currentGame != null && manager.currentGame.name == "Mop grease spills") icon.text = "🪣";
-                else if (manager.currentGame != null && manager.currentGame.name == "Clear conveyor dust filters") icon.text = "🌪️";
-                else icon.text = "🧹";
-            }
-            else
-            {
-                icon.text = "";
+                float pulse = Mathf.Sin(Time.time * 2f + dust.offsetTime) * 2f;
+                float radius = (15f + pulse) * dirtiness;
+                
+                if (currentTheme == Theme.Grease)
+                {
+                    p.fillColor = new Color(0.6f, 0.5f, 0.1f, 0.7f * dirtiness); // Yellow/Brown grease
+                }
+                else
+                {
+                    p.fillColor = new Color(0.3f, 0.3f, 0.3f, 0.8f * dirtiness); // Grey dust
+                }
+                
+                p.BeginPath();
+                p.Arc(dust.pos, radius, 0, 360);
+                p.Fill();
             }
         }
     }
 
     private IEnumerator SweepFloorRoutine()
     {
-        sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
-        RenderSweepFloor();
-
         while (isPlaying && manager.isPlaying)
         {
+            Vector2 targetPos = new Vector2(playerGridX * 80 + 40, playerGridY * 80 + 40);
+            mopVisualPos = Vector2.Lerp(mopVisualPos, targetPos, Time.deltaTime * 20f);
+            
+            toolLabel.style.left = mopVisualPos.x - 30f;
+            toolLabel.style.top = mopVisualPos.y - 30f;
+
             bool allClean = true;
             for (int i = 0; i < 25; i++)
             {
@@ -147,9 +256,8 @@ public class SweepFloorMiniGame : IMiniGame
                     allClean = false;
                 }
             }
-
-            sweepTileTimers[sweepPlayerY * 5 + sweepPlayerX] = 15f;
-            RenderSweepFloor();
+            
+            if (drawArea != null) drawArea.MarkDirtyRepaint();
 
             if (allClean)
             {

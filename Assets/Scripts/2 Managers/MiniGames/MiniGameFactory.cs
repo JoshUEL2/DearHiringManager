@@ -17,6 +17,7 @@ public static class MiniGameFactory
             // ... future ports ...
             case GameType.QATriage: return new QATriageMiniGame();
             case GameType.GitMerge: return new GitMergeMiniGame();
+            case GameType.IncineratorToss: return new IncineratorTossMiniGame();
             case GameType.CenterDiv: return new CenterDivMiniGame();
             case GameType.SizeMatch: return new SizeMatchMiniGame();
             case GameType.DragCenter: return new DragCenterMiniGame();
@@ -124,6 +125,7 @@ public static class MiniGameFactory
             case GameType.CodeBreaker: return new CodeBreakerMiniGame();
             case GameType.DragMatch: return new DragMatchMiniGame();
             case GameType.ScrubPlate: return new ScrubPlateMiniGame();
+            case GameType.PhysicalScrub: return new PhysicalScrubMiniGame();
             case GameType.Tetris: return new TetrisMiniGame();
             case GameType.VideoCall: return new VideoCallMiniGame();
             case GameType.KanbanBoard: return new KanbanBoardMiniGame();

@@ -20,9 +20,15 @@ public class GridDodgeMiniGame : IMiniGame
     private int playerY;
     private int health;
     private HashSet<(int, int)> safePath = new HashSet<(int, int)>();
+    private List<(int, int)> pathList = new List<(int, int)>();
 
     private Vector2 swipeStartPos;
     private bool isSwiping = false;
+
+    // Sliding Mechanics
+    private Vector2 slideDir = Vector2.zero;
+    private float slideProgress = 0f;
+    private float animTime = 0f;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -34,9 +40,10 @@ public class GridDodgeMiniGame : IMiniGame
         healthText = container.Q<Label>("GridHealthText");
         damageOverlay = container.Q<VisualElement>("DamageOverlay");
 
-        // Clean up previous elements just in case
         gridBoard.Clear();
-        gridBoard.Add(damageOverlay); // Ensure overlay stays on top
+        gridBoard.Add(damageOverlay); 
+        
+        gridBoard.generateVisualContent += OnDrawFactoryFloor;
 
         GenerateGrid();
     }
@@ -44,64 +51,22 @@ public class GridDodgeMiniGame : IMiniGame
     private void GenerateGrid()
     {
         safePath.Clear();
+        pathList.Clear();
         var visited = new HashSet<(int, int)>();
-        var path = new List<(int, int)>();
         
-        GeneratePathDFS(0, 0, config.gridSize - 1, config.gridSize - 1, visited, path);
+        GeneratePathDFS(0, 0, config.gridSize - 1, config.gridSize - 1, visited, pathList);
         
-        foreach (var p in path)
+        foreach (var p in pathList)
         {
             safePath.Add(p);
-        }
-
-        float cellSizePct = 100f / config.gridSize;
-
-        // Build visual tiles
-        for (int y = 0; y < config.gridSize; y++)
-        {
-            var row = new VisualElement();
-            row.style.flexDirection = FlexDirection.Row;
-            row.style.height = Length.Percent(cellSizePct);
-            row.style.width = Length.Percent(100f);
-
-            for (int x = 0; x < config.gridSize; x++)
-            {
-                var cell = new VisualElement();
-                cell.style.width = Length.Percent(cellSizePct);
-                cell.style.height = Length.Percent(100f);
-                
-                if (x == config.gridSize - 1 && y == config.gridSize - 1)
-                {
-                    cell.AddToClassList("grid-dodge-cell");
-                    cell.AddToClassList("grid-dodge-cell-goal");
-                    var goalIcon = new Label("⛲");
-                    goalIcon.style.fontSize = 24;
-                    goalIcon.style.unityTextAlign = TextAnchor.MiddleCenter;
-                    goalIcon.style.position = Position.Absolute;
-                    goalIcon.style.left = 0; goalIcon.style.right = 0; goalIcon.style.top = 0; goalIcon.style.bottom = 0;
-                    cell.Add(goalIcon);
-                }
-                else if (safePath.Contains((x, y)))
-                {
-                    cell.AddToClassList("grid-dodge-cell");
-                    cell.AddToClassList("grid-dodge-cell-safe");
-                }
-                else
-                {
-                    cell.AddToClassList("grid-dodge-cell");
-                    cell.AddToClassList("grid-dodge-cell-hazard");
-                }
-
-                row.Add(cell);
-            }
-            gridBoard.Add(row);
         }
 
         // Add floating player node
         playerNode = new VisualElement();
         playerNode.AddToClassList("grid-dodge-player");
-        playerNode.style.width = Length.Percent(cellSizePct);
-        playerNode.style.height = Length.Percent(cellSizePct);
+        playerNode.style.width = Length.Percent(100f / config.gridSize);
+        playerNode.style.height = Length.Percent(100f / config.gridSize);
+        playerNode.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName>()); // Disable CSS transitions so we can lerp manually
         
         playerIcon = new Label();
         playerIcon.AddToClassList("grid-dodge-player-icon");
@@ -116,8 +81,6 @@ public class GridDodgeMiniGame : IMiniGame
         if (cx < 0 || cy < 0 || cx > tx || cy > ty) return false;
         if (visited.Contains((cx, cy))) return false;
 
-        // Prevent 2x2 clusters of paths by ensuring we don't step adjacent to already path'd cells (other than our parent)
-        // A simple heuristic: if more than 1 neighbor is visited, it's touching itself!
         int visitedNeighbors = 0;
         if (visited.Contains((cx + 1, cy))) visitedNeighbors++;
         if (visited.Contains((cx - 1, cy))) visitedNeighbors++;
@@ -149,21 +112,106 @@ public class GridDodgeMiniGame : IMiniGame
         }
 
         path.RemoveAt(path.Count - 1);
-        visited.Remove((cx, cy)); // Backtrack completely
+        visited.Remove((cx, cy));
         return false;
     }
 
     private void SetPlayerIcon()
     {
-        string gameName = manager.GetComponent<GameManager>()?.currentData?.jobTitle ?? "";
-        // Just use a generic logic to set icon if we don't have direct access to currentGame name
-        playerIcon.text = "🚶‍♂️"; // Default
+        bool isTrash = config.instructions.ToLower().Contains("leaky");
+        bool isPark = config.instructions.ToLower().Contains("peaceful");
+        
+        if (isTrash) playerIcon.text = "🗑️";
+        else if (isPark) playerIcon.text = "🚶";
+        else playerIcon.text = "🏗️"; 
+        
+        playerIcon.style.backgroundColor = new StyleColor(Color.clear);
+        playerIcon.style.fontSize = 45;
+    }
+
+    private void OnDrawFactoryFloor(MeshGenerationContext ctx)
+    {
+        var p = ctx.painter2D;
+        float w = ctx.visualElement.layout.width;
+        float h = ctx.visualElement.layout.height;
+        if (w == 0) return;
+
+        bool isTrash = config.instructions.ToLower().Contains("leaky");
+        bool isPark = config.instructions.ToLower().Contains("peaceful");
+        
+        Color hazardColor = isTrash ? new Color(0.2f, 0.8f, 0.1f, 0.85f) : (isPark ? new Color(0.2f, 0.5f, 0.9f, 0.85f) : new Color(0.9f, 0.3f, 0.1f, 0.85f));
+        Color walkColor = isPark ? new Color(0.4f, 0.7f, 0.3f) : new Color(0.45f, 0.45f, 0.5f);
+        Color floorColor = isPark ? new Color(0.15f, 0.45f, 0.15f) : new Color(0.1f, 0.12f, 0.15f);
+
+        // Base Floor
+        p.fillColor = floorColor;
+        p.BeginPath(); p.MoveTo(new Vector2(0,0)); p.LineTo(new Vector2(w,0)); p.LineTo(new Vector2(w,h)); p.LineTo(new Vector2(0,h)); p.Fill();
+        
+        float cellSize = w / config.gridSize;
+
+        // Hazards (Pits)
+        for (int y = 0; y < config.gridSize; y++) {
+            for (int x = 0; x < config.gridSize; x++) {
+                if (!safePath.Contains((x, y)) && !(x == config.gridSize - 1 && y == config.gridSize - 1)) {
+                    float cx = x * cellSize + cellSize * 0.5f;
+                    float cy = y * cellSize + cellSize * 0.5f;
+                    
+                    p.fillColor = new Color(hazardColor.r * 0.5f, hazardColor.g * 0.5f, hazardColor.b * 0.5f);
+                    p.BeginPath(); p.Arc(new Vector2(cx, cy), cellSize * 0.48f, 0, 360); p.Fill();
+                    
+                    p.fillColor = hazardColor;
+                    p.BeginPath();
+                    float pulse = Mathf.Sin(animTime * 4f + x * 2f + y * 2f) * 4f;
+                    p.Arc(new Vector2(cx, cy), cellSize * 0.35f + pulse, 0, 360);
+                    p.Fill();
+                }
+            }
+        }
+        
+        // Catwalk
+        if (pathList.Count > 0)
+        {
+            p.lineCap = LineCap.Round;
+            p.lineJoin = LineJoin.Round;
+            
+            p.strokeColor = new Color(0.05f, 0.05f, 0.05f);
+            p.lineWidth = cellSize * 0.75f;
+            p.BeginPath();
+            for (int i = 0; i < pathList.Count; i++) {
+                Vector2 pos = new Vector2(pathList[i].Item1 * cellSize + cellSize * 0.5f, pathList[i].Item2 * cellSize + cellSize * 0.5f);
+                if (i == 0) p.MoveTo(pos);
+                else p.LineTo(pos);
+            }
+            p.Stroke();
+            
+            p.strokeColor = walkColor;
+            p.lineWidth = cellSize * 0.55f;
+            p.BeginPath();
+            for (int i = 0; i < pathList.Count; i++) {
+                Vector2 pos = new Vector2(pathList[i].Item1 * cellSize + cellSize * 0.5f, pathList[i].Item2 * cellSize + cellSize * 0.5f);
+                if (i == 0) p.MoveTo(pos);
+                else p.LineTo(pos);
+            }
+            p.Stroke();
+        }
+
+        // Goal
+        float gx = (config.gridSize - 1) * cellSize;
+        float gy = (config.gridSize - 1) * cellSize;
+        p.fillColor = new Color(0.15f, 0.15f, 0.15f);
+        p.BeginPath(); p.MoveTo(new Vector2(gx + 5, gy + 5)); p.LineTo(new Vector2(gx + cellSize - 5, gy + 5));
+        p.LineTo(new Vector2(gx + cellSize - 5, gy + cellSize - 5)); p.LineTo(new Vector2(gx + 5, gy + cellSize - 5)); p.Fill();
+        
+        p.fillColor = isTrash ? new Color(0.9f, 0.3f, 0.1f) : new Color(0.9f, 0.8f, 0.1f);
+        p.BeginPath(); p.Arc(new Vector2(gx + cellSize * 0.5f, gy + cellSize * 0.5f), cellSize * 0.25f + Mathf.Sin(animTime * 10f) * 2f, 0, 360); p.Fill();
     }
 
     public void StartGame()
     {
         playerX = 0;
         playerY = 0;
+        slideDir = Vector2.zero;
+        slideProgress = 0f;
         health = config.gridHealth;
         UpdateUI();
 
@@ -176,6 +224,8 @@ public class GridDodgeMiniGame : IMiniGame
         root.RegisterCallback<PointerUpEvent>(OnPointerUp);
         root.focusable = true;
         root.Focus();
+
+        manager.StartCoroutine(GridDodgeRoutine());
     }
 
     public void AbortGame()
@@ -192,38 +242,79 @@ public class GridDodgeMiniGame : IMiniGame
         }
     }
 
+    private IEnumerator GridDodgeRoutine()
+    {
+        while (manager != null && manager.isPlaying)
+        {
+            animTime += Time.deltaTime;
+            
+            if (slideDir != Vector2.zero)
+            {
+                slideProgress += Time.deltaTime * 6.5f; 
+                if (slideProgress >= 1f)
+                {
+                    playerX += (int)slideDir.x;
+                    playerY += (int)slideDir.y;
+                    slideProgress -= 1f;
+
+                    if (!safePath.Contains((playerX, playerY)))
+                    {
+                        TakeDamage();
+                        playerX = 0; playerY = 0; 
+                        slideDir = Vector2.zero; slideProgress = 0f;
+                    }
+                    
+                    if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1)
+                    {
+                        slideDir = Vector2.zero; slideProgress = 0f;
+                        manager.MarkWinReady();
+                    }
+
+                    int nx = playerX + (int)slideDir.x;
+                    int ny = playerY + (int)slideDir.y;
+                    if (nx < 0 || nx >= config.gridSize || ny < 0 || ny >= config.gridSize)
+                    {
+                        slideDir = Vector2.zero; slideProgress = 0f;
+                    }
+                }
+            }
+
+            if (gridBoard != null) gridBoard.MarkDirtyRepaint();
+            UpdateUI();
+            
+            yield return null;
+        }
+    }
+
     private void UpdateUI()
     {
         healthText.text = $"❤️ {health}";
         
         float cellSizePct = 100f / config.gridSize;
-        playerNode.style.left = Length.Percent(playerX * cellSizePct);
-        playerNode.style.top = Length.Percent(playerY * cellSizePct);
+        float currentX = playerX + (slideDir.x * slideProgress);
+        float currentY = playerY + (slideDir.y * slideProgress);
+
+        playerNode.style.left = Length.Percent(currentX * cellSizePct);
+        playerNode.style.top = Length.Percent(currentY * cellSizePct);
+
+        if (slideDir != Vector2.zero) {
+            float rotAngle = slideDir.x != 0 ? slideDir.x * 15f : slideDir.y * 15f;
+            playerIcon.style.rotate = new StyleRotate(new Rotate(new Angle(rotAngle, AngleUnit.Degree)));
+        } else {
+            playerIcon.style.rotate = new StyleRotate(new Rotate(new Angle(0, AngleUnit.Degree)));
+        }
     }
 
     private void HandleInput(int dx, int dy)
     {
         if (!manager.isPlaying) return;
-
+        
         int nx = playerX + dx;
         int ny = playerY + dy;
-
         if (nx >= 0 && nx < config.gridSize && ny >= 0 && ny < config.gridSize)
         {
-            playerX = nx;
-            playerY = ny;
-
-            if (!safePath.Contains((nx, ny)))
-            {
-                TakeDamage();
-            }
-
-            UpdateUI();
-
-            if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1 && manager.isPlaying)
-            {
-                manager.MarkWinReady();
-            }
+            if (slideDir == Vector2.zero) slideProgress = 0f;
+            slideDir = new Vector2(dx, dy);
         }
     }
 
@@ -231,7 +322,6 @@ public class GridDodgeMiniGame : IMiniGame
     {
         health--;
         
-        // Visual flash
         if (damageOverlay != null)
         {
             damageOverlay.style.backgroundColor = new StyleColor(new Color(0.86f, 0.15f, 0.15f, 0.5f));
@@ -240,10 +330,6 @@ public class GridDodgeMiniGame : IMiniGame
 
         if (health <= 0)
         {
-            // MiniGameManager legacy code handles fail via HP=0 check inside the manager, but wait!
-            // We extracted it. If health hits 0, we need to fail the game.
-            // Currently, the manager only handles WIN (MarkWinReady).
-            // So if health hits 0, we can just abort/fail.
             manager.AbortGame();
         }
     }
@@ -276,15 +362,14 @@ public class GridDodgeMiniGame : IMiniGame
         if (!isSwiping) return;
 
         Vector2 delta = (Vector2)ev.position - swipeStartPos;
-        if (delta.magnitude > 40f) // Threshold
+        if (delta.magnitude > 30f)
         {
             int dx = 0, dy = 0;
             if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y)) dx = delta.x > 0 ? 1 : -1;
             else dy = delta.y > 0 ? 1 : -1;
             
             HandleInput(dx, dy);
-            
-            isSwiping = false; // Reset so they must lift finger for next move
+            swipeStartPos = ev.position;
         }
     }
 
