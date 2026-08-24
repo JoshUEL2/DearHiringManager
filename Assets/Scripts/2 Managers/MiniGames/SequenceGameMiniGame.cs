@@ -28,7 +28,6 @@ public class SequenceGameMiniGame : IMiniGame
     private bool isFlashingRed = false;
     
     private float emojiY = 280f;
-    private float emojiRotation = 0f;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {

@@ -40,14 +40,14 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Deep scrub waste containers", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to scrub the containers!"});
         AddConfigFull("Clean fryer grease vats", new MiniGameConfig { type = GameType.PumpSystem, pumpIsBalanceMode = true, pumpBalanceTargetMin = 0.6f, pumpBalanceTargetMax = 0.8f, pumpBalanceHoldTime = 3f, instructions = "Pump to maintain 170°C - 220°C for 3 seconds!"});
         AddConfigFull("Empty waste bin", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 3, instructions = "Carry the leaky bags!"});
-        AddConfigFull("Unclog kitchen sinks", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the sink!"});
+        AddConfigFull("Unclog toilets", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the toilet!"});
         AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🥩 Beef","🍗 Chicken","🐟 Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!"});
         AddConfigFull("Deep clean grease traps", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to empty the grease traps!"});
 
         // =============================================
         // SCRAP METAL SORTER (6 tasks)
         // =============================================
-        AddConfigFull("Sort iron from copper", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔩 Iron","🟤 Copper","⬜ Alu"}, binLabels = new string[]{"Iron","Copper","Alu"}, sortTarget = 10, sortTimeLimit = 25f, instructions = "Sort falling metal scraps!"});
+        AddConfigFull("Sort metal scraps", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔩 Bolts", "🪙 Coins", "🥫 Cans"}, binLabels = new string[]{"Bolts", "Coins", "Cans"}, sortTarget = 10, sortTimeLimit = 25f, instructions = "Sort falling metal scraps!"});
         AddConfigFull("Stack rusty steel pipes", new MiniGameConfig { type = GameType.Tetris, instructions = "Stack 10 beams perfectly!"});
         AddConfigFull("Clear conveyor dust filters", new MiniGameConfig { type = GameType.CloggedVents, timeLimit = 20f, ventCount = 6, dustBuildRate = 12f, instructions = "Rapidly tap clogged vents before they overheat!"});
         AddConfigFull("Inspect lithium reactor tubes", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Tube A","Tube B","Tube C","Tube D","Tube E"}, matchRight = new string[]{"Critical","Warning","Stable","Optimal","Offline"}, instructions = "Match tubes to statuses!"});

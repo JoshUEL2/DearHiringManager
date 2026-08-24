@@ -136,7 +136,7 @@ public partial class MiniGameManager : MonoBehaviour
         { "Scour microwave grease", "You felt the need to prove yourself and scoured carcinogenic microwave grease." },
         { "Deep scrub waste containers", "You went above and beyond, deep scrubbing the biohazardous waste containers." },
         { "Clean fryer grease vats", "You took the initiative to clean the blistering hot fryer grease vats." },
-        { "Sort iron from copper", "You manually sorted jagged iron from copper scraps under flickering lights." },
+        { "Sort metal scraps", "You manually sorted jagged iron from copper scraps under flickering lights." },
         { "Stack rusty steel pipes", "You strained your back stacking incredibly heavy, rusty steel pipes." },
         { "Clear conveyor dust filters", "You inhaled metallic dust while clearing the blocked conveyor filters." },
         { "Inspect lithium reactor tubes", "You felt the need to prove yourself and inspected the highly unstable lithium reactor tubes." },
