@@ -92,7 +92,7 @@ public class SweepFloorMiniGame : IMiniGame
             });
             drawArea.RegisterCallback<NavigationMoveEvent>(ev => {
                 // STOP UI TOOLKIT FROM STEALING FOCUS WITH ARROW KEYS!
-                ev.PreventDefault();
+                
                 ev.StopPropagation();
             });
             drawArea.RegisterCallback<KeyDownEvent>(ev => {
@@ -104,7 +104,7 @@ public class SweepFloorMiniGame : IMiniGame
                 if (ev.keyCode == KeyCode.RightArrow || ev.keyCode == KeyCode.D) { MovePlayer(1, 0); handled = true; }
                 
                 if (handled) {
-                    ev.PreventDefault();
+                    
                     ev.StopPropagation();
                 }
             });

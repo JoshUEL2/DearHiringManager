@@ -750,6 +750,7 @@ public class GameUIManager : MonoBehaviour
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
         if (settingsOverlay == null) return;
         settingsOverlay.style.display = DisplayStyle.Flex;
+        settingsOverlay.schedule.Execute(() => settingsOverlay.style.opacity = 1f).StartingIn(10);
         RefreshHistoryLedger();
     }
 
@@ -796,7 +797,9 @@ public class GameUIManager : MonoBehaviour
 
     private void CloseSettings()
     {
-        if (settingsOverlay != null) settingsOverlay.style.display = DisplayStyle.None;
+        if (settingsOverlay == null) return;
+        settingsOverlay.style.opacity = 0f;
+        settingsOverlay.schedule.Execute(() => settingsOverlay.style.display = DisplayStyle.None).StartingIn(300);
     }
 
     private void StartNewLife()
@@ -826,8 +829,14 @@ public class GameUIManager : MonoBehaviour
         if (btnToggleDevConsole != null)
         {
             bool devOn = PlayerPrefs.GetInt("showDevConsole", 0) == 1;
-            btnToggleDevConsole.text = devOn ? "Dev Console: ON" : "Dev Console: OFF";
+            btnToggleDevConsole.text = devOn ? "Dev Tools: ON" : "Dev Tools: OFF";
             btnToggleDevConsole.style.backgroundColor = devOn ? new StyleColor(new Color(0.18f, 0.8f, 0.44f)) : new StyleColor(new Color(0.9f, 0.3f, 0.24f));
+            
+            var btnDebug = dashboardRoot?.Q<Button>("BtnDebugGames");
+            if (btnDebug != null)
+            {
+                btnDebug.style.display = devOn ? DisplayStyle.Flex : DisplayStyle.None;
+            }
         }
 
         if (btnToggleTheme != null)

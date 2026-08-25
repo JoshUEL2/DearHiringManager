@@ -27,7 +27,7 @@ public class HustlesUI
     {
         availableHustles.Clear();
         availableHustles.Add(new SideHustleItem("Collect Recycled Bottles", "Scour dumpster bins for refundable glass/plastic bottles.", 10.0, 0, 0));
-        availableHustles.Add(new SideHustleItem("Mow Executive Golf Greens", "Trim putting greens for elite executives.", 22.0, 0, 0));
+        availableHustles.Add(new SideHustleItem("Executive Lawn Care", "Trim putting greens for elite executives.", 22.0, 0, 0));
         availableHustles.Add(new SideHustleItem("Walk Purebred Pedigree Dogs", "Wrangle incredibly spoiled and aggressive purebreds.", 45.0, 0, 0));
         availableHustles.Add(new SideHustleItem("Deliver Fast Food Order", "Zip around traffic on motorized unicycle deliveries.", 80.0, 0, 0));
         
@@ -133,7 +133,7 @@ public class HustlesUI
         var data = GameManager.Instance.currentData;
         if (data.hustlesCompletedThisWeek >= 3)
         {
-            GameEvents.TriggerShowPopup(new RandomEvent { 
+            global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "EXHAUSTION", 
                 description = "You've reached your maximum of 3 side hustles this week. You must advance the week (+ Week) to recover your stamina." 
             });

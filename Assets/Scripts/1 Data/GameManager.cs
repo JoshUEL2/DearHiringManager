@@ -256,8 +256,24 @@ public class GameManager : MonoBehaviour
 
     public void CycleJobs()
     {
-        availableJobOpenings.Clear();
-        _zoneJobsCache.Clear();
+        if (availableJobOpenings != null) availableJobOpenings.Clear();
+        if (_zoneJobsCache != null) _zoneJobsCache.Clear();
+
+        if (gameDatabase == null) 
+        {
+            Debug.LogError("[GameManager] gameDatabase is null! Cannot cycle jobs.");
+            return;
+        }
+        if (gameDatabase.jobs == null)
+        {
+            Debug.LogError("[GameManager] gameDatabase.jobs is null! Cannot cycle jobs.");
+            return;
+        }
+        if (currentData == null)
+        {
+            Debug.LogError("[GameManager] currentData is null! Cannot cycle jobs.");
+            return;
+        }
 
         foreach (var j in gameDatabase.jobs)
         {

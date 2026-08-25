@@ -97,8 +97,8 @@
         </ui:VisualElement>
     </ui:VisualElement>
 
-        <!-- SETTINGS OVERLAY -->
-    <ui:VisualElement name="SettingsOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.98); justify-content: center; align-items: center; display: none;">
+    <!-- SETTINGS OVERLAY -->
+    <ui:VisualElement name="SettingsOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.98); justify-content: center; align-items: center; display: none; opacity: 0; transition-property: opacity; transition-duration: 0.3s;">
         <ui:VisualElement class="card" style="width: 90%; background-color: #0F172A; border-color: #38BDF8; border-width: 2px; border-radius: 20px; padding: 25px;">
             
             <ui:Label text="Simulation Settings" style="color: #38BDF8; font-size: 24px; -unity-font-style: bold; margin-bottom: 10px;" />
@@ -110,7 +110,7 @@
             <ui:ScrollView name="HistoryContainer" vertical-scroller-visibility="AlwaysVisible" style="height: 420px; margin-bottom: 20px; background-color: #1E293B; border-color: #475569; border-width: 2px; border-radius: 20px; padding: 20px;" />
 
             <ui:Button name="BtnToggleTheme" text="Render Theme: Dark" class="action-button" style="margin-bottom: 15px; padding: 15px; font-size: 24px; border-radius: 12px; background-color: #FFFFFF; color: #000000; -unity-font-style: bold;" />
-            <ui:Button name="BtnToggleDevConsole" text="Dev Console: OFF" class="action-button" style="margin-bottom: 25px; padding: 15px; font-size: 24px; border-radius: 12px; background-color: #E74C3C; color: #FFFFFF; -unity-font-style: bold;" />
+            <ui:Button name="BtnToggleDevConsole" text="Dev Tools: OFF" class="action-button" style="margin-bottom: 25px; padding: 15px; font-size: 24px; border-radius: 12px; background-color: #E74C3C; color: #FFFFFF; -unity-font-style: bold;" />
 
             <ui:Button name="BtnWipeHistory" text="RESTART ALL CONCEPTS" class="danger-button" style="background-color: #E74C3C; width: 100%; padding: 15px; font-size: 24px; border-radius: 12px; margin-bottom: 20px;" />
             

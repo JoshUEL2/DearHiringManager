@@ -1,976 +1,60 @@
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:11)
+Unity Editor version:    6000.5.4f1 (d550df8bd089)
+Branch:                  6000.5/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 27.0 (Build 26A5378n)
+Darwin version:          27.0.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2026-08-24T22:13:45Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-josh" at "2026-08-24T22:13:45.783408Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.4f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.5.4f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-nographics
+-projectPath
+/Users/josh/Dear Hiring Manager
+-executeMethod
+UnityEditor.SyncVS.SyncSolution
+-quit
+-logFile
+ConsoleErrors.txt
+Successfully changed project path to: /Users/josh/Dear Hiring Manager
+/Users/josh/Dear Hiring Manager
+[Package Manager] Server process was shutdown
+[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
+  at CareerUI.UpdateActiveJobUI () [0x002ef] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:143 
+  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
+  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
+  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
+UnityEngine.Debug:LogError (object)
+GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
 
 ---
 [Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:11)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.Start () (at Assets/Scripts/2 Managers/MiniGameManager.cs:11)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:321)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
-UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
-UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:131)
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
 CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
-CareerUI.OnApplyClicked (JobListingSO job) (at Assets/Scripts/3 UI/CareerUI.cs:485)
-CareerUI+<>c__DisplayClass26_0.<PopulateJobBoard>b__0 () (at Assets/Scripts/3 UI/CareerUI.cs:331)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__0 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:351)
 UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
 UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
 UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] Assets/Scripts/2 Managers/MiniGames/DragMatchMiniGame.cs(112,53): error CS0103: The name 'SparkRoutine' does not exist in the current context
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-FallingSortMiniGame.SetupBucketDrop () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:85)
-FallingSortMiniGame.StartGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:68)
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:406)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
 UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
@@ -984,19 +68,25 @@ UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users
 
 ---
 [Exception] NullReferenceException: Object reference not set to an instance of an object
-FallingSortMiniGame.SetupButtonSort () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:332)
-FallingSortMiniGame.StartGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:64)
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:406)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__1 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:352)
 UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
 UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
 UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
 UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
@@ -1010,381 +100,25 @@ UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users
 
 ---
 [Exception] NullReferenceException: Object reference not set to an instance of an object
-FallingSortMiniGame.SetupBucketDrop () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:85)
-FallingSortMiniGame.StartGame () (at Assets/Scripts/2 Managers/MiniGames/FallingSortMiniGame.cs:68)
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:406)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__2 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:353)
 UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
 UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
 UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
-UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
-UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
-UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
-UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
-UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
-UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
-UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] Assets/Scripts/2 Managers/MiniGames/TearingBagMiniGame.cs(158,11): error CS1061: 'Painter2D' does not contain a definition for 'Ellipse' and no accessible extension method 'Ellipse' accepting a first argument of type 'Painter2D' could be found (are you missing a using directive or an assembly reference?)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Exception] NullReferenceException: Object reference not set to an instance of an object
-PhysicalScrubMiniGame.SetupScrubPlate () (at Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs:130)
-PhysicalScrubMiniGame.StartGame () (at Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs:81)
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:406)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
-UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
-UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
-UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
 UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
@@ -1398,19 +132,57 @@ UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users
 
 ---
 [Exception] NullReferenceException: Object reference not set to an instance of an object
-PhysicalScrubMiniGame.SetupScrubPlate () (at Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs:131)
-PhysicalScrubMiniGame.StartGame () (at Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs:81)
-MiniGameManager.LaunchMiniGame (ActiveMiniGame game) (at Assets/Scripts/2 Managers/MiniGameManager.cs:406)
-GameUIManager+<>c__DisplayClass67_1.<SetupDebugMenu>b__2 () (at Assets/Scripts/2 Managers/GameUIManager.cs:298)
-UnityEngine.UIElements.Clickable.Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:291)
-UnityEngine.UIElements.Clickable.ProcessUpEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.Vector2 localPosition, System.Int32 pointerId) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:388)
-UnityEngine.UIElements.Clickable.OnPointerUp (UnityEngine.UIElements.PointerUpEvent evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Clickable.cs:255)
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__3 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:354)
 UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
 UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
-UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.EventBase compatibilityEvt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:334)
-UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:566)
-UnityEngine.UIElements.PointerUpEvent.Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1657)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
 UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
+
+---
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__2 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:353)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
 UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
 UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
 UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
@@ -1424,7 +196,7 @@ UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users
 
 ---
 [Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
+  at CareerUI.UpdateActiveJobUI () [0x002ef] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:143 
   at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
   at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
   at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
@@ -1432,66 +204,131 @@ UnityEngine.Debug:LogError (object)
 GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
 
 ---
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__0 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:351)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
 
 ---
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__1 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:352)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
 
 ---
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__2 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:353)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
 
 ---
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
-
----
-[Error] [GameUIManager] CareerUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
-  at CareerUI.UpdateActiveJobUI () [0x0013c] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:131 
-  at CareerUI.RefreshView () [0x0009b] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:104 
-  at CareerUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00206] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/CareerUI.cs:80 
-  at GameUIManager.Start () [0x0000a] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:230 
-UnityEngine.Debug:LogError (object)
-GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:231)
+[Exception] NullReferenceException: Object reference not set to an instance of an object
+CareerUI.UpdateActiveJobUI () (at Assets/Scripts/3 UI/CareerUI.cs:143)
+CareerUI.RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:104)
+GameUIManager.AnimateOpenMenu (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:643)
+GameUIManager.SwitchTab (UnityEngine.UIElements.VisualElement targetRoot) (at Assets/Scripts/2 Managers/GameUIManager.cs:620)
+GameUIManager+<>c__DisplayClass70_0.<SetupNavBar>b__3 (UnityEngine.UIElements.ClickEvent ev) (at Assets/Scripts/2 Managers/GameUIManager.cs:354)
+UnityEngine.UIElements.EventCallbackFunctor`1[TEventType].Invoke (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallback.cs:64)
+UnityEngine.UIElements.EventCallbackRegistry+DynamicCallbackList.Invoke (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventCallbackRegistry.cs:298)
+UnityEngine.UIElements.EventDispatchUtilities.HandleEventAcrossPropagationPath (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.VisualElement target, System.Boolean isCapturingTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:212)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:532)
+UnityEngine.UIElements.EventDispatchUtilities.DispatchToCapturingElementOrElementUnderPointer (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, System.Int32 pointerId, UnityEngine.Vector2 position) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/EventDispatchUtilities.cs:569)
+UnityEngine.UIElements.PointerEventBase`1[T].Dispatch (UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1295)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:420)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2190)
+UnityEngine.UIElements.ClickDetector.SendClickEvent (UnityEngine.UIElements.EventBase evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:96)
+UnityEngine.UIElements.ClickDetector.ProcessEvent[TEvent] (UnityEngine.UIElements.PointerEventBase`1[T] evt) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/ClickDetector.cs:156)
+UnityEngine.UIElements.PointerUpEvent.PostDispatch (UnityEngine.UIElements.IPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Events/PointerEvents.cs:1636)
+UnityEngine.UIElements.EventDispatcher.ProcessEvent (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:431)
+UnityEngine.UIElements.EventDispatcher.Dispatch (UnityEngine.UIElements.EventBase evt, UnityEngine.UIElements.BaseVisualElementPanel panel, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/EventDispatcher.cs:216)
+UnityEngine.UIElements.BaseVisualElementPanel.SendEvent (UnityEngine.UIElements.EventBase e, UnityEngine.UIElements.DispatchMode dispatchMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Panel.cs:723)
+UnityEngine.UIElements.VisualElement.SendEvent (UnityEngine.UIElements.EventBase e) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/VisualElement.cs:2185)
+UnityEngine.UIElements.DefaultEventSystem.SendPositionBasedEvent[TArg] (UnityEngine.Vector3 mousePosition, UnityEngine.Vector3 delta, System.Int32 pointerId, System.Nullable`1[T] targetDisplay, System.Func`3[T1,T2,TResult] evtFactory, TArg arg, System.Boolean deselectIfNoTarget) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:293)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessPointerEvent (UnityEngine.InputForUI.PointerEvent pointerEvent) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:211)
+UnityEngine.UIElements.DefaultEventSystem+InputForUIProcessor.ProcessInputForUIEvents () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.InputForUIProcessor.cs:52)
+UnityEngine.UIElements.DefaultEventSystem.Update (UnityEngine.UIElements.DefaultEventSystem+UpdateMode updateMode) (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/GameObjects/DefaultEventSystem.cs:75)
+UnityEngine.UIElements.UIElementsRuntimeUtility._UpdateEventSystem () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:341)
+UnityEngine.UIElements.UIElementsRuntimeUtility.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/UIElementsRuntimeUtility.cs:317)
+UnityEngine.UIElements.UIElementsRuntimeUtilityNative.UpdatePanels () (at /Users/bokken/build/output/unity/unity/Modules/UIElements/Core/Native/UIElementsUtility.bindings.cs:18)
 
 ---
