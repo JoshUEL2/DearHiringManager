@@ -612,7 +612,6 @@ public class GameUIManager : MonoBehaviour
             }
         }
     }
-
     public void SwitchToDashboard()
     {
         SwitchTab(dashboardRoot);
@@ -623,12 +622,17 @@ public class GameUIManager : MonoBehaviour
         if (_isAnimating) return;
         if (GameManager.Instance.currentData.jailWeeksRemaining > 0) return;
 
-        // Clicking the same tab that's already open -> go back to dashboard
-        if (targetRoot == dashboardRoot)
+        // If explicitly requesting dashboard or clicking the currently open tab
+        if (targetRoot == dashboardRoot || targetRoot == activeOverlay)
         {
-            if (activeOverlay != null)
+            if (activeOverlay != null && activeOverlay != dashboardRoot)
             {
                 AnimateCloseMenu(activeOverlay);
+            }
+            else if (targetRoot == dashboardRoot && activeOverlay == null)
+            {
+                // Initializing dashboard on startup
+                RefreshDashboardUI(GameManager.Instance.currentData.playerName);
             }
             return;
         }
@@ -636,6 +640,7 @@ public class GameUIManager : MonoBehaviour
         // Opening a new menu
         AnimateOpenMenu(targetRoot);
     }
+
 
     // --- ANIMATED MENU TRANSITIONS ---
 
@@ -651,44 +656,53 @@ public class GameUIManager : MonoBehaviour
         targetRoot.pickingMode = PickingMode.Position;
         activeOverlay = targetRoot;
 
-        // ONLY the dashboard footer drops out of frame. 
-        // Dashboard middle and top-card remain exactly where they are!
         var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (dashboardFooter != null) dashboardFooter.AddToClassList("bottom-nav-hidden");
 
-        // Hide target footer as we only want the section content
         var targetFooter = targetRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (targetFooter != null) targetFooter.style.display = DisplayStyle.None;
 
         var screenContainer = targetRoot.Q<VisualElement>(className: "screen-container");
         if (screenContainer != null) 
         {
-            // Transparent background so the dashboard underneath is visible
             screenContainer.style.backgroundColor = new StyleColor(Color.clear);
             
-            // The target top card should ALSO be transparent so it perfectly overlays the dashboard's identical header without darkening it!
             var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card");
             if (targetTopCard != null) targetTopCard.style.backgroundColor = new StyleColor(Color.clear);
 
-            // Now isolate just the section part (everything that isn't the header or footer)
-            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
-            
-            ColorUtility.TryParseHtmlString("#0A1128", out Color solidBg);
-
-            foreach (var m in targetMiddles) {
-                // Ensure the section part has a solid background to cover the dashboard middle
-                m.style.backgroundColor = new StyleColor(solidBg);
+            // Wrap middle content if not already wrapped
+            var middleWrapper = screenContainer.Q<VisualElement>("DynamicMiddleWrapper");
+            if (middleWrapper == null)
+            {
+                var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
                 
-                m.AddToClassList("section-content-container");
-                m.AddToClassList("section-content-hidden");
-            }
-
-            // Pull it up to the header
-            targetRoot.schedule.Execute(() => {
-                foreach (var m in targetMiddles) {
-                    m.RemoveFromClassList("section-content-hidden");
+                middleWrapper = new VisualElement();
+                middleWrapper.name = "DynamicMiddleWrapper";
+                ColorUtility.TryParseHtmlString("#0A1128", out Color solidBg);
+                middleWrapper.style.backgroundColor = new StyleColor(solidBg);
+                middleWrapper.style.flexGrow = 1;
+                
+                if (targetMiddles.Count > 0)
+                {
+                    int firstIndex = screenContainer.IndexOf(targetMiddles[0]);
+                    screenContainer.Insert(firstIndex, middleWrapper);
+                    
+                    foreach (var m in targetMiddles) {
+                        middleWrapper.Add(m);
+                    }
                 }
-            }).StartingIn(50);
+            }
+            
+            // Now animate the wrapper
+            if (middleWrapper != null)
+            {
+                middleWrapper.AddToClassList("section-content-container");
+                middleWrapper.AddToClassList("section-content-hidden");
+
+                targetRoot.schedule.Execute(() => {
+                    middleWrapper.RemoveFromClassList("section-content-hidden");
+                }).StartingIn(50);
+            }
         }
 
         if (CareerUI.Instance != null) CareerUI.Instance.RefreshView();
@@ -703,9 +717,10 @@ public class GameUIManager : MonoBehaviour
         var screenContainer = menuRoot.Q<VisualElement>(className: "screen-container");
         if (screenContainer != null) 
         {
-            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
-            foreach (var m in targetMiddles) {
-                m.AddToClassList("section-content-hidden");
+            var middleWrapper = screenContainer.Q<VisualElement>("DynamicMiddleWrapper");
+            if (middleWrapper != null)
+            {
+                middleWrapper.AddToClassList("section-content-hidden");
             }
         }
 
