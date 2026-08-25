@@ -952,7 +952,7 @@
     flex-grow: 1;
     padding: 20px;
     justify-content: center;
-    translate: 0 100%;
+    translate: 0 1500px;
     opacity: 0;
     transition: translate 0.3s ease-out-back, opacity 0.2s;
 }
@@ -1225,4 +1225,38 @@
     font-size: 36px;
     -unity-font-style: bold;
     color: #E2E8F0;
+}
+
+/* Page Transition Classes */
+.bottom-nav-container {
+    transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    translate: 0 0;
+    opacity: 1;
+}
+
+.bottom-nav-hidden {
+    translate: 0 1500px;
+    opacity: 0;
+}
+
+.section-content-container {
+    transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    translate: 0 0;
+    opacity: 1;
+}
+
+.section-content-hidden {
+    translate: 0 1500px;
+    opacity: 0;
+}
+
+.dashboard-middle-container {
+    transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    translate: 0 0;
+    opacity: 1;
+}
+
+.dashboard-middle-hidden {
+    translate: 0 1500px;
+    opacity: 0;
 }

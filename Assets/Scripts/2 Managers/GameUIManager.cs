@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -640,22 +641,47 @@ public class GameUIManager : MonoBehaviour
 
     private void AnimateOpenMenu(VisualElement targetRoot)
     {
-        // Close any currently open overlay instantly
         if (activeOverlay != null && activeOverlay != dashboardRoot)
         {
             activeOverlay.style.display = DisplayStyle.None;
             activeOverlay.pickingMode = PickingMode.Ignore;
         }
 
-        // Hide dashboard
-        dashboardRoot.style.display = DisplayStyle.None;
-
-        // Show target
         targetRoot.style.display = DisplayStyle.Flex;
         targetRoot.pickingMode = PickingMode.Position;
         activeOverlay = targetRoot;
 
-        // Refresh controllers
+        var dashboardTopCard = dashboardRoot.Q<VisualElement>(className: "top-card");
+        if (dashboardTopCard != null) dashboardTopCard.style.visibility = Visibility.Hidden;
+
+        var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
+        if (dashboardFooter != null) dashboardFooter.AddToClassList("bottom-nav-hidden");
+
+        var dashboardMiddle = dashboardRoot.Q<VisualElement>("MiddleContent");
+        if (dashboardMiddle != null) dashboardMiddle.AddToClassList("section-content-hidden");
+
+        var targetFooter = targetRoot.Q<VisualElement>(className: "bottom-nav-container");
+        if (targetFooter != null) targetFooter.style.display = DisplayStyle.None;
+
+        var screenContainer = targetRoot.Q<VisualElement>(className: "screen-container");
+        if (screenContainer != null) screenContainer.style.backgroundColor = new StyleColor(Color.clear);
+
+        if (screenContainer != null) 
+        {
+            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card")).ToList();
+            
+            foreach (var m in targetMiddles) {
+                m.AddToClassList("section-content-container");
+                m.AddToClassList("section-content-hidden");
+            }
+
+            targetRoot.schedule.Execute(() => {
+                foreach (var m in targetMiddles) {
+                    m.RemoveFromClassList("section-content-hidden");
+                }
+            }).StartingIn(50);
+        }
+
         if (CareerUI.Instance != null) CareerUI.Instance.RefreshView();
         if (HustlesUI.Instance != null) HustlesUI.Instance.PopulateHustlesBoard();
         if (EducationUI.Instance != null) EducationUI.Instance.RefreshView();
@@ -664,11 +690,31 @@ public class GameUIManager : MonoBehaviour
 
     private void AnimateCloseMenu(VisualElement menuRoot)
     {
-        menuRoot.style.display = DisplayStyle.None;
         menuRoot.pickingMode = PickingMode.Ignore;
-        activeOverlay = null;
+        var screenContainer = menuRoot.Q<VisualElement>(className: "screen-container");
+        if (screenContainer != null) 
+        {
+            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card")).ToList();
+            foreach (var m in targetMiddles) {
+                m.AddToClassList("section-content-hidden");
+            }
+        }
 
-        dashboardRoot.style.display = DisplayStyle.Flex;
+        var dashboardTopCard = dashboardRoot.Q<VisualElement>(className: "top-card");
+        if (dashboardTopCard != null) dashboardTopCard.style.visibility = Visibility.Visible;
+
+        var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
+        if (dashboardFooter != null) dashboardFooter.RemoveFromClassList("bottom-nav-hidden");
+        
+        var dashboardMiddle = dashboardRoot.Q<VisualElement>("MiddleContent");
+        if (dashboardMiddle != null) dashboardMiddle.RemoveFromClassList("section-content-hidden");
+
+        menuRoot.schedule.Execute(() => {
+            menuRoot.style.display = DisplayStyle.None;
+            menuRoot.pickingMode = PickingMode.Ignore;
+            if (activeOverlay == menuRoot) activeOverlay = null;
+        }).StartingIn(400);
+
         dashboardRoot.pickingMode = PickingMode.Position;
         RefreshDashboardUI(GameManager.Instance.currentData.playerName);
     }
@@ -763,7 +809,7 @@ public class GameUIManager : MonoBehaviour
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
         if (settingsOverlay == null) return;
         settingsOverlay.style.display = DisplayStyle.Flex;
-        settingsOverlay.schedule.Execute(() => settingsOverlay.style.opacity = 1f).StartingIn(10);
+        settingsOverlay.schedule.Execute(() => settingsOverlay.style.opacity = 1f).StartingIn(50);
         RefreshHistoryLedger();
     }
 
