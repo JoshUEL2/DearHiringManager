@@ -651,30 +651,39 @@ public class GameUIManager : MonoBehaviour
         targetRoot.pickingMode = PickingMode.Position;
         activeOverlay = targetRoot;
 
-        var dashboardTopCard = dashboardRoot.Q<VisualElement>(className: "top-card");
-        if (dashboardTopCard != null) dashboardTopCard.style.visibility = Visibility.Hidden;
-
+        // ONLY the dashboard footer drops out of frame. 
+        // Dashboard middle and top-card remain exactly where they are!
         var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (dashboardFooter != null) dashboardFooter.AddToClassList("bottom-nav-hidden");
 
-        var dashboardMiddle = dashboardRoot.Q<VisualElement>("MiddleContent");
-        if (dashboardMiddle != null) dashboardMiddle.AddToClassList("section-content-hidden");
-
+        // Hide target footer as we only want the section content
         var targetFooter = targetRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (targetFooter != null) targetFooter.style.display = DisplayStyle.None;
 
         var screenContainer = targetRoot.Q<VisualElement>(className: "screen-container");
-        if (screenContainer != null) screenContainer.style.backgroundColor = new StyleColor(Color.clear);
-
         if (screenContainer != null) 
         {
-            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card")).ToList();
+            // Transparent background so the dashboard underneath is visible
+            screenContainer.style.backgroundColor = new StyleColor(Color.clear);
             
+            // The target top card should ALSO be transparent so it perfectly overlays the dashboard's identical header without darkening it!
+            var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card");
+            if (targetTopCard != null) targetTopCard.style.backgroundColor = new StyleColor(Color.clear);
+
+            // Now isolate just the section part (everything that isn't the header or footer)
+            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
+            
+            ColorUtility.TryParseHtmlString("#0A1128", out Color solidBg);
+
             foreach (var m in targetMiddles) {
+                // Ensure the section part has a solid background to cover the dashboard middle
+                m.style.backgroundColor = new StyleColor(solidBg);
+                
                 m.AddToClassList("section-content-container");
                 m.AddToClassList("section-content-hidden");
             }
 
+            // Pull it up to the header
             targetRoot.schedule.Execute(() => {
                 foreach (var m in targetMiddles) {
                     m.RemoveFromClassList("section-content-hidden");
@@ -694,20 +703,14 @@ public class GameUIManager : MonoBehaviour
         var screenContainer = menuRoot.Q<VisualElement>(className: "screen-container");
         if (screenContainer != null) 
         {
-            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card")).ToList();
+            var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
             foreach (var m in targetMiddles) {
                 m.AddToClassList("section-content-hidden");
             }
         }
 
-        var dashboardTopCard = dashboardRoot.Q<VisualElement>(className: "top-card");
-        if (dashboardTopCard != null) dashboardTopCard.style.visibility = Visibility.Visible;
-
         var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (dashboardFooter != null) dashboardFooter.RemoveFromClassList("bottom-nav-hidden");
-        
-        var dashboardMiddle = dashboardRoot.Q<VisualElement>("MiddleContent");
-        if (dashboardMiddle != null) dashboardMiddle.RemoveFromClassList("section-content-hidden");
 
         menuRoot.schedule.Execute(() => {
             menuRoot.style.display = DisplayStyle.None;

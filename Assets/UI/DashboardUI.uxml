@@ -41,7 +41,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement name="MiddleContent" class="section-content-container" style="flex-grow: 1;">
+        
         <ui:Label name="DashboardTitle" text="DASHBOARD" class="header-text" style="color: #38BDF8; margin: 0; margin-bottom: 20px;" />
 
         <!-- TERMINAL LOG -->
@@ -50,8 +50,6 @@
                 <ui:Label name="LogText" text="Initializing Metro-Net..." enable-rich-text="true" style="color: #FFFFFF; font-size: 24px; white-space: normal;" />
             </ui:ScrollView>
         </ui:VisualElement>
-        </ui:VisualElement>
-        
     </ui:VisualElement>
 
     <!-- NEW BOTTOM NAV & FOOTER -->
