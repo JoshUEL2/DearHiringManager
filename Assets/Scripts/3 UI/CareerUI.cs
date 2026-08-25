@@ -60,8 +60,8 @@ public class CareerUI
         btnLessHours = root.Q<Button>("BtnLessHours");
         btnMoreHours = root.Q<Button>("BtnMoreHours");
 
-        perfProgressText = root.Q<Label>("PerfProgressText");
-        perfProgressBar = root.Q<VisualElement>("PerfProgressBar");
+        perfProgressText = root.Q<Label>("PerfVal");
+        perfProgressBar = root.Q<VisualElement>("PerfFill");
         btnPromotion = root.Q<Button>("BtnPromotion");
 
         regularTasksContainer = root.Q<VisualElement>("regularTasksContainer");
@@ -111,7 +111,7 @@ public class CareerUI
         int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
         int jobLevel = PlayerPrefs.GetInt("jobLevel", 1);
         
-        jobTitleText.text = $"Level {jobLevel} {data.jobTitle}";
+        if (jobTitleText != null) jobTitleText.text = $"Level {jobLevel} {data.jobTitle}";
         
         // Match Kotlin logic
         double baseSalary = 0.0;
@@ -131,12 +131,12 @@ public class CareerUI
         double hoursMultiplier = currentHours / 40.0;
         double weeklyIncome = baseSalary * levelMultiplier * hoursMultiplier;
 
-        baseSalaryText.text = $"${baseSalary:F0}";
-        promoBonusText.text = $"+{((levelMultiplier - 1.0) * 100):F0}% income";
-        hoursAlignText.text = $"{currentHours} hrs/wk ({hoursMultiplier:F1}x)";
-        salaryText.text = $"${weeklyIncome:F2}";
+        if (baseSalaryText != null) baseSalaryText.text = $"${baseSalary:F0}";
+        if (promoBonusText != null) promoBonusText.text = $"+{((levelMultiplier - 1.0) * 100):F0}% income";
+        if (hoursAlignText != null) hoursAlignText.text = $"{currentHours} hrs/wk ({hoursMultiplier:F1}x)";
+        if (salaryText != null) salaryText.text = $"${weeklyIncome:F2}";
 
-        hoursText.text = $"{currentHours} LABORED HOURS / WEEK";
+        if (hoursText != null) hoursText.text = $"{currentHours} LABORED HOURS / WEEK";
         
         // Promotion Progress (PlayerPref fallback or Data)
         float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
@@ -148,17 +148,17 @@ public class CareerUI
 
     private void PopulateTasks()
     {
-        regularTasksContainer.Clear();
-        extraTasksContainer.Clear();
+        if (regularTasksContainer != null) regularTasksContainer.Clear();
+        if (extraTasksContainer != null) extraTasksContainer.Clear();
         var data = GameManager.Instance.currentData;
 
         bool regDone = GameManager.Instance.completedRegularTaskThisWeek;
-        regularTasksStatus.text = regDone ? "✓ MET" : "⚠️ PENDING";
-        regularTasksStatus.style.color = new StyleColor(regDone ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f));
+        if (regularTasksStatus != null) regularTasksStatus.text = regDone ? "✓ MET" : "⚠️ PENDING";
+        if (regularTasksStatus != null) regularTasksStatus.style.color = new StyleColor(regDone ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f));
 
         bool extDone = PlayerPrefs.GetInt("completedExtraTaskThisWeek", 0) == 1;
-        extraTasksStatus.text = extDone ? "✓ DONE THIS WEEK" : "⚠️ PENDING";
-        extraTasksStatus.style.color = new StyleColor(extDone ? new Color(0.22f, 0.74f, 0.97f) : new Color(0.9f, 0.3f, 0.24f));
+        if (extraTasksStatus != null) extraTasksStatus.text = extDone ? "✓ DONE THIS WEEK" : "⚠️ PENDING";
+        if (extraTasksStatus != null) extraTasksStatus.style.color = new StyleColor(extDone ? new Color(0.22f, 0.74f, 0.97f) : new Color(0.9f, 0.3f, 0.24f));
 
         // Regular Tasks
         var regularTasks = GetRegularTasks(data.jobTitle);
