@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
     <ui:Style src="styles.uss" />
-    <ui:VisualElement class="screen-container" style="padding-bottom: 360px;">
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
 
         <!-- TOP CARD -->
         <ui:VisualElement class="card top-card">
@@ -11,6 +11,7 @@
                         <ui:Label name="JobText" text="Unemployed" style="color: #38BDF8; font-size: 28px; -unity-font-style: bold; margin: 0; white-space: normal;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+                <ui:Button name="BtnCloseMenu" text="✕" style="background-color: rgba(231, 76, 60, 0.9); color: white; font-size: 36px; -unity-font-style: bold; width: 56px; height: 56px; border-radius: 28px; border-width: 0; padding: 0; margin: 0; flex-shrink: 0;" />
             </ui:VisualElement>
             
             <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">

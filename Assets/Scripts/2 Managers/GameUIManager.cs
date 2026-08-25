@@ -41,6 +41,8 @@ public class GameUIManager : MonoBehaviour
     private Label historyLabel;
 
     private VisualElement activeOverlay = null;
+    private VisualElement dashboardFooter = null;
+    private bool _isAnimating = false;
 
     private void Awake()
     {
@@ -166,6 +168,26 @@ public class GameUIManager : MonoBehaviour
         SetupTopCard(hustlesRoot);
         SetupTopCard(educationRoot);
         SetupTopCard(activitiesRoot);
+
+        // Cache dashboard footer for animation
+        dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
+
+        // For the 4 sub-pages: hide their own bottom-nav (they'll use the dashboard area),
+        // and wire up close buttons
+        var subPages = new[] { careersRoot, hustlesRoot, educationRoot, activitiesRoot };
+        foreach (var page in subPages)
+        {
+            // Hide the sub-page's own bottom-nav-container (nav + footer stats)
+            var pageFooter = page?.Q<VisualElement>(className: "bottom-nav-container");
+            if (pageFooter != null) pageFooter.style.display = DisplayStyle.None;
+
+            // Wire the BtnCloseMenu button
+            var closeBtn = page?.Q<Button>("BtnCloseMenu");
+            if (closeBtn != null)
+            {
+                closeBtn.clicked += () => AnimateCloseMenu(page);
+            }
+        }
 
         HideAllTabs();
 
@@ -597,6 +619,7 @@ public class GameUIManager : MonoBehaviour
 
     private void SwitchTab(VisualElement targetRoot)
     {
+        if (_isAnimating) return;
         if (GameManager.Instance.currentData.jailWeeksRemaining > 0) return;
 
         // Clicking the same tab that's already open -> go back to dashboard
@@ -604,15 +627,8 @@ public class GameUIManager : MonoBehaviour
         {
             if (activeOverlay != null)
             {
-                activeOverlay.style.display = DisplayStyle.None;
-                activeOverlay.pickingMode = PickingMode.Ignore;
-                activeOverlay = null;
+                AnimateCloseMenu(activeOverlay);
             }
-            
-            HideAllTabs();
-            dashboardRoot.style.display = DisplayStyle.Flex;
-            dashboardRoot.pickingMode = PickingMode.Position;
-            RefreshDashboardUI(GameManager.Instance.currentData.playerName);
             return;
         }
 
@@ -620,7 +636,7 @@ public class GameUIManager : MonoBehaviour
         AnimateOpenMenu(targetRoot);
     }
 
-    // --- ANIMATION COROUTINES (Simplified to Instant) ---
+    // --- ANIMATED MENU TRANSITIONS ---
 
     private void AnimateOpenMenu(VisualElement targetRoot)
     {
@@ -631,10 +647,10 @@ public class GameUIManager : MonoBehaviour
             activeOverlay.pickingMode = PickingMode.Ignore;
         }
 
-        // Hide dashboard so it doesn't render on top
+        // Hide dashboard
         dashboardRoot.style.display = DisplayStyle.None;
 
-        // Phase 2: Show target 
+        // Show target
         targetRoot.style.display = DisplayStyle.Flex;
         targetRoot.pickingMode = PickingMode.Position;
         activeOverlay = targetRoot;
@@ -648,15 +664,12 @@ public class GameUIManager : MonoBehaviour
 
     private void AnimateCloseMenu(VisualElement menuRoot)
     {
-        // Hide the menu instantly
         menuRoot.style.display = DisplayStyle.None;
         menuRoot.pickingMode = PickingMode.Ignore;
         activeOverlay = null;
 
-        // Show dashboard again
         dashboardRoot.style.display = DisplayStyle.Flex;
         dashboardRoot.pickingMode = PickingMode.Position;
-
         RefreshDashboardUI(GameManager.Instance.currentData.playerName);
     }
     private void RefreshDashboardUI(string playerName)
