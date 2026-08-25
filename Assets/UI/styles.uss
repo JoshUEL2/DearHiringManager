@@ -600,7 +600,6 @@
 }
 .grid-dodge-damage-overlay {
     position: absolute; left: 0; right: 0; top: 0; bottom: 0; 
-    background-color: rgba(220, 38, 38, 0); picking-mode: ignore;
     transition-property: background-color; transition-duration: 0.2s;
     border-radius: 12px;
 }
@@ -675,7 +674,6 @@
     width: 260px; background-color: #FEF08A; border-radius: 4px; padding: 15px;
     border-bottom-width: 4px; border-right-width: 4px; border-color: #CA8A04;
     transform-origin: center; rotate: 2deg;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* May not work in old unity, but harmless */
 }
 .ts-post-it-title {
     font-size: 24px; -unity-font-style: bold; color: #854D0E; 
@@ -822,7 +820,6 @@
     border-bottom-width: 10px;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
 }
 
 .qa-folder-ui { background-color: #1D4ED8; border-color: #1E3A8A; }
@@ -859,7 +856,6 @@
     align-items: center;
     position: absolute;
     bottom: 20px;
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.5);
 }
 
 .qa-paper-header {

@@ -2,76 +2,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
     <ui:Style src="styles.uss" />
 
-    <ui:Template name="AcidRainContainer" src="MiniGames/AcidRainContainer.uxml" />
-    <ui:Template name="AutomatedTestsContainer" src="MiniGames/AutomatedTestsContainer.uxml" />
-    <ui:Template name="BalanceMeterContainer" src="MiniGames/BalanceMeterContainer.uxml" />
-    <ui:Template name="CenterDivContainer" src="MiniGames/CenterDivContainer.uxml" />
-    <ui:Template name="ChartAdjusterContainer" src="MiniGames/ChartAdjusterContainer.uxml" />
-    <ui:Template name="ChoiceGameContainer" src="MiniGames/ChoiceGameContainer.uxml" />
-    <ui:Template name="CloggedVentsContainer" src="MiniGames/CloggedVentsContainer.uxml" />
-    <ui:Template name="CodeBreakerContainer" src="MiniGames/CodeBreakerContainer.uxml" />
-    <ui:Template name="CodeCommenterContainer" src="MiniGames/CodeCommenterContainer.uxml" />
-    <ui:Template name="CoffeeWorkContainer" src="MiniGames/CoffeeWorkContainer.uxml" />
-    <ui:Template name="ConstructionSiteContainer" src="MiniGames/ConstructionSiteContainer.uxml" />
-    <ui:Template name="ContainmentProtocolContainer" src="MiniGames/ContainmentProtocolContainer.uxml" />
-    <ui:Template name="CorporateGolfContainer" src="MiniGames/CorporateGolfContainer.uxml" />
-    <ui:Template name="DialogueChainContainer" src="MiniGames/DialogueChainContainer.uxml" />
-    <ui:Template name="DocumentSignerContainer" src="MiniGames/DocumentSignerContainer.uxml" />
-    <ui:Template name="DragCenterContainer" src="MiniGames/DragCenterContainer.uxml" />
-    <ui:Template name="DragMatchContainer" src="MiniGames/DragMatchContainer.uxml" />
-    <ui:Template name="FallingSortContainer" src="MiniGames/FallingSortContainer.uxml" />
-    <ui:Template name="FileSorterContainer" src="MiniGames/FileSorterContainer.uxml" />
-    <ui:Template name="FoodPrepContainer" src="MiniGames/FoodPrepContainer.uxml" />
-    <ui:Template name="ForgePassContainer" src="MiniGames/ForgePassContainer.uxml" />
-    <ui:Template name="FormatDashboardContainer" src="MiniGames/FormatDashboardContainer.uxml" />
-    <ui:Template name="FranticBackspaceContainer" src="MiniGames/FranticBackspaceContainer.uxml" />
-    <ui:Template name="GalacticCouncilContainer" src="MiniGames/GalacticCouncilContainer.uxml" />
-    <ui:Template name="GridDodgeContainer" src="MiniGames/GridDodgeContainer.uxml" />
-    <ui:Template name="HospitalityGalaContainer" src="MiniGames/HospitalityGalaContainer.uxml" />
-    <ui:Template name="HotStoneContainer" src="MiniGames/HotStoneContainer.uxml" />
-    <ui:Template name="IceShatterContainer" src="MiniGames/IceShatterContainer.uxml" />
-    <ui:Template name="IpHackContainer" src="MiniGames/IpHackContainer.uxml" />
-    <ui:Template name="KanbanContainer" src="MiniGames/KanbanContainer.uxml" />
-    <ui:Template name="MashRaceContainer" src="MiniGames/MashRaceContainer.uxml" />
-    <ui:Template name="MemoryMatchContainer" src="MiniGames/MemoryMatchContainer.uxml" />
-    <ui:Template name="MowGreensContainer" src="MiniGames/MowGreensContainer.uxml" />
-    <ui:Template name="NameMemoryContainer" src="MiniGames/NameMemoryContainer.uxml" />
-    <ui:Template name="NeuralAlignerContainer" src="MiniGames/NeuralAlignerContainer.uxml" />
-    <ui:Template name="NightShiftContainer" src="MiniGames/NightShiftContainer.uxml" />
-    <ui:Template name="OrderQueueContainer" src="MiniGames/OrderQueueContainer.uxml" />
-    <ui:Template name="PumpGameContainer" src="MiniGames/PumpGameContainer.uxml" />
-    <ui:Template name="QATriageContainer" src="MiniGames/QATriageContainer.uxml" />
-    <ui:Template name="GitMergeContainer" src="MiniGames/GitMergeContainer.uxml" />
-    
-    <ui:Template name="RecycleBottlesContainer" src="MiniGames/RecycleBottlesContainer.uxml" />
-    <ui:Template name="RetroRacerContainer" src="MiniGames/RetroRacerContainer.uxml" />
-    <ui:Template name="RewardLogicContainer" src="MiniGames/RewardLogicContainer.uxml" />
-    <ui:Template name="ScrubPlateContainer" src="MiniGames/ScrubPlateContainer.uxml" />
-    <ui:Template name="SentienceArrayContainer" src="MiniGames/SentienceArrayContainer.uxml" />
-    <ui:Template name="SequenceGameContainer" src="MiniGames/SequenceGameContainer.uxml" />
-    <ui:Template name="SizeMatchContainer" src="MiniGames/SizeMatchContainer.uxml" />
-    <ui:Template name="SkimATMContainer" src="MiniGames/SkimATMContainer.uxml" />
-    <ui:Template name="SliderGameContainer" src="MiniGames/SliderGameContainer.uxml" />
-    <ui:Template name="SnatchBriefcaseContainer" src="MiniGames/SnatchBriefcaseContainer.uxml" />
-    <ui:Template name="SprintLaneContainer" src="MiniGames/SprintLaneContainer.uxml" />
-    <ui:Template name="StartupPitchContainer" src="MiniGames/StartupPitchContainer.uxml" />
-    <ui:Template name="StealthInjectContainer" src="MiniGames/StealthInjectContainer.uxml" />
-    <ui:Template name="SweepFloorContainer" src="MiniGames/SweepFloorContainer.uxml" />
-    <ui:Template name="SwipeGameContainer" src="MiniGames/SwipeGameContainer.uxml" />
-    <ui:Template name="TapGameContainer" src="MiniGames/TapGameContainer.uxml" />
-    <ui:Template name="TetrisContainer" src="MiniGames/TetrisContainer.uxml" />
-    <ui:Template name="TicketSwipeContainer" src="MiniGames/TicketSwipeContainer.uxml" />
-    <ui:Template name="TimingRingContainer" src="MiniGames/TimingRingContainer.uxml" />
-    <ui:Template name="TwoPhaseHeistContainer" src="MiniGames/TwoPhaseHeistContainer.uxml" />
-    <ui:Template name="UnitTestContainer" src="MiniGames/UnitTestContainer.uxml" />
-    <ui:Template name="VideoCallContainer" src="MiniGames/VideoCallContainer.uxml" />
-    <ui:Template name="VrArcadeContainer" src="MiniGames/VrArcadeContainer.uxml" />
-    <ui:Template name="WalkDogsContainer" src="MiniGames/WalkDogsContainer.uxml" />
-    <ui:Template name="WhackABugContainer" src="MiniGames/WhackABugContainer.uxml" />
-    <ui:Template name="WhackGridContainer" src="MiniGames/WhackGridContainer.uxml" />
-    <ui:Template name="YesManContainer" src="MiniGames/YesManContainer.uxml" />
-    <ui:Template name="ZenTracingContainer" src="MiniGames/ZenTracingContainer.uxml" />
-
     <!-- Full screen dark overlay -->
     <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
         <!-- Terminal Window -->
@@ -84,76 +14,8 @@
             <ui:Label name="InstructionsText" text="[Instructions go here]" style="font-size: 28px; color: #FFFFFF; white-space: normal; margin-bottom: 30px; -unity-text-align: middle-center;" />
 
             <ui:ScrollView style="flex-grow: 1; min-height: 500px; max-height: 900px;">
-                <ui:Instance template="AcidRainContainer" />
-                <ui:Instance template="AutomatedTestsContainer" />
-                <ui:Instance template="BalanceMeterContainer" />
-                <ui:Instance template="CenterDivContainer" />
-                <ui:Instance template="ChartAdjusterContainer" />
-                <ui:Instance template="ChoiceGameContainer" />
-                <ui:Instance template="CloggedVentsContainer" />
-                <ui:Instance template="CodeBreakerContainer" />
-                <ui:Instance template="CodeCommenterContainer" />
-                <ui:Instance template="CoffeeWorkContainer" />
-                <ui:Instance template="ConstructionSiteContainer" />
-                <ui:Instance template="ContainmentProtocolContainer" />
-                <ui:Instance template="CorporateGolfContainer" />
-                <ui:Instance template="DialogueChainContainer" />
-                <ui:Instance template="DocumentSignerContainer" />
-                <ui:Instance template="DragCenterContainer" />
-                <ui:Instance template="DragMatchContainer" />
-                <ui:Instance template="FallingSortContainer" />
-                <ui:Instance template="FileSorterContainer" />
-                <ui:Instance template="FoodPrepContainer" />
-                <ui:Instance template="ForgePassContainer" />
-                <ui:Instance template="FormatDashboardContainer" />
-                <ui:Instance template="FranticBackspaceContainer" />
-                <ui:Instance template="GalacticCouncilContainer" />
-                <ui:Instance template="GridDodgeContainer" />
-                <ui:Instance template="HospitalityGalaContainer" />
-                <ui:Instance template="HotStoneContainer" />
-                <ui:Instance template="IceShatterContainer" />
-                <ui:Instance template="IpHackContainer" />
-                <ui:Instance template="KanbanContainer" />
-                <ui:Instance template="MashRaceContainer" />
-                <ui:Instance template="MemoryMatchContainer" />
-                <ui:Instance template="MowGreensContainer" />
-                <ui:Instance template="NameMemoryContainer" />
-                <ui:Instance template="NeuralAlignerContainer" />
-                <ui:Instance template="NightShiftContainer" />
-                <ui:Instance template="OrderQueueContainer" />
-                <ui:Instance template="PumpGameContainer" />
-                <ui:Instance template="QATriageContainer" />
-                <ui:Instance template="GitMergeContainer" />
-                
-                <ui:Instance template="RecycleBottlesContainer" />
-                <ui:Instance template="RetroRacerContainer" />
-                <ui:Instance template="RewardLogicContainer" />
-                <ui:Instance template="ScrubPlateContainer" />
-                <ui:Instance template="SentienceArrayContainer" />
-                <ui:Instance template="SequenceGameContainer" />
-                <ui:Instance template="SizeMatchContainer" />
-                <ui:Instance template="SkimATMContainer" />
-                <ui:Instance template="SliderGameContainer" />
-                <ui:Instance template="SnatchBriefcaseContainer" />
-                <ui:Instance template="SprintLaneContainer" />
-                <ui:Instance template="StartupPitchContainer" />
-                <ui:Instance template="StealthInjectContainer" />
-                <ui:Instance template="SweepFloorContainer" />
-                <ui:Instance template="SwipeGameContainer" />
-                <ui:Instance template="TapGameContainer" />
-                <ui:Instance template="TetrisContainer" />
-                <ui:Instance template="TicketSwipeContainer" />
-                <ui:Instance template="TimingRingContainer" />
-                <ui:Instance template="TwoPhaseHeistContainer" />
-                <ui:Instance template="UnitTestContainer" />
-                <ui:Instance template="VideoCallContainer" />
-                <ui:Instance template="VrArcadeContainer" />
-                <ui:Instance template="WalkDogsContainer" />
-                <ui:Instance template="WhackABugContainer" />
-                <ui:Instance template="WhackGridContainer" />
-                <ui:Instance template="YesManContainer" />
-                <ui:Instance template="ZenTracingContainer" />
-            </ui:ScrollView>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
