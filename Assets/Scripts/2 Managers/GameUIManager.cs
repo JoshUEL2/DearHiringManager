@@ -270,7 +270,8 @@ public class GameUIManager : MonoBehaviour
             if (SaveSystem.LoadActiveGame() != null)
             {
                 Debug.Log("[GameUIManager] Save file found on disk! Skipping character creation.");
-                CheckJailStatus(); 
+                HideAllTabs();
+                CheckJailStatus();
             }
             else
             {
@@ -610,6 +611,11 @@ public class GameUIManager : MonoBehaviour
             {
                 SwitchTab(dashboardRoot);
             }
+            else
+            {
+                // If a tab is already active (like dashboard on startup), make sure its data is populated!
+                RefreshDashboardUI(GameManager.Instance.currentData.playerName);
+            }
         }
     }
     public void SwitchToDashboard()
@@ -670,33 +676,10 @@ public class GameUIManager : MonoBehaviour
             var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card");
             if (targetTopCard != null) targetTopCard.style.backgroundColor = new StyleColor(Color.clear);
 
-            // Wrap middle content if not already wrapped
+            // Animate the UXML-defined wrapper
             var middleWrapper = screenContainer.Q<VisualElement>("DynamicMiddleWrapper");
-            if (middleWrapper == null)
-            {
-                var targetMiddles = screenContainer.Children().Where(c => !c.ClassListContains("top-card") && !c.ClassListContains("bottom-nav-container")).ToList();
-                
-                middleWrapper = new VisualElement();
-                middleWrapper.name = "DynamicMiddleWrapper";
-                ColorUtility.TryParseHtmlString("#0A1128", out Color solidBg);
-                middleWrapper.style.backgroundColor = new StyleColor(solidBg);
-                middleWrapper.style.flexGrow = 1;
-                
-                if (targetMiddles.Count > 0)
-                {
-                    int firstIndex = screenContainer.IndexOf(targetMiddles[0]);
-                    screenContainer.Insert(firstIndex, middleWrapper);
-                    
-                    foreach (var m in targetMiddles) {
-                        middleWrapper.Add(m);
-                    }
-                }
-            }
-            
-            // Now animate the wrapper
             if (middleWrapper != null)
             {
-                middleWrapper.AddToClassList("section-content-container");
                 middleWrapper.AddToClassList("section-content-hidden");
 
                 targetRoot.schedule.Execute(() => {
@@ -738,6 +721,7 @@ public class GameUIManager : MonoBehaviour
     }
     private void RefreshDashboardUI(string playerName)
     {
+        try {
         var data = GameManager.Instance.currentData;
         var roots = new[] { dashboardRoot, careersRoot, hustlesRoot, educationRoot, activitiesRoot };
         
