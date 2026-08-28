@@ -22,7 +22,14 @@ public class HustlesUI
         hustleScrollView = root.Q<ScrollView>();
         hustleScrollView.contentContainer.style.flexDirection = FlexDirection.Row;
         hustleScrollView.contentContainer.style.flexWrap = Wrap.Wrap;
-        hustleScrollView.contentContainer.style.justifyContent = Justify.Center;
+        hustleScrollView.contentContainer.style.justifyContent = Justify.SpaceBetween;
+        hustleScrollView.contentContainer.style.paddingLeft = 20;
+        hustleScrollView.contentContainer.style.paddingRight = 20;
+        hustleScrollView.contentContainer.style.paddingTop = 40;
+        hustleScrollView.contentContainer.style.paddingBottom = 80;
+        
+        // Gradient from daytime sky to murky depths
+                hustleScrollView.style.backgroundColor = new StyleColor(new Color(0.08f, 0.08f, 0.12f));
         PopulateHustlesBoard();
     }
 
@@ -54,77 +61,82 @@ public class HustlesUI
         {
             bool isIllegal = hustle.riskPercent > 0;
             
-            // Context icon & colors
-            string iconStr = "💼";
-            Color iconBg = new Color(0.2f, 0.2f, 0.3f);
-            if (hustle.name.Contains("Bottle")) { iconStr = "♻️"; iconBg = new Color(0.18f, 0.5f, 0.34f); }
-            else if (hustle.name.Contains("Lawn")) { iconStr = "⛳"; iconBg = new Color(0.15f, 0.68f, 0.38f); }
-            else if (hustle.name.Contains("Dog")) { iconStr = "🐕"; iconBg = new Color(0.9f, 0.49f, 0.13f); }
-            else if (hustle.name.Contains("Food")) { iconStr = "🍔"; iconBg = new Color(0.95f, 0.61f, 0.07f); }
-            else if (hustle.name.Contains("Transit")) { iconStr = "🚇"; iconBg = new Color(0.61f, 0.35f, 0.71f); }
-            else if (hustle.name.Contains("Briefcase")) { iconStr = "💼"; iconBg = new Color(0.75f, 0.22f, 0.17f); }
-            else if (hustle.name.Contains("ATM") || hustle.name.Contains("Data")) { iconStr = "💳"; iconBg = new Color(0.9f, 0.3f, 0.24f); }
+            // Context icon
+            string iconStr = "📝";
+            Color iconBg = new Color(0.4f, 0.4f, 0.4f);
+            if (hustle.name.Contains("Bottle")) { iconStr = "♻️"; iconBg = new Color(0.2f, 0.7f, 0.3f); }
+            else if (hustle.name.Contains("Lawn")) { iconStr = "⛳"; iconBg = new Color(0.3f, 0.8f, 0.4f); }
+            else if (hustle.name.Contains("Dog")) { iconStr = "🐕"; iconBg = new Color(0.9f, 0.5f, 0.2f); }
+            else if (hustle.name.Contains("Food")) { iconStr = "🍔"; iconBg = new Color(0.9f, 0.7f, 0.1f); }
+            else if (hustle.name.Contains("Transit")) { iconStr = "🚇"; iconBg = new Color(0.6f, 0.2f, 0.8f); }
+            else if (hustle.name.Contains("Briefcase")) { iconStr = "💼"; iconBg = new Color(0.8f, 0.1f, 0.1f); }
+            else if (hustle.name.Contains("ATM") || hustle.name.Contains("Data")) { iconStr = "💳"; iconBg = new Color(0.9f, 0.2f, 0.2f); }
 
             VisualElement card = new VisualElement();
-            card.AddToClassList("apple-squircle");
-            if (isIllegal) 
-            {
-                card.style.borderLeftColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
-                card.style.borderLeftWidth = 4;
-            }
+            card.AddToClassList("mission-card");
+            card.AddToClassList(isIllegal ? "mission-card-illegal" : "mission-card-safe");
+            
+            // 2 per line width
+            card.style.width = Length.Percent(48);
 
-            // Top Row (Icon & Reward Pill)
+            // Top Row (Icon & Title)
             VisualElement topRow = new VisualElement();
             topRow.style.flexDirection = FlexDirection.Row;
-            topRow.style.justifyContent = Justify.SpaceBetween;
             topRow.style.alignItems = Align.Center;
-            topRow.style.marginBottom = 15;
+            topRow.style.marginBottom = 10;
 
             VisualElement iconBadge = new VisualElement();
-            iconBadge.AddToClassList("apple-icon-badge");
+            iconBadge.AddToClassList("mission-icon-badge");
             iconBadge.style.backgroundColor = new StyleColor(iconBg);
             Label iconLbl = new Label(iconStr);
-            iconLbl.style.fontSize = 36; iconLbl.style.color = Color.white;
+            iconLbl.style.fontSize = 24; iconLbl.style.color = Color.white;
             iconBadge.Add(iconLbl);
             topRow.Add(iconBadge);
 
-            VisualElement rewardPill = new VisualElement();
-            rewardPill.AddToClassList("apple-pill-green");
-            Label rewardLbl = new Label($"+${hustle.reward}");
-            rewardLbl.style.fontSize = 26; rewardLbl.style.color = new Color(0.18f, 0.8f, 0.44f); rewardLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            rewardPill.Add(rewardLbl);
-            topRow.Add(rewardPill);
+            Label titleLabel = new Label(hustle.name);
+            titleLabel.style.fontSize = 22; 
+            titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold; 
+            titleLabel.style.whiteSpace = WhiteSpace.Normal; 
+            titleLabel.style.flexShrink = 1;
+            titleLabel.style.marginLeft = 10;
+            titleLabel.style.color = isIllegal ? new Color(1f, 0.4f, 0.4f) : new Color(0.1f, 0.1f, 0.1f);
+            topRow.Add(titleLabel);
 
             card.Add(topRow);
 
-            // Text content
-            Label titleLabel = new Label(hustle.name);
-            titleLabel.style.fontSize = 32; titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold; titleLabel.style.whiteSpace = WhiteSpace.Normal; 
-            titleLabel.style.color = Color.white;
-            titleLabel.style.marginBottom = 8;
-            card.Add(titleLabel);
-
+            // Description
             Label descLabel = new Label(hustle.description);
-            descLabel.style.fontSize = 22; descLabel.style.color = new Color(0.6f, 0.65f, 0.7f); descLabel.style.whiteSpace = WhiteSpace.Normal; 
-            descLabel.style.marginBottom = 20;
+            descLabel.style.fontSize = 16; 
+            descLabel.style.color = isIllegal ? new Color(0.7f, 0.7f, 0.7f) : new Color(0.4f, 0.4f, 0.4f); 
+            descLabel.style.whiteSpace = WhiteSpace.Normal; 
+            descLabel.style.marginBottom = 15;
             card.Add(descLabel);
 
-            // Risk Pill
-            VisualElement riskPill = new VisualElement();
-            riskPill.AddToClassList(isIllegal ? "apple-pill-red" : "apple-pill-green");
-            riskPill.style.alignSelf = Align.FlexStart;
-            riskPill.style.marginBottom = 25;
-            
-            string riskStr = isIllegal ? $"⚠️ {hustle.riskPercent}% Risk (Jail {hustle.jailSentence}w)" : "🛡️ 0% Risk (Safe)";
+            // Stats Row
+            VisualElement statsRow = new VisualElement();
+            statsRow.style.flexDirection = FlexDirection.Row;
+            statsRow.style.justifyContent = Justify.SpaceBetween;
+            statsRow.style.marginBottom = 15;
+
+            Label rewardLbl = new Label($"+${hustle.reward}");
+            rewardLbl.style.fontSize = 20; 
+            rewardLbl.style.color = new Color(0.2f, 0.7f, 0.3f); 
+            rewardLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+            statsRow.Add(rewardLbl);
+
+            string riskStr = isIllegal ? $"⚠️ {hustle.riskPercent}% (Jail {hustle.jailSentence}w)" : "🛡️ 0% Risk";
             Label riskLbl = new Label(riskStr);
-            riskLbl.style.fontSize = 22; riskLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-            riskLbl.style.color = isIllegal ? new Color(0.9f, 0.3f, 0.24f) : new Color(0.18f, 0.8f, 0.44f);
-            riskPill.Add(riskLbl);
-            card.Add(riskPill);
+            riskLbl.style.fontSize = 16; 
+            riskLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+            riskLbl.style.color = isIllegal ? new Color(0.9f, 0.3f, 0.3f) : new Color(0.5f, 0.5f, 0.5f);
+            riskLbl.style.alignSelf = Align.FlexEnd;
+            statsRow.Add(riskLbl);
+            
+            card.Add(statsRow);
 
             // Button
             Button performBtn = new Button();
-            performBtn.AddToClassList("apple-btn");
+            performBtn.AddToClassList("mission-btn");
             
             bool isOnCooldown = data.hustleCooldownNames.IndexOf(hustle.name) >= 0;
             if (isOnCooldown)
@@ -133,12 +145,11 @@ public class HustlesUI
                 performBtn.text = $"Wait {data.hustleCooldownWeeks[cooldownIndex]}w";
                 performBtn.style.backgroundColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f));
                 performBtn.SetEnabled(false);
-                performBtn.style.opacity = 0.5f;
             }
             else
             {
-                performBtn.text = "Perform Hustle";
-                performBtn.style.backgroundColor = isIllegal ? new StyleColor(new Color(0.9f, 0.3f, 0.24f)) : new StyleColor(new Color(0.22f, 0.74f, 0.97f));
+                performBtn.text = "Start Mission";
+                performBtn.style.backgroundColor = isIllegal ? new StyleColor(new Color(0.8f, 0.1f, 0.1f)) : new StyleColor(new Color(0.2f, 0.6f, 0.9f));
                 
                 var localHustle = hustle;
                 performBtn.clicked += () => OnHustleClicked(localHustle);

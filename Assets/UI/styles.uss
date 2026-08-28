@@ -1498,3 +1498,63 @@
 .apple-btn:active {
     scale: 0.95;
 }
+
+.mission-card {
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex-direction: column;
+    transition: scale 0.2s, rotate 0.2s;
+    border-width: 2px;
+}
+.mission-card:hover {
+    scale: 1.05;
+}
+.mission-card:active {
+    scale: 0.95;
+}
+
+.mission-card-safe {
+    background-color: #FFFFFF;
+    border-color: #E0E0E0;
+    color: #333333;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.mission-card-safe:hover {
+    border-color: #4FC3F7;
+    rotate: 2deg;
+}
+
+.mission-card-illegal {
+    background-color: #1A1A1A;
+    border-color: #4A0000;
+    color: #EEEEEE;
+    box-shadow: 0 10px 20px rgba(255,0,0,0.1);
+}
+.mission-card-illegal:hover {
+    border-color: #E53935;
+    rotate: -2deg;
+    background-color: #2A1A1A;
+}
+
+.mission-icon-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.mission-btn {
+    border-radius: 16px;
+    padding: 12px;
+    font-size: 20px;
+    -unity-font-style: bold;
+    border-width: 0;
+    color: white;
+    transition: scale 0.1s;
+    margin-top: auto;
+}
+.mission-btn:hover { scale: 1.05; }
+.mission-btn:active { scale: 0.95; }
