@@ -48,7 +48,10 @@ public class HustlesUI
         VisualElement limitCard = new VisualElement();
         limitCard.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f, 0.95f));
         limitCard.style.paddingTop = 15; limitCard.style.paddingBottom = 15; limitCard.style.paddingLeft = 20; limitCard.style.paddingRight = 20;
-        limitCard.style.borderRadius = 12;
+        limitCard.style.borderTopLeftRadius = 12;
+        limitCard.style.borderTopRightRadius = 12;
+        limitCard.style.borderBottomLeftRadius = 12;
+        limitCard.style.borderBottomRightRadius = 12;
         limitCard.style.marginBottom = 25;
         limitCard.style.flexDirection = FlexDirection.Row;
         limitCard.style.justifyContent = Justify.SpaceBetween;
