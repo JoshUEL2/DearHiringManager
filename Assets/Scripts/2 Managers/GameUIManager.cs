@@ -248,6 +248,12 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
+        // Ensure the Dashboard is the base layer, and all popup menus render ON TOP of it
+        if (dashboardDocument != null) dashboardDocument.sortingOrder = 0;
+        if (careersDocument != null) careersDocument.sortingOrder = 10;
+        if (hustlesDocument != null) hustlesDocument.sortingOrder = 10;
+        if (educationDocument != null) educationDocument.sortingOrder = 10;
+        if (activitiesDocument != null) activitiesDocument.sortingOrder = 10;
         // Initialize all tab controllers (they are plain C# classes, not MonoBehaviours)
         // Each wrapped in try-catch so one failure doesn't block the rest or the debug menu
         try { CareerUI.Instance = new CareerUI(); CareerUI.Instance.Initialize(careersDocument); }

@@ -6,53 +6,46 @@
         <ui:VisualElement class="card top-card">
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
                 <ui:VisualElement style="flex-direction: column; align-items: flex-start; flex-shrink: 1;">
-        <ui:VisualElement name="MiddleContent" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128;">
                     <ui:Label name="PlayerNameText" text="PlayerName" class="header-text" style="color: #F1C40F; font-size: 60px; margin: 0; margin-bottom: 10px; white-space: normal;" />
                     <ui:VisualElement style="background-color: rgba(56, 189, 248, 0.15); border-color: #38BDF8; border-width: 2px; border-radius: 12px; padding: 5px 15px;">
                         <ui:Label name="JobText" text="Unemployed" style="color: #38BDF8; font-size: 28px; -unity-font-style: bold; margin: 0; white-space: normal;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="MiddleContent" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128;">
-            <ui:Button name="BtnCloseMenu" text="✕" style="background-color: rgba(231, 76, 60, 0.9); color: white; font-size: 36px; -unity-font-style: bold; width: 56px; height: 56px; border-radius: 28px; border-width: 0; padding: 0; margin: 0; flex-shrink: 0;" />
+                <ui:Button name="BtnCloseMenu" text="✕" style="background-color: rgba(231, 76, 60, 0.9); color: white; font-size: 36px; -unity-font-style: bold; width: 56px; height: 56px; border-radius: 28px; border-width: 0; padding: 0; margin: 0; flex-shrink: 0;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
+                <ui:Button name="BtnViewCV" text="Current CV" style="background-color: #2ECC71; color: white; padding: 10px 20px; font-size: 28px; border-radius: 8px; border-width: 0; margin: 0; margin-right: 15px;" />
+                <ui:Label name="SubTitleText" text="• Week 1" class="sub-text" style="font-size: 32px; color: #FFFFFF; margin: 0;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="row">
+                <ui:VisualElement class="stat-col" name="ColCash">
+                    <ui:Label text="CASH RESERVE" class="mini-label"/>
+                    <ui:Label name="CashText" text="$0" class="stat-value" style="color: #2ECC71;"/>
                 </ui:VisualElement>
                 
-                <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
-                    <ui:Button name="BtnViewCV" text="Current CV" style="background-color: #2ECC71; color: white; padding: 10px 20px; font-size: 28px; border-radius: 8px; border-width: 0; margin: 0; margin-right: 15px;" />
-                    <ui:Label name="SubTitleText" text="• Week 1" class="sub-text" style="font-size: 32px; color: #FFFFFF; margin: 0;" />
+                <ui:VisualElement class="stat-col" name="ColExpenses">
+                    <ui:Label text="EXPENSES/WK" class="mini-label"/>
+                    <ui:Label name="ExpenseText" text="-$0" class="stat-value" style="color: #E74C3C;"/>
                 </ui:VisualElement>
                 
-                <ui:VisualElement class="row">
-                    <ui:VisualElement class="stat-col" name="ColCash">
-                        <ui:Label text="CASH RESERVE" class="mini-label"/>
-                        <ui:Label name="CashText" text="$0" class="stat-value" style="color: #2ECC71;"/>
-                    </ui:VisualElement>
-                    
-                    <ui:VisualElement class="stat-col" name="ColExpenses">
-                        <ui:Label text="EXPENSES/WK" class="mini-label"/>
-                        <ui:Label name="ExpenseText" text="-$0" class="stat-value" style="color: #E74C3C;"/>
-                    </ui:VisualElement>
-                    
-                    <ui:VisualElement class="stat-col" name="ColDistrict">
-                        <ui:Label text="HOME DISTRICT" class="mini-label"/>
-                        <ui:VisualElement style="flex-direction: row; align-items: center;">
-                            <ui:Label name="DistrictText" text="Slums" class="stat-value" style="color: #F1C40F; margin-right: 15px;"/>
-                        </ui:VisualElement>
+                <ui:VisualElement class="stat-col" name="ColDistrict">
+                    <ui:Label text="HOME DISTRICT" class="mini-label"/>
+                    <ui:VisualElement style="flex-direction: row; align-items: center;">
+                        <ui:Label name="DistrictText" text="Slums" class="stat-value" style="color: #F1C40F; margin-right: 15px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-    
+        </ui:VisualElement>
+
         <ui:VisualElement name="DynamicMiddleWrapper" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128;">
             <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin: 0; margin-bottom: 20px;" />
-    
+
             <ui:Label text="Legal blue hustles have 0% arrest risks. Red illegal actions carry severe jail time risks." class="sub-text" />
             <ui:ScrollView style="flex-grow: 1; width: 100%;" />
         </ui:VisualElement>
-        </ui:VisualElement>
-
-    
-        </ui:VisualElement>
-
-        </ui:VisualElement>
+    </ui:VisualElement>
 
     <!-- BOTTOM NAV & FOOTER -->
     <ui:VisualElement class="bottom-nav-container">
