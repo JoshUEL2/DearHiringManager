@@ -1558,3 +1558,87 @@
 }
 .mission-btn:hover { scale: 1.05; }
 .mission-btn:active { scale: 0.95; }
+
+.hustle-card-pro {
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    flex-direction: column;
+    border-width: 2px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.hustle-card-safe {
+    background-color: #F8FAFC;
+    border-color: #E2E8F0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.hustle-card-illegal {
+    background-color: #0F172A;
+    border-color: #7F1D1D;
+    box-shadow: 0 4px 25px rgba(220,38,38,0.15);
+}
+
+.hustle-bg-container {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    overflow: hidden;
+    opacity: 0.08;
+    align-items: center;
+    justify-content: center;
+}
+
+.hustle-bg-text {
+    font-size: 80px;
+    -unity-font-style: bold;
+    color: white;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.danger-separator {
+    background-color: #7F1D1D;
+    padding: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    border-color: #EF4444;
+}
+
+.danger-separator-text {
+    color: #FECACA;
+    font-size: 24px;
+    -unity-font-style: bold;
+    letter-spacing: 10px;
+}
+
+/* Animations */
+.anim-scroll-vertical {
+    translate: 0 0;
+    transition: translate 10s linear;
+}
+.anim-scroll-vertical:hover {
+    translate: 0 -50px;
+}
+
+.anim-pulse {
+    scale: 1;
+    transition: scale 1s ease-in-out;
+}
+.anim-pulse:hover {
+    scale: 1.1;
+}
+
+.danger-separator-text {
+    transition: scale 0.5s ease-in-out;
+}
+.danger-separator:hover .danger-separator-text {
+    scale: 1.05;
+}
