@@ -1444,3 +1444,57 @@
 .hustle-illegal:hover {
     background-color: rgba(231, 76, 60, 0.15);
 }
+
+.apple-squircle {
+    background-color: rgba(20, 28, 43, 0.85);
+    border-radius: 36px;
+    padding: 24px;
+    margin: 12px;
+    flex-grow: 1;
+    min-width: 320px;
+    flex-direction: column;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    transition: scale 0.2s, background-color 0.2s;
+}
+.apple-squircle:hover {
+    scale: 1.02;
+    background-color: rgba(30, 41, 59, 0.95);
+}
+.apple-icon-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    justify-content: center;
+    align-items: center;
+}
+.apple-pill-green {
+    background-color: rgba(46, 204, 113, 0.2);
+    border-color: #2ECC71;
+    border-width: 1px;
+    border-radius: 16px;
+    padding: 8px 16px;
+}
+.apple-pill-red {
+    background-color: rgba(231, 76, 60, 0.2);
+    border-color: #E74C3C;
+    border-width: 1px;
+    border-radius: 16px;
+    padding: 8px 16px;
+}
+.apple-btn {
+    border-radius: 24px;
+    padding: 18px;
+    font-size: 28px;
+    -unity-font-style: bold;
+    border-width: 0;
+    color: white;
+    transition: scale 0.1s;
+    margin-top: auto;
+}
+.apple-btn:hover {
+    scale: 1.03;
+}
+.apple-btn:active {
+    scale: 0.95;
+}
