@@ -45,101 +45,91 @@ public class HustlesUI
         var data = GameManager.Instance.currentData;
         int hustlesLeft = 3 - data.hustlesCompletedThisWeek;
         
-        VisualElement limitCard = new VisualElement();
-        limitCard.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f, 0.95f));
-        limitCard.style.paddingTop = 15; limitCard.style.paddingBottom = 15; limitCard.style.paddingLeft = 20; limitCard.style.paddingRight = 20;
-        limitCard.style.borderTopLeftRadius = 12;
-        limitCard.style.borderTopRightRadius = 12;
-        limitCard.style.borderBottomLeftRadius = 12;
-        limitCard.style.borderBottomRightRadius = 12;
-        limitCard.style.marginBottom = 25;
-        limitCard.style.flexDirection = FlexDirection.Row;
-        limitCard.style.justifyContent = Justify.SpaceBetween;
-        limitCard.style.alignItems = Align.Center;
-
-        Label limitLbl = new Label("WEEKLY ENERGY LIMIT");
-        limitLbl.style.fontSize = 28;
-        limitLbl.style.color = new StyleColor(new Color(1f, 1f, 1f));
-        limitLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-
-        Label limitVal = new Label($"{hustlesLeft} REMAINING");
-        limitVal.style.fontSize = 28;
-        limitVal.style.color = hustlesLeft > 0 ? new Color(0.18f, 0.8f, 0.44f) : Color.red;
-        limitVal.style.unityFontStyleAndWeight = FontStyle.Bold;
-
-        limitCard.Add(limitLbl);
-        limitCard.Add(limitVal);
-        hustleScrollView.Add(limitCard);
+        
 
         foreach (var hustle in availableHustles)
         {
             bool isIllegal = hustle.riskPercent > 0;
+            
             VisualElement card = new VisualElement();
             card.AddToClassList("task-card-stunning");
-            card.style.flexDirection = FlexDirection.Column; card.style.alignItems = Align.Stretch;
-            if (isIllegal) card.style.borderLeftColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
+            card.style.flexDirection = FlexDirection.Row;
+            card.style.alignItems = Align.Center;
+            card.style.justifyContent = Justify.SpaceBetween;
+            card.style.paddingTop = 15; card.style.paddingBottom = 15;
 
-            VisualElement row = new VisualElement();
-            row.AddToClassList("row");
+            if (isIllegal) 
+            {
+                card.AddToClassList("hustle-illegal");
+                card.style.borderLeftColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
+            }
+
+            // Left Column (Text & Stats)
+            VisualElement leftCol = new VisualElement();
+            leftCol.style.flexDirection = FlexDirection.Column;
+            leftCol.style.flexGrow = 1;
+            leftCol.style.flexShrink = 1;
+            leftCol.style.marginRight = 20;
 
             Label titleLabel = new Label(hustle.name);
-            titleLabel.style.fontSize = 32; titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold; titleLabel.style.whiteSpace = WhiteSpace.Normal; titleLabel.style.color = isIllegal ? new Color(0.9f, 0.3f, 0.24f) : new Color(0.22f, 0.74f, 0.97f);
-            
-            
-            row.Add(titleLabel);
+            titleLabel.style.fontSize = 32; titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold; titleLabel.style.whiteSpace = WhiteSpace.Normal; 
+            titleLabel.style.color = isIllegal ? new Color(0.9f, 0.3f, 0.24f) : new Color(0.22f, 0.74f, 0.97f);
+            leftCol.Add(titleLabel);
 
             Label descLabel = new Label(hustle.description);
-            descLabel.style.fontSize = 22; descLabel.style.color = new Color(0.8f, 0.8f, 0.8f); descLabel.style.whiteSpace = WhiteSpace.Normal; descLabel.style.marginTop = 10; descLabel.style.marginBottom = 15;
+            descLabel.style.fontSize = 22; descLabel.style.color = new Color(0.8f, 0.8f, 0.8f); descLabel.style.whiteSpace = WhiteSpace.Normal; 
+            descLabel.style.marginTop = 5; descLabel.style.marginBottom = 10;
+            leftCol.Add(descLabel);
 
-            VisualElement bottomRow = new VisualElement();
-            bottomRow.AddToClassList("row");
-            bottomRow.style.alignItems = Align.Center;
-
-            VisualElement statsCol = new VisualElement();
-            statsCol.style.flexDirection = FlexDirection.Column;
+            VisualElement statsRow = new VisualElement();
+            statsRow.style.flexDirection = FlexDirection.Row;
+            statsRow.style.alignItems = Align.Center;
 
             Label rewardLabel = new Label($"+${hustle.reward} cash");
-            rewardLabel.style.fontSize = 28;
-            rewardLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            rewardLabel.style.color = isIllegal ? Color.white : new Color(0.18f, 0.8f, 0.44f); // Green for safe
+            rewardLabel.style.fontSize = 24; rewardLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            rewardLabel.style.color = isIllegal ? Color.white : new Color(0.18f, 0.8f, 0.44f);
+            rewardLabel.style.marginRight = 20;
+            statsRow.Add(rewardLabel);
 
             string riskStr = isIllegal ? $"Risk: {hustle.riskPercent}% (Jail {hustle.jailSentence} wks)" : $"Risk: {hustle.riskPercent}% (Safe)";
             Label riskLabel = new Label(riskStr);
-            riskLabel.style.fontSize = 28;
-            riskLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            riskLabel.style.fontSize = 24; riskLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             riskLabel.style.color = isIllegal ? new Color(1f, 0.7f, 0.7f) : Color.gray;
+            statsRow.Add(riskLabel);
 
-            statsCol.Add(rewardLabel);
-            statsCol.Add(riskLabel);
+            leftCol.Add(statsRow);
+            card.Add(leftCol);
 
+            // Right Column (Button)
             Button performBtn = new Button();
-            
-            bool isOnCooldown = false;
-            int cooldownIndex = data.hustleCooldownNames.IndexOf(hustle.name);
-            if (cooldownIndex >= 0) isOnCooldown = true;
+            bool isOnCooldown = data.hustleCooldownNames.IndexOf(hustle.name) >= 0;
 
             if (isOnCooldown)
             {
-                performBtn.text = $"Cooldown: {data.hustleCooldownWeeks[cooldownIndex]} wks";
-                performBtn.AddToClassList("btn-task-stunning"); performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
+                int cooldownIndex = data.hustleCooldownNames.IndexOf(hustle.name);
+                performBtn.text = $"Wait {data.hustleCooldownWeeks[cooldownIndex]}w";
+                performBtn.AddToClassList("btn-task-stunning"); 
+                performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
                 performBtn.SetEnabled(false);
                 performBtn.style.opacity = 0.5f;
             }
             else
             {
                 performBtn.text = "Perform";
-                performBtn.AddToClassList("btn-task-stunning"); if (isIllegal) performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
+                performBtn.AddToClassList("btn-task-stunning"); 
+                if (isIllegal) performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
                 
                 var localHustle = hustle;
                 performBtn.clicked += () => OnHustleClicked(localHustle);
             }
+            
+            // Adjust button margins to fit perfectly on the right
+            performBtn.style.marginLeft = 0; 
+            performBtn.style.marginRight = 0;
+            performBtn.style.paddingLeft = 20;
+            performBtn.style.paddingRight = 20;
 
-            bottomRow.Add(statsCol);
-            bottomRow.Add(performBtn);
-
-            card.Add(row);
-            card.Add(descLabel);
-            card.Add(bottomRow);
+            card.Add(performBtn);
 
             hustleScrollView.Add(card);
         }
