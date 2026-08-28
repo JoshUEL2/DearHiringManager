@@ -55,40 +55,65 @@
                 <ui:ScrollView name="JobScrollView" style="flex-grow: 1;" />
             </ui:VisualElement>
 
-            <ui:VisualElement name="ActiveJobContainer" style="flex-grow: 1; display: none;">
+                        <ui:VisualElement name="ActiveJobContainer" style="flex-grow: 1; display: none;">
                 <ui:ScrollView name="ActiveJobScrollView" style="flex-grow: 1;">
-                <ui:VisualElement class="card">
-                    <ui:Label name="JobTitleText" text="Level 1 Job" class="job-title" />
-                    <ui:Label name="BaseSalaryText" text="$0" />
-                    <ui:Label name="PromoBonusText" text="+0%" />
-                    <ui:Label name="HoursAlignText" text="40 hrs/wk" />
-                    <ui:Label name="SalaryText" text="Weekly Income: $0" class="job-salary" />
-                </ui:VisualElement>
-
-                <ui:VisualElement class="card" style="margin-top: 10px;">
-                    <ui:Label name="HoursText" text="40 LABORED HOURS / WEEK" style="-unity-font-style: bold; margin-bottom: 5px; color: #FFFFFF;" />
-                    <ui:VisualElement class="row">
-                        <ui:Button name="BtnLessHours" text="Less Hours (-5)" class="apply-button" style="flex-grow: 1; margin-right: 5px;" />
-                        <ui:Button name="BtnMoreHours" text="More Hours (+5)" class="apply-button" style="flex-grow: 1; margin-left: 5px;" />
+                    
+                    <!-- ID Badge / Dossier -->
+                    <ui:VisualElement class="stunning-card">
+                        <ui:VisualElement class="corporate-badge">
+                            <ui:Label name="JobTitleText" text="Level 1 Job" class="corporate-badge-text" />
+                        </ui:VisualElement>
+                        
+                        <ui:VisualElement class="stat-row">
+                            <ui:Label text="Base Salary" class="stat-label" />
+                            <ui:Label name="BaseSalaryText" text="$0" class="stat-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="stat-row">
+                            <ui:Label text="Level Bonus" class="stat-label" />
+                            <ui:Label name="PromoBonusText" text="+0%" class="stat-value" style="color: #F1C40F;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="stat-row" style="margin-top: 15px; border-top-width: 1px; border-color: rgba(255,255,255,0.2); padding-top: 15px;">
+                            <ui:Label text="WEEKLY INCOME" class="stat-label" style="font-size: 32px; -unity-font-style: bold; color: #FFFFFF;" />
+                            <ui:Label name="SalaryText" text="$0" class="salary-highlight" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                </ui:VisualElement>
 
-                <ui:Button name="BtnPromotion" text="Ask Manager for Promotion" class="apply-button" style="margin-top: 10px; background-color: #F1C40F; color: #000000;" />
+                    <!-- Hours Slider -->
+                    <ui:VisualElement class="stunning-card">
+                        <ui:Label text="WORKING HOURS" class="stunning-card-header" />
+                        <ui:VisualElement class="stat-row">
+                            <ui:Label name="HoursAlignText" text="40 hrs/wk" class="stat-value" style="color: #38BDF8;" />
+                            <ui:Label name="HoursText" text="STANDARD SHIFT" class="stat-label" />
+                        </ui:VisualElement>
+                        <ui:SliderInt name="SliderJobHours" low-value="0" high-value="80" value="40" class="animated-slider" />
+                        <ui:Label text="Adjusting hours impacts income and stress accumulation." style="font-size: 20px; color: #64748B; white-space: normal;" />
+                    </ui:VisualElement>
 
-                <ui:VisualElement name="regularTasksContainer" class="card" style="margin-top: 10px;">
-                    <ui:Label name="regularTasksStatus" text="REQUIRED WEEKLY DUTIES" class="job-title" style="font-size: 12px; color: #E74C3C;" />
-                    <ui:Button name="BtnRegularTask" text="Perform Core Duty" class="danger-button" style="margin-top: 5px;" />
-                </ui:VisualElement>
+                    <!-- Promotion -->
+                    <ui:Button name="BtnPromotion" text="REQUEST PROMOTION" class="promo-button" />
 
-                <ui:VisualElement name="extraTasksContainer" class="card" style="margin-top: 10px;">
-                    <ui:Label name="extraTasksStatus" text="EXTRA TASKS (SURGES PERFORMANCE)" class="job-title" style="font-size: 12px; color: #2ECC71;" />
-                    <ui:Button name="BtnExtraTask" text="Work Overtime Task" class="apply-button" style="margin-top: 5px; background-color: #2ECC71;" />
-                </ui:VisualElement>
+                    <!-- Tasks -->
+                    <ui:VisualElement class="stunning-card" style="margin-top: 30px;">
+                        <ui:VisualElement class="stat-row">
+                            <ui:Label text="CORE DUTIES" class="stunning-card-header" style="margin-bottom: 0;" />
+                            <ui:Label name="regularTasksStatus" text="PENDING" class="stat-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="regularTasksContainer" style="margin-top: 15px;" />
+                    </ui:VisualElement>
 
-                <ui:Button name="BtnQuitJob" text="Resign &amp; Walk Out" class="danger-button" style="margin-top: 20px;" />
+                    <ui:VisualElement class="stunning-card">
+                        <ui:VisualElement class="stat-row">
+                            <ui:Label text="OVERTIME (OPTIONAL)" class="stunning-card-header" style="color: #2ECC71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.5); margin-bottom: 0;" />
+                            <ui:Label name="extraTasksStatus" text="AVAILABLE" class="stat-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="extraTasksContainer" style="margin-top: 15px;" />
+                    </ui:VisualElement>
+
+                    <!-- Resign -->
+                    <ui:Button name="BtnQuitJob" text="TERMINATE CONTRACT (RESIGN)" class="danger-button-advanced" style="margin-top: 30px; margin-bottom: 40px;" />
+
                 </ui:ScrollView>
-            </ui:VisualElement>
-        </ui:VisualElement>
+            </ui:VisualElement>        </ui:VisualElement>
     </ui:VisualElement>
 
     <!-- BOTTOM NAV & FOOTER -->

@@ -1256,3 +1256,185 @@
     translate: 0 1500px;
     opacity: 0;
 }
+
+/* --- CAREERS OVERHAUL STYLES --- */
+
+.stunning-card {
+    background-color: rgba(11, 19, 43, 0.8);
+    border-color: rgba(56, 189, 248, 0.4);
+    border-width: 1px;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.stunning-card-header {
+    font-size: 36px;
+    -unity-font-style: bold;
+    color: #38BDF8;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.corporate-badge {
+    background-color: rgba(241, 196, 15, 0.1);
+    border-color: #F1C40F;
+    border-width: 2px;
+    border-radius: 12px;
+    padding: 10px 20px;
+    align-self: flex-start;
+    margin-bottom: 20px;
+}
+
+.corporate-badge-text {
+    color: #F1C40F;
+    font-size: 32px;
+    -unity-font-style: bold;
+    text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+}
+
+.stat-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.stat-label {
+    font-size: 28px;
+    color: #94A3B8;
+}
+
+.stat-value {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: #FFFFFF;
+}
+
+.salary-highlight {
+    color: #2ECC71;
+    font-size: 34px;
+    text-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+}
+
+.animated-slider {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.animated-slider .unity-base-slider__tracker {
+    background-color: #1E293B;
+    border-radius: 6px;
+    height: 12px;
+    border-width: 0;
+}
+
+.animated-slider .unity-base-slider__dragger {
+    background-color: #38BDF8;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border-width: 2px;
+    border-color: #FFFFFF;
+    margin-top: -9px;
+    transition: scale 0.2s ease-in-out;
+}
+
+.animated-slider .unity-base-slider__dragger:hover {
+    scale: 1.2;
+    background-color: #F1C40F;
+}
+
+.promo-button {
+    background-color: #F1C40F;
+    color: #0B132B;
+    font-size: 32px;
+    -unity-font-style: bold;
+    padding: 20px;
+    border-radius: 16px;
+    border-width: 0;
+    transition: scale 0.2s ease-in-out, background-color 0.2s;
+    margin-top: 15px;
+}
+
+.promo-button:hover {
+    scale: 1.03;
+    background-color: #FFD700;
+}
+
+.promo-button:active {
+    scale: 0.97;
+}
+
+.danger-button-advanced {
+    background-color: transparent;
+    border-color: #E74C3C;
+    border-width: 3px;
+    color: #E74C3C;
+    font-size: 28px;
+    -unity-font-style: bold;
+    padding: 20px;
+    border-radius: 16px;
+    transition: scale 0.2s, background-color 0.2s;
+}
+
+.danger-button-advanced:hover {
+    background-color: rgba(231, 76, 60, 0.2);
+    scale: 1.02;
+}
+
+.danger-button-advanced:active {
+    scale: 0.98;
+    background-color: rgba(231, 76, 60, 0.5);
+    color: white;
+}
+
+.task-card-stunning {
+    background-color: rgba(30, 41, 59, 0.8);
+    border-left-width: 6px;
+    border-color: #38BDF8;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    flex-direction: row;
+    align-items: center;
+    transition: scale 0.2s, background-color 0.2s;
+}
+
+.task-card-stunning:hover {
+    scale: 1.02;
+    background-color: rgba(56, 189, 248, 0.15);
+}
+
+.task-card-stunning.extra {
+    border-color: #2ECC71;
+}
+
+.task-card-stunning.extra:hover {
+    background-color: rgba(46, 204, 113, 0.15);
+}
+
+.btn-task-stunning {
+    background-color: #38BDF8;
+    color: white;
+    font-size: 28px;
+    -unity-font-style: bold;
+    padding: 15px 30px;
+    border-radius: 12px;
+    border-width: 0;
+    transition: scale 0.2s;
+    margin-left: 20px;
+}
+
+.btn-task-stunning:hover {
+    scale: 1.05;
+}
+
+.btn-task-stunning:active {
+    scale: 0.95;
+}
+
+.btn-task-stunning.extra {
+    background-color: #2ECC71;
+}
+
