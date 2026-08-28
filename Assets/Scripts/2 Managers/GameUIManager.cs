@@ -188,6 +188,13 @@ public class GameUIManager : MonoBehaviour
             {
                 closeBtn.clicked += () => AnimateCloseMenu(page);
             }
+
+            // Wire drag to close
+            var dragHeader = page?.Q<VisualElement>("DragHeader");
+            if (dragHeader != null)
+            {
+                SetupDragToClose(dragHeader, page);
+            }
         }
 
         HideAllTabs();
@@ -653,6 +660,55 @@ public class GameUIManager : MonoBehaviour
         AnimateOpenMenu(targetRoot);
     }
 
+
+
+    private void SetupDragToClose(VisualElement dragArea, VisualElement menuRoot)
+    {
+        bool isDragging = false;
+        Vector2 startPos = Vector2.zero;
+        
+        dragArea.RegisterCallback<PointerDownEvent>(evt => {
+            var wrapper = menuRoot.Q<VisualElement>("DynamicMiddleWrapper");
+            if (wrapper == null) return;
+            isDragging = true;
+            startPos = evt.position;
+            dragArea.CapturePointer(evt.pointerId);
+            
+            // Disable USS transitions for instant 1:1 dragging
+            wrapper.style.transitionDuration = new List<TimeValue> { new TimeValue(0) };
+        });
+
+        dragArea.RegisterCallback<PointerMoveEvent>(evt => {
+            if (!isDragging) return;
+            var wrapper = menuRoot.Q<VisualElement>("DynamicMiddleWrapper");
+            if (wrapper == null) return;
+            
+            float deltaY = evt.position.y - startPos.y;
+            if (deltaY < 0) deltaY = 0; // Only drag down
+            
+            wrapper.style.translate = new Translate(0, deltaY);
+        });
+
+        dragArea.RegisterCallback<PointerUpEvent>(evt => {
+            if (!isDragging) return;
+            isDragging = false;
+            dragArea.ReleasePointer(evt.pointerId);
+            
+            var wrapper = menuRoot.Q<VisualElement>("DynamicMiddleWrapper");
+            if (wrapper == null) return;
+            
+            float deltaY = evt.position.y - startPos.y;
+            
+            // Restore USS transition
+            wrapper.style.transitionDuration = StyleKeyword.Null;
+            wrapper.style.translate = StyleKeyword.Null;
+            
+            if (deltaY > 250) // Threshold to snap close
+            {
+                AnimateCloseMenu(menuRoot);
+            }
+        });
+    }
 
     // --- ANIMATED MENU TRANSITIONS ---
 

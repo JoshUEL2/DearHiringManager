@@ -11,7 +11,6 @@
                         <ui:Label name="JobText" text="Unemployed" style="color: #38BDF8; font-size: 28px; -unity-font-style: bold; margin: 0; white-space: normal;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Button name="BtnCloseMenu" text="✕" style="background-color: rgba(231, 76, 60, 0.9); color: white; font-size: 36px; -unity-font-style: bold; width: 56px; height: 56px; border-radius: 28px; border-width: 0; padding: 0; margin: 0; flex-shrink: 0;" />
             </ui:VisualElement>
             
             <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
@@ -39,8 +38,17 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement name="DynamicMiddleWrapper" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128;">
-            <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin: 0; margin-bottom: 20px;" />
+        <ui:VisualElement name="DynamicMiddleWrapper" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128; border-top-left-radius: 40px; border-top-right-radius: 40px; padding-top: 20px; padding-left: 20px; padding-right: 20px;">
+            <!-- DRAG HEADER -->
+            <ui:VisualElement name="DragHeader" style="align-items: center; margin-bottom: 20px;">
+                <!-- Drag Handle Pill -->
+                <ui:VisualElement style="width: 120px; height: 8px; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 20px;" />
+                
+                <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
+                    <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin: 0;" />
+                    <ui:Button name="BtnCloseMenu" text="✕" style="background-color: transparent; color: #E74C3C; font-size: 50px; -unity-font-style: bold; border-width: 0; padding: 0; margin: 0; cursor: link;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
 
             <ui:Label text="Legal blue hustles have 0% arrest risks. Red illegal actions carry severe jail time risks." class="sub-text" />
             <ui:ScrollView style="flex-grow: 1; width: 100%;" />
