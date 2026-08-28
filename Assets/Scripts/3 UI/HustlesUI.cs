@@ -45,34 +45,48 @@ public class HustlesUI
         var data = GameManager.Instance.currentData;
         int hustlesLeft = 3 - data.hustlesCompletedThisWeek;
         
-        Label limitLbl = new Label($"Hustles Available This Week: {hustlesLeft} / 3");
+        VisualElement limitCard = new VisualElement();
+        limitCard.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f, 0.95f));
+        limitCard.style.paddingTop = 15; limitCard.style.paddingBottom = 15; limitCard.style.paddingLeft = 20; limitCard.style.paddingRight = 20;
+        limitCard.style.borderRadius = 12;
+        limitCard.style.marginBottom = 25;
+        limitCard.style.flexDirection = FlexDirection.Row;
+        limitCard.style.justifyContent = Justify.SpaceBetween;
+        limitCard.style.alignItems = Align.Center;
+
+        Label limitLbl = new Label("WEEKLY ENERGY LIMIT");
         limitLbl.style.fontSize = 28;
+        limitLbl.style.color = new StyleColor(new Color(1f, 1f, 1f));
         limitLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
-        limitLbl.style.color = hustlesLeft > 0 ? new Color(0.18f, 0.8f, 0.44f) : Color.red;
-        limitLbl.style.marginBottom = 15;
-        limitLbl.style.alignSelf = Align.Center;
-        hustleScrollView.Add(limitLbl);
+
+        Label limitVal = new Label($"{hustlesLeft} REMAINING");
+        limitVal.style.fontSize = 28;
+        limitVal.style.color = hustlesLeft > 0 ? new Color(0.18f, 0.8f, 0.44f) : Color.red;
+        limitVal.style.unityFontStyleAndWeight = FontStyle.Bold;
+
+        limitCard.Add(limitLbl);
+        limitCard.Add(limitVal);
+        hustleScrollView.Add(limitCard);
 
         foreach (var hustle in availableHustles)
         {
             bool isIllegal = hustle.riskPercent > 0;
             VisualElement card = new VisualElement();
-            card.AddToClassList(isIllegal ? "danger-card" : "job-card");
+            card.AddToClassList("task-card-stunning");
+            card.style.flexDirection = FlexDirection.Column; card.style.alignItems = Align.Stretch;
+            if (isIllegal) card.style.borderLeftColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
 
             VisualElement row = new VisualElement();
             row.AddToClassList("row");
 
             Label titleLabel = new Label(hustle.name);
-            titleLabel.AddToClassList(isIllegal ? "danger-text" : "job-title");
+            titleLabel.style.fontSize = 32; titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold; titleLabel.style.whiteSpace = WhiteSpace.Normal; titleLabel.style.color = isIllegal ? new Color(0.9f, 0.3f, 0.24f) : new Color(0.22f, 0.74f, 0.97f);
             
-            if (!isIllegal) 
-            {
-                titleLabel.style.color = new StyleColor(new Color(1f, 1f, 1f)); // White for safe
-            }
+            
             row.Add(titleLabel);
 
             Label descLabel = new Label(hustle.description);
-            descLabel.AddToClassList("job-desc");
+            descLabel.style.fontSize = 22; descLabel.style.color = new Color(0.8f, 0.8f, 0.8f); descLabel.style.whiteSpace = WhiteSpace.Normal; descLabel.style.marginTop = 10; descLabel.style.marginBottom = 15;
 
             VisualElement bottomRow = new VisualElement();
             bottomRow.AddToClassList("row");
@@ -104,14 +118,14 @@ public class HustlesUI
             if (isOnCooldown)
             {
                 performBtn.text = $"Cooldown: {data.hustleCooldownWeeks[cooldownIndex]} wks";
-                performBtn.AddToClassList("danger-button");
+                performBtn.AddToClassList("btn-task-stunning"); performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
                 performBtn.SetEnabled(false);
                 performBtn.style.opacity = 0.5f;
             }
             else
             {
                 performBtn.text = "Perform";
-                performBtn.AddToClassList(isIllegal ? "danger-button" : "apply-button");
+                performBtn.AddToClassList("btn-task-stunning"); if (isIllegal) performBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.3f, 0.24f));
                 
                 var localHustle = hustle;
                 performBtn.clicked += () => OnHustleClicked(localHustle);

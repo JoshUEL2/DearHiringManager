@@ -50,7 +50,9 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <ui:Label text="Legal blue hustles have 0% arrest risks. Red illegal actions carry severe jail time risks." class="sub-text" />
+            <ui:VisualElement style="background-color: rgba(231, 76, 60, 0.1); border-color: #E74C3C; border-left-width: 4px; padding: 15px; margin-bottom: 20px;">
+                <ui:Label text="WARNING: Legal blue hustles carry 0% arrest risk. Red illegal actions carry severe jail time risks." style="color: #E74C3C; font-size: 24px; white-space: normal;" />
+            </ui:VisualElement>
             <ui:ScrollView style="flex-grow: 1; width: 100%;" />
         </ui:VisualElement>
     </ui:VisualElement>
