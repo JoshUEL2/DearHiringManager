@@ -558,7 +558,7 @@ public class CareerUI
         q.style.fontSize = 24;
         q.style.whiteSpace = WhiteSpace.Normal;
         q.style.marginBottom = 30;
-        q.style.textAlign = TextAnchor.MiddleCenter;
+        q.style.unityTextAlign = TextAnchor.MiddleCenter;
         card.Add(q);
 
         System.Action quitAction = () => {
@@ -592,7 +592,7 @@ public class CareerUI
 
     private void OnRequestLessHours()
     {
-        int week = GameManager.Instance.currentData.week;
+        int week = GameManager.Instance.currentData.currentWeek;
         if (PlayerPrefs.GetInt("lastHourRequestLessWeek", -1) == week)
         {
             GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'LESS HOURS' request per week. Get back to work." });
@@ -630,7 +630,7 @@ public class CareerUI
 
     private void OnRequestMoreHours()
     {
-        int week = GameManager.Instance.currentData.week;
+        int week = GameManager.Instance.currentData.currentWeek;
         if (PlayerPrefs.GetInt("lastHourRequestMoreWeek", -1) == week)
         {
             GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'MORE HOURS' request per week. Get back to work." });
