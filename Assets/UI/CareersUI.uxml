@@ -78,15 +78,28 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
 
-                    <!-- Hours Slider -->
+                    <!-- Performance & Hours -->
                     <ui:VisualElement class="stunning-card">
-                        <ui:Label text="WORKING HOURS" class="stunning-card-header" />
+                        <ui:Label text="CORPORATE METRICS" class="stunning-card-header" />
+                        
                         <ui:VisualElement class="stat-row">
+                            <ui:Label text="Performance Rating" class="stat-label" />
+                            <ui:Label name="PerfVal" text="0%" class="stat-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="height: 12px; background-color: rgba(255,255,255,0.1); border-radius: 6px; margin-bottom: 20px;">
+                            <ui:VisualElement name="PerfFill" style="height: 100%; width: 0%; background-color: #F1C40F; border-radius: 6px;" />
+                        </ui:VisualElement>
+
+                        <ui:VisualElement class="stat-row" style="margin-top: 15px; border-top-width: 1px; border-color: rgba(255,255,255,0.2); padding-top: 15px;">
                             <ui:Label name="HoursAlignText" text="40 hrs/wk" class="stat-value" style="color: #38BDF8;" />
                             <ui:Label name="HoursText" text="STANDARD SHIFT" class="stat-label" />
                         </ui:VisualElement>
-                        <ui:SliderInt name="SliderJobHours" low-value="0" high-value="80" value="40" class="animated-slider" />
-                        <ui:Label text="Adjusting hours impacts income and stress accumulation." style="font-size: 20px; color: #64748B; white-space: normal;" />
+
+                        <ui:VisualElement class="row" style="margin-top: 15px;">
+                            <ui:Button name="BtnRequestLessHours" text="REQUEST -5 HRS" class="btn-task-stunning" style="flex-grow: 1; margin-left: 0; margin-right: 5px; font-size: 20px; background-color: #E74C3C;" />
+                            <ui:Button name="BtnRequestMoreHours" text="REQUEST +5 HRS" class="btn-task-stunning" style="flex-grow: 1; margin-left: 5px; font-size: 20px; background-color: #2ECC71;" />
+                        </ui:VisualElement>
+                        <ui:Label text="Caution: Repeated schedule modifications may trigger involuntary termination." style="font-size: 18px; color: #E74C3C; margin-top: 15px; white-space: normal;" />
                     </ui:VisualElement>
 
                     <!-- Promotion -->
@@ -110,7 +123,7 @@
                     </ui:VisualElement>
 
                     <!-- Resign -->
-                    <ui:Button name="BtnQuitJob" text="TERMINATE CONTRACT (RESIGN)" class="danger-button-advanced" style="margin-top: 30px; margin-bottom: 40px;" />
+                    <ui:Button name="BtnQuitJob" text="QUIT JOB" class="danger-button-advanced" style="margin-top: 30px; margin-bottom: 40px;" />
 
                 </ui:ScrollView>
             </ui:VisualElement>        </ui:VisualElement>

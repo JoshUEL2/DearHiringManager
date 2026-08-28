@@ -22,7 +22,8 @@ public class CareerUI
     private Label salaryText;
 
     private Label hoursText;
-    private UnityEngine.UIElements.SliderInt sliderJobHours;
+    private Button btnRequestLessHours;
+    private Button btnRequestMoreHours;
     
 
     private Label perfProgressText;
@@ -57,7 +58,8 @@ public class CareerUI
         salaryText = root.Q<Label>("SalaryText");
 
         hoursText = root.Q<Label>("HoursText");
-        sliderJobHours = root.Q<UnityEngine.UIElements.SliderInt>("SliderJobHours");
+        btnRequestLessHours = root.Q<Button>("BtnRequestLessHours");
+        btnRequestMoreHours = root.Q<Button>("BtnRequestMoreHours");
         
 
         perfProgressText = root.Q<Label>("PerfVal");
@@ -72,13 +74,8 @@ public class CareerUI
         btnQuitJob = root.Q<Button>("BtnQuitJob");
 
         // Hook up buttons
-        if (sliderJobHours != null) {
-            sliderJobHours.RegisterValueChangedCallback(evt => {
-                PlayerPrefs.SetInt("currentJobHours", evt.newValue);
-                PlayerPrefs.Save();
-                UpdateActiveJobUI();
-            });
-        }
+        if (btnRequestLessHours != null) btnRequestLessHours.clicked += OnRequestLessHours;
+        if (btnRequestMoreHours != null) btnRequestMoreHours.clicked += OnRequestMoreHours;
         if (btnPromotion != null) btnPromotion.clicked += OnPromotionClicked;
         if (btnQuitJob != null) btnQuitJob.clicked += OnQuitJobClicked;
 
@@ -114,7 +111,7 @@ public class CareerUI
     {
         var data = GameManager.Instance.currentData;
         int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
-        if (sliderJobHours != null) sliderJobHours.SetValueWithoutNotify(currentHours);
+        
         int jobLevel = PlayerPrefs.GetInt("jobLevel", 1);
         
         if (jobTitleText != null) jobTitleText.text = $"Level {jobLevel} {data.jobTitle}";
@@ -504,19 +501,6 @@ public class CareerUI
         GameUIManager.Instance.CheckJailStatus();
     }
 
-    private void OnQuitJobClicked()
-    {
-        GameUIManager.Instance.ShowPopup(new RandomEvent { 
-            title = "RESIGNED", 
-            description = $"You packed your items and walked away from '{GameManager.Instance.currentData.jobTitle}'. UNEMPLOYED!" 
-        });
-        GameManager.Instance.currentData.jobTitle = "Unemployed";
-        PlayerPrefs.SetInt("jobLevel", 1);
-        PlayerPrefs.SetInt("currentJobHours", 40);
-        GameManager.Instance.SaveGame();
-        RefreshView();
-        GameUIManager.Instance.CheckJailStatus();
-    }
     private void OnPromotionClicked()
     {
         float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
@@ -541,6 +525,163 @@ public class CareerUI
             });
         }
         RefreshView();
+    }
+
+
+    private void OnQuitJobClicked()
+    {
+        ShowResignationSurvey();
+    }
+
+    private void ShowResignationSurvey()
+    {
+        var root = btnQuitJob.panel.visualTree;
+        var overlay = new VisualElement();
+        overlay.style.position = Position.Absolute;
+        overlay.style.top = 0; overlay.style.bottom = 0; overlay.style.left = 0; overlay.style.right = 0;
+        overlay.style.backgroundColor = new StyleColor(new Color(0.06f, 0.09f, 0.16f, 0.95f));
+        overlay.style.justifyContent = Justify.Center;
+        overlay.style.alignItems = Align.Center;
+        overlay.pickingMode = PickingMode.Position;
+
+        var card = new VisualElement();
+        card.AddToClassList("stunning-card");
+        card.style.width = Length.Percent(80);
+        card.style.alignItems = Align.Center;
+
+        Label title = new Label("EXIT INTERVIEW");
+        title.AddToClassList("stunning-card-header");
+        card.Add(title);
+
+        Label q = new Label("We're sad to see you go! Which of our core corporate values did we fail to adequately indoctrinate into you?");
+        q.style.color = Color.white;
+        q.style.fontSize = 24;
+        q.style.whiteSpace = WhiteSpace.Normal;
+        q.style.marginBottom = 30;
+        q.style.textAlign = TextAnchor.MiddleCenter;
+        card.Add(q);
+
+        System.Action quitAction = () => {
+            root.Remove(overlay);
+            GameManager.Instance.currentData.jobTitle = "Unemployed";
+            PlayerPrefs.SetInt("jobLevel", 1);
+            PlayerPrefs.SetInt("currentJobHours", 40);
+            GameManager.Instance.SaveGame();
+            RefreshView();
+            GameUIManager.Instance.CheckJailStatus();
+            
+            GameUIManager.Instance.ShowPopup(new RandomEvent { 
+                title = "RESIGNED", 
+                description = "You packed your items and walked away. HR labeled you a 'flight risk'. UNEMPLOYED!" 
+            });
+        };
+
+        Button b1 = new Button(quitAction) { text = "I failed to 'Synergize with the Paradigm'" };
+        b1.AddToClassList("btn-task-stunning"); b1.style.marginBottom = 15; b1.style.width = Length.Percent(100);
+
+        Button b2 = new Button(quitAction) { text = "I remembered I have free will" };
+        b2.AddToClassList("btn-task-stunning"); b2.style.marginBottom = 15; b2.style.width = Length.Percent(100);
+        
+        Button b3 = new Button(() => { root.Remove(overlay); }) { text = "Cancel Resignation" };
+        b3.AddToClassList("btn-task-stunning"); b3.style.width = Length.Percent(100); b3.style.backgroundColor = new Color(0.5f, 0.5f, 0.5f);
+
+        card.Add(b1); card.Add(b2); card.Add(b3);
+        overlay.Add(card);
+        root.Add(overlay);
+    }
+
+    private void OnRequestLessHours()
+    {
+        int week = GameManager.Instance.currentData.week;
+        if (PlayerPrefs.GetInt("lastHourRequestLessWeek", -1) == week)
+        {
+            GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'LESS HOURS' request per week. Get back to work." });
+            return;
+        }
+        PlayerPrefs.SetInt("lastHourRequestLessWeek", week);
+
+        int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
+        if (currentHours <= 0) return;
+
+        float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
+        
+        // Accepted with good performance (>40%)
+        if (perf >= 0.40f) {
+            PlayerPrefs.SetInt("currentJobHours", Mathf.Max(0, currentHours - 5));
+            PlayerPrefs.SetFloat("jobPerformance", perf - 0.20f); // Costs performance
+            IncrementHourChangeTally();
+            
+            if (PlayerPrefs.GetInt("hourChangeTally", 0) > 3) {
+                FirePlayer();
+            } else {
+                GameUIManager.Instance.ShowPopup(new RandomEvent { 
+                    title = "WORK HOURS APPROVED", 
+                    description = $"Your request for FEWER hours was APPROVED. Manager noted satisfactory Performance. Schedule reduces by -5 hours." 
+                });
+            }
+        } else {
+            GameUIManager.Instance.ShowPopup(new RandomEvent { 
+                title = "WORK HOURS REJECTED", 
+                description = $"Your request for FEWER hours was REJECTED. Manager barked: 'Your Performance ({(perf * 100):F0}%) is too low to slack off!'" 
+            });
+        }
+        RefreshView();
+    }
+
+    private void OnRequestMoreHours()
+    {
+        int week = GameManager.Instance.currentData.week;
+        if (PlayerPrefs.GetInt("lastHourRequestMoreWeek", -1) == week)
+        {
+            GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'MORE HOURS' request per week. Get back to work." });
+            return;
+        }
+        PlayerPrefs.SetInt("lastHourRequestMoreWeek", week);
+
+        int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
+        if (currentHours >= 80) return;
+
+        // 50/50 chance
+        if (UnityEngine.Random.value > 0.5f) {
+            PlayerPrefs.SetInt("currentJobHours", Mathf.Min(80, currentHours + 5));
+            IncrementHourChangeTally();
+            
+            if (PlayerPrefs.GetInt("hourChangeTally", 0) > 3) {
+                FirePlayer();
+            } else {
+                GameUIManager.Instance.ShowPopup(new RandomEvent { 
+                    title = "WORK HOURS APPROVED", 
+                    description = "System APPROVED additional +5 hours of labor package. Generate extra income!" 
+                });
+            }
+        } else {
+            GameUIManager.Instance.ShowPopup(new RandomEvent { 
+                title = "WORK HOURS REJECTED", 
+                description = "Manager rejected more hours: 'Labor hours quota is saturated.'" 
+            });
+        }
+        RefreshView();
+    }
+
+    private void IncrementHourChangeTally()
+    {
+        int tally = PlayerPrefs.GetInt("hourChangeTally", 0);
+        PlayerPrefs.SetInt("hourChangeTally", tally + 1);
+        PlayerPrefs.Save();
+    }
+
+    private void FirePlayer()
+    {
+        GameManager.Instance.currentData.jobTitle = "Unemployed";
+        PlayerPrefs.SetInt("jobLevel", 1);
+        PlayerPrefs.SetInt("currentJobHours", 40);
+        PlayerPrefs.SetInt("hourChangeTally", 0); // reset for next job
+        GameManager.Instance.SaveGame();
+        
+        GameUIManager.Instance.ShowPopup(new RandomEvent { 
+            title = "TERMINATED", 
+            description = "You have been fired!\n\nHR caught wind of your constant schedule manipulation. 'Fickle employees are a liability,' they said as security escorted you out." 
+        });
     }
 
     // Helper classes for Task generation
