@@ -721,7 +721,6 @@ public class GameUIManager : MonoBehaviour
     }
     private void RefreshDashboardUI(string playerName)
     {
-        try {
         var data = GameManager.Instance.currentData;
         var roots = new[] { dashboardRoot, careersRoot, hustlesRoot, educationRoot, activitiesRoot };
         
