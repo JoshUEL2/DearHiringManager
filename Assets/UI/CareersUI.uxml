@@ -59,7 +59,7 @@
                 <ui:ScrollView name="ActiveJobScrollView" style="flex-grow: 1;">
                     
                     <!-- ID Badge / Dossier -->
-                    <ui:VisualElement class="stunning-card">
+                    <ui:VisualElement class="stunning-card" style="margin-bottom: 20px;">
                         <ui:VisualElement class="corporate-badge">
                             <ui:Label name="JobTitleText" text="Level 1 Job" class="corporate-badge-text" />
                         </ui:VisualElement>
@@ -68,58 +68,61 @@
                             <ui:Label text="Base Salary" class="stat-label" />
                             <ui:Label name="BaseSalaryText" text="$0" class="stat-value" />
                         </ui:VisualElement>
+                        
                         <ui:VisualElement class="stat-row">
                             <ui:Label text="Level Bonus" class="stat-label" />
-                            <ui:Label name="PromoBonusText" text="+0%" class="stat-value" style="color: #F1C40F;" />
+                            <ui:Label name="PromoBonusText" text="+0%" class="stat-value" style="color: #2ECC71;" />
                         </ui:VisualElement>
-                        <ui:VisualElement class="stat-row" style="margin-top: 15px; border-top-width: 1px; border-color: rgba(255,255,255,0.2); padding-top: 15px;">
-                            <ui:Label text="WEEKLY INCOME" class="stat-label" style="font-size: 32px; -unity-font-style: bold; color: #FFFFFF;" />
-                            <ui:Label name="SalaryText" text="$0" class="salary-highlight" />
+                        
+                        <ui:VisualElement class="stat-row" style="margin-top: 20px; border-top-width: 1px; border-color: rgba(255,255,255,0.1); padding-top: 20px;">
+                            <ui:Label text="WEEKLY INCOME" class="stat-label" style="font-size: 36px; -unity-font-style: bold; color: #FFFFFF;" />
+                            <ui:Label name="SalaryText" text="$0" class="salary-highlight" style="font-size: 42px; text-shadow: none;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
 
                     <!-- Performance & Hours -->
-                    <ui:VisualElement class="stunning-card">
-                        <ui:Label text="CORPORATE METRICS" class="stunning-card-header" />
+                    <ui:VisualElement class="stunning-card" style="margin-bottom: 25px;">
+                        <ui:VisualElement class="stat-row" style="margin-bottom: 5px;">
+                            <ui:Label text="Performance Rating" class="stat-label" style="font-size: 28px;" />
+                            <ui:Label name="PerfVal" text="0%" class="stat-value" style="font-size: 28px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="height: 14px; background-color: rgba(255,255,255,0.05); border-radius: 7px; margin-bottom: 25px;">
+                            <ui:VisualElement name="PerfFill" style="height: 100%; width: 0%; background-color: #38BDF8; border-radius: 7px;" />
+                        </ui:VisualElement>
+
+                        <ui:VisualElement class="stat-row" style="margin-bottom: 15px;">
+                            <ui:Label text="Current Schedule" class="stat-label" style="font-size: 28px;" />
+                            <ui:Label name="HoursAlignText" text="40 hrs/wk" class="stat-value" style="color: #38BDF8; font-size: 28px;" />
+                            <!-- Hide the old HoursText since it's redundant but kept for C# binding -->
+                            <ui:Label name="HoursText" text="" style="display: none;" />
+                        </ui:VisualElement>
+
+                        <ui:VisualElement class="row" style="margin-top: 10px;">
+                            <ui:Button name="BtnRequestLessHours" text="Request -5 Hrs" class="btn-task-stunning" style="flex-grow: 1; margin-left: 0; margin-right: 8px; font-size: 24px; background-color: rgba(231, 76, 60, 0.2); border-width: 2px; border-color: #E74C3C; color: #E74C3C; padding: 15px;" />
+                            <ui:Button name="BtnRequestMoreHours" text="Request +5 Hrs" class="btn-task-stunning" style="flex-grow: 1; margin-left: 8px; font-size: 24px; background-color: rgba(46, 204, 113, 0.2); border-width: 2px; border-color: #2ECC71; color: #2ECC71; padding: 15px;" />
+                        </ui:VisualElement>
                         
-                        <ui:VisualElement class="stat-row">
-                            <ui:Label text="Performance Rating" class="stat-label" />
-                            <ui:Label name="PerfVal" text="0%" class="stat-value" />
-                        </ui:VisualElement>
-                        <ui:VisualElement style="height: 12px; background-color: rgba(255,255,255,0.1); border-radius: 6px; margin-bottom: 20px;">
-                            <ui:VisualElement name="PerfFill" style="height: 100%; width: 0%; background-color: #F1C40F; border-radius: 6px;" />
-                        </ui:VisualElement>
-
-                        <ui:VisualElement class="stat-row" style="margin-top: 15px; border-top-width: 1px; border-color: rgba(255,255,255,0.2); padding-top: 15px;">
-                            <ui:Label name="HoursAlignText" text="40 hrs/wk" class="stat-value" style="color: #38BDF8;" />
-                            <ui:Label name="HoursText" text="STANDARD SHIFT" class="stat-label" />
-                        </ui:VisualElement>
-
-                        <ui:VisualElement class="row" style="margin-top: 15px;">
-                            <ui:Button name="BtnRequestLessHours" text="REQUEST -5 HRS" class="btn-task-stunning" style="flex-grow: 1; margin-left: 0; margin-right: 5px; font-size: 20px; background-color: #E74C3C;" />
-                            <ui:Button name="BtnRequestMoreHours" text="REQUEST +5 HRS" class="btn-task-stunning" style="flex-grow: 1; margin-left: 5px; font-size: 20px; background-color: #2ECC71;" />
-                        </ui:VisualElement>
-                        <ui:Label text="Caution: Repeated schedule modifications may trigger involuntary termination." style="font-size: 18px; color: #E74C3C; margin-top: 15px; white-space: normal;" />
+                        <ui:Label text="Caution: Repeated schedule modifications may trigger involuntary termination." style="font-size: 20px; color: #F87171; margin-top: 20px; white-space: normal; -unity-text-align: middle-center;" />
                     </ui:VisualElement>
 
                     <!-- Promotion -->
-                    <ui:Button name="BtnPromotion" text="REQUEST PROMOTION" class="promo-button" />
+                    <ui:Button name="BtnPromotion" text="Request Promotion" class="promo-button" />
 
                     <!-- Tasks -->
-                    <ui:VisualElement class="stunning-card" style="margin-top: 30px;">
-                        <ui:VisualElement class="stat-row">
-                            <ui:Label text="CORE DUTIES" class="stunning-card-header" style="margin-bottom: 0;" />
-                            <ui:Label name="regularTasksStatus" text="PENDING" class="stat-value" />
+                    <ui:VisualElement style="margin-top: 15px;">
+                        <ui:VisualElement class="row" style="align-items: center; margin-bottom: 15px; margin-left: 10px;">
+                            <ui:Label text="Core Duties" style="font-size: 32px; -unity-font-style: bold; color: #FFFFFF;" />
+                            <ui:Label name="regularTasksStatus" text="PENDING" style="font-size: 24px; -unity-font-style: bold; margin-left: 15px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="regularTasksContainer" style="margin-top: 15px;" />
+                        <ui:VisualElement name="regularTasksContainer" />
                     </ui:VisualElement>
 
-                    <ui:VisualElement class="stunning-card">
-                        <ui:VisualElement class="stat-row">
-                            <ui:Label text="OVERTIME (OPTIONAL)" class="stunning-card-header" style="color: #2ECC71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.5); margin-bottom: 0;" />
-                            <ui:Label name="extraTasksStatus" text="AVAILABLE" class="stat-value" />
+                    <ui:VisualElement style="margin-top: 25px;">
+                        <ui:VisualElement class="row" style="align-items: center; margin-bottom: 15px; margin-left: 10px;">
+                            <ui:Label text="Overtime (Optional)" style="font-size: 32px; -unity-font-style: bold; color: #2ECC71;" />
+                            <ui:Label name="extraTasksStatus" text="AVAILABLE" style="font-size: 24px; -unity-font-style: bold; margin-left: 15px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="extraTasksContainer" style="margin-top: 15px;" />
+                        <ui:VisualElement name="extraTasksContainer" />
                     </ui:VisualElement>
 
                     <!-- Resign -->

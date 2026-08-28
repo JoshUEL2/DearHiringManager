@@ -83,9 +83,9 @@
 }
 
 .stat-value {
-    font-size: 36px;
+    font-size: 32px;
     -unity-font-style: bold;
-    color: #2ECC71; 
+    color: #FFFFFF;
 }
 
 /* Job Board & General Light Cards */
@@ -1260,37 +1260,34 @@
 /* --- CAREERS OVERHAUL STYLES --- */
 
 .stunning-card {
-    background-color: rgba(11, 19, 43, 0.8);
-    border-color: rgba(56, 189, 248, 0.4);
+    background-color: rgba(30, 41, 59, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
     border-width: 1px;
-    border-radius: 16px;
-    padding: 25px;
-    margin-bottom: 20px;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .stunning-card-header {
-    font-size: 36px;
+    font-size: 32px;
     -unity-font-style: bold;
-    color: #38BDF8;
-    margin-bottom: 15px;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-}
-
-.corporate-badge {
-    background-color: rgba(241, 196, 15, 0.1);
-    border-color: #F1C40F;
-    border-width: 2px;
-    border-radius: 12px;
-    padding: 10px 20px;
-    align-self: flex-start;
+    color: #FFFFFF;
     margin-bottom: 20px;
 }
 
+.corporate-badge {
+    background-color: #38BDF8;
+    border-radius: 12px;
+    padding: 12px 24px;
+    align-self: flex-start;
+    margin-bottom: 25px;
+}
+
 .corporate-badge-text {
-    color: #F1C40F;
-    font-size: 32px;
+    color: #0F172A;
+    font-size: 36px;
     -unity-font-style: bold;
-    text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
 }
 
 .stat-row {
@@ -1301,12 +1298,12 @@
 }
 
 .stat-label {
-    font-size: 28px;
-    color: #94A3B8;
+    font-size: 32px;
+    color: #CBD5E1;
 }
 
 .stat-value {
-    font-size: 28px;
+    font-size: 32px;
     -unity-font-style: bold;
     color: #FFFFFF;
 }
@@ -1346,20 +1343,21 @@
 }
 
 .promo-button {
-    background-color: #F1C40F;
-    color: #0B132B;
+    background-color: rgba(241, 196, 15, 0.15);
+    border-color: #F1C40F;
+    border-width: 2px;
+    color: #F1C40F;
     font-size: 32px;
     -unity-font-style: bold;
     padding: 20px;
     border-radius: 16px;
-    border-width: 0;
     transition: scale 0.2s ease-in-out, background-color 0.2s;
-    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .promo-button:hover {
-    scale: 1.03;
-    background-color: #FFD700;
+    scale: 1.02;
+    background-color: rgba(241, 196, 15, 0.3);
 }
 
 .promo-button:active {
