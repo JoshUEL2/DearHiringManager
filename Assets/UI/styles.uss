@@ -1436,3 +1436,35 @@
     background-color: #2ECC71;
 }
 
+/* SQUIRCLE CARD STYLE FOR HUSTLES */
+.squircle-card {
+    border-radius: 40px;
+    border-width: 6px;
+    border-color: rgba(255, 255, 255, 0.2);
+    transition-property: scale, rotate, background-color, border-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+}
+.squircle-card:hover {
+    scale: 1.05;
+    rotate: -1.5deg;
+}
+
+/* MINIGAME BACKGROUND ANIMATIONS (UI TOOLKIT) */
+.anim-pattern-overlay {
+    transition-property: opacity, translate;
+    transition-duration: 2s;
+    opacity: 0.3;
+}
+.anim-pattern-overlay:hover {
+    opacity: 0.6;
+}
+
+.anim-bg-bottles { background-color: rgba(30, 80, 130, 0.85); }
+.anim-bg-lawn { background-color: rgba(30, 100, 40, 0.85); }
+.anim-bg-dogs { background-color: rgba(100, 80, 30, 0.85); }
+.anim-bg-racer { background-color: rgba(130, 60, 20, 0.85); }
+.anim-bg-forge { background-color: rgba(70, 70, 80, 0.85); }
+.anim-bg-briefcase { background-color: rgba(60, 30, 80, 0.85); }
+.anim-bg-atm { background-color: rgba(20, 60, 30, 0.85); }
+.anim-bg-hack { background-color: rgba(80, 10, 10, 0.85); }

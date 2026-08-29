@@ -63,6 +63,8 @@ public class HustlesUI
         foreach (var hustle in availableHustles)
         {
             bool isIllegal = hustle.riskPercent > 0;
+            bool isOnCooldown = data.hustleCooldownNames.IndexOf(hustle.name) >= 0;
+            int cooldownIndex = data.hustleCooldownNames.IndexOf(hustle.name);
             VisualElement card = new VisualElement();
             card.AddToClassList("squircle-card");
             
@@ -70,9 +72,16 @@ public class HustlesUI
             card.style.width = Length.Percent(100);
             card.style.marginBottom = 20;
             card.style.overflow = Overflow.Hidden; 
-            card.style.minHeight = 200; 
+            card.style.minHeight = 260; 
 
-            VisualElement animBg = GenerateMinigameBackground(hustle.name);
+            if (isIllegal)
+            {
+                card.style.borderTopWidth = 4; card.style.borderBottomWidth = 4;
+                card.style.borderLeftWidth = 4; card.style.borderRightWidth = 4;
+                card.style.borderTopColor = card.style.borderBottomColor = card.style.borderLeftColor = card.style.borderRightColor = new StyleColor(new Color(0.9f, 0.2f, 0.2f));
+            }
+
+            VisualElement animBg = GenerateMinigameBackground(hustle.name, isOnCooldown);
             card.Add(animBg);
 
             // Layer a gradient fade from left to right for text legibility
@@ -90,11 +99,10 @@ public class HustlesUI
             card.Add(fadeOverlay);
 
             VisualElement contentWrapper = new VisualElement();
-            contentWrapper.style.position = Position.Absolute;
-            contentWrapper.style.top = 0; contentWrapper.style.bottom = 0;
-            contentWrapper.style.left = 0; contentWrapper.style.right = Length.Percent(40); // Only span 60% of width for text
+            // Using relative positioning so the text content pushes the card height naturally
+            contentWrapper.style.width = Length.Percent(60); // Span 60% of width for text
             contentWrapper.style.paddingLeft = 30; contentWrapper.style.paddingRight = 30;
-            contentWrapper.style.paddingTop = 20; contentWrapper.style.paddingBottom = 20;
+            contentWrapper.style.paddingTop = 30; contentWrapper.style.paddingBottom = 30;
             contentWrapper.style.flexGrow = 1;
             contentWrapper.style.justifyContent = Justify.SpaceBetween;
             contentWrapper.pickingMode = PickingMode.Ignore;
@@ -102,24 +110,24 @@ public class HustlesUI
             VisualElement topRow = new VisualElement();
             topRow.pickingMode = PickingMode.Ignore;
             Label titleLabel = new Label(hustle.name);
-            titleLabel.style.fontSize = 28;
+            titleLabel.style.fontSize = 34;
             titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             titleLabel.style.color = isIllegal ? new Color(1f, 0.4f, 0.4f) : new Color(1f, 1f, 1f);
             titleLabel.style.whiteSpace = WhiteSpace.Normal;
             topRow.Add(titleLabel);
 
             Label descLabel = new Label(hustle.description);
-            descLabel.style.fontSize = 20;
+            descLabel.style.fontSize = 24; 
             descLabel.style.color = new Color(0.9f, 0.9f, 0.9f);
             descLabel.style.whiteSpace = WhiteSpace.Normal;
-            descLabel.style.marginTop = 5;
+            descLabel.style.marginTop = 15;
             topRow.Add(descLabel);
 
             VisualElement bottomRow = new VisualElement();
             bottomRow.style.flexDirection = FlexDirection.Row;
             bottomRow.style.justifyContent = Justify.FlexStart;
             bottomRow.style.alignItems = Align.FlexEnd;
-            bottomRow.style.marginTop = 15;
+            bottomRow.style.marginTop = 25;
             bottomRow.pickingMode = PickingMode.Ignore;
 
             VisualElement statsCol = new VisualElement();
@@ -127,56 +135,74 @@ public class HustlesUI
             statsCol.style.marginRight = 30;
             statsCol.pickingMode = PickingMode.Ignore;
 
-            Label rewardLabel = new Label($"+${hustle.reward}");
-            rewardLabel.style.fontSize = 24;
+            Label rewardLabel = new Label($"PAYOUT: +${hustle.reward}");
+            rewardLabel.style.fontSize = 36; // Larger and more obvious
             rewardLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            rewardLabel.style.color = isIllegal ? Color.white : new Color(0.18f, 0.8f, 0.44f);
+            rewardLabel.style.color = isIllegal ? new Color(0.93f, 0.26f, 0.26f) : new Color(0.18f, 0.8f, 0.44f);
+            rewardLabel.style.marginBottom = 10;
 
             string riskStr = isIllegal ? $"Risk: {hustle.riskPercent}%\n(Jail {hustle.jailSentence}w)" : $"Risk: {hustle.riskPercent}%\n(Safe)";
             Label riskLabel = new Label(riskStr);
-            riskLabel.style.fontSize = 18;
+            riskLabel.style.fontSize = 22; 
             riskLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             riskLabel.style.color = isIllegal ? new Color(1f, 0.7f, 0.7f) : new Color(0.6f, 0.8f, 0.6f);
             riskLabel.style.whiteSpace = WhiteSpace.Normal;
 
             statsCol.Add(rewardLabel);
             statsCol.Add(riskLabel);
-
-            Button performBtn = new Button();
-            bool isOnCooldown = false;
-            int cooldownIndex = data.hustleCooldownNames.IndexOf(hustle.name);
-            if (cooldownIndex >= 0) isOnCooldown = true;
-
-            if (isOnCooldown)
-            {
-                performBtn.text = $"Wait {data.hustleCooldownWeeks[cooldownIndex]}w";
-                performBtn.AddToClassList("danger-button");
-                performBtn.SetEnabled(false);
-                performBtn.style.opacity = 0.5f;
-            }
-            else
-            {
-                performBtn.text = "Do It";
-                performBtn.AddToClassList(isIllegal ? "danger-button" : "apply-button");
-                var localHustle = hustle;
-                performBtn.clicked += () => OnHustleClicked(localHustle);
-            }
-            performBtn.style.fontSize = 22;
-            performBtn.style.paddingLeft = 20; performBtn.style.paddingRight = 20;
-            performBtn.style.paddingTop = 10; performBtn.style.paddingBottom = 10;
-
             bottomRow.Add(statsCol);
-            bottomRow.Add(performBtn);
-
-            contentWrapper.Add(topRow);
+            
+                        contentWrapper.Add(topRow);
             contentWrapper.Add(bottomRow);
             
             card.Add(contentWrapper);
+            
+            if (isOnCooldown)
+            {
+                card.style.opacity = 0.45f;
+                
+                VisualElement watermarkContainer = new VisualElement();
+                watermarkContainer.style.position = Position.Absolute;
+                watermarkContainer.style.top = 0; watermarkContainer.style.bottom = 0;
+                watermarkContainer.style.left = 0; watermarkContainer.style.right = 0;
+                watermarkContainer.style.justifyContent = Justify.Center;
+                watermarkContainer.style.alignItems = Align.Center;
+                watermarkContainer.style.backgroundColor = new StyleColor(new Color(0.9f, 0.1f, 0.1f, 0.25f));
+                watermarkContainer.pickingMode = PickingMode.Ignore;
+                
+                Label watermarkText = new Label($"WAIT {data.hustleCooldownWeeks[cooldownIndex]} WEEKS");
+                watermarkText.style.fontSize = 70;
+                watermarkText.style.unityFontStyleAndWeight = FontStyle.Bold;
+                watermarkText.style.color = new Color(1f, 1f, 1f, 0.95f);
+                watermarkText.style.rotate = new Rotate(Angle.Degrees(-8));
+                watermarkText.style.textShadow = new TextShadow { color = new Color(0f, 0f, 0f, 0.8f), blurRadius = 5f, offset = new Vector2(3, 3) };
+                
+                watermarkContainer.Add(watermarkText);
+                card.Add(watermarkContainer);
+            }
+            else
+            {
+                var localHustle = hustle;
+                card.RegisterCallback<PointerDownEvent>(e => {
+                    card.style.scale = new StyleScale(new Vector2(0.96f, 0.96f));
+                    card.style.opacity = 0.8f;
+                });
+                card.RegisterCallback<PointerUpEvent>(e => {
+                    card.style.scale = new StyleScale(new Vector2(1f, 1f));
+                    card.style.opacity = 1f;
+                    OnHustleClicked(localHustle);
+                });
+                card.RegisterCallback<PointerLeaveEvent>(e => {
+                    card.style.scale = new StyleScale(new Vector2(1f, 1f));
+                    card.style.opacity = 1f;
+                });
+            }
+
             gridWrapper.Add(card);
         }
     }
 
-    private VisualElement GenerateMinigameBackground(string gameName)
+    private VisualElement GenerateMinigameBackground(string gameName, bool isOnCooldown)
     {
         VisualElement bg = new VisualElement();
         bg.style.position = Position.Absolute;
@@ -195,15 +221,15 @@ public class HustlesUI
                     Label item = new Label(emojis[i]);
                     item.style.position = Position.Absolute;
                     item.style.fontSize = 45; 
-                    item.style.left = Length.Percent(70 + (i * 10)); // Pushed right
+                    item.style.left = Length.Percent(70 + (i * 10)); 
                     itemY[i] = -50 - (i * 90);
                     bg.Add(item);
                     fallingItems[i] = item;
                 }
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     for(int i=0; i<3; i++) {
                         itemY[i] += 4f;
-                        if(itemY[i] > 280) itemY[i] = -50;
+                        if(itemY[i] > 350) itemY[i] = -50;
                         fallingItems[i].style.top = itemY[i];
                         fallingItems[i].style.rotate = new Rotate(Angle.Degrees(itemY[i] * 2f));
                     }
@@ -231,7 +257,7 @@ public class HustlesUI
                 bg.Add(tractor);
                 int currentTile = 0;
                 float tTime = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     tTime += 1f;
                     if(tTime > 6) {
                         tTime = 0;
@@ -242,9 +268,8 @@ public class HustlesUI
                             foreach(var t in tiles) t.style.backgroundColor = new StyleColor(new Color(0.1f, 0.4f, 0.1f));
                         }
                         int row = currentTile / 6;
-                        int col = currentTile % 6;
-                        if(row % 2 == 1) col = 5 - col; 
-                        tractor.style.top = 10 + (row * 32);
+                        int col = currentTile % 6; 
+                        tractor.style.top = 10 + (row * 35); 
                         tractor.style.left = Length.Percent(60 + (col * 6));
                     }
                 }).Every(16);
@@ -283,7 +308,7 @@ public class HustlesUI
                     dogDistances[i] = 40f + (i*10);
                     dogAngles[i] = i * 72f;
                 }
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     for(int i=0; i<5; i++) {
                         dogDistances[i] += 0.3f;
                         if(dogDistances[i] > 110f) dogDistances[i] = 40f; 
@@ -326,16 +351,16 @@ public class HustlesUI
                 bg.Add(playerBike);
                 
                 float roadY = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     roadY += 4f;
                     for(int i=0; i<4; i++) {
                         float curY = (i*60) + roadY;
-                        if(curY > 250) curY -= 240;
+                        if(curY > 280) curY -= 240;
                         stripes[i].style.top = curY;
                     }
                     for(int i=0; i<2; i++) {
                         obsY[i] += 2f;
-                        if(obsY[i] > 250f) {
+                        if(obsY[i] > 350f) {
                             obsY[i] = -100f;
                             obstacles[i].style.left = Length.Percent(Random.value > 0.5f ? 70 : 88);
                         }
@@ -354,7 +379,7 @@ public class HustlesUI
                 bg.Add(stampZone);
                 VisualElement passCardBg = new VisualElement();
                 passCardBg.style.position = Position.Absolute;
-                passCardBg.style.top = 70; passCardBg.style.width = 140; passCardBg.style.height = 80;
+                passCardBg.style.top = 90; passCardBg.style.width = 140; passCardBg.style.height = 80;
                 passCardBg.style.backgroundColor = new StyleColor(new Color(0.9f, 0.95f, 0.95f));
                 passCardBg.style.borderTopLeftRadius = 15; passCardBg.style.borderTopRightRadius = 15; passCardBg.style.borderBottomLeftRadius = 15; passCardBg.style.borderBottomRightRadius = 15;
                 
@@ -364,23 +389,23 @@ public class HustlesUI
                 }
                 
                 Label fStamp = new Label("APPROVED");
-                fStamp.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 0.9f));
+                fStamp.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 1f));
                 fStamp.style.fontSize = 22; fStamp.style.unityFontStyleAndWeight = FontStyle.Bold;
                 fStamp.style.rotate = new Rotate(Angle.Degrees(-15));
                 fStamp.style.position = Position.Absolute; fStamp.style.left = 10; fStamp.style.top = 20;
-                fStamp.style.display = DisplayStyle.None;
+                fStamp.style.opacity = 0f; 
                 passCardBg.Add(fStamp);
                 bg.Add(passCardBg);
                 
-                float cardX = 40f; // start at 40%
+                float cardX = 40f; 
                 float phase = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     phase += 0.015f;
                     if(phase < 1f) {
                         cardX += 0.5f;
-                        fStamp.style.display = DisplayStyle.None;
+                        fStamp.style.opacity = 0f;
                     } else if (phase < 1.5f) {
-                        fStamp.style.display = DisplayStyle.Flex;
+                        fStamp.style.opacity = 1f;
                     } else {
                         cardX = 40f;
                         phase = 0;
@@ -390,51 +415,65 @@ public class HustlesUI
                 break;
                 
             case "Crack Luxury Briefcase":
-                bg.style.backgroundColor = new StyleColor(new Color(0.1f, 0.1f, 0.15f));
+                bg.style.backgroundColor = new StyleColor(new Color(0.27f, 0.1f, 0.01f)); 
+                
+                VisualElement stickyTarget = new VisualElement();
+                stickyTarget.style.position = Position.Absolute; stickyTarget.style.top = 10;
+                stickyTarget.style.left = Length.Percent(80); stickyTarget.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                stickyTarget.style.backgroundColor = new StyleColor(new Color(0.99f, 0.94f, 0.54f)); 
+                stickyTarget.style.paddingTop = 5; stickyTarget.style.paddingBottom = 5;
+                stickyTarget.style.paddingLeft = 10; stickyTarget.style.paddingRight = 10;
+                stickyTarget.style.rotate = new Rotate(Angle.Degrees(-3));
+                stickyTarget.style.borderBottomWidth = 2; stickyTarget.style.borderRightWidth = 2;
+                stickyTarget.style.borderBottomColor = stickyTarget.style.borderRightColor = new StyleColor(new Color(0f, 0f, 0f, 0.3f));
                 Label targetText = new Label("TARGET: 7 - 2 - 9");
-                targetText.style.color = new StyleColor(Color.white); targetText.style.fontSize = 20;
-                targetText.style.position = Position.Absolute; targetText.style.top = 10; 
-                targetText.style.left = Length.Percent(80); targetText.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
-                bg.Add(targetText);
+                targetText.style.color = new StyleColor(new Color(0.12f, 0.23f, 0.54f)); 
+                targetText.style.fontSize = 20; targetText.style.unityFontStyleAndWeight = FontStyle.Bold;
+                stickyTarget.Add(targetText);
+                bg.Add(stickyTarget);
+                
                 VisualElement[] dials = new VisualElement[3];
                 Label[] dialNums = new Label[3];
                 for(int i=0; i<3; i++) {
                     VisualElement dial = new VisualElement();
                     dial.style.position = Position.Absolute; 
-                    dial.style.left = Length.Percent(70 + (i*10)); dial.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
-                    dial.style.top = 50; dial.style.width = 40; dial.style.height = 105;
-                    dial.style.backgroundColor = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
+                    dial.style.left = Length.Percent(70 + (i*10)); dial.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), Length.Percent(-50), 0));
+                    dial.style.top = Length.Percent(50); dial.style.width = 40; dial.style.height = 105;
+                    dial.style.backgroundColor = new StyleColor(new Color(0.64f, 0.5f, 0.13f)); 
                     dial.style.overflow = Overflow.Hidden;
+                    dial.style.borderLeftWidth = 2; dial.style.borderRightWidth = 2;
+                    dial.style.borderLeftColor = dial.style.borderRightColor = new StyleColor(new Color(0.44f, 0.33f, 0.08f)); 
+                    
                     Label num = new Label("1\n2\n3\n4\n5\n6\n7\n8\n9\n0");
                     num.style.color = new StyleColor(Color.black); num.style.fontSize = 30; num.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    num.style.unityFontStyleAndWeight = FontStyle.Bold;
                     num.style.position = Position.Absolute;
+                    num.style.width = Length.Percent(100);
                     dial.Add(num);
+                    
+                    VisualElement sTop = new VisualElement(); sTop.style.position = Position.Absolute; sTop.style.width = Length.Percent(100); sTop.style.height = 20; sTop.style.top = 0; sTop.style.backgroundColor = new StyleColor(new Color(0,0,0, 0.6f));
+                    VisualElement sBot = new VisualElement(); sBot.style.position = Position.Absolute; sBot.style.width = Length.Percent(100); sBot.style.height = 20; sBot.style.bottom = 0; sBot.style.backgroundColor = new StyleColor(new Color(0,0,0, 0.6f));
+                    dial.Add(sTop); dial.Add(sBot);
+                    
                     bg.Add(dial);
                     dials[i] = dial;
                     dialNums[i] = num;
                 }
+                
+                VisualElement bracket = new VisualElement();
+                bracket.style.position = Position.Absolute;
+                bracket.style.width = Length.Percent(30); bracket.style.height = 35;
+                bracket.style.top = Length.Percent(50); bracket.style.left = Length.Percent(80); bracket.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), Length.Percent(-50), 0));
+                bracket.style.borderTopWidth = 2; bracket.style.borderBottomWidth = 2;
+                bracket.style.borderTopColor = bracket.style.borderBottomColor = new StyleColor(new Color(0.99f, 0.83f, 0.3f)); 
+                bg.Add(bracket);
+
                 float[] dialY = {0, 0, 0};
-                int unlocked = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     for(int i=0; i<3; i++) {
-                        if(i < unlocked) {
-                            dialY[i] = Mathf.Round(dialY[i] / 35f) * 35f; 
-                            dialNums[i].style.top = dialY[i];
-                            continue;
-                        }
-                        dialY[i] -= 5f;
+                        dialY[i] -= (3f + (i * 0.5f)); 
                         if(dialY[i] < -200) dialY[i] = 0;
                         dialNums[i].style.top = dialY[i];
-                    }
-                    if (Random.value < 0.02f && unlocked < 3) {
-                        dialNums[unlocked].style.color = new StyleColor(new Color(0.18f, 0.8f, 0.44f));
-                        unlocked++;
-                        if (unlocked >= 3) {
-                            bg.schedule.Execute(() => {
-                                unlocked = 0;
-                                foreach(var d in dialNums) d.style.color = new StyleColor(Color.black);
-                            }).StartingIn(1500);
-                        }
                     }
                 }).Every(16);
                 break;
@@ -444,17 +483,17 @@ public class HustlesUI
                 Color[] colors = { Color.red, Color.blue, Color.green, Color.yellow };
                 VisualElement[] atmWires = new VisualElement[4];
                 for(int i=0; i<4; i++) {
-                    VisualElement l = new VisualElement(); l.style.position = Position.Absolute; l.style.left = Length.Percent(65); l.style.top = 40 + (i*40); l.style.width = 20; l.style.height = 20; l.style.backgroundColor = new StyleColor(colors[i]); l.style.borderTopLeftRadius = 10; l.style.borderTopRightRadius = 10; l.style.borderBottomLeftRadius = 10; l.style.borderBottomRightRadius = 10;
+                    VisualElement l = new VisualElement(); l.style.position = Position.Absolute; l.style.left = Length.Percent(65); l.style.top = 50 + (i*40); l.style.width = 20; l.style.height = 20; l.style.backgroundColor = new StyleColor(colors[i]); l.style.borderTopLeftRadius = 10; l.style.borderTopRightRadius = 10; l.style.borderBottomLeftRadius = 10; l.style.borderBottomRightRadius = 10;
                     bg.Add(l);
-                    VisualElement r = new VisualElement(); r.style.position = Position.Absolute; r.style.right = 20; r.style.top = 40 + (i*40); r.style.width = 20; r.style.height = 20; r.style.backgroundColor = new StyleColor(colors[i]); r.style.borderTopLeftRadius = 10; r.style.borderTopRightRadius = 10; r.style.borderBottomLeftRadius = 10; r.style.borderBottomRightRadius = 10;
+                    VisualElement r = new VisualElement(); r.style.position = Position.Absolute; r.style.right = 20; r.style.top = 50 + (i*40); r.style.width = 20; r.style.height = 20; r.style.backgroundColor = new StyleColor(colors[i]); r.style.borderTopLeftRadius = 10; r.style.borderTopRightRadius = 10; r.style.borderBottomLeftRadius = 10; r.style.borderBottomRightRadius = 10;
                     bg.Add(r);
-                    VisualElement w = new VisualElement(); w.style.position = Position.Absolute; w.style.left = Length.Percent(65); w.style.marginLeft = 10; w.style.top = 48 + (i*40); w.style.height = 4; w.style.backgroundColor = new StyleColor(colors[i]); w.style.width = 0;
+                    VisualElement w = new VisualElement(); w.style.position = Position.Absolute; w.style.left = Length.Percent(65); w.style.marginLeft = 10; w.style.top = 58 + (i*40); w.style.height = 4; w.style.backgroundColor = new StyleColor(colors[i]); w.style.width = 0;
                     bg.Add(w);
                     atmWires[i] = w;
                 }
                 int currWire = 0;
                 float wirePercent = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     wirePercent += 3f;
                     if(wirePercent > 100f) {
                         currWire++;
@@ -473,12 +512,12 @@ public class HustlesUI
             case "Corporate Espionage Heist":
                 bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.05f, 0.1f));
                 Label targetsLbl = new Label("TARGETS: 24 81 55 12");
-                targetsLbl.style.position = Position.Absolute; targetsLbl.style.top = 5; 
+                targetsLbl.style.position = Position.Absolute; targetsLbl.style.top = 10; 
                 targetsLbl.style.left = Length.Percent(80); targetsLbl.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
                 targetsLbl.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f)); targetsLbl.style.fontSize = 18; targetsLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
                 bg.Add(targetsLbl);
                 VisualElement ipGrid = new VisualElement();
-                ipGrid.style.position = Position.Absolute; ipGrid.style.top = 35; ipGrid.style.left = Length.Percent(65); ipGrid.style.right = 10; ipGrid.style.bottom = 10;
+                ipGrid.style.position = Position.Absolute; ipGrid.style.top = 40; ipGrid.style.left = Length.Percent(65); ipGrid.style.right = 10; ipGrid.style.bottom = 10;
                 ipGrid.style.flexWrap = Wrap.Wrap; ipGrid.style.flexDirection = FlexDirection.Row;
                 Label[] gridNums = new Label[40];
                 for(int i=0; i<40; i++) {
@@ -489,7 +528,7 @@ public class HustlesUI
                 }
                 bg.Add(ipGrid);
                 int ticks = 0;
-                bg.schedule.Execute(() => {
+                if (!isOnCooldown) bg.schedule.Execute(() => {
                     ticks++;
                     if(ticks % 15 == 0) {
                         int rnd = Random.Range(0, 40);

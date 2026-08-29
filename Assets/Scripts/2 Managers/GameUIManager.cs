@@ -1013,13 +1013,11 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowPopup(RandomEvent ev, System.Action onAcknowledge = null)
     {
-        VisualElement activeRoot = null;
-        if (dashboardRoot.style.display == DisplayStyle.Flex) activeRoot = dashboardRoot;
-        else if (hustlesRoot.style.display == DisplayStyle.Flex) activeRoot = hustlesRoot;
-        else if (activitiesRoot.style.display == DisplayStyle.Flex) activeRoot = activitiesRoot;
-        else if (educationRoot.style.display == DisplayStyle.Flex) activeRoot = educationRoot;
-        else if (careersRoot.style.display == DisplayStyle.Flex) activeRoot = careersRoot;
-        else activeRoot = dashboardRoot; // fallback
+        VisualElement activeRoot = dashboardRoot;
+        if (activeOverlay != null && activeOverlay.style.display == DisplayStyle.Flex) 
+        {
+            activeRoot = activeOverlay;
+        }
 
         var overlay = new VisualElement();
         overlay.style.position = Position.Absolute;
