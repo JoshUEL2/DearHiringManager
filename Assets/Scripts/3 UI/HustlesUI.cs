@@ -65,10 +65,12 @@ public class HustlesUI
             bool isIllegal = hustle.riskPercent > 0;
             VisualElement card = new VisualElement();
             card.AddToClassList("squircle-card");
-            card.style.width = Length.Percent(48);
+            
+            // FULL WIDTH (1 per line)
+            card.style.width = Length.Percent(100);
             card.style.marginBottom = 20;
             card.style.overflow = Overflow.Hidden; 
-            card.style.minHeight = 240; 
+            card.style.minHeight = 200; 
 
             VisualElement animBg = GenerateMinigameBackground(hustle.name);
             card.Add(animBg);
@@ -90,8 +92,8 @@ public class HustlesUI
             VisualElement contentWrapper = new VisualElement();
             contentWrapper.style.position = Position.Absolute;
             contentWrapper.style.top = 0; contentWrapper.style.bottom = 0;
-            contentWrapper.style.left = 0; contentWrapper.style.right = 0;
-            contentWrapper.style.paddingLeft = 20; contentWrapper.style.paddingRight = 20;
+            contentWrapper.style.left = 0; contentWrapper.style.right = Length.Percent(40); // Only span 60% of width for text
+            contentWrapper.style.paddingLeft = 30; contentWrapper.style.paddingRight = 30;
             contentWrapper.style.paddingTop = 20; contentWrapper.style.paddingBottom = 20;
             contentWrapper.style.flexGrow = 1;
             contentWrapper.style.justifyContent = Justify.SpaceBetween;
@@ -115,13 +117,14 @@ public class HustlesUI
 
             VisualElement bottomRow = new VisualElement();
             bottomRow.style.flexDirection = FlexDirection.Row;
-            bottomRow.style.justifyContent = Justify.SpaceBetween;
+            bottomRow.style.justifyContent = Justify.FlexStart;
             bottomRow.style.alignItems = Align.FlexEnd;
             bottomRow.style.marginTop = 15;
             bottomRow.pickingMode = PickingMode.Ignore;
 
             VisualElement statsCol = new VisualElement();
             statsCol.style.flexDirection = FlexDirection.Column;
+            statsCol.style.marginRight = 30;
             statsCol.pickingMode = PickingMode.Ignore;
 
             Label rewardLabel = new Label($"+${hustle.reward}");
@@ -159,9 +162,8 @@ public class HustlesUI
                 performBtn.clicked += () => OnHustleClicked(localHustle);
             }
             performBtn.style.fontSize = 22;
-            performBtn.style.paddingLeft = 15; performBtn.style.paddingRight = 15;
+            performBtn.style.paddingLeft = 20; performBtn.style.paddingRight = 20;
             performBtn.style.paddingTop = 10; performBtn.style.paddingBottom = 10;
-            performBtn.style.marginRight = 0; performBtn.style.marginBottom = 0;
 
             bottomRow.Add(statsCol);
             bottomRow.Add(performBtn);
@@ -193,7 +195,7 @@ public class HustlesUI
                     Label item = new Label(emojis[i]);
                     item.style.position = Position.Absolute;
                     item.style.fontSize = 45; 
-                    item.style.left = Length.Percent(35 + (i * 20));
+                    item.style.left = Length.Percent(70 + (i * 10)); // Pushed right
                     itemY[i] = -50 - (i * 90);
                     bg.Add(item);
                     fallingItems[i] = item;
@@ -211,7 +213,7 @@ public class HustlesUI
             case "Executive Lawn Care":
                 bg.style.backgroundColor = new StyleColor(new Color(0.1f, 0.2f, 0.1f));
                 VisualElement grid = new VisualElement();
-                grid.style.position = Position.Absolute; grid.style.top = 10; grid.style.left = Length.Percent(30); grid.style.right = 10; grid.style.bottom = 10;
+                grid.style.position = Position.Absolute; grid.style.top = 10; grid.style.left = Length.Percent(60); grid.style.right = 10; grid.style.bottom = 10;
                 grid.style.flexWrap = Wrap.Wrap; grid.style.flexDirection = FlexDirection.Row;
                 VisualElement[] tiles = new VisualElement[36];
                 for(int i=0; i<36; i++) {
@@ -243,7 +245,7 @@ public class HustlesUI
                         int col = currentTile % 6;
                         if(row % 2 == 1) col = 5 - col; 
                         tractor.style.top = 10 + (row * 32);
-                        tractor.style.left = Length.Percent(30 + (col * 10));
+                        tractor.style.left = Length.Percent(60 + (col * 6));
                     }
                 }).Every(16);
                 break;
@@ -252,14 +254,14 @@ public class HustlesUI
                 bg.style.backgroundColor = new StyleColor(new Color(0.15f, 0.25f, 0.15f));
                 VisualElement sweetSpot = new VisualElement();
                 sweetSpot.style.position = Position.Absolute;
-                sweetSpot.style.left = Length.Percent(50); sweetSpot.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0)); 
-                sweetSpot.style.width = Length.Percent(40);
+                sweetSpot.style.left = Length.Percent(80); sweetSpot.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0)); 
+                sweetSpot.style.width = Length.Percent(30);
                 sweetSpot.style.top = 0; sweetSpot.style.bottom = 0;
                 sweetSpot.style.backgroundColor = new StyleColor(new Color(0f, 1f, 0f, 0.15f));
                 bg.Add(sweetSpot);
                 Label human = new Label("🧍");
                 human.style.position = Position.Absolute; human.style.fontSize = 50;
-                human.style.left = Length.Percent(50); human.style.top = Length.Percent(40);
+                human.style.left = Length.Percent(80); human.style.top = Length.Percent(40);
                 human.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), Length.Percent(-50), 0));
                 bg.Add(human);
                 string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕" };
@@ -271,7 +273,7 @@ public class HustlesUI
                     VisualElement leash = new VisualElement();
                     leash.style.position = Position.Absolute; leash.style.height = 3; leash.style.backgroundColor = new StyleColor(new Color(0.6f, 0.3f, 0.1f));
                     leash.style.transformOrigin = new TransformOrigin(new Length(0, LengthUnit.Percent), new Length(50, LengthUnit.Percent));
-                    leash.style.left = Length.Percent(50); leash.style.top = Length.Percent(45);
+                    leash.style.left = Length.Percent(80); leash.style.top = Length.Percent(45);
                     bg.Add(leash);
                     leashes[i] = leash;
                     Label dog = new Label(dogEmojis[i]);
@@ -288,7 +290,7 @@ public class HustlesUI
                         float rad = dogAngles[i] * Mathf.Deg2Rad;
                         float x = Mathf.Cos(rad) * dogDistances[i];
                         float y = Mathf.Sin(rad) * dogDistances[i];
-                        dogs[i].style.left = Length.Percent(50); dogs[i].style.translate = new StyleTranslate(new Translate(x, y, 0));
+                        dogs[i].style.left = Length.Percent(80); dogs[i].style.translate = new StyleTranslate(new Translate(x, y, 0));
                         dogs[i].style.top = Length.Percent(45);
                         leashes[i].style.width = dogDistances[i];
                         leashes[i].style.rotate = new StyleRotate(new Rotate(Angle.Degrees(dogAngles[i])));
@@ -298,13 +300,13 @@ public class HustlesUI
                 
             case "Deliver Fast Food Order":
                 bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f));
-                VisualElement roadLeft = new VisualElement(); roadLeft.style.position = Position.Absolute; roadLeft.style.top = 0; roadLeft.style.bottom = 0; roadLeft.style.left = Length.Percent(30); roadLeft.style.width = 10; roadLeft.style.backgroundColor = new StyleColor(Color.white);
-                VisualElement roadRight = new VisualElement(); roadRight.style.position = Position.Absolute; roadRight.style.top = 0; roadRight.style.bottom = 0; roadRight.style.right = Length.Percent(10); roadRight.style.width = 10; roadRight.style.backgroundColor = new StyleColor(Color.white);
+                VisualElement roadLeft = new VisualElement(); roadLeft.style.position = Position.Absolute; roadLeft.style.top = 0; roadLeft.style.bottom = 0; roadLeft.style.left = Length.Percent(65); roadLeft.style.width = 10; roadLeft.style.backgroundColor = new StyleColor(Color.white);
+                VisualElement roadRight = new VisualElement(); roadRight.style.position = Position.Absolute; roadRight.style.top = 0; roadRight.style.bottom = 0; roadRight.style.right = Length.Percent(5); roadRight.style.width = 10; roadRight.style.backgroundColor = new StyleColor(Color.white);
                 bg.Add(roadLeft); bg.Add(roadRight);
                 VisualElement[] stripes = new VisualElement[4];
                 for(int i=0; i<4; i++) {
                     VisualElement stripe = new VisualElement();
-                    stripe.style.position = Position.Absolute; stripe.style.left = Length.Percent(60); stripe.style.width = 10; stripe.style.height = 40;
+                    stripe.style.position = Position.Absolute; stripe.style.left = Length.Percent(80); stripe.style.width = 10; stripe.style.height = 40;
                     stripe.style.backgroundColor = new StyleColor(Color.yellow);
                     bg.Add(stripe);
                     stripes[i] = stripe;
@@ -320,7 +322,7 @@ public class HustlesUI
                 }
                 
                 Label playerBike = new Label("🛵");
-                playerBike.style.position = Position.Absolute; playerBike.style.bottom = 10; playerBike.style.left = Length.Percent(60); playerBike.style.fontSize = 50;
+                playerBike.style.position = Position.Absolute; playerBike.style.bottom = 10; playerBike.style.left = Length.Percent(80); playerBike.style.fontSize = 50;
                 bg.Add(playerBike);
                 
                 float roadY = 0;
@@ -335,18 +337,18 @@ public class HustlesUI
                         obsY[i] += 2f;
                         if(obsY[i] > 250f) {
                             obsY[i] = -100f;
-                            obstacles[i].style.left = Length.Percent(Random.value > 0.5f ? 45 : 70);
+                            obstacles[i].style.left = Length.Percent(Random.value > 0.5f ? 70 : 88);
                         }
                         obstacles[i].style.top = obsY[i];
                     }
-                    playerBike.style.left = Length.Percent(55 + Mathf.Sin(roadY * 0.05f) * 15f);
+                    playerBike.style.left = Length.Percent(80 + Mathf.Sin(roadY * 0.05f) * 6f);
                 }).Every(16);
                 break;
                 
             case "Forge Transit Passes":
                 bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.25f));
                 VisualElement stampZone = new VisualElement();
-                stampZone.style.position = Position.Absolute; stampZone.style.left = Length.Percent(45); stampZone.style.width = Length.Percent(40); stampZone.style.top = 40; stampZone.style.bottom = 40;
+                stampZone.style.position = Position.Absolute; stampZone.style.left = Length.Percent(70); stampZone.style.width = Length.Percent(25); stampZone.style.top = 40; stampZone.style.bottom = 40;
                 stampZone.style.borderTopWidth = 4; stampZone.style.borderBottomWidth = 4; stampZone.style.borderLeftWidth = 4; stampZone.style.borderRightWidth = 4;
                 stampZone.style.borderTopColor = stampZone.style.borderBottomColor = stampZone.style.borderLeftColor = stampZone.style.borderRightColor = new StyleColor(new Color(1f, 1f, 1f, 0.2f));
                 bg.Add(stampZone);
@@ -370,20 +372,20 @@ public class HustlesUI
                 passCardBg.Add(fStamp);
                 bg.Add(passCardBg);
                 
-                float cardX = -150;
+                float cardX = 40f; // start at 40%
                 float phase = 0;
                 bg.schedule.Execute(() => {
                     phase += 0.015f;
                     if(phase < 1f) {
-                        cardX += 8f;
+                        cardX += 0.5f;
                         fStamp.style.display = DisplayStyle.None;
                     } else if (phase < 1.5f) {
                         fStamp.style.display = DisplayStyle.Flex;
                     } else {
-                        cardX = -150;
+                        cardX = 40f;
                         phase = 0;
                     }
-                    passCardBg.style.left = cardX;
+                    passCardBg.style.left = Length.Percent(cardX);
                 }).Every(16);
                 break;
                 
@@ -392,14 +394,14 @@ public class HustlesUI
                 Label targetText = new Label("TARGET: 7 - 2 - 9");
                 targetText.style.color = new StyleColor(Color.white); targetText.style.fontSize = 20;
                 targetText.style.position = Position.Absolute; targetText.style.top = 10; 
-                targetText.style.left = Length.Percent(70); targetText.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                targetText.style.left = Length.Percent(80); targetText.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
                 bg.Add(targetText);
                 VisualElement[] dials = new VisualElement[3];
                 Label[] dialNums = new Label[3];
                 for(int i=0; i<3; i++) {
                     VisualElement dial = new VisualElement();
                     dial.style.position = Position.Absolute; 
-                    dial.style.left = Length.Percent(55 + (i*15)); dial.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                    dial.style.left = Length.Percent(70 + (i*10)); dial.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
                     dial.style.top = 50; dial.style.width = 40; dial.style.height = 105;
                     dial.style.backgroundColor = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
                     dial.style.overflow = Overflow.Hidden;
@@ -442,11 +444,11 @@ public class HustlesUI
                 Color[] colors = { Color.red, Color.blue, Color.green, Color.yellow };
                 VisualElement[] atmWires = new VisualElement[4];
                 for(int i=0; i<4; i++) {
-                    VisualElement l = new VisualElement(); l.style.position = Position.Absolute; l.style.left = Length.Percent(40); l.style.top = 40 + (i*40); l.style.width = 20; l.style.height = 20; l.style.backgroundColor = new StyleColor(colors[i]); l.style.borderTopLeftRadius = 10; l.style.borderTopRightRadius = 10; l.style.borderBottomLeftRadius = 10; l.style.borderBottomRightRadius = 10;
+                    VisualElement l = new VisualElement(); l.style.position = Position.Absolute; l.style.left = Length.Percent(65); l.style.top = 40 + (i*40); l.style.width = 20; l.style.height = 20; l.style.backgroundColor = new StyleColor(colors[i]); l.style.borderTopLeftRadius = 10; l.style.borderTopRightRadius = 10; l.style.borderBottomLeftRadius = 10; l.style.borderBottomRightRadius = 10;
                     bg.Add(l);
                     VisualElement r = new VisualElement(); r.style.position = Position.Absolute; r.style.right = 20; r.style.top = 40 + (i*40); r.style.width = 20; r.style.height = 20; r.style.backgroundColor = new StyleColor(colors[i]); r.style.borderTopLeftRadius = 10; r.style.borderTopRightRadius = 10; r.style.borderBottomLeftRadius = 10; r.style.borderBottomRightRadius = 10;
                     bg.Add(r);
-                    VisualElement w = new VisualElement(); w.style.position = Position.Absolute; w.style.left = Length.Percent(40); w.style.marginLeft = 10; w.style.top = 48 + (i*40); w.style.height = 4; w.style.backgroundColor = new StyleColor(colors[i]); w.style.width = 0;
+                    VisualElement w = new VisualElement(); w.style.position = Position.Absolute; w.style.left = Length.Percent(65); w.style.marginLeft = 10; w.style.top = 48 + (i*40); w.style.height = 4; w.style.backgroundColor = new StyleColor(colors[i]); w.style.width = 0;
                     bg.Add(w);
                     atmWires[i] = w;
                 }
@@ -463,7 +465,7 @@ public class HustlesUI
                         }
                     }
                     if (currWire < 4) {
-                        atmWires[currWire].style.width = Length.Percent(wirePercent * 0.5f); // approximate reach to right side
+                        atmWires[currWire].style.width = Length.Percent(wirePercent * 0.33f); 
                     }
                 }).Every(16);
                 break;
@@ -472,16 +474,16 @@ public class HustlesUI
                 bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.05f, 0.1f));
                 Label targetsLbl = new Label("TARGETS: 24 81 55 12");
                 targetsLbl.style.position = Position.Absolute; targetsLbl.style.top = 5; 
-                targetsLbl.style.left = Length.Percent(65); targetsLbl.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                targetsLbl.style.left = Length.Percent(80); targetsLbl.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
                 targetsLbl.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f)); targetsLbl.style.fontSize = 18; targetsLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
                 bg.Add(targetsLbl);
                 VisualElement ipGrid = new VisualElement();
-                ipGrid.style.position = Position.Absolute; ipGrid.style.top = 35; ipGrid.style.left = Length.Percent(35); ipGrid.style.right = 10; ipGrid.style.bottom = 10;
+                ipGrid.style.position = Position.Absolute; ipGrid.style.top = 35; ipGrid.style.left = Length.Percent(65); ipGrid.style.right = 10; ipGrid.style.bottom = 10;
                 ipGrid.style.flexWrap = Wrap.Wrap; ipGrid.style.flexDirection = FlexDirection.Row;
                 Label[] gridNums = new Label[40];
                 for(int i=0; i<40; i++) {
                     Label l = new Label(Random.Range(10, 99).ToString());
-                    l.style.width = Length.Percent(15); l.style.height = 25; l.style.fontSize = 18; l.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+                    l.style.width = Length.Percent(18); l.style.height = 25; l.style.fontSize = 18; l.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
                     ipGrid.Add(l);
                     gridNums[i] = l;
                 }
