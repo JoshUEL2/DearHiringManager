@@ -7,10 +7,8 @@ public class HustlesUI
     public static HustlesUI Instance;
 
     public UIDocument hustlesDocument;
-
     private ScrollView hustleScrollView;
 
-    // Made public static so MiniGameManager can access it!
     public static List<SideHustleItem> availableHustles = new List<SideHustleItem>();
 
     public void Initialize(UIDocument doc)
@@ -19,6 +17,7 @@ public class HustlesUI
         if (hustlesDocument == null) return;
         LoadHustleData();
         var root = hustlesDocument.rootVisualElement;
+        
         hustleScrollView = root.Q<ScrollView>();
         PopulateHustlesBoard();
     }
@@ -49,83 +48,465 @@ public class HustlesUI
         limitLbl.style.fontSize = 28;
         limitLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
         limitLbl.style.color = hustlesLeft > 0 ? new Color(0.18f, 0.8f, 0.44f) : Color.red;
-        limitLbl.style.marginBottom = 15;
+        limitLbl.style.marginBottom = 25;
         limitLbl.style.alignSelf = Align.Center;
         hustleScrollView.Add(limitLbl);
+
+        VisualElement gridWrapper = new VisualElement();
+        gridWrapper.style.flexDirection = FlexDirection.Row;
+        gridWrapper.style.flexWrap = Wrap.Wrap;
+        gridWrapper.style.justifyContent = Justify.SpaceBetween;
+        gridWrapper.style.width = Length.Percent(100);
+        gridWrapper.style.paddingBottom = 40; 
+        hustleScrollView.Add(gridWrapper);
 
         foreach (var hustle in availableHustles)
         {
             bool isIllegal = hustle.riskPercent > 0;
             VisualElement card = new VisualElement();
-            card.AddToClassList(isIllegal ? "danger-card" : "job-card");
+            card.AddToClassList("squircle-card");
+            card.style.width = Length.Percent(48);
+            card.style.marginBottom = 20;
+            card.style.overflow = Overflow.Hidden; 
+            card.style.minHeight = 240; 
 
-            VisualElement row = new VisualElement();
-            row.AddToClassList("row");
+            VisualElement animBg = GenerateMinigameBackground(hustle.name);
+            card.Add(animBg);
 
-            Label titleLabel = new Label(hustle.name);
-            titleLabel.AddToClassList(isIllegal ? "danger-text" : "job-title");
-            
-            if (!isIllegal) 
-            {
-                titleLabel.style.color = new StyleColor(new Color(1f, 1f, 1f)); // White for safe
+            // Layer a gradient fade from left to right for text legibility
+            VisualElement fadeOverlay = new VisualElement();
+            fadeOverlay.style.position = Position.Absolute; fadeOverlay.style.top = 0; fadeOverlay.style.bottom = 0; fadeOverlay.style.left = 0; fadeOverlay.style.right = 0;
+            fadeOverlay.pickingMode = PickingMode.Ignore;
+            for(int i=0; i<10; i++) {
+                VisualElement strip = new VisualElement();
+                strip.style.position = Position.Absolute; strip.style.top = 0; strip.style.bottom = 0;
+                strip.style.left = Length.Percent(i * 10); strip.style.width = Length.Percent(10.5f); // slight overlap to prevent seams
+                float alpha = i < 4 ? 0.95f : 0.95f - ((i - 4) / 6f) * 0.95f;
+                strip.style.backgroundColor = new StyleColor(new Color(0.04f, 0.07f, 0.16f, alpha));
+                fadeOverlay.Add(strip);
             }
-            row.Add(titleLabel);
+            card.Add(fadeOverlay);
+
+            VisualElement contentWrapper = new VisualElement();
+            contentWrapper.style.position = Position.Absolute;
+            contentWrapper.style.top = 0; contentWrapper.style.bottom = 0;
+            contentWrapper.style.left = 0; contentWrapper.style.right = 0;
+            contentWrapper.style.paddingLeft = 20; contentWrapper.style.paddingRight = 20;
+            contentWrapper.style.paddingTop = 20; contentWrapper.style.paddingBottom = 20;
+            contentWrapper.style.flexGrow = 1;
+            contentWrapper.style.justifyContent = Justify.SpaceBetween;
+            contentWrapper.pickingMode = PickingMode.Ignore;
+
+            VisualElement topRow = new VisualElement();
+            topRow.pickingMode = PickingMode.Ignore;
+            Label titleLabel = new Label(hustle.name);
+            titleLabel.style.fontSize = 28;
+            titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            titleLabel.style.color = isIllegal ? new Color(1f, 0.4f, 0.4f) : new Color(1f, 1f, 1f);
+            titleLabel.style.whiteSpace = WhiteSpace.Normal;
+            topRow.Add(titleLabel);
 
             Label descLabel = new Label(hustle.description);
-            descLabel.AddToClassList("job-desc");
+            descLabel.style.fontSize = 20;
+            descLabel.style.color = new Color(0.9f, 0.9f, 0.9f);
+            descLabel.style.whiteSpace = WhiteSpace.Normal;
+            descLabel.style.marginTop = 5;
+            topRow.Add(descLabel);
 
             VisualElement bottomRow = new VisualElement();
-            bottomRow.AddToClassList("row");
-            bottomRow.style.alignItems = Align.Center;
+            bottomRow.style.flexDirection = FlexDirection.Row;
+            bottomRow.style.justifyContent = Justify.SpaceBetween;
+            bottomRow.style.alignItems = Align.FlexEnd;
+            bottomRow.style.marginTop = 15;
+            bottomRow.pickingMode = PickingMode.Ignore;
 
             VisualElement statsCol = new VisualElement();
             statsCol.style.flexDirection = FlexDirection.Column;
+            statsCol.pickingMode = PickingMode.Ignore;
 
-            Label rewardLabel = new Label($"+${hustle.reward} cash");
-            rewardLabel.style.fontSize = 28;
+            Label rewardLabel = new Label($"+${hustle.reward}");
+            rewardLabel.style.fontSize = 24;
             rewardLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            rewardLabel.style.color = isIllegal ? Color.white : new Color(0.18f, 0.8f, 0.44f); // Green for safe
+            rewardLabel.style.color = isIllegal ? Color.white : new Color(0.18f, 0.8f, 0.44f);
 
-            string riskStr = isIllegal ? $"Risk: {hustle.riskPercent}% (Jail {hustle.jailSentence} wks)" : $"Risk: {hustle.riskPercent}% (Safe)";
+            string riskStr = isIllegal ? $"Risk: {hustle.riskPercent}%\n(Jail {hustle.jailSentence}w)" : $"Risk: {hustle.riskPercent}%\n(Safe)";
             Label riskLabel = new Label(riskStr);
-            riskLabel.style.fontSize = 28;
+            riskLabel.style.fontSize = 18;
             riskLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            riskLabel.style.color = isIllegal ? new Color(1f, 0.7f, 0.7f) : Color.gray;
+            riskLabel.style.color = isIllegal ? new Color(1f, 0.7f, 0.7f) : new Color(0.6f, 0.8f, 0.6f);
+            riskLabel.style.whiteSpace = WhiteSpace.Normal;
 
             statsCol.Add(rewardLabel);
             statsCol.Add(riskLabel);
 
             Button performBtn = new Button();
-            
             bool isOnCooldown = false;
             int cooldownIndex = data.hustleCooldownNames.IndexOf(hustle.name);
             if (cooldownIndex >= 0) isOnCooldown = true;
 
             if (isOnCooldown)
             {
-                performBtn.text = $"Cooldown: {data.hustleCooldownWeeks[cooldownIndex]} wks";
+                performBtn.text = $"Wait {data.hustleCooldownWeeks[cooldownIndex]}w";
                 performBtn.AddToClassList("danger-button");
                 performBtn.SetEnabled(false);
                 performBtn.style.opacity = 0.5f;
             }
             else
             {
-                performBtn.text = "Perform";
+                performBtn.text = "Do It";
                 performBtn.AddToClassList(isIllegal ? "danger-button" : "apply-button");
-                
                 var localHustle = hustle;
                 performBtn.clicked += () => OnHustleClicked(localHustle);
             }
+            performBtn.style.fontSize = 22;
+            performBtn.style.paddingLeft = 15; performBtn.style.paddingRight = 15;
+            performBtn.style.paddingTop = 10; performBtn.style.paddingBottom = 10;
+            performBtn.style.marginRight = 0; performBtn.style.marginBottom = 0;
 
             bottomRow.Add(statsCol);
             bottomRow.Add(performBtn);
 
-            card.Add(row);
-            card.Add(descLabel);
-            card.Add(bottomRow);
-
-            hustleScrollView.Add(card);
+            contentWrapper.Add(topRow);
+            contentWrapper.Add(bottomRow);
+            
+            card.Add(contentWrapper);
+            gridWrapper.Add(card);
         }
+    }
+
+    private VisualElement GenerateMinigameBackground(string gameName)
+    {
+        VisualElement bg = new VisualElement();
+        bg.style.position = Position.Absolute;
+        bg.style.top = 0; bg.style.bottom = 0;
+        bg.style.left = 0; bg.style.right = 0;
+        bg.pickingMode = PickingMode.Ignore;
+
+        switch(gameName)
+        {
+            case "Collect Recycled Bottles":
+                bg.style.backgroundColor = new StyleColor(new Color(0.08f, 0.1f, 0.14f));
+                string[] emojis = { "🍾", "🥤", "🥫" };
+                VisualElement[] fallingItems = new VisualElement[3];
+                float[] itemY = new float[3];
+                for(int i=0; i<3; i++) {
+                    Label item = new Label(emojis[i]);
+                    item.style.position = Position.Absolute;
+                    item.style.fontSize = 45; 
+                    item.style.left = Length.Percent(35 + (i * 20));
+                    itemY[i] = -50 - (i * 90);
+                    bg.Add(item);
+                    fallingItems[i] = item;
+                }
+                bg.schedule.Execute(() => {
+                    for(int i=0; i<3; i++) {
+                        itemY[i] += 4f;
+                        if(itemY[i] > 280) itemY[i] = -50;
+                        fallingItems[i].style.top = itemY[i];
+                        fallingItems[i].style.rotate = new Rotate(Angle.Degrees(itemY[i] * 2f));
+                    }
+                }).Every(16);
+                break;
+                
+            case "Executive Lawn Care":
+                bg.style.backgroundColor = new StyleColor(new Color(0.1f, 0.2f, 0.1f));
+                VisualElement grid = new VisualElement();
+                grid.style.position = Position.Absolute; grid.style.top = 10; grid.style.left = Length.Percent(30); grid.style.right = 10; grid.style.bottom = 10;
+                grid.style.flexWrap = Wrap.Wrap; grid.style.flexDirection = FlexDirection.Row;
+                VisualElement[] tiles = new VisualElement[36];
+                for(int i=0; i<36; i++) {
+                    VisualElement tile = new VisualElement();
+                    tile.style.width = Length.Percent(15); tile.style.height = Length.Percent(15);
+                    tile.style.marginRight = Length.Percent(1.5f); tile.style.marginBottom = Length.Percent(1.5f);
+                    tile.style.backgroundColor = new StyleColor(new Color(0.1f, 0.4f, 0.1f));
+                    grid.Add(tile);
+                    tiles[i] = tile;
+                }
+                bg.Add(grid);
+                Label tractor = new Label("🚜");
+                tractor.style.position = Position.Absolute;
+                tractor.style.fontSize = 35;
+                bg.Add(tractor);
+                int currentTile = 0;
+                float tTime = 0;
+                bg.schedule.Execute(() => {
+                    tTime += 1f;
+                    if(tTime > 6) {
+                        tTime = 0;
+                        tiles[currentTile].style.backgroundColor = new StyleColor(new Color(0.4f, 0.8f, 0.4f)); 
+                        currentTile++;
+                        if(currentTile >= 36) {
+                            currentTile = 0;
+                            foreach(var t in tiles) t.style.backgroundColor = new StyleColor(new Color(0.1f, 0.4f, 0.1f));
+                        }
+                        int row = currentTile / 6;
+                        int col = currentTile % 6;
+                        if(row % 2 == 1) col = 5 - col; 
+                        tractor.style.top = 10 + (row * 32);
+                        tractor.style.left = Length.Percent(30 + (col * 10));
+                    }
+                }).Every(16);
+                break;
+                
+            case "Walk Purebred Pedigree Dogs":
+                bg.style.backgroundColor = new StyleColor(new Color(0.15f, 0.25f, 0.15f));
+                VisualElement sweetSpot = new VisualElement();
+                sweetSpot.style.position = Position.Absolute;
+                sweetSpot.style.left = Length.Percent(50); sweetSpot.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0)); 
+                sweetSpot.style.width = Length.Percent(40);
+                sweetSpot.style.top = 0; sweetSpot.style.bottom = 0;
+                sweetSpot.style.backgroundColor = new StyleColor(new Color(0f, 1f, 0f, 0.15f));
+                bg.Add(sweetSpot);
+                Label human = new Label("🧍");
+                human.style.position = Position.Absolute; human.style.fontSize = 50;
+                human.style.left = Length.Percent(50); human.style.top = Length.Percent(40);
+                human.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), Length.Percent(-50), 0));
+                bg.Add(human);
+                string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕" };
+                VisualElement[] leashes = new VisualElement[5];
+                Label[] dogs = new Label[5];
+                float[] dogDistances = new float[5];
+                float[] dogAngles = new float[5];
+                for(int i=0; i<5; i++) {
+                    VisualElement leash = new VisualElement();
+                    leash.style.position = Position.Absolute; leash.style.height = 3; leash.style.backgroundColor = new StyleColor(new Color(0.6f, 0.3f, 0.1f));
+                    leash.style.transformOrigin = new TransformOrigin(new Length(0, LengthUnit.Percent), new Length(50, LengthUnit.Percent));
+                    leash.style.left = Length.Percent(50); leash.style.top = Length.Percent(45);
+                    bg.Add(leash);
+                    leashes[i] = leash;
+                    Label dog = new Label(dogEmojis[i]);
+                    dog.style.position = Position.Absolute; dog.style.fontSize = 35;
+                    bg.Add(dog);
+                    dogs[i] = dog;
+                    dogDistances[i] = 40f + (i*10);
+                    dogAngles[i] = i * 72f;
+                }
+                bg.schedule.Execute(() => {
+                    for(int i=0; i<5; i++) {
+                        dogDistances[i] += 0.3f;
+                        if(dogDistances[i] > 110f) dogDistances[i] = 40f; 
+                        float rad = dogAngles[i] * Mathf.Deg2Rad;
+                        float x = Mathf.Cos(rad) * dogDistances[i];
+                        float y = Mathf.Sin(rad) * dogDistances[i];
+                        dogs[i].style.left = Length.Percent(50); dogs[i].style.translate = new StyleTranslate(new Translate(x, y, 0));
+                        dogs[i].style.top = Length.Percent(45);
+                        leashes[i].style.width = dogDistances[i];
+                        leashes[i].style.rotate = new StyleRotate(new Rotate(Angle.Degrees(dogAngles[i])));
+                    }
+                }).Every(16);
+                break;
+                
+            case "Deliver Fast Food Order":
+                bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f));
+                VisualElement roadLeft = new VisualElement(); roadLeft.style.position = Position.Absolute; roadLeft.style.top = 0; roadLeft.style.bottom = 0; roadLeft.style.left = Length.Percent(30); roadLeft.style.width = 10; roadLeft.style.backgroundColor = new StyleColor(Color.white);
+                VisualElement roadRight = new VisualElement(); roadRight.style.position = Position.Absolute; roadRight.style.top = 0; roadRight.style.bottom = 0; roadRight.style.right = Length.Percent(10); roadRight.style.width = 10; roadRight.style.backgroundColor = new StyleColor(Color.white);
+                bg.Add(roadLeft); bg.Add(roadRight);
+                VisualElement[] stripes = new VisualElement[4];
+                for(int i=0; i<4; i++) {
+                    VisualElement stripe = new VisualElement();
+                    stripe.style.position = Position.Absolute; stripe.style.left = Length.Percent(60); stripe.style.width = 10; stripe.style.height = 40;
+                    stripe.style.backgroundColor = new StyleColor(Color.yellow);
+                    bg.Add(stripe);
+                    stripes[i] = stripe;
+                }
+                
+                Label[] obstacles = new Label[2];
+                float[] obsY = new float[2];
+                for(int i=0; i<2; i++) {
+                    obstacles[i] = new Label("🚘");
+                    obstacles[i].style.position = Position.Absolute; obstacles[i].style.fontSize = 40;
+                    obsY[i] = -100 - (i*150);
+                    bg.Add(obstacles[i]);
+                }
+                
+                Label playerBike = new Label("🛵");
+                playerBike.style.position = Position.Absolute; playerBike.style.bottom = 10; playerBike.style.left = Length.Percent(60); playerBike.style.fontSize = 50;
+                bg.Add(playerBike);
+                
+                float roadY = 0;
+                bg.schedule.Execute(() => {
+                    roadY += 4f;
+                    for(int i=0; i<4; i++) {
+                        float curY = (i*60) + roadY;
+                        if(curY > 250) curY -= 240;
+                        stripes[i].style.top = curY;
+                    }
+                    for(int i=0; i<2; i++) {
+                        obsY[i] += 2f;
+                        if(obsY[i] > 250f) {
+                            obsY[i] = -100f;
+                            obstacles[i].style.left = Length.Percent(Random.value > 0.5f ? 45 : 70);
+                        }
+                        obstacles[i].style.top = obsY[i];
+                    }
+                    playerBike.style.left = Length.Percent(55 + Mathf.Sin(roadY * 0.05f) * 15f);
+                }).Every(16);
+                break;
+                
+            case "Forge Transit Passes":
+                bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.25f));
+                VisualElement stampZone = new VisualElement();
+                stampZone.style.position = Position.Absolute; stampZone.style.left = Length.Percent(45); stampZone.style.width = Length.Percent(40); stampZone.style.top = 40; stampZone.style.bottom = 40;
+                stampZone.style.borderTopWidth = 4; stampZone.style.borderBottomWidth = 4; stampZone.style.borderLeftWidth = 4; stampZone.style.borderRightWidth = 4;
+                stampZone.style.borderTopColor = stampZone.style.borderBottomColor = stampZone.style.borderLeftColor = stampZone.style.borderRightColor = new StyleColor(new Color(1f, 1f, 1f, 0.2f));
+                bg.Add(stampZone);
+                VisualElement passCardBg = new VisualElement();
+                passCardBg.style.position = Position.Absolute;
+                passCardBg.style.top = 70; passCardBg.style.width = 140; passCardBg.style.height = 80;
+                passCardBg.style.backgroundColor = new StyleColor(new Color(0.9f, 0.95f, 0.95f));
+                passCardBg.style.borderTopLeftRadius = 15; passCardBg.style.borderTopRightRadius = 15; passCardBg.style.borderBottomLeftRadius = 15; passCardBg.style.borderBottomRightRadius = 15;
+                
+                VisualElement photo = new VisualElement(); photo.style.position = Position.Absolute; photo.style.left = 10; photo.style.top = 20; photo.style.width = 30; photo.style.height = 40; photo.style.backgroundColor = new StyleColor(new Color(0.7f, 0.7f, 0.8f)); passCardBg.Add(photo);
+                for(int i=0; i<3; i++) {
+                    VisualElement line = new VisualElement(); line.style.position = Position.Absolute; line.style.left = 50; line.style.top = 25 + (i*12); line.style.height = 4; line.style.width = 60; line.style.backgroundColor = new StyleColor(new Color(0.5f, 0.5f, 0.6f)); passCardBg.Add(line);
+                }
+                
+                Label fStamp = new Label("APPROVED");
+                fStamp.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 0.9f));
+                fStamp.style.fontSize = 22; fStamp.style.unityFontStyleAndWeight = FontStyle.Bold;
+                fStamp.style.rotate = new Rotate(Angle.Degrees(-15));
+                fStamp.style.position = Position.Absolute; fStamp.style.left = 10; fStamp.style.top = 20;
+                fStamp.style.display = DisplayStyle.None;
+                passCardBg.Add(fStamp);
+                bg.Add(passCardBg);
+                
+                float cardX = -150;
+                float phase = 0;
+                bg.schedule.Execute(() => {
+                    phase += 0.015f;
+                    if(phase < 1f) {
+                        cardX += 8f;
+                        fStamp.style.display = DisplayStyle.None;
+                    } else if (phase < 1.5f) {
+                        fStamp.style.display = DisplayStyle.Flex;
+                    } else {
+                        cardX = -150;
+                        phase = 0;
+                    }
+                    passCardBg.style.left = cardX;
+                }).Every(16);
+                break;
+                
+            case "Crack Luxury Briefcase":
+                bg.style.backgroundColor = new StyleColor(new Color(0.1f, 0.1f, 0.15f));
+                Label targetText = new Label("TARGET: 7 - 2 - 9");
+                targetText.style.color = new StyleColor(Color.white); targetText.style.fontSize = 20;
+                targetText.style.position = Position.Absolute; targetText.style.top = 10; 
+                targetText.style.left = Length.Percent(70); targetText.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                bg.Add(targetText);
+                VisualElement[] dials = new VisualElement[3];
+                Label[] dialNums = new Label[3];
+                for(int i=0; i<3; i++) {
+                    VisualElement dial = new VisualElement();
+                    dial.style.position = Position.Absolute; 
+                    dial.style.left = Length.Percent(55 + (i*15)); dial.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                    dial.style.top = 50; dial.style.width = 40; dial.style.height = 105;
+                    dial.style.backgroundColor = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
+                    dial.style.overflow = Overflow.Hidden;
+                    Label num = new Label("1\n2\n3\n4\n5\n6\n7\n8\n9\n0");
+                    num.style.color = new StyleColor(Color.black); num.style.fontSize = 30; num.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    num.style.position = Position.Absolute;
+                    dial.Add(num);
+                    bg.Add(dial);
+                    dials[i] = dial;
+                    dialNums[i] = num;
+                }
+                float[] dialY = {0, 0, 0};
+                int unlocked = 0;
+                bg.schedule.Execute(() => {
+                    for(int i=0; i<3; i++) {
+                        if(i < unlocked) {
+                            dialY[i] = Mathf.Round(dialY[i] / 35f) * 35f; 
+                            dialNums[i].style.top = dialY[i];
+                            continue;
+                        }
+                        dialY[i] -= 5f;
+                        if(dialY[i] < -200) dialY[i] = 0;
+                        dialNums[i].style.top = dialY[i];
+                    }
+                    if (Random.value < 0.02f && unlocked < 3) {
+                        dialNums[unlocked].style.color = new StyleColor(new Color(0.18f, 0.8f, 0.44f));
+                        unlocked++;
+                        if (unlocked >= 3) {
+                            bg.schedule.Execute(() => {
+                                unlocked = 0;
+                                foreach(var d in dialNums) d.style.color = new StyleColor(Color.black);
+                            }).StartingIn(1500);
+                        }
+                    }
+                }).Every(16);
+                break;
+                
+            case "Skim ATM Card Data":
+                bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.1f, 0.05f));
+                Color[] colors = { Color.red, Color.blue, Color.green, Color.yellow };
+                VisualElement[] atmWires = new VisualElement[4];
+                for(int i=0; i<4; i++) {
+                    VisualElement l = new VisualElement(); l.style.position = Position.Absolute; l.style.left = Length.Percent(40); l.style.top = 40 + (i*40); l.style.width = 20; l.style.height = 20; l.style.backgroundColor = new StyleColor(colors[i]); l.style.borderTopLeftRadius = 10; l.style.borderTopRightRadius = 10; l.style.borderBottomLeftRadius = 10; l.style.borderBottomRightRadius = 10;
+                    bg.Add(l);
+                    VisualElement r = new VisualElement(); r.style.position = Position.Absolute; r.style.right = 20; r.style.top = 40 + (i*40); r.style.width = 20; r.style.height = 20; r.style.backgroundColor = new StyleColor(colors[i]); r.style.borderTopLeftRadius = 10; r.style.borderTopRightRadius = 10; r.style.borderBottomLeftRadius = 10; r.style.borderBottomRightRadius = 10;
+                    bg.Add(r);
+                    VisualElement w = new VisualElement(); w.style.position = Position.Absolute; w.style.left = Length.Percent(40); w.style.marginLeft = 10; w.style.top = 48 + (i*40); w.style.height = 4; w.style.backgroundColor = new StyleColor(colors[i]); w.style.width = 0;
+                    bg.Add(w);
+                    atmWires[i] = w;
+                }
+                int currWire = 0;
+                float wirePercent = 0;
+                bg.schedule.Execute(() => {
+                    wirePercent += 3f;
+                    if(wirePercent > 100f) {
+                        currWire++;
+                        wirePercent = 0;
+                        if(currWire >= 4) {
+                            currWire = 0;
+                            foreach(var w in atmWires) w.style.width = 0;
+                        }
+                    }
+                    if (currWire < 4) {
+                        atmWires[currWire].style.width = Length.Percent(wirePercent * 0.5f); // approximate reach to right side
+                    }
+                }).Every(16);
+                break;
+                
+            case "Corporate Espionage Heist":
+                bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.05f, 0.1f));
+                Label targetsLbl = new Label("TARGETS: 24 81 55 12");
+                targetsLbl.style.position = Position.Absolute; targetsLbl.style.top = 5; 
+                targetsLbl.style.left = Length.Percent(65); targetsLbl.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), 0, 0));
+                targetsLbl.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f)); targetsLbl.style.fontSize = 18; targetsLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                bg.Add(targetsLbl);
+                VisualElement ipGrid = new VisualElement();
+                ipGrid.style.position = Position.Absolute; ipGrid.style.top = 35; ipGrid.style.left = Length.Percent(35); ipGrid.style.right = 10; ipGrid.style.bottom = 10;
+                ipGrid.style.flexWrap = Wrap.Wrap; ipGrid.style.flexDirection = FlexDirection.Row;
+                Label[] gridNums = new Label[40];
+                for(int i=0; i<40; i++) {
+                    Label l = new Label(Random.Range(10, 99).ToString());
+                    l.style.width = Length.Percent(15); l.style.height = 25; l.style.fontSize = 18; l.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+                    ipGrid.Add(l);
+                    gridNums[i] = l;
+                }
+                bg.Add(ipGrid);
+                int ticks = 0;
+                bg.schedule.Execute(() => {
+                    ticks++;
+                    if(ticks % 15 == 0) {
+                        int rnd = Random.Range(0, 40);
+                        gridNums[rnd].style.color = new StyleColor(new Color(0.2f, 0.8f, 0.2f)); 
+                        gridNums[rnd].style.unityFontStyleAndWeight = FontStyle.Bold;
+                    }
+                    if(ticks > 120) {
+                        ticks = 0;
+                        foreach(var l in gridNums) { l.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f)); l.style.unityFontStyleAndWeight = FontStyle.Normal; }
+                    }
+                }).Every(16);
+                break;
+                
+            default:
+                bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f, 1f));
+                break;
+        }
+
+        return bg;
     }
 
     private void OnHustleClicked(SideHustleItem hustle)
@@ -135,7 +516,7 @@ public class HustlesUI
         {
             global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "EXHAUSTION", 
-                description = "You've reached your maximum of 3 side hustles this week. You must advance the week (+ Week) to recover your stamina." 
+                description = "You've reached your maximum of 3 side hustles this week." 
             });
             return; 
         }
@@ -145,9 +526,8 @@ public class HustlesUI
         data.hustleCooldownWeeks.Add(2);
         
         GameManager.Instance.SaveGame();
-        PopulateHustlesBoard(); // Refresh UI to show updated counts/cooldowns
+        PopulateHustlesBoard(); 
 
-        // Launch Minigame Instead of Instant Roll
         ActiveMiniGame gameConfig = new ActiveMiniGame(
             category: "side_hustle",
             name: hustle.name,
