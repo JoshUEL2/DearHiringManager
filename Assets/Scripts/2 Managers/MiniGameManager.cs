@@ -24,7 +24,17 @@ public partial class MiniGameManager : MonoBehaviour
 
 
         overlay.style.display = DisplayStyle.None;
-        overlay.pickingMode = PickingMode.Ignore;}
+        overlay.pickingMode = PickingMode.Ignore;
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (isPlaying)
+        {
+            UnityEngine.Debug.Log("[MiniGameManager] Player quit during minigame! Treating as failure.");
+            AbortGame();
+        }
+    }
 
     private void InitializeConfigs()
     {
@@ -511,6 +521,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
                 GameManager.Instance.financialHistory.Add(new FinancialSnapshot(gData.currentWeek, gData.balance, 0, -fine));
                 
                 var gUIManager = GameUIManager.Instance;
+                GameManager.Instance.SaveGame();
                 if (gUIManager != null) gUIManager.CheckJailStatus();
                 return; 
             }

@@ -30,10 +30,6 @@ public class JailUI : MonoBehaviour
 
     private void LaunchPrisonActivity(string activityName)
     {
-        // 1. Check if they already did this specific activity this week
-        // Note: In Phase 2, we will add a 'completedPrisonActivitiesThisWeek' list to SavedGame.cs 
-        // to grey out the buttons, similar to completedRegularTaskThisWeek.
-
         Debug.Log($"[JAIL] Launching Prison Yard Activity: {activityName}");
 
         ActiveMiniGame gameConfig = new ActiveMiniGame(
@@ -43,5 +39,36 @@ public class JailUI : MonoBehaviour
         );
 
         MiniGameManager.Instance.LaunchMiniGame(gameConfig);
+    }
+
+    private VisualElement lockIcon;
+    private VisualElement container;
+    private bool animToggle = false;
+    private float animTimer = 0f;
+
+    private void Update()
+    {
+        if (jailDocument == null || jailDocument.rootVisualElement == null || jailDocument.rootVisualElement.style.display == DisplayStyle.None) return;
+
+        if (lockIcon == null) lockIcon = jailDocument.rootVisualElement.Q<Label>("LockIcon");
+        if (container == null) container = jailDocument.rootVisualElement.Q<VisualElement>(className: "screen-container");
+
+        if (lockIcon != null && container != null)
+        {
+            animTimer += Time.deltaTime;
+            if (animTimer > 1.0f)
+            {
+                animTimer = 0f;
+                animToggle = !animToggle;
+
+                lockIcon.style.transitionProperty = new StyleList<StylePropertyName>(new System.Collections.Generic.List<StylePropertyName> { new StylePropertyName("scale") });
+                lockIcon.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue> { new TimeValue(1f) });
+                lockIcon.style.scale = animToggle ? new StyleScale(new Scale(new Vector3(1.1f, 1.1f, 1f))) : new StyleScale(new Scale(new Vector3(1.0f, 1.0f, 1f)));
+                
+                container.style.transitionProperty = new StyleList<StylePropertyName>(new System.Collections.Generic.List<StylePropertyName> { new StylePropertyName("background-color") });
+                container.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue> { new TimeValue(1f) });
+                container.style.backgroundColor = animToggle ? new StyleColor(new Color(0.1f, 0.05f, 0.05f)) : new StyleColor(new Color(0.04f, 0.07f, 0.1f));
+            }
+        }
     }
 }

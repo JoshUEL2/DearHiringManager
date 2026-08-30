@@ -262,6 +262,8 @@ public class GameUIManager : MonoBehaviour
         if (hustlesDocument != null) hustlesDocument.sortingOrder = 10;
         if (educationDocument != null) educationDocument.sortingOrder = 10;
         if (activitiesDocument != null) activitiesDocument.sortingOrder = 10;
+        if (creationDocument != null) creationDocument.sortingOrder = 20;
+        if (jailDocument != null) jailDocument.sortingOrder = 20;
         // Initialize all tab controllers (they are plain C# classes, not MonoBehaviours)
         // Each wrapped in try-catch so one failure doesn't block the rest or the debug menu
         try { CareerUI.Instance = new CareerUI(); CareerUI.Instance.Initialize(careersDocument); }
@@ -291,6 +293,11 @@ public class GameUIManager : MonoBehaviour
             {
                 Debug.Log("[GameUIManager] No save file found. Starting character creation.");
                 HideAllTabs();
+                if (dashboardRoot != null)
+                {
+                    dashboardRoot.style.display = DisplayStyle.None;
+                    dashboardRoot.pickingMode = PickingMode.Ignore;
+                }
                 creationRoot.style.display = DisplayStyle.Flex;
                 creationRoot.pickingMode = PickingMode.Position;
                 step1Container.style.display = DisplayStyle.Flex;
@@ -571,6 +578,18 @@ public class GameUIManager : MonoBehaviour
         GameManager.Instance.CycleJobs();
 
         GameManager.Instance.SaveGame();
+
+        if (creationRoot != null)
+        {
+            creationRoot.style.display = DisplayStyle.None;
+            creationRoot.pickingMode = PickingMode.Ignore;
+        }
+        if (dashboardRoot != null)
+        {
+            dashboardRoot.style.display = DisplayStyle.Flex;
+            dashboardRoot.pickingMode = PickingMode.Position;
+        }
+
         CheckJailStatus(); 
     }
 
@@ -609,6 +628,14 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
+            bool wasInJail = false;
+            if (jailRoot != null && jailRoot.style.display == DisplayStyle.Flex)
+            {
+                wasInJail = true;
+                jailRoot.style.display = DisplayStyle.None;
+                jailRoot.pickingMode = PickingMode.Ignore;
+            }
+
             bool anyTabActive = false;
             var roots = new[] { careersRoot, hustlesRoot, educationRoot, activitiesRoot };
             foreach (var r in roots)
@@ -621,7 +648,7 @@ public class GameUIManager : MonoBehaviour
             }
             if (dashboardRoot != null && dashboardRoot.style.display == DisplayStyle.Flex) anyTabActive = true;
 
-            if (jailRoot.style.display == DisplayStyle.Flex || !anyTabActive)
+            if (wasInJail || !anyTabActive)
             {
                 SwitchTab(dashboardRoot);
             }
@@ -737,7 +764,7 @@ public class GameUIManager : MonoBehaviour
             screenContainer.style.backgroundColor = new StyleColor(Color.clear);
             
             var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card");
-            if (targetTopCard != null) targetTopCard.style.backgroundColor = new StyleColor(Color.clear);
+            if (targetTopCard != null) targetTopCard.style.visibility = Visibility.Hidden;
 
             // Animate the UXML-defined wrapper
             var middleWrapper = screenContainer.Q<VisualElement>("DynamicMiddleWrapper");
