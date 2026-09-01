@@ -63,7 +63,7 @@ public class LoadingScreenUI : MonoBehaviour
         {
             var root = new VisualElement();
             root.style.flexGrow = 1;
-            root.style.backgroundColor = new Color(1f, 0f, 0f, 1f); // Red background as requested
+            root.style.backgroundColor = new Color(0.082f, 0f, 0f, 1f); // Red background as requested
             root.style.position = Position.Absolute;
             root.style.left = 0;
             root.style.right = 0;
