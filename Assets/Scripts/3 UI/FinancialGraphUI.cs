@@ -24,7 +24,12 @@ public class FinancialGraphUI : MonoBehaviour
         btnCloseGraph = root.Q<Button>("BtnCloseGraph");
         btnCloseGraph.clicked += CloseGraph;
 
-        graphOverlay.style.display = DisplayStyle.None;
+        var card = graphOverlay.Q<VisualElement>("GraphCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        graphOverlay.style.opacity = 0f;
+        graphOverlay.schedule.Execute(() => {
+            graphOverlay.style.display = DisplayStyle.None;
+        }).StartingIn(300);
         graphOverlay.pickingMode = PickingMode.Ignore;
     }
 
@@ -32,12 +37,24 @@ public class FinancialGraphUI : MonoBehaviour
     {
         DrawGraph();
         graphOverlay.style.display = DisplayStyle.Flex;
+        graphOverlay.style.opacity = 0f;
+        var card = graphOverlay.Q<VisualElement>("GraphCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        graphOverlay.schedule.Execute(() => {
+            graphOverlay.style.opacity = 1f;
+            if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 1, 1)));
+        }).StartingIn(50);
         graphOverlay.pickingMode = PickingMode.Position;
     }
 
     private void CloseGraph()
     {
-        graphOverlay.style.display = DisplayStyle.None;
+        var card = graphOverlay.Q<VisualElement>("GraphCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        graphOverlay.style.opacity = 0f;
+        graphOverlay.schedule.Execute(() => {
+            graphOverlay.style.display = DisplayStyle.None;
+        }).StartingIn(300);
         graphOverlay.pickingMode = PickingMode.Ignore;
     }
 

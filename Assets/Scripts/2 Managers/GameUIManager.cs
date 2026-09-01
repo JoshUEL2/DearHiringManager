@@ -139,12 +139,25 @@ public class GameUIManager : MonoBehaviour
         if (btnExpandHistory != null && expandedOverlay != null) {
             btnExpandHistory.clicked += () => {
                 expandedOverlay.style.display = DisplayStyle.Flex;
+                expandedOverlay.style.opacity = 0f;
+                var card = expandedOverlay.Q<VisualElement>("ExpandedHistoryCard");
+                if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+                
+                expandedOverlay.schedule.Execute(() => {
+                    expandedOverlay.style.opacity = 1f;
+                    if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+                }).StartingIn(50);
                 expandedOverlay.BringToFront();
             };
         }
         if (btnCloseExpanded != null && expandedOverlay != null) {
             btnCloseExpanded.clicked += () => {
-                expandedOverlay.style.display = DisplayStyle.None;
+                var card = expandedOverlay.Q<VisualElement>("ExpandedHistoryCard");
+                if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+                expandedOverlay.style.opacity = 0f;
+                expandedOverlay.schedule.Execute(() => {
+                    expandedOverlay.style.display = DisplayStyle.None;
+                }).StartingIn(300);
             };
         }
         if (btnToggleTheme != null) btnToggleTheme.clicked += ToggleTheme;
@@ -346,6 +359,13 @@ public class GameUIManager : MonoBehaviour
         {
             btnDebug.clicked += () => {
                 debugOverlay.style.display = DisplayStyle.Flex;
+                debugOverlay.style.opacity = 0f;
+                var card = debugOverlay.Q<VisualElement>("DebugGamesCard");
+                if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+                debugOverlay.schedule.Execute(() => {
+                    debugOverlay.style.opacity = 1f;
+                    if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 1, 1)));
+                }).StartingIn(50);
                 debugOverlay.BringToFront();
                 debugList.Clear();
                 if (MiniGameManager.Instance != null && MiniGameManager.Instance.GameConfigs != null)
@@ -362,7 +382,10 @@ public class GameUIManager : MonoBehaviour
                         b.style.borderLeftColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f));
                         b.style.borderRightColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f));
                         b.clicked += () => {
-                            debugOverlay.style.display = DisplayStyle.None;
+                            var card2 = debugOverlay.Q<VisualElement>("DebugGamesCard");
+                            if (card2 != null) card2.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+                            debugOverlay.style.opacity = 0f;
+                            debugOverlay.schedule.Execute(() => debugOverlay.style.display = DisplayStyle.None).StartingIn(300);
                             var active = new ActiveMiniGame("Debug", kvp.Key, canFail: false);
                             MiniGameManager.Instance.LaunchMiniGame(active);
                         };
@@ -373,7 +396,12 @@ public class GameUIManager : MonoBehaviour
             
             if (btnCloseDebug != null)
             {
-                btnCloseDebug.clicked += () => debugOverlay.style.display = DisplayStyle.None;
+                btnCloseDebug.clicked += () => {
+                    var card = debugOverlay.Q<VisualElement>("DebugGamesCard");
+                    if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+                    debugOverlay.style.opacity = 0f;
+                    debugOverlay.schedule.Execute(() => debugOverlay.style.display = DisplayStyle.None).StartingIn(300);
+                };
             }
         }
     }
@@ -558,6 +586,10 @@ public class GameUIManager : MonoBehaviour
         panel.Add(dismissBtn);
         overlay.Add(panel);
         activeRoot.Add(overlay);
+        overlay.schedule.Execute(() => {
+            overlay.style.opacity = 1f;
+            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+        }).StartingIn(50);
     }
 
     private void OnRandomizeBackstoryClicked()
@@ -1002,7 +1034,13 @@ public class GameUIManager : MonoBehaviour
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
         if (settingsOverlay == null) return;
         settingsOverlay.style.display = DisplayStyle.Flex;
-        settingsOverlay.schedule.Execute(() => settingsOverlay.style.opacity = 1f).StartingIn(50);
+        settingsOverlay.style.opacity = 0f;
+        var card = settingsOverlay.Q<VisualElement>("SettingsCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        settingsOverlay.schedule.Execute(() => {
+            settingsOverlay.style.opacity = 1f;
+            if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 1, 1)));
+        }).StartingIn(50);
         RefreshHistoryLedger();
     }
 
@@ -1070,6 +1108,8 @@ public class GameUIManager : MonoBehaviour
     private void CloseSettings()
     {
         if (settingsOverlay == null) return;
+        var card = settingsOverlay.Q<VisualElement>("SettingsCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
         settingsOverlay.style.opacity = 0f;
         settingsOverlay.schedule.Execute(() => settingsOverlay.style.display = DisplayStyle.None).StartingIn(300);
     }
@@ -1188,6 +1228,14 @@ public class GameUIManager : MonoBehaviour
         overlay.pickingMode = PickingMode.Position;
 
         var card = new VisualElement();
+        card.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("scale") });
+        card.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.3f) });
+        card.style.transitionTimingFunction = new StyleList<EasingFunction>(new List<EasingFunction> { new EasingFunction(EasingMode.EaseOutBack) });
+        card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+        
+        overlay.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("opacity") });
+        overlay.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.2f) });
+        overlay.style.opacity = 0f;
         card.AddToClassList("popup-card");
 
         var titleLbl = new Label(ev.title);
@@ -1210,8 +1258,12 @@ public class GameUIManager : MonoBehaviour
         var btn = new Button { text = "ACKNOWLEDGE" };
         btn.AddToClassList("popup-button");
         btn.clicked += () => { 
-            overlay.RemoveFromHierarchy(); 
-            onAcknowledge?.Invoke();
+            card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+            overlay.style.opacity = 0f;
+            overlay.schedule.Execute(() => {
+                overlay.RemoveFromHierarchy(); 
+                onAcknowledge?.Invoke();
+            }).StartingIn(300);
         };
 
         card.Add(titleLbl);
@@ -1227,6 +1279,10 @@ public class GameUIManager : MonoBehaviour
 
         overlay.Add(card);
         activeRoot.Add(overlay);
+        overlay.schedule.Execute(() => {
+            overlay.style.opacity = 1f;
+            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+        }).StartingIn(50);
     }
 
     private System.Collections.IEnumerator ShakeRoutine(VisualElement el)
@@ -1360,5 +1416,9 @@ public class GameUIManager : MonoBehaviour
         
         overlay.Add(paper);
         activeRoot.Add(overlay);
+        overlay.schedule.Execute(() => {
+            overlay.style.opacity = 1f;
+            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+        }).StartingIn(50);
     }
 }

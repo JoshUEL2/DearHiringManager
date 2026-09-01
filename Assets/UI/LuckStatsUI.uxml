@@ -1,9 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
     <ui:Style src="styles.uss" />
 
-    <ui:VisualElement name="LuckPopupOverlay" class="popup-overlay" style="display: flex; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center;">
-        
-        <ui:VisualElement class="popup-panel" style="background-color: #FFFFFF; border-radius: 40px; width: 90%; max-width: 900px; padding: 60px;">
+    <ui:VisualElement name="LuckPopupOverlay" class="popup-overlay" style="display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; opacity: 0; transition-property: opacity; transition-duration: 0.2s;">
+        <ui:VisualElement name="LuckPopupCard" class="popup-panel" style="background-color: #FFFFFF; border-radius: 40px; width: 90%; max-width: 900px; padding: 60px; scale: 1 0; transition-property: scale; transition-duration: 0.3s; transition-timing-function: ease-out-back;">
             
             <ui:Label text="Career Luck Statistics" style="font-size: 60px; -unity-font-style: bold; color: #0288D1; margin-bottom: 40px; white-space: normal;" />
             <ui:Label text="Professional networking permanently raises your application acceptance rates. Higher stress levels apply severe interview luck penalties." style="font-size: 32px; color: #7F8C8D; margin-bottom: 50px; white-space: normal;" />

@@ -3,9 +3,9 @@
     <ui:Style src="styles.uss" />
 
     <!-- Full screen dark overlay -->
-    <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none;">
+    <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; display: none; opacity: 0; transition-property: opacity; transition-duration: 0.2s;">
         <!-- Terminal Window -->
-        <ui:VisualElement class="popup-card" style="padding: 20px; max-height: 95%; margin-top: -20px; position: relative;">
+        <ui:VisualElement name="MiniGameCard" class="popup-card" style="padding: 20px; max-height: 95%; margin-top: -20px; position: relative; scale: 1 0; transition-property: scale; transition-duration: 0.3s; transition-timing-function: ease-out-back;">
             <!-- Abort Button (Top Left of Card) -->
             <ui:Button name="BtnAbortMinigame" text="X" class="popup-button" style="position: absolute; left: -20px; top: -20px; width: 60px; height: 60px; border-radius: 30px; font-size: 30px; -unity-font-style: bold; background-color: #E74C3C; color: white; justify-content: center; align-items: center;" />
 

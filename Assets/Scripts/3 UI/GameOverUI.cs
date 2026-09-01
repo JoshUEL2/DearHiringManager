@@ -99,6 +99,13 @@ public class GameOverUI : MonoBehaviour
         statCashText.text = $"• Final Wallet Remaining: ${data.balance:F2}";
 
         gameOverOverlay.style.display = DisplayStyle.Flex;
+        gameOverOverlay.style.opacity = 0f;
+        var card = gameOverOverlay.Q<VisualElement>("GameOverCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        gameOverOverlay.schedule.Execute(() => {
+            gameOverOverlay.style.opacity = 1f;
+            if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 1, 1)));
+        }).StartingIn(50);
         gameOverOverlay.pickingMode = PickingMode.Position;
     }
 

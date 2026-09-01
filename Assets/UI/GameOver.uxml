@@ -2,9 +2,8 @@
     
     <ui:Style src="styles.uss" />
 
-    <ui:VisualElement name="GameOverOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.95); justify-content: center; align-items: center; display: none;">
-        
-        <ui:VisualElement name="GameOverCard" class="popup-card" style="align-items: center; border-color: #E74C3C; border-width: 4px;">
+    <ui:VisualElement name="GameOverOverlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.95); justify-content: center; align-items: center; display: none; opacity: 0; transition-property: opacity; transition-duration: 0.2s;">
+        <ui:VisualElement name="GameOverCard" class="popup-card" style="align-items: center; border-color: #E74C3C; border-width: 4px; scale: 1 0; transition-property: scale; transition-duration: 0.3s; transition-timing-function: ease-out-back;">
             
             <ui:Label name="TitleText" text="SIMULATION TERMINATED" class="header-text" style="color: #E74C3C; font-size: 50px; white-space: normal; margin-bottom: 15px; -unity-text-align: middle-center;" />
             <ui:Label name="ReasonText" text="Reason goes here..." style="color: #94A3B8; font-size: 32px; white-space: normal; margin-bottom: 30px; -unity-text-align: middle-center;" />

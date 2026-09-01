@@ -39,7 +39,12 @@ public class MigrationUI : MonoBehaviour
         
         btnClosePortal.clicked += ClosePortal;
 
-        migrationOverlay.style.display = DisplayStyle.None;
+        var card = migrationOverlay.Q<VisualElement>("MigrationCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        migrationOverlay.style.opacity = 0f;
+        migrationOverlay.schedule.Execute(() => {
+            migrationOverlay.style.display = DisplayStyle.None;
+        }).StartingIn(300);
         migrationOverlay.pickingMode = PickingMode.Ignore;
     }
 
@@ -64,12 +69,24 @@ public class MigrationUI : MonoBehaviour
         btnMoveFinancial.text = data.zone == District.FinancialDistrict ? "Current Home" : (financialEligible ? "Migrate ($3,000)" : "Locked");
 
         migrationOverlay.style.display = DisplayStyle.Flex;
+        migrationOverlay.style.opacity = 0f;
+        var card = migrationOverlay.Q<VisualElement>("MigrationCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        migrationOverlay.schedule.Execute(() => {
+            migrationOverlay.style.opacity = 1f;
+            if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 1, 1)));
+        }).StartingIn(50);
         migrationOverlay.pickingMode = PickingMode.Position;
     }
 
     private void ClosePortal()
     {
-        migrationOverlay.style.display = DisplayStyle.None;
+        var card = migrationOverlay.Q<VisualElement>("MigrationCard");
+        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
+        migrationOverlay.style.opacity = 0f;
+        migrationOverlay.schedule.Execute(() => {
+            migrationOverlay.style.display = DisplayStyle.None;
+        }).StartingIn(300);
         migrationOverlay.pickingMode = PickingMode.Ignore;
     }
 
