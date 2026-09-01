@@ -872,10 +872,12 @@ public class GameUIManager : MonoBehaviour
             }
         }
 
-        if (CareerUI.Instance != null) CareerUI.Instance.RefreshView();
-        if (HustlesUI.Instance != null) HustlesUI.Instance.PopulateHustlesBoard();
-        if (EducationUI.Instance != null) EducationUI.Instance.RefreshView();
-        RefreshDashboardUI(GameManager.Instance.currentData.playerName);
+        // Only refresh the tab we are actually opening to prevent stutter
+        if (targetRoot == careersRoot && CareerUI.Instance != null) CareerUI.Instance.RefreshView();
+        else if (targetRoot == hustlesRoot && HustlesUI.Instance != null) HustlesUI.Instance.PopulateHustlesBoard();
+        else if (targetRoot == educationRoot && EducationUI.Instance != null) EducationUI.Instance.RefreshView();
+        else if (targetRoot == dashboardRoot) RefreshDashboardUI(GameManager.Instance.currentData.playerName);
+        // ActivitiesUI manages its own Population in Initialize, but we can refresh here if needed later
     }
 
     private void AnimateCloseMenu(VisualElement menuRoot)

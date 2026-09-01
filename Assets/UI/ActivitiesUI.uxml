@@ -51,49 +51,11 @@
             </ui:VisualElement>
 
             <ui:VisualElement name="WellnessContainer" style="flex-grow: 1; display: flex;">
-                <ui:ScrollView style="flex-grow: 1; width: 100%;">
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Walk in the Park" class="job-title" />
-                        <ui:Button name="BtnPark" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Capsule Arcade VR" class="job-title" />
-                        <ui:Button name="BtnVR" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Volcanic Hot Stone Spa" class="job-title" />
-                        <ui:Button name="BtnOxygen" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Suburban Sensory Mud Spa" class="job-title" />
-                        <ui:Button name="BtnSpa" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Interstellar Cryo Resort" class="job-title" />
-                        <ui:Button name="BtnCryo" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                </ui:ScrollView>
+                <ui:ScrollView name="WellnessScrollView" style="flex-grow: 1; width: 100%; padding-bottom: 40px;" />
             </ui:VisualElement>
 
             <ui:VisualElement name="MixersContainer" style="flex-grow: 1; display: none;">
-                <ui:ScrollView style="flex-grow: 1; width: 100%;">
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Manual / Service Mixer" class="job-title" />
-                        <ui:Button name="BtnMixerManual" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Hospitality Mixer" class="job-title" />
-                        <ui:Button name="BtnMixerHospitality" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Tech Mixer" class="job-title" />
-                        <ui:Button name="BtnMixerTech" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                    <ui:VisualElement class="card">
-                        <ui:Label text="Corporate Mixer" class="job-title" />
-                        <ui:Button name="BtnMixerCorp" text="Perform" class="apply-button" />
-                    </ui:VisualElement>
-                </ui:ScrollView>
+                <ui:ScrollView name="MixersScrollView" style="flex-grow: 1; width: 100%; padding-bottom: 40px;" />
             </ui:VisualElement>
 
         </ui:VisualElement>
