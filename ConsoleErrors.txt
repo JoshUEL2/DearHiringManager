@@ -80,3 +80,17 @@ UnityEngine.Debug:LogError (object)
 GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:275)
 
 ---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: 'style' is a duplicate attribute name. Line 95, position 295.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String arg, System.Int32 lineNo, System.Int32 linePos) [0x00016] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.AttributeDuplCheck () [0x00094] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseAttributes () [0x004a2] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElement () [0x001df] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x0016f] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---

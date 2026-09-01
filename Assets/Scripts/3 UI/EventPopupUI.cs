@@ -29,12 +29,10 @@ public class EventPopupUI : MonoBehaviour
             btnAcknowledge.clicked += HideEvent;
 
         if (eventOverlay != null)
-            var card = eventOverlay.Q<VisualElement>("EventCard");
-        if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
-        eventOverlay.style.opacity = 0f;
-        eventOverlay.schedule.Execute(() => {
+        {
             eventOverlay.style.display = DisplayStyle.None;
-        }).StartingIn(300);
+            eventOverlay.style.opacity = 0f;
+        }
     }
 
     public void ShowEvent(RandomEvent ev) 

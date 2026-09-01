@@ -489,6 +489,14 @@ public class GameUIManager : MonoBehaviour
         overlay.style.justifyContent = Justify.Center;
 
         var panel = new VisualElement();
+        panel.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("scale") });
+        panel.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.3f) });
+        panel.style.transitionTimingFunction = new StyleList<EasingFunction>(new List<EasingFunction> { new EasingFunction(EasingMode.EaseOutBack) });
+        panel.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+        
+        overlay.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("opacity") });
+        overlay.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.2f) });
+        overlay.style.opacity = 0f;
         panel.AddToClassList("popup-panel");
         panel.style.backgroundColor = new StyleColor(Color.white);
         panel.style.borderTopLeftRadius = 40; panel.style.borderTopRightRadius = 40; panel.style.borderBottomLeftRadius = 40; panel.style.borderBottomRightRadius = 40;
@@ -581,14 +589,18 @@ public class GameUIManager : MonoBehaviour
         dismissBtn.style.width = 250;
         dismissBtn.style.marginTop = 0; dismissBtn.style.marginBottom = 0;
 
-        dismissBtn.clicked += () => activeRoot.Remove(overlay);
+        dismissBtn.clicked += () => {
+            panel.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+            overlay.style.opacity = 0f;
+            overlay.schedule.Execute(() => activeRoot.Remove(overlay)).StartingIn(300);
+        };
         
         panel.Add(dismissBtn);
         overlay.Add(panel);
         activeRoot.Add(overlay);
         overlay.schedule.Execute(() => {
             overlay.style.opacity = 1f;
-            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+            panel.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
         }).StartingIn(50);
     }
 
@@ -1407,18 +1419,29 @@ public class GameUIManager : MonoBehaviour
         closeBtn.style.fontSize = 32;
 
         closeBtn.clicked += () => {
-            activeRoot.Remove(overlay);
+            paper.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+            overlay.style.opacity = 0f;
+            overlay.schedule.Execute(() => activeRoot.Remove(overlay)).StartingIn(300);
         };
 
         paper.Add(header);
         paper.Add(scroll);
         paper.Add(closeBtn);
         
+        paper.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("scale") });
+        paper.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.3f) });
+        paper.style.transitionTimingFunction = new StyleList<EasingFunction>(new List<EasingFunction> { new EasingFunction(EasingMode.EaseOutBack) });
+        paper.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+        
+        overlay.style.transitionProperty = new StyleList<StylePropertyName>(new List<StylePropertyName> { new StylePropertyName("opacity") });
+        overlay.style.transitionDuration = new StyleList<TimeValue>(new List<TimeValue> { new TimeValue(0.2f) });
+        overlay.style.opacity = 0f;
+        
         overlay.Add(paper);
         activeRoot.Add(overlay);
         overlay.schedule.Execute(() => {
             overlay.style.opacity = 1f;
-            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+            paper.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
         }).StartingIn(50);
     }
 }
