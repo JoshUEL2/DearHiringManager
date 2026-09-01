@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_CryptoMineHeaterCustodian
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 15
-  title: Crypto-Mine Heater Custodian
-  description: Sat in ventilation ducts to ensure servers stayed exactly 190 degrees.
+  title: Virtual Real Estate Mogul
+  description: "You bought a digital mansion in the metaverse for real money. Now the server is shut down and you own a 404 error. You're broke."
   startingCash: 290
   startingStress: 0.42
   startingManualLuck: 0.6
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.7
   startingCorpLuck: 0.15
-  week1Log: "You maintained the cooling fans for an underground crypto-mine. The market crashed, the servers melted down, and you were locked out with nothing but severance dust."
+  week1Log: "You bought a digital mansion in the metaverse for real money. Now the server is shut down and you own a 404 error. You're broke."

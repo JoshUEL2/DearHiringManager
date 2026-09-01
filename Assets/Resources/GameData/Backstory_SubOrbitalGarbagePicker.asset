@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_SubOrbitalGarbagePicker
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 3
-  title: Sub-Orbital Garbage Picker
-  description: You fished debris from low orbit until a rusty bolt punctured your
+  title: Corporate Buzzword Translator
+  description: "You translated 'leveraging synergistic paradigms' into English for the interns. The company pivoted to plain English. You're unemployed."
     vacuum regulator.
   startingCash: 350
   startingStress: 0.35
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.4
   startingCorpLuck: 0.15
-  week1Log: "You caught space junk before it hit the city. You missed a satellite that crushed the boss's car. You were immediately fired."
+  week1Log: "You translated 'leveraging synergistic paradigms' into English for the interns. The company pivoted to plain English. You're unemployed."

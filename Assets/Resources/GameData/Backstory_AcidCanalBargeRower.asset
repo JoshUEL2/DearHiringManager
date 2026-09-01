@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_AcidCanalBargeRower
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 46
-  title: Acid Canal Barge Rower
-  description: Paddled cargo trash barges down low-ph industrial waterways.
+  title: Artisanal Ice Sculptor
+  description: "You carved perfect spheres of ice for $30 cocktails. Global warming melted your freezer truck. You are financially ruined."
   startingCash: 160
   startingStress: 0.59
   startingManualLuck: 0.89
   startingHospitalityLuck: 0.25
   startingTechLuck: 0.15
   startingCorpLuck: 0.05
-  week1Log: "You used to row cargo through the corrosive waters of the Acid Canals. Then automation took over, and a drone barge did it cheaper. Now you're unemployed, smelling vaguely of sulfur."
+  week1Log: "You carved perfect spheres of ice for $30 cocktails. Global warming melted your freezer truck. You are financially ruined."

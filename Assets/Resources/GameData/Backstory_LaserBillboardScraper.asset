@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_LaserBillboardScraper
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 14
-  title: Laser Billboard Scraper
-  description: Wiped smog soot from glowing high-altitude advertisements.
+  title: Boutique Water Sommelier
+  description: "You tasted artisan tap water for a high-end hipster cafe. A customer realized it was just tap water. The cafe folded, and you have nothing."
   startingCash: 510
   startingStress: 0.34
   startingManualLuck: 0.8
   startingHospitalityLuck: 0.35
   startingTechLuck: 0.45
   startingCorpLuck: 0.1
-  week1Log: "You climbed dizzying heights to scrape old neon off laser billboards. Drones do it faster and don't complain about vertigo. You were let go."
+  week1Log: "You tasted artisan tap water for a high-end hipster cafe. A customer realized it was just tap water. The cafe folded, and you have nothing."

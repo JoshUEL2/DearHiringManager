@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_UnpaidBlockchainIntern
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 1
-  title: Unpaid Blockchain Intern
-  description: You spent 12 months mining virtual dog-tokens that eventually crashed
+  title: Cloud Kitchen Ghost Chef
+  description: "You cooked 14 different virtual restaurant brands out of a single unventilated shipping container. You burnt a single grilled cheese and got fired."
     to zero. Left with hand cramps and empty pockets.
   startingCash: 250
   startingStress: 0.4
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.5
   startingTechLuck: 0.8
   startingCorpLuck: 0.15
-  week1Log: "You worked for 'exposure' verifying crypto transactions. The company rugged, the boss fled to Mars, and your exposure doesn't pay the rent."
+  week1Log: "You cooked 14 different virtual restaurant brands out of a single unventilated shipping container. You burnt a single grilled cheese and got fired."

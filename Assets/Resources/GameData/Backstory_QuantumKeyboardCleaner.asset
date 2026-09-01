@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_QuantumKeyboardCleaner
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 5
-  title: Quantum Keyboard Cleaner
-  description: Cleaned key gaps in experimental computers. One key activated a temporal
+  title: Subscription Box Curator
+  description: "You put random artisanal junk in a cardboard box and charged $40 a month for it. People realized it was junk. You went bankrupt."
     shift. You lost a week.
   startingCash: 300
   startingStress: 0.25
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.3
   startingTechLuck: 0.75
   startingCorpLuck: 0.2
-  week1Log: "You used specialized tweezers to get crumbs out of multi-dimensional keyboards. They invented a crumb-repellent forcefield. Now you're unemployed."
+  week1Log: "You put random artisanal junk in a cardboard box and charged $40 a month for it. People realized it was junk. You went bankrupt."

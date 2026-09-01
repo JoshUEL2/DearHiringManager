@@ -8,11 +8,11 @@ public static class CVManager
         { "Scrap Metal Sorter", "I demonstrated exceptional hazard mitigation while categorizing post-consumer industrial alloys, extracting high-value resources under extreme environmental pressure." },
         { "Street Corner Sign Spinner", "I executed dynamic, high-visibility kinetic marketing campaigns, successfully redirecting pedestrian traffic through advanced rotational choreography." },
         { "Fast Food Shift Manager", "I directed a multidisciplinary team in a fast-paced nutritional distribution center, optimizing supply chain logistics and defusing volatile customer relations." },
-        { "Corporate Cubicle Drone", "I consistently exceeded KPIs by processing complex visual flow forms and navigating convoluted bureaucratic hierarchies with maximum synergy." },
+        { "Data Entry Drone", "I consistently exceeded KPIs by processing complex visual flow forms and navigating convoluted bureaucratic hierarchies with maximum synergy." },
         { "Junior React Trainee", "I architected component-based user interfaces, specializing in the type-safe alignment of DOM elements within legacy codebase structures." },
         { "Dystopian Quality Assurance Tester", "I conducted rigorous, high-stress regression testing protocols, hunting elusive visual anomalies and ensuring deployment stability." },
-        { "Executive Interstellar CEO", "I unilaterally dictated global market trends and ruthlessly navigated hostile takeovers, maximizing shareholder value across planetary boundaries." },
-        { "AI Prophecy Alignment Director", "I oversaw the ethical containment and reward-function alignment of hyper-intelligent neural networks, preventing multiple extinction-level events." }
+        { "Fortune 500 CEO", "I unilaterally dictated global market trends and ruthlessly navigated hostile takeovers, maximizing shareholder value across international borders." },
+        { "Chief AI Prompt Engineer", "I oversaw the ethical alignment of large language models, preventing the company from being canceled on social media." }
     };
 
     private static Dictionary<string, string> promotionLore = new Dictionary<string, string> {
@@ -20,11 +20,11 @@ public static class CVManager
         { "Scrap Metal Sorter", "Elevated to Sector Overseer, implementing new safety protocols that reduced atmospheric rust inhalation by 4%." },
         { "Street Corner Sign Spinner", "Recognized as Lead Kinetic Marketer; pioneered the 'Triple Backflip' maneuver, increasing conversion rates by 20%." },
         { "Fast Food Shift Manager", "Promoted to Regional Operations Director, overhauling our synthetic meat supply chain." },
-        { "Corporate Cubicle Drone", "Advanced to Senior Synergistic Facilitator, leading daily standups for over 400 silent participants." },
+        { "Data Entry Drone", "Advanced to Senior Synergistic Facilitator, leading daily standups for over 400 silent participants." },
         { "Junior React Trainee", "Promoted to Senior Frontend Architect, replacing all HTML with a custom WebGL framework." },
         { "Dystopian Quality Assurance Tester", "Elevated to QA Lead; successfully ignored over 10,000 minor visual glitches to meet production deadlines." },
-        { "Executive Interstellar CEO", "Ascended to Galactic Chairman, cementing our absolute monopoly over three star systems." },
-        { "AI Prophecy Alignment Director", "Recognized as Prime Arbiter of Machine Will, successfully surviving three consecutive rogue-AI assassination attempts." }
+        { "Fortune 500 CEO", "Ascended to Global Chairman, cementing our absolute monopoly over three continents." },
+        { "Chief AI Prompt Engineer", "Recognized as VP of Generative Synergy, successfully surviving three consecutive AI-driven mass layoff rounds." }
     };
 
     private static Dictionary<string, string> educationLore = new Dictionary<string, string> {

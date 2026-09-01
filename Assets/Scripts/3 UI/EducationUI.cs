@@ -61,16 +61,16 @@ public class EducationUI
 
         // 🗑️ CORPORATE MANAGEMENT
         catalog.Add(new CourseData { trackName = "CORPORATE MANAGEMENT", title = "BA (Trash Sorting)", description = "Prerequisite for fast-food shift managerial and general clerical droning.", cost = 80.0, weeks = 3, stress = 0.10f, prerequisite = null });
-        catalog.Add(new CourseData { trackName = "CORPORATE MANAGEMENT", title = "MA (Corp Aggression)", description = "Master of Arts in corporate warfare. Unlocks high-society jobs.", cost = 180.0, weeks = 4, stress = 0.12f, prerequisite = "BA (Trash Sorting)" });
-        catalog.Add(new CourseData { trackName = "CORPORATE MANAGEMENT", title = "PhD (Greasology)", description = "Deep academic doctorate research. Unlocks Interstellar CEO candidacy.", cost = 350.0, weeks = 5, stress = 0.18f, prerequisite = "MA (Corp Aggression)" });
+        catalog.Add(new CourseData { trackName = "CORPORATE MANAGEMENT", title = "MA (Corp Aggression)", description = "Master of Arts in corporate synergy. Unlocks high-society jobs.", cost = 180.0, weeks = 4, stress = 0.12f, prerequisite = "BA (Trash Sorting)" });
+        catalog.Add(new CourseData { trackName = "CORPORATE MANAGEMENT", title = "PhD (Greasology)", description = "Deep academic doctorate research. Unlocks Fortune 500 CEO candidacy.", cost = 350.0, weeks = 5, stress = 0.18f, prerequisite = "MA (Corp Aggression)" });
 
         // ☕ ARTISAN BARISTA
         catalog.Add(new CourseData { trackName = "ARTISAN BARISTA", title = "Certified Barista Basics", description = "Learn the alchemy of bean extraction under massive pressure.", cost = 60.0, weeks = 2, stress = 0.06f, prerequisite = null });
         catalog.Add(new CourseData { trackName = "ARTISAN BARISTA", title = "MS in Artisan Latte Artistry", description = "Visual arts on milk foam using specialized organic inks.", cost = 120.0, weeks = 3, stress = 0.09f, prerequisite = "Certified Barista Basics" });
-        catalog.Add(new CourseData { trackName = "ARTISAN BARISTA", title = "PhD (Sensory Siphon Extraction)", description = "Doctoral chemistry of volatile coffee-bean aromatic profiles.", cost = 280.0, weeks = 4, stress = 0.13f, prerequisite = "MS in Artisan Latte Artistry" });
+        catalog.Add(new CourseData { trackName = "ARTISAN BARISTA", title = "PhD (Sensory Siphon Extraction)", description = "Doctoral chemistry of modern artisanal coffee bean roasting.", cost = 280.0, weeks = 4, stress = 0.13f, prerequisite = "MS in Artisan Latte Artistry" });
 
         // 🚰 LIQUID LOGIC ARCHITECTURE
-        catalog.Add(new CourseData { trackName = "LIQUID LOGIC ARCHITECTURE", title = "Plumbing Systems 101", description = "Under-slum pipe threading and pressurized safety basics.", cost = 75.0, weeks = 2, stress = 0.09f, prerequisite = null });
+        catalog.Add(new CourseData { trackName = "LIQUID LOGIC ARCHITECTURE", title = "Plumbing Systems 101", description = "Underground pipe threading and pressurized safety basics.", cost = 75.0, weeks = 2, stress = 0.09f, prerequisite = null });
         catalog.Add(new CourseData { trackName = "LIQUID LOGIC ARCHITECTURE", title = "MS in Liquid Logic Architecture", description = "Designing automatic water routing grids and filtration networks.", cost = 140.0, weeks = 3, stress = 0.12f, prerequisite = "Plumbing Systems 101" });
         catalog.Add(new CourseData { trackName = "LIQUID LOGIC ARCHITECTURE", title = "PhD (Hydrodynamic Resonance)", description = "Academic exploration of sound-frequency water pressure stabilization.", cost = 310.0, weeks = 4, stress = 0.17f, prerequisite = "MS in Liquid Logic Architecture" });
     }
@@ -100,6 +100,11 @@ public class EducationUI
 
         // 2. Populate Catalog
         courseScrollView.Clear();
+        if (activeEnrollmentContainer.parent != null) {
+            activeEnrollmentContainer.parent.Remove(activeEnrollmentContainer);
+        }
+        courseScrollView.Add(activeEnrollmentContainer);
+
         string currentTrack = "";
         VisualElement trackContainer = null;
 
@@ -218,16 +223,16 @@ public class EducationUI
             descLabel.style.whiteSpace = WhiteSpace.Normal;
             descLabel.style.marginTop = 5;
 
-            Label unlocksLabel = new Label($"► Unlocks: {course.unlocks}");
-            unlocksLabel.style.fontSize = 20;
-            unlocksLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            unlocksLabel.style.color = new StyleColor(new Color(0.9f, 0.6f, 0.2f));
-            unlocksLabel.style.marginTop = 10;
-            if (!isPrereqMet) unlocksLabel.style.color = new StyleColor(new Color(0.4f, 0.4f, 0.4f));
+            
+            
+            
+            
+            
+            
 
             leftCol.Add(titleLabel);
             leftCol.Add(descLabel);
-            leftCol.Add(unlocksLabel);
+            
 
             VisualElement statsRow = new VisualElement();
             statsRow.style.flexDirection = FlexDirection.Row;

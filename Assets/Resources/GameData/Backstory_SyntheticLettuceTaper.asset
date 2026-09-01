@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SyntheticLettuceTaper
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 42
-  title: Synthetic Lettuce Taper
-  description: Used glue-spray to keep limp leaf greens look crisp in supermarkets.
+  title: AI Prompt Engineer Intern
+  description: "You spent 4 years studying liberal arts, only to get an unpaid internship writing 'Make it sound professional' into a chatbot. You quit."
   startingCash: 290
   startingStress: 0.43
   startingManualLuck: 0.69
   startingHospitalityLuck: 0.65
   startingTechLuck: 0.25
   startingCorpLuck: 0.15
-  week1Log: "You taped together torn synthetic lettuce leaves to make them look fresh. They started growing it in a lab without tears. You were deemed redundant."
+  week1Log: "You spent 4 years studying liberal arts, only to get an unpaid internship writing 'Make it sound professional' into a chatbot. You quit."

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_BannedAIWhisperer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 31
-  title: Banned AI Whisperer
-  description: Secretly chatted with a prohibited chess computer to get financial
+  title: Professional Line Stander
+  description: "You stood in line for limited-edition sneakers so rich kids didn't have to. The brand moved to online-only drops. You're unemployed."
     tips.
   startingCash: 220
   startingStress: 0.49
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.5
   startingTechLuck: 0.9
   startingCorpLuck: 0.15
-  week1Log: "You secretly kept rogue AIs sane in the dark web. The authorities found out, wiped your clients, and revoked your tech license. You're broke and back on the streets."
+  week1Log: "You stood in line for limited-edition sneakers so rich kids didn't have to. The brand moved to online-only drops. You're unemployed."

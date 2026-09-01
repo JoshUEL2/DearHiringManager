@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_FallenPopHologramVocalist
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 45
-  title: Fallen Pop Hologram Vocalist
-  description: Provided high-fidelity voice notes for non-existent celebrity models.
+  title: Freelance NFT Evaluator
+  description: "You spent your life savings buying a JPEG of a bored monkey. The market crashed to literal pennies. You are financially ruined."
   startingCash: 470
   startingStress: 0.23
   startingManualLuck: 0.4
   startingHospitalityLuck: 0.8
   startingTechLuck: 0.65
   startingCorpLuck: 0.25
-  week1Log: "You provided the raw vocals for a famous pop-hologram. They synthesized your voice entirely and cut you out of the contract. You're replaced by an algorithm."
+  week1Log: "You spent your life savings buying a JPEG of a bored monkey. The market crashed to literal pennies. You are financially ruined."

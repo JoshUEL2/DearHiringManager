@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_VirtualVacationTourGuard
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 22
-  title: Virtual Vacation Tour Guard
-  description: Protected high-net vacationers from sensory-glitch malware bugs.
+  title: Venture Capital Hype Man
+  description: "You stood behind startup founders and nodded aggressively during pitches. The funds dried up, and so did your career."
   startingCash: 410
   startingStress: 0.27
   startingManualLuck: 0.35
   startingHospitalityLuck: 0.7
   startingTechLuck: 0.75
   startingCorpLuck: 0.15
-  week1Log: "You protected rich clients from digital bandits in VR. You fell asleep on the job and a client's avatar got mugged. You were fired in reality."
+  week1Log: "You stood behind startup founders and nodded aggressively during pitches. The funds dried up, and so did your career."

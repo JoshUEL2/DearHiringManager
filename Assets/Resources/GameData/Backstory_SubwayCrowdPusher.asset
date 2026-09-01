@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SubwayCrowdPusher
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 30
-  title: Subway Crowd Pusher
-  description: Crammed hundreds into automated transit tubes using foam paddles.
+  title: TikTok Trend Forecaster
+  description: "You predicted the next big dance trend. You were wrong by exactly one day. The internet roasted you into early retirement."
   startingCash: 310
   startingStress: 0.35
   startingManualLuck: 0.7
   startingHospitalityLuck: 0.7
   startingTechLuck: 0.1
   startingCorpLuck: 0.2
-  week1Log: "You shoved people into packed subway cars. Social distancing became a trend again, and your aggressive skills were no longer wanted."
+  week1Log: "You predicted the next big dance trend. You were wrong by exactly one day. The internet roasted you into early retirement."

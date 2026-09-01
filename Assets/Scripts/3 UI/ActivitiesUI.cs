@@ -52,10 +52,10 @@ public class ActivitiesUI
         wellnessScrollView.Add(gridWrapper);
 
         AddActivityCard(gridWrapper, "Walk in the Park", "A peaceful stroll to clear your mind.", 10.0, 12f, true, () => DoWellness(10.0, 0.12f, "Walk in the Park"));
-        AddActivityCard(gridWrapper, "Capsule Arcade VR", "Immerse yourself in virtual retro classics.", 35.0, 25f, true, () => DoWellness(35.0, 0.25f, "Capsule Arcade VR"));
+        AddActivityCard(gridWrapper, "Vintage Retro Arcade", "Immerse yourself in vintage 8-bit classics.", 35.0, 25f, true, () => DoWellness(35.0, 0.25f, "Vintage Retro Arcade"));
         AddActivityCard(gridWrapper, "Volcanic Hot Stone Spa", "Melt away corporate stress with magma stones.", 90.0, 45f, true, () => DoWellness(90.0, 0.45f, "Volcanic Hot Stone Spa"));
-        AddActivityCard(gridWrapper, "Suburban Sensory Mud Spa", "Total isolation and organic rejuvenation.", 250.0, 70f, true, () => DoWellness(250.0, 0.70f, "Suburban Sensory Mud Spa"));
-        AddActivityCard(gridWrapper, "Luxury Cryo Therapy", "Instantly freeze your worries in zero-K chambers.", 1200.0, 100f, true, () => DoWellness(1200.0, 1.0f, "Luxury Cryo Therapy"));
+        AddActivityCard(gridWrapper, "Suburban Detox Mud Spa", "Total isolation and organic rejuvenation.", 250.0, 70f, true, () => DoWellness(250.0, 0.70f, "Suburban Detox Mud Spa"));
+        AddActivityCard(gridWrapper, "Luxury Ice Bath Therapy", "Instantly freeze your worries in freezing cold tubs.", 1200.0, 100f, true, () => DoWellness(1200.0, 1.0f, "Luxury Ice Bath Therapy"));
     }
 
     private void PopulateMixers()
@@ -73,7 +73,7 @@ public class ActivitiesUI
         AddActivityCard(gridWrapper, "Industrial Dive Bar", "Meet fellow working-class citizens and share rumors.", 40.0, 15f, false, () => DoNetworking(40.0, "manual", 0.15f));
         AddActivityCard(gridWrapper, "Hospitality Gala", "Mingle with service managers and event coordinators.", 120.0, 15f, false, () => DoNetworking(120.0, "hospitality", 0.15f));
         AddActivityCard(gridWrapper, "Startup Pitch Meetup", "Network with hungry founders and angel investors.", 300.0, 15f, false, () => DoNetworking(300.0, "tech", 0.15f));
-        AddActivityCard(gridWrapper, "Corporate Golf Sim", "Rub elbows with executives in virtual country clubs.", 1000.0, 20f, false, () => DoNetworking(1000.0, "corp", 0.20f));
+        AddActivityCard(gridWrapper, "Corporate Golf Outing", "Rub elbows with executives in virtual country clubs.", 1000.0, 20f, false, () => DoNetworking(1000.0, "corp", 0.20f));
     }
 
     private void AddActivityCard(VisualElement container, string name, string desc, double cost, float statChange, bool isWellness, System.Action onClick)
@@ -207,7 +207,7 @@ public class ActivitiesUI
                     }
                 }).Every(16);
                 break;
-            case "Capsule Arcade VR":
+            case "Vintage Retro Arcade":
                 bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.05f, 0.15f));
                 var lines = new List<VisualElement>();
                 for(int i=0; i<8; i++) {
@@ -259,14 +259,14 @@ public class ActivitiesUI
                     }
                 }).Every(16);
                 break;
-            case "Suburban Sensory Mud Spa":
+            case "Suburban Detox Mud Spa":
                 bg.style.backgroundColor = new StyleColor(new Color(0.2f, 0.15f, 0.1f));
                 VisualElement mud = new VisualElement();
                 mud.style.position = Position.Absolute; mud.style.bottom = 0; mud.style.width = Length.Percent(100); mud.style.height = Length.Percent(40);
                 mud.style.backgroundColor = new StyleColor(new Color(0.15f, 0.1f, 0.05f));
                 bg.Add(mud);
                 break;
-            case "Luxury Cryo Therapy":
+            case "Luxury Ice Bath Therapy":
                 bg.style.backgroundColor = new StyleColor(new Color(0.85f, 0.95f, 1f));
                 var flakes = new List<VisualElement>();
                 for(int i=0; i<20; i++) {
@@ -325,7 +325,7 @@ public class ActivitiesUI
                     }
                 }).Every(200);
                 break;
-            case "Corporate Golf Sim":
+            case "Corporate Golf Outing":
                 bg.style.backgroundColor = new StyleColor(new Color(0.05f, 0.25f, 0.1f));
                 VisualElement hole = new VisualElement();
                 hole.style.position = Position.Absolute; hole.style.bottom = 40; hole.style.left = Length.Percent(85);
@@ -379,7 +379,7 @@ public class ActivitiesUI
             if (type == "manual") actName = "Industrial Dive Bar";
             if (type == "hospitality") actName = "Hospitality Gala";
             if (type == "tech") actName = "Startup Pitch Meetup";
-            if (type == "corp") actName = "Corporate Golf Sim";
+            if (type == "corp") actName = "Corporate Golf Outing";
 
             ActiveMiniGame game = new ActiveMiniGame("mixer", actName, luckBoost, 0f, cost, false);
             MiniGameManager.Instance.LaunchMiniGame(game);

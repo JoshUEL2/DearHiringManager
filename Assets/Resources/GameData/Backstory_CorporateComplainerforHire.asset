@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_CorporateComplainerforHire
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 40
-  title: Corporate Complainer-for-Hire
-  description: Paid to sit in lobbies yelling about faulty visual widgets to distract
+  title: Corporate Wellness Coach
+  description: "You forced executives to do desk-yoga. The CEO pulled a hamstring during a downward dog. You were swiftly fired."
     reporters.
   startingCash: 540
   startingStress: 0.16
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.9
   startingTechLuck: 0.4
   startingCorpLuck: 0.4
-  week1Log: "People paid you to wait on hold and argue with customer service bots. Then the bots learned to argue back, infinitely. You gave up. Now you need a real job."
+  week1Log: "You forced executives to do desk-yoga. The CEO pulled a hamstring during a downward dog. You were swiftly fired."

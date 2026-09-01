@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SyntheticCaviarGrader
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 47
-  title: Synthetic Caviar Grader
-  description: Tested exact roundness of black gelatin beads using eye glasses.
+  title: Viral Apology Video Editor
+  description: "You edited videos of influencers sighing and looking down. The trend shifted to dancing apologies. You couldn't adapt. You're jobless."
   startingCash: 500
   startingStress: 0.28
   startingManualLuck: 0.55
   startingHospitalityLuck: 0.7
   startingTechLuck: 0.45
   startingCorpLuck: 0.3
-  week1Log: "You tasted synthetic fish eggs for quality control. You developed an allergy to the artificial dye and got fired. Now you're unemployed and itchy."
+  week1Log: "You edited videos of influencers sighing and looking down. The trend shifted to dancing apologies. You couldn't adapt. You're jobless."

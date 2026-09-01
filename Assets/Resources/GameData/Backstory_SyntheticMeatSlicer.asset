@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SyntheticMeatSlicer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 27
-  title: Synthetic Meat Slicer
-  description: Operated giant buzzsaws to cut textured insect-chassis blocks.
+  title: SaaS Subscription Auditor
+  description: "You were hired to find unused software subscriptions. You accidentally canceled the CEO's Netflix account. You were immediately let go."
   startingCash: 270
   startingStress: 0.46
   startingManualLuck: 0.85
   startingHospitalityLuck: 0.4
   startingTechLuck: 0.25
   startingCorpLuck: 0.1
-  week1Log: "You sliced blocks of textured protein all day. A laser slicer replaced you, doing it perfectly every time. Now you're looking for work."
+  week1Log: "You were hired to find unused software subscriptions. You accidentally canceled the CEO's Netflix account. You were immediately let go."

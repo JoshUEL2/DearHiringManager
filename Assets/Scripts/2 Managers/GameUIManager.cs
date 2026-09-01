@@ -665,7 +665,7 @@ public class GameUIManager : MonoBehaviour
         data.historyLogsJson = "";
         
         string logMsg = string.IsNullOrEmpty(selectedBackstory.week1Log) 
-            ? "Game started on the gritty streets of the Slums!" 
+            ? "You are officially unemployed and broke." 
             : selectedBackstory.week1Log;
             
         Debug.Log("<color=#38BDF8><b>=== WEEK 1 ===</b></color>");

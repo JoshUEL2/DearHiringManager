@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_CyberGutterCleanHand
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 36
-  title: Cyber-Gutter Clean Hand
-  description: Cleared nano-scale toxic sludge blocks from gutter filters.
+  title: Crypto-Bro Life Coach
+  description: "You yelled at guys in finance vests to 'grind harder'. The SEC cracked down on your clients. You're out of a job."
   startingCash: 140
   startingStress: 0.62
   startingManualLuck: 0.88
   startingHospitalityLuck: 0.15
   startingTechLuck: 0.25
   startingCorpLuck: 0.05
-  week1Log: "You unclogged neural-network runoff from the cyber-gutters. A rogue nanobot swarm cleaned it all permanently. Good for the city, bad for your employment."
+  week1Log: "You yelled at guys in finance vests to 'grind harder'. The SEC cracked down on your clients. You're out of a job."

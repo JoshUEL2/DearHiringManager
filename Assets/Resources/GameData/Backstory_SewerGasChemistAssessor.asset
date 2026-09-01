@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SewerGasChemistAssessor
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 21
-  title: Sewer Gas Chemist Assessor
-  description: Sniffed vent outlets to diagnose under-slum pressure leaks.
+  title: Professional Unboxer
+  description: "You made a living opening mystery boxes on camera. A box contained live scorpions. You survived, but your channel didn't."
   startingCash: 230
   startingStress: 0.58
   startingManualLuck: 0.78
   startingHospitalityLuck: 0.3
   startingTechLuck: 0.2
   startingCorpLuck: 0.1
-  week1Log: "You sniffed sewer gas to check for combustible methane. You lost your sense of smell in a minor explosion and were deemed 'unfit for duty'."
+  week1Log: "You made a living opening mystery boxes on camera. A box contained live scorpions. You survived, but your channel didn't."

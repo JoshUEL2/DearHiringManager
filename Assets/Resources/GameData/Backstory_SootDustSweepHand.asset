@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SootDustSweepHand
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 48
-  title: Soot Dust Sweep Hand
-  description: Cleared heavy ash deposits from corporate elevator pulleys.
+  title: Open-Office Desk Reserver
+  description: "Your sole purpose was to run into the office at 5 AM and put jackets on all the good desks for executives. They laid you off via Slack."
   startingCash: 210
   startingStress: 0.51
   startingManualLuck: 0.79
   startingHospitalityLuck: 0.35
   startingTechLuck: 0.35
   startingCorpLuck: 0.15
-  week1Log: "You swept soot in the industrial district. The factories moved to orbit, taking the jobs but leaving the soot. You're unemployed."
+  week1Log: "Your sole purpose was to run into the office at 5 AM and put jackets on all the good desks for executives. They laid you off via Slack."

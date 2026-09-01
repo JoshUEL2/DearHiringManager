@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_VaporHookahBlendTech
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 49
-  title: Vapor Hookah Blend Tech
-  description: Mixed toxic-free watermelon-gas recipes in subterranean dens.
+  title: Tiktok Dance Choreographer
+  description: "You invented a viral 15-second hand dance. Nobody credited you, a teenager made millions off it, and you're still broke."
   startingCash: 310
   startingStress: 0.35
   startingManualLuck: 0.5
   startingHospitalityLuck: 0.75
   startingTechLuck: 0.45
   startingCorpLuck: 0.2
-  week1Log: "You mixed the flavors for the local vape bars. You accidentally created a blend that made people speak in reverse. You were swiftly fired."
+  week1Log: "You invented a viral 15-second hand dance. Nobody credited you, a teenager made millions off it, and you're still broke."

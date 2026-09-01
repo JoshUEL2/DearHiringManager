@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_BannedNanoSodaPromoter
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 10
-  title: Banned Nano-Soda Promoter
-  description: Yelled slogans at pedestrians until the government banned carbonated
+  title: Hashtag Strategist
+  description: "You were paid $100k a year to put #synergy on corporate posts. They figured out ChatGPT could do it for free. You were laid off."
     brain-juices.
   startingCash: 450
   startingStress: 0.18
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.9
   startingTechLuck: 0.35
   startingCorpLuck: 0.3
-  week1Log: "You slung highly addictive, micro-machine infused energy drinks. The health board finally outlawed them, and the company dissolved, leaving you unemployed."
+  week1Log: "You were paid $100k a year to put #synergy on corporate posts. They figured out ChatGPT could do it for free. You were laid off."

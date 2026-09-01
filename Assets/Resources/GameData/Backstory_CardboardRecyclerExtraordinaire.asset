@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_CardboardRecyclerExtraordinaire
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 9
-  title: Cardboard Recycler Extraordinaire
-  description: Sorted flattened boxes in acid rainfall. Your shoes dissolved but
+  title: Corporate Culture Ambassador
+  description: "You organized mandatory fun events like 'Mandatory Monday Mimosas'. The employees unionized against your fun. You were terminated."
     you know exactly what is paper.
   startingCash: 120
   startingStress: 0.6
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.25
   startingTechLuck: 0.1
   startingCorpLuck: 0.05
-  week1Log: "You were the king of the slums' cardboard market until a mega-corp patented a synthetic alternative. The cardboard dried up, and so did your income."
+  week1Log: "You organized mandatory fun events like 'Mandatory Monday Mimosas'. The employees unionized against your fun. You were terminated."

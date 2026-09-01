@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SmogFilterVacuumSweeper
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 41
-  title: Smog Filter Vacuum Sweeper
-  description: Wore absolute gasmask to wipe carbon blocks on city roofs.
+  title: Professional Apology Writer
+  description: "You wrote PR apologies for canceled celebrities. You accidentally copy-pasted the same apology for a politician and a YouTuber. You're fired."
   startingCash: 130
   startingStress: 0.63
   startingManualLuck: 0.84
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.3
   startingCorpLuck: 0.05
-  week1Log: "You vacuumed the city's smog filters. The city stopped funding the filters, letting everyone breathe the smog instead. Your job evaporated."
+  week1Log: "You wrote PR apologies for canceled celebrities. You accidentally copy-pasted the same apology for a politician and a YouTuber. You're fired."

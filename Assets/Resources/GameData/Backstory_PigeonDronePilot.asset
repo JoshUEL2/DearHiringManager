@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_PigeonDronePilot
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 11
-  title: Pigeon Drone Pilot
-  description: Guided plastic delivery pigeons. One got shot by an angry retired
+  title: Corporate Synergizer
+  description: "Your job was literally just to say 'let's circle back on that' in Zoom calls. They replaced you with an AI that says 'let's pin a pin in it'. You're jobless."
     marine.
   startingCash: 320
   startingStress: 0.32
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.3
   startingTechLuck: 0.85
   startingCorpLuck: 0.2
-  week1Log: "You piloted the spy-drones disguised as pigeons. A glitch made your fleet fly into a skyscraper window. You were quietly fired and disavowed."
+  week1Log: "Your job was literally just to say 'let's circle back on that' in Zoom calls. They replaced you with an AI that says 'let's pin a pin in it'. You're jobless."

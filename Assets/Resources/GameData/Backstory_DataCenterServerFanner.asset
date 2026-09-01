@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_DataCenterServerFanner
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 43
-  title: Data Center Server Fanner
-  description: Hand-waved fan cards over cooling bays during brownouts.
+  title: Gluten-Free Water Innovator
+  description: "You tried to market 'Gluten-Free Water'. The FDA fined you into oblivion for misleading claims. You're broke."
   startingCash: 320
   startingStress: 0.38
   startingManualLuck: 0.67
   startingHospitalityLuck: 0.3
   startingTechLuck: 0.65
   startingCorpLuck: 0.15
-  week1Log: "When the AC broke, they hired you to literally wave a fan at the servers. They finally fixed the AC. Your unique set of skills is no longer required."
+  week1Log: "You tried to market 'Gluten-Free Water'. The FDA fined you into oblivion for misleading claims. You're broke."

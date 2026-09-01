@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_NeonWallSignHumFixer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 35
-  title: Neon Wall Sign Hum Fixer
-  description: Bang neon tubes with a small rubber mallet to stop the static buzz.
+  title: Wellness Retreat Guru
+  description: "You charged thousands for people to stare at a wall and 'manifest'. Someone manifested a refund, the trend died, and you're bankrupt."
   startingCash: 390
   startingStress: 0.29
   startingManualLuck: 0.72
   startingHospitalityLuck: 0.45
   startingTechLuck: 0.45
   startingCorpLuck: 0.15
-  week1Log: "You fixed that annoying buzz in cheap neon signs. Turns out people like the buzz for nostalgia. The repair requests stopped, and you're out of a job."
+  week1Log: "You charged thousands for people to stare at a wall and 'manifest'. Someone manifested a refund, the trend died, and you're bankrupt."

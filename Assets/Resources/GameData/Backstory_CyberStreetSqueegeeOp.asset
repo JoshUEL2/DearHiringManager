@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_CyberStreetSqueegeeOp
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 17
-  title: Cyber-Street Squeegee Op
-  description: Splashed chemical solvent on self-driving truck sensors. Got chased
+  title: Luxury Avocado Toast Critic
+  description: "You traveled the world rating smashed avocados on sourdough. You developed a severe gluten allergy. Your career is over."
     by drones.
   startingCash: 110
   startingStress: 0.65
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.15
   startingTechLuck: 0.2
   startingCorpLuck: 0.05
-  week1Log: "You washed the AR overlays off windshields at stoplights. The city mandated self-cleaning auto-glass, and you got a cease and desist. Now you're jobless."
+  week1Log: "You traveled the world rating smashed avocados on sourdough. You developed a severe gluten allergy. Your career is over."

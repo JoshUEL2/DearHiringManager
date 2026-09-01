@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_AlgaeFarmRakeTechnician
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 23
-  title: Algae Farm Rake Technician
-  description: Stirred bioluminescent lime-sludge in indoor vats. Snacked on high-protein
+  title: Blockchain Evangelist
+  description: "You annoyed your family at every Thanksgiving by talking about decentralization. Now you're broke and not invited to Thanksgiving anymore."
     crusts.
   startingCash: 260
   startingStress: 0.41
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.25
   startingTechLuck: 0.35
   startingCorpLuck: 0.1
-  week1Log: "Scraping protein-rich algae off vats was honest work until a new genetically modified strain ate your rake and half the farm. You were laid off. Welcome to unemployment."
+  week1Log: "You annoyed your family at every Thanksgiving by talking about decentralization. Now you're broke and not invited to Thanksgiving anymore."

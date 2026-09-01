@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_DefrockedSynthTuner
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 13
-  title: Defrocked Synth Tuner
-  description: Adjusted pitch in corporate wellness bells. Expelled for sliding in
+  title: Algorithmic Day Trader
+  description: "You built an AI to day-trade meme stocks. It gained sentience just long enough to purposefully bankrupt you. You're ruined."
     underground techno riffs.
   startingCash: 380
   startingStress: 0.28
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.7
   startingTechLuck: 0.6
   startingCorpLuck: 0.15
-  week1Log: "You used to tune synthetic voice boxes for androids, until you got caught giving them 'rebellious' accents. Your license was revoked, and now you're jobless."
+  week1Log: "You built an AI to day-trade meme stocks. It gained sentience just long enough to purposefully bankrupt you. You're ruined."

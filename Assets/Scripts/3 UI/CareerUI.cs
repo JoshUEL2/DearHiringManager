@@ -123,11 +123,11 @@ public class CareerUI
             case "Scrap Metal Sorter": baseSalary = 150.0; break;
             case "Street Corner Sign Spinner": baseSalary = 180.0; break;
             case "Fast Food Shift Manager": baseSalary = 400.0; break;
-            case "Corporate Cubicle Drone": baseSalary = 650.0; break;
+            case "Data Entry Drone": baseSalary = 650.0; break;
             case "Junior React Trainee": baseSalary = 900.0; break;
             case "Dystopian Quality Assurance Tester": baseSalary = 750.0; break;
-            case "Executive Interstellar CEO": baseSalary = 12000.0; break;
-            case "AI Prophecy Alignment Director": baseSalary = 15000.0; break;
+            case "Fortune 500 CEO": baseSalary = 12000.0; break;
+            case "Chief AI Prompt Engineer": baseSalary = 15000.0; break;
         }
 
         double levelMultiplier = 1.0 + (jobLevel - 1) * 0.20;
@@ -383,19 +383,19 @@ public class CareerUI
             return false;
         }
         
-        if (job.title == "Corporate Cubicle Drone" && !data.hasBa && !data.hasMa && !data.hasPhd)
+        if (job.title == "Data Entry Drone" && !data.hasBa && !data.hasMa && !data.hasPhd)
         {
             errorMsg = "Requires BA, MA, or PhD.";
             return false;
         }
 
-        if (job.title == "Executive Interstellar CEO" && !data.hasMa && !data.hasPhd)
+        if (job.title == "Fortune 500 CEO" && !data.hasMa && !data.hasPhd)
         {
             errorMsg = "Executive CEO status requires MA or PhD.";
             return false;
         }
         
-        if (job.title == "AI Prophecy Alignment Director" && !data.hasPhd)
+        if (job.title == "Chief AI Prompt Engineer" && !data.hasPhd)
         {
             errorMsg = "Requires fully certified PhD diploma.";
             return false;
@@ -412,7 +412,7 @@ public class CareerUI
         {
             case "Dishwasher": case "Scrap Metal Sorter": case "Street Corner Sign Spinner": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Manual); break;
             case "Fast Food Shift Manager": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Hospitality); break;
-            case "Corporate Cubicle Drone": case "Executive Interstellar CEO": case "AI Prophecy Alignment Director": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Corp); break;
+            case "Data Entry Drone": case "Fortune 500 CEO": case "Chief AI Prompt Engineer": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Corp); break;
             case "Junior React Trainee": case "Corporate Quality Assurance Tester": genreLuck = GameManager.Instance.GetEffectiveLuck(JobSector.Tech); break;
         }
         genreLuck += GameManager.Instance.jobMarketLuckBonus;
@@ -476,9 +476,9 @@ public class CareerUI
                 description = $"Congratulations, citizen! You've been accepted for the position of {job.title}.\n\nTo keep this job and advance your career, you'll need to complete at least one weekly task. Use the Career tab to manage your work hours and ask for promotions.\n\n<color=#2ECC71>Stress reduced -15%!</color>" 
             });
 
-            if (job.title == "Executive Interstellar CEO")
+            if (job.title == "Fortune 500 CEO")
             {
-                Debug.Log("[VICTORY] You climbed the modern corporate ladder and claimed the CEO desk. Interstellar Overlord Victory achieved!");
+                Debug.Log("[VICTORY] You climbed the modern corporate ladder and claimed the CEO desk. Global Overlord Victory achieved!");
             }
         }
         else
@@ -709,7 +709,7 @@ public class CareerUI
             new TaskDef { name = "Restock condiment stations", stress = 0.04f },
             new TaskDef { name = "Handle customer complaint", stress = 0.08f }
         };
-        if (title == "Corporate Cubicle Drone") return new List<TaskDef> {
+        if (title == "Data Entry Drone") return new List<TaskDef> {
             new TaskDef { name = "Send weekly TPS reports", stress = 0.05f },
             new TaskDef { name = "Attend 3-hour video call", stress = 0.07f },
             new TaskDef { name = "Reorganize shared drive", stress = 0.06f }
@@ -724,12 +724,12 @@ public class CareerUI
             new TaskDef { name = "File bug report", stress = 0.06f },
             new TaskDef { name = "Verify hotfix deployment", stress = 0.05f }
         };
-        if (title == "Executive Interstellar CEO") return new List<TaskDef> {
+        if (title == "Fortune 500 CEO") return new List<TaskDef> {
             new TaskDef { name = "Approve quarterly budget", stress = 0.06f },
             new TaskDef { name = "Board meeting presentation", stress = 0.08f },
             new TaskDef { name = "Sign regulatory compliance docs", stress = 0.04f }
         };
-        if (title == "AI Prophecy Alignment Director") return new List<TaskDef> {
+        if (title == "Chief AI Prompt Engineer") return new List<TaskDef> {
             new TaskDef { name = "Calibrate neural alignment matrix", stress = 0.08f },
             new TaskDef { name = "Review AI ethics proposals", stress = 0.06f },
             new TaskDef { name = "Monitor sentience detection array", stress = 0.07f }
@@ -765,7 +765,7 @@ public class CareerUI
             new TaskDef { name = "Deep clean grease traps", stress = 0.14f, readiness = 0.22f },
             new TaskDef { name = "Train new hire on POS system", stress = 0.12f, readiness = 0.20f }
         };
-        if (title == "Corporate Cubicle Drone") return new List<TaskDef> {
+        if (title == "Data Entry Drone") return new List<TaskDef> {
             new TaskDef { name = "Corporate sprint tasks", stress = 0.12f, readiness = 0.20f },
             new TaskDef { name = "Overnight marketing pitch", stress = 0.16f, readiness = 0.28f },
             new TaskDef { name = "Agree with executive complaints", stress = 0.10f, readiness = 0.18f }
@@ -780,12 +780,12 @@ public class CareerUI
             new TaskDef { name = "Stress test server load", stress = 0.14f, readiness = 0.22f },
             new TaskDef { name = "Write flaky test workaround", stress = 0.12f, readiness = 0.20f }
         };
-        if (title == "Executive Interstellar CEO") return new List<TaskDef> {
+        if (title == "Fortune 500 CEO") return new List<TaskDef> {
             new TaskDef { name = "Hostile takeover negotiations", stress = 0.18f, readiness = 0.35f },
             new TaskDef { name = "Fire underperforming VP", stress = 0.12f, readiness = 0.22f },
-            new TaskDef { name = "Interstellar colony site inspection", stress = 0.15f, readiness = 0.28f }
+            new TaskDef { name = "Offshore tax-haven site inspection", stress = 0.15f, readiness = 0.28f }
         };
-        if (title == "AI Prophecy Alignment Director") return new List<TaskDef> {
+        if (title == "Chief AI Prompt Engineer") return new List<TaskDef> {
             new TaskDef { name = "Emergency AI containment protocol", stress = 0.22f, readiness = 0.40f },
             new TaskDef { name = "Align superintelligence reward function", stress = 0.18f, readiness = 0.32f },
             new TaskDef { name = "Present findings to Galactic Council", stress = 0.15f, readiness = 0.25f }

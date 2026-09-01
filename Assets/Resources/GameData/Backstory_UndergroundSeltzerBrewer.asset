@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_UndergroundSeltzerBrewer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 39
-  title: Underground Seltzer Brewer
-  description: Fermented synthetic pear and soda gas in deep bunkers.
+  title: Boutique Plant Therapist
+  description: "You diagnosed sad monsteras in Brooklyn apartments. A fiddle-leaf fig died on your watch, ruining your Yelp rating. You're out of business."
   startingCash: 280
   startingStress: 0.4
   startingManualLuck: 0.68
   startingHospitalityLuck: 0.55
   startingTechLuck: 0.45
   startingCorpLuck: 0.15
-  week1Log: "You brewed bootleg carbonated water in the tunnels. The pressure valve blew, flooding the sector. You escaped, but your business didn't."
+  week1Log: "You diagnosed sad monsteras in Brooklyn apartments. A fiddle-leaf fig died on your watch, ruining your Yelp rating. You're out of business."

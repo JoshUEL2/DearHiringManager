@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_ReceleratedDeliveryRunner
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 24
-  title: Recelerated Delivery Runner
-  description: Delivered hot lunches on foot in extreme weather using magnetic sneakers.
+  title: Failed Crypto Influencer
+  description: "You told your followers to 'buy the dip' right before the coin went to zero. The SEC froze your assets and you're broke."
   startingCash: 190
   startingStress: 0.53
   startingManualLuck: 0.88
   startingHospitalityLuck: 0.5
   startingTechLuck: 0.15
   startingCorpLuck: 0.1
-  week1Log: "You delivered hot lunches on foot in extreme weather using magnetic sneakers. A delivery bot beat your fastest time by 2 seconds. You were terminated."
+  week1Log: "You told your followers to 'buy the dip' right before the coin went to zero. The SEC froze your assets and you're broke."

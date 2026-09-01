@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_SlumLandlordsThirdAssistant
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 6
-  title: Slum Landlord's Third Assistant
-  description: You collected quarters from sewage vents. Learned to duck quickly
+  title: Startup Ping Pong Champion
+  description: "Your only value to the tech company was beating the rival company at ping pong. You lost the tournament. You lost your job."
     when tenants opening doors.
   startingCash: 600
   startingStress: 0.45
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.85
   startingTechLuck: 0.15
   startingCorpLuck: 0.4
-  week1Log: "You collected rent for a slumlord until a tenant union ran him out of town. You were left holding the bag and no paycheck."
+  week1Log: "Your only value to the tech company was beating the rival company at ping pong. You lost the tournament. You lost your job."

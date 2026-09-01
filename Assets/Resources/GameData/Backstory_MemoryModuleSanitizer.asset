@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_MemoryModuleSanitizer
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 34
-  title: Memory Module Sanitizer
-  description: Wiped radioactive particles off magnetic tapes with static cloths.
+  title: Substack Newsletter Writer
+  description: "You quit your job to write a paid newsletter about 'The Future of Content'. You got exactly 3 subscribers, two of which are your mom. You're broke."
   startingCash: 360
   startingStress: 0.37
   startingManualLuck: 0.65
   startingHospitalityLuck: 0.25
   startingTechLuck: 0.7
   startingCorpLuck: 0.2
-  week1Log: "You wiped horrific memories off recycled neuro-chips. The things you saw... You started hallucinating at work and they let you go. Now you're broke."
+  week1Log: "You quit your job to write a paid newsletter about 'The Future of Content'. You got exactly 3 subscribers, two of which are your mom. You're broke."

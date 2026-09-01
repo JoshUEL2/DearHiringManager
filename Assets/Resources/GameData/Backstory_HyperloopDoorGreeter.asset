@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_HyperloopDoorGreeter
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 16
-  title: Hyperloop Door Greeter
-  description: Bowed to ultra-commuters whizzing past at 900 mph. Severely wind-burned.
+  title: Remote Work Productivity Monitor
+  description: "You secretly watched employees' webcams to make sure they weren't doing laundry. You got caught. HR fired you immediately."
   startingCash: 480
   startingStress: 0.15
   startingManualLuck: 0.3
   startingHospitalityLuck: 0.95
   startingTechLuck: 0.1
   startingCorpLuck: 0.3
-  week1Log: "You smiled and waved as people boarded the hyperloop. They replaced you with an automated smiley face on a screen. Unemployed."
+  week1Log: "You secretly watched employees' webcams to make sure they weren't doing laundry. You got caught. HR fired you immediately."

@@ -47,7 +47,7 @@ public class SavedGame
     public bool nepotismActive = false;
     public bool rentHikeActive = false;
     public int industryRedundancyWeeks = 0;
-    public string historyLogsJson = "Game started on the gritty streets of the Slums!";
+    public string historyLogsJson = "You are officially unemployed and broke.";
     public int jailWeeksRemaining = 0;
     public float luckManualService = 0.70f;
     public float luckHospitality = 0.40f;

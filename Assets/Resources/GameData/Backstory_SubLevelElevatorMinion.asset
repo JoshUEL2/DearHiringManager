@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SubLevelElevatorMinion
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 26
-  title: Sub-Level Elevator Minion
-  description: Turned manual crank-cog for subterranean luxury elevators.
+  title: Uber for Dogs Driver
+  description: "You drove a luxury SUV specifically for commuting other people's labradoodles. One of them threw up on the leather. You're unemployed."
   startingCash: 300
   startingStress: 0.44
   startingManualLuck: 0.8
   startingHospitalityLuck: 0.5
   startingTechLuck: 0.2
   startingCorpLuck: 0.15
-  week1Log: "You pressed buttons in elevators that went to the deepest, darkest sub-levels. They installed voice-control. Now you're jobless."
+  week1Log: "You drove a luxury SUV specifically for commuting other people's labradoodles. One of them threw up on the leather. You're unemployed."

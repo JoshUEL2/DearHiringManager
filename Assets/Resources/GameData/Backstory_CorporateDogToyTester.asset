@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_CorporateDogToyTester
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 33
-  title: Corporate Dog Toy Tester
-  description: Determined chew resistance of synthetic rubber tires. Left with iron
+  title: Bespoke Sourdough Starter Sitter
+  description: "You babysat fermented yeast jars for traveling millennials. You accidentally baked one of them. The lawsuit took everything."
     jaw muscles.
   startingCash: 170
   startingStress: 0.57
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.35
   startingTechLuck: 0.1
   startingCorpLuck: 0.05
-  week1Log: "Testing chew toys for the genetically enhanced guard dogs of the rich was dangerous but paid well. One dog bit your hand, and you were fired for 'damaging the merchandise'."
+  week1Log: "You babysat fermented yeast jars for traveling millennials. You accidentally baked one of them. The lawsuit took everything."

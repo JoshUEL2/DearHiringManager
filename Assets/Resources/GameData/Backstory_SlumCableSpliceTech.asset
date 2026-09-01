@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_SlumCableSpliceTech
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 32
-  title: Slum Cable Splice Tech
-  description: Spliced visual fibers underwater in leaking basements.
+  title: Micro-Influencer Apologist
+  description: "You managed PR for influencers with less than 10k followers. One got canceled for a bad tweet, and they threw you under the bus. You're ruined."
   startingCash: 240
   startingStress: 0.51
   startingManualLuck: 0.74
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.65
   startingCorpLuck: 0.1
-  week1Log: "You stole premium cable for slum residents. The mega-corp scrambled the signals with quantum encryption. Your side hustle collapsed."
+  week1Log: "You managed PR for influencers with less than 10k followers. One got canceled for a bad tweet, and they threw you under the bus. You're ruined."

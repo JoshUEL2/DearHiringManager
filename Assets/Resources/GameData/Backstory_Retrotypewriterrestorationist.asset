@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_Retrotypewriterrestorationist
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 50
-  title: Retro typewriter restorationist
-  description: Repaired actual metal keys for luxury collectors. Left with ink-stained
+  title: Agile Scrum Master
+  description: "You forced software engineers to stand in a circle and pass a talking stick. The engineers revolted. You were chased out of the office."
     hair.
   startingCash: 420
   startingStress: 0.22
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.5
   startingTechLuck: 0.65
   startingCorpLuck: 0.2
-  week1Log: "You restored ancient typing machines for hipsters. The hipster trend moved on to stone tablets, and your client base vanished. You're officially unemployed."
+  week1Log: "You forced software engineers to stand in a circle and pass a talking stick. The engineers revolted. You were chased out of the office."

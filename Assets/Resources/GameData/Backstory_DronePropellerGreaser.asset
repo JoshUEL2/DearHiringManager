@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Backstory_DronePropellerGreaser
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 38
-  title: Drone Propeller Greaser
-  description: Lubricated automated quadcopter rotors while they were spinning.
+  title: Artisan Mayonnaise Sommelier
+  description: "You paired different types of mayo with fries. People realized it's just eggs and oil. Your niche restaurant went under."
   startingCash: 200
   startingStress: 0.54
   startingManualLuck: 0.81
   startingHospitalityLuck: 0.25
   startingTechLuck: 0.5
   startingCorpLuck: 0.1
-  week1Log: "It was a simple job: climb up and grease the giant transport drone props. Then they invented self-lubricating alloys. You were laid off without a parachute."
+  week1Log: "You paired different types of mayo with fries. People realized it's just eggs and oil. Your niche restaurant went under."

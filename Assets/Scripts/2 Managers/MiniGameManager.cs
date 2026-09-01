@@ -220,10 +220,10 @@ dialogueCorrectIndices = new int[]{0,0,0,0,0}, instructions = "Judge AI proposal
         // WELLNESS ACTIVITIES (5 tasks)
         // =============================================
         AddConfigFull("Walk in the Park", new MiniGameConfig { type = GameType.GridDodge, gridSize = 5, gridHealth = 5, instructions = "A peaceful walk."});
-        AddConfigFull("Capsule Arcade VR", new MiniGameConfig { type = GameType.VrArcadePong, timeLimit = 15f, instructions = "Keep the ball alive! (Bounce 5 times)"});
+        AddConfigFull("Vintage Retro Arcade", new MiniGameConfig { type = GameType.VrArcadePong, timeLimit = 15f, instructions = "Keep the ball alive! (Bounce 5 times)"});
         AddConfigFull("Volcanic Hot Stone Spa", new MiniGameConfig { type = GameType.HotStoneSpa, timeLimit = 15f, instructions = "Place the hot stones along the spine to relax."});
-        AddConfigFull("Suburban Sensory Mud Spa", new MiniGameConfig { type = GameType.ZenTracing, timeLimit = 15f, instructions = "Keep the sponge in the target circle!"});
-        AddConfigFull("Luxury Cryo Therapy", new MiniGameConfig { type = GameType.IceShatter, timeLimit = 15f, instructions = "Tap ice nodes before you freeze!"});
+        AddConfigFull("Suburban Detox Mud Spa", new MiniGameConfig { type = GameType.ZenTracing, timeLimit = 15f, instructions = "Keep the sponge in the target circle!"});
+        AddConfigFull("Luxury Ice Bath Therapy", new MiniGameConfig { type = GameType.IceShatter, timeLimit = 15f, instructions = "Tap ice nodes before you freeze!"});
 
         // =============================================
         // MIXERS (4 tasks)
@@ -238,7 +238,7 @@ dialogueOptions = new string[][]{
 dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive bar!"});
         AddConfigFull("Hospitality Gala", new MiniGameConfig { type = GameType.NameMemory, timeLimit = 15f, vipNames = new string[]{"Sarah from Tech", "John from Sales", "Mike from HR", "Emma from Legal"}, instructions = "Memorize the VIPs!"});
         AddConfigFull("Startup Pitch Meetup", new MiniGameConfig { type = GameType.StartupPitch, timeLimit = 15f, instructions = "Pitch the perfect buzzwords!"});
-        AddConfigFull("Corporate Golf Sim", new MiniGameConfig { type = GameType.CorporateGolf, timeLimit = 15f, instructions = "Let the CEO win! Aim for the sand trap!"});
+        AddConfigFull("Corporate Golf Outing", new MiniGameConfig { type = GameType.CorporateGolf, timeLimit = 15f, instructions = "Let the CEO win! Aim for the sand trap!"});
 
         // =============================================
         // LEGAL SIDE HUSTLES (4 tasks)
@@ -669,7 +669,7 @@ Check the dashboard for results!"
             if (currentGame.name == "Industrial Dive Bar") data.luckManualService = Mathf.Clamp(data.luckManualService + currentGame.stressCost, 0f, 1f);
             else if (currentGame.name == "Hospitality Gala") data.luckHospitality = Mathf.Clamp(data.luckHospitality + currentGame.stressCost, 0f, 1f);
             else if (currentGame.name == "Underground Tech Meetup") data.luckTechnology = Mathf.Clamp(data.luckTechnology + currentGame.stressCost, 0f, 1f);
-            else if (currentGame.name == "Corporate Golf Sim") data.luckCorporate = Mathf.Clamp(data.luckCorporate + currentGame.stressCost, 0f, 1f);
+            else if (currentGame.name == "Corporate Golf Outing") data.luckCorporate = Mathf.Clamp(data.luckCorporate + currentGame.stressCost, 0f, 1f);
 
             string logMessage = taskLogMessages.ContainsKey(currentGame.name) ? taskLogMessages[currentGame.name] : $"You completed {currentGame.name}.";
             data.historyLogsJson += $@"

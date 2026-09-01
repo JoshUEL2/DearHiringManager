@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Backstory_CSuiteTrashDecryptor
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBackstorySO
   id: 28
-  title: C-Suite Trash Decryptor
-  description: Decoupled encrypted lunch wrappers from director trashcans to find
+  title: Digital Nomad Guru
+  description: "You sold courses on how to work from a beach in Bali. You got terrible sunburn and your laptop was stolen by a monkey. You're back home, broke."
     gossip.
   startingCash: 520
   startingStress: 0.39
@@ -22,4 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.55
   startingTechLuck: 0.6
   startingCorpLuck: 0.5
-  week1Log: "You dug through the encrypted digital waste of executives looking for sellable secrets. They upgraded to quantum shredders, putting you out of business."
+  week1Log: "You sold courses on how to work from a beach in Bali. You got terrible sunburn and your laptop was stolen by a monkey. You're back home, broke."
