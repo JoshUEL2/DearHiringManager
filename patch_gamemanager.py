@@ -1,26 +1,13 @@
 import re
 
-with open("Assets/Scripts/1 Data/GameManager.cs", "r") as f:
+with open('Assets/Scripts/1 Data/GameManager.cs', 'r') as f:
     content = f.read()
 
-# Add log to AdvanceWeek
-old = """        if (!isGameOver)
-        {
-            currentData.currentWeek++;
-            TickCooldowns();
-            CycleJobs();
-            SaveGame();
-        }"""
-new = """        if (!isGameOver)
-        {
-            currentData.currentWeek++;
-            Debug.Log($"<color=#38BDF8><b>=== WEEK {currentData.currentWeek} ===</b></color>");
-            TickCooldowns();
-            CycleJobs();
-            SaveGame();
-        }"""
+content = content.replace(
+    'if (availableJobOpenings != null) availableJobOpenings.Clear();',
+    'if (availableJobOpenings != null) availableJobOpenings.Clear();\n        else availableJobOpenings = new System.Collections.Generic.List<JobListingSO>();'
+)
 
-content = content.replace(old, new)
-
-with open("Assets/Scripts/1 Data/GameManager.cs", "w") as f:
+with open('Assets/Scripts/1 Data/GameManager.cs', 'w') as f:
     f.write(content)
+

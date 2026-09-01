@@ -257,8 +257,11 @@ public class GameManager : MonoBehaviour
 
     public void CycleJobs()
     {
+        if (rejectedJobsCooldown == null) rejectedJobsCooldown = new System.Collections.Generic.Dictionary<string, int>();
         if (availableJobOpenings != null) availableJobOpenings.Clear();
+        else availableJobOpenings = new System.Collections.Generic.List<JobListingSO>();
         if (_zoneJobsCache != null) _zoneJobsCache.Clear();
+        else _zoneJobsCache = new System.Collections.Generic.List<JobListingSO>();
 
         if (gameDatabase == null) 
         {
