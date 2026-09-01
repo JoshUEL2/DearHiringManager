@@ -47,7 +47,7 @@ public class FinancialSystem : IWeeklySystem
         PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
         manager.completedRegularTaskThisWeek = false;
         manager.hasHustledThisWeek = false;
-        manager.activeNewsFeed = $"Week {data.currentWeek}: Earned ${weeklySalary:F0}. Paid ${totalExpense:F0} in living expenses.";
+        manager.activeNewsFeed = $"Earned ${weeklySalary:F0}. Paid ${totalExpense:F0} in living expenses.";
 
         if (data.jobTitle == "Unemployed")
         {

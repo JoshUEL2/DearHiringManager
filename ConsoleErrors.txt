@@ -1,0 +1,82 @@
+[Error] FMOD failed to switch back to normal output ... : "Cannot call this command after System::init. " (32)
+
+---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: The 'ui:UXML' start tag on line 1 position 2 does not match the end tag of 'ui:VisualElement'. Line 182, position 7.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String[] args) [0x00029] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ThrowTagMismatch (System.Xml.XmlTextReaderImpl+NodeData startTag) [0x00086] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseEndElement () [0x000d7] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x00149] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: The 'ui:UXML' start tag on line 1 position 2 does not match the end tag of 'ui:VisualElement'. Line 249, position 7.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String[] args) [0x00029] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ThrowTagMismatch (System.Xml.XmlTextReaderImpl+NodeData startTag) [0x00086] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseEndElement () [0x000d7] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x00149] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: The 'ui:UXML' start tag on line 1 position 2 does not match the end tag of 'ui:VisualElement'. Line 222, position 7.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String[] args) [0x00029] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ThrowTagMismatch (System.Xml.XmlTextReaderImpl+NodeData startTag) [0x00086] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseEndElement () [0x000d7] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x00149] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: The 'ui:UXML' start tag on line 1 position 2 does not match the end tag of 'ui:VisualElement'. Line 173, position 7.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String[] args) [0x00029] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ThrowTagMismatch (System.Xml.XmlTextReaderImpl+NodeData startTag) [0x00086] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseEndElement () [0x000d7] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x00149] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---
+[Error] : Syntax - Xml is not valid, exception during parsing: System.Xml.XmlException: The 'ui:UXML' start tag on line 1 position 2 does not match the end tag of 'ui:VisualElement'. Line 169, position 7.
+  at System.Xml.XmlTextReaderImpl.Throw (System.Exception e) [0x00027] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Throw (System.String res, System.String[] args) [0x00029] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ThrowTagMismatch (System.Xml.XmlTextReaderImpl+NodeData startTag) [0x00086] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseEndElement () [0x000d7] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.ParseElementContent () [0x00149] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.XmlTextReaderImpl.Read () [0x00085] in <2ea9405ef0794332840e353bd73216e3>:0 
+  at System.Xml.Linq.XContainer.ReadContentFrom (System.Xml.XmlReader r, System.Xml.Linq.LoadOptions o) [0x00035] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.Xml.XmlReader reader, System.Xml.Linq.LoadOptions options) [0x00024] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at System.Xml.Linq.XDocument.Load (System.String uri, System.Xml.Linq.LoadOptions options) [0x0000f] in <dc8eb60aee6e48409d2c71d16f79e51a>:0 
+  at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
+
+---
+[Error] [CareerUI] Containers are null! Check UXML bindings.
+UnityEngine.Debug:LogError (object)
+CareerUI:RefreshView () (at Assets/Scripts/3 UI/CareerUI.cs:92)
+CareerUI:Initialize (UnityEngine.UIElements.UIDocument) (at Assets/Scripts/3 UI/CareerUI.cs:82)
+GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:268)
+
+---
+[Error] [GameUIManager] EducationUI init failed: System.NullReferenceException: Object reference not set to an instance of an object
+  at EducationUI.Initialize (UnityEngine.UIElements.UIDocument doc) [0x00094] in /Users/josh/Dear Hiring Manager/Assets/Scripts/3 UI/EducationUI.cs:45 
+  at GameUIManager.Start () [0x0013d] in /Users/josh/Dear Hiring Manager/Assets/Scripts/2 Managers/GameUIManager.cs:274 
+UnityEngine.Debug:LogError (object)
+GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:275)
+
+---

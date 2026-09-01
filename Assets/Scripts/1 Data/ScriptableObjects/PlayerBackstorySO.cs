@@ -13,4 +13,6 @@ public class PlayerBackstorySO : ScriptableObject
     public float startingHospitalityLuck;
     public float startingTechLuck;
     public float startingCorpLuck;
+    [TextArea(3, 5)]
+    public string week1Log;
 }

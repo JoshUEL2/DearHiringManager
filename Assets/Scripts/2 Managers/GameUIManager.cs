@@ -115,9 +115,10 @@ public class GameUIManager : MonoBehaviour
 
         // Setup Settings Overlay
         settingsOverlay = dashboardRoot.Q<VisualElement>("SettingsOverlay");
-        btnOpenSettings = dashboardRoot.Q<Button>("BtnOpenSettings");
+        dashboardRoot.Query<Button>("BtnOpenSettings").ForEach(btn => btn.clicked += OpenSettings);
         btnCloseSettings = dashboardRoot.Q<Button>("BtnCloseSettings");
         btnWipeHistory = dashboardRoot.Q<Button>("BtnWipeHistory");
+        
         
         btnToggleTheme = dashboardRoot.Q<Button>("BtnToggleTheme");
         btnToggleDevConsole = dashboardRoot.Q<Button>("BtnToggleDevConsole");
@@ -127,10 +128,25 @@ public class GameUIManager : MonoBehaviour
         
         historyLabel = dashboardRoot.Q<Label>("HistoryLabel");
 
-        if (btnOpenSettings != null) btnOpenSettings.clicked += OpenSettings;
+        
         if (btnCloseSettings != null) btnCloseSettings.clicked += CloseSettings;
         if (btnWipeHistory != null) btnWipeHistory.clicked += PurgeAllData;
-
+        
+        var btnExpandHistory = dashboardRoot.Q<Button>("BtnExpandHistory");
+        var expandedOverlay = dashboardRoot.Q<VisualElement>("ExpandedHistoryOverlay");
+        var btnCloseExpanded = dashboardRoot.Q<Button>("BtnCloseExpandedHistory");
+        
+        if (btnExpandHistory != null && expandedOverlay != null) {
+            btnExpandHistory.clicked += () => {
+                expandedOverlay.style.display = DisplayStyle.Flex;
+                expandedOverlay.BringToFront();
+            };
+        }
+        if (btnCloseExpanded != null && expandedOverlay != null) {
+            btnCloseExpanded.clicked += () => {
+                expandedOverlay.style.display = DisplayStyle.None;
+            };
+        }
         if (btnToggleTheme != null) btnToggleTheme.clicked += ToggleTheme;
         
         if (btnToggleDevConsole != null) 
@@ -206,12 +222,10 @@ public class GameUIManager : MonoBehaviour
     {
         if (root == null) return;
         
-        var btnViewCV = root.Q<Button>("BtnViewCV");
-        if (btnViewCV != null)
-        {
+        root.Query<Button>("BtnViewCV").ForEach(btnViewCV => {
             btnViewCV.clicked -= ShowCVPopup;
             btnViewCV.clicked += ShowCVPopup;
-        }
+        });
         
         root.Q<VisualElement>("ColCash")?.RegisterCallback<ClickEvent>(ev => {
             ShowPopup(new RandomEvent { 
@@ -239,11 +253,21 @@ public class GameUIManager : MonoBehaviour
         });
         
         // Ensure Settings gear also works globally
-        var btnSettings = root.Q<Button>("BtnOpenSettings");
-        if (btnSettings != null) {
-            btnSettings.clicked -= OpenSettings; // Prevent double firing
+
+        // Ensure CV Button works globally
+        root.Query<Button>("BtnViewCV").ForEach(btn => {
+            btn.clicked -= ShowCVPopup;
+            btn.clicked += ShowCVPopup;
+        });
+        
+        // Ensure Home Icon works globally
+        root.Query<Button>("BtnOpenMigration").ForEach(btn => {
+            btn.RegisterCallback<ClickEvent>(ev => MigrationUI?.OpenPortal());
+        });
+        root.Query<Button>("BtnOpenSettings").ForEach(btnSettings => {
+            btnSettings.clicked -= OpenSettings;
             btnSettings.clicked += OpenSettings;
-        }
+        });
     }
 
     private void OnDisable()
@@ -356,13 +380,25 @@ public class GameUIManager : MonoBehaviour
 
 
     private System.Text.StringBuilder _logBuilder;
+    private System.Text.StringBuilder _devLogBuilder = new System.Text.StringBuilder();
 
     private void OnDebugLogReceived(string condition, string stackTrace, LogType type)
     {
         if (GameManager.Instance == null || GameManager.Instance.currentData == null) return;
         
-        if (type == LogType.Log || type == LogType.Warning)
+        if (type == LogType.Warning || type == LogType.Error || type == LogType.Exception)
         {
+            _devLogBuilder.Append($"[{type}] ").Append(condition).Append("\n\n");
+            if (dashboardRoot != null)
+            {
+                var devLogUI = dashboardRoot.Q<Label>("DebugConsoleLog");
+                if (devLogUI != null) devLogUI.text = _devLogBuilder.ToString();
+            }
+        }
+        else if (type == LogType.Log)
+        {
+            if (condition.Contains("Unable to find a font") || condition.Contains("Unable to load font")) return;
+            
             var data = GameManager.Instance.currentData;
             if (_logBuilder == null) 
             {
@@ -378,8 +414,12 @@ public class GameUIManager : MonoBehaviour
                 }
             }
 
-            string prefix = type == LogType.Warning ? "<color=#E74C3C>[ALERT]</color>" : "<color=#38BDF8>[SYS]</color>";
-            _logBuilder.Append(prefix).Append(" ").Append(condition).Append("\n\n");
+            // string prefix = "<color=#38BDF8>[SYS]</color>";
+            // _logBuilder.Append(prefix).Append(" ").Append(condition).Append("\n\n");
+            // The screenshot showed no prefix for some reason, maybe they want it just plain. I'll stick to what was there or what's asked.
+            // Wait, the prompt didn't ask to remove [SYS], but the image had [ALERT] because it was a Warning. 
+            // So if it's a Log, it will still have [SYS]. I'll keep it.
+            _logBuilder.Append("<color=#38BDF8>[SYS]</color> ").Append(condition).Append("\n\n");
             
             if (_logBuilder.Length > 4000) 
             {
@@ -576,6 +616,16 @@ public class GameUIManager : MonoBehaviour
 
         // CRITICAL: cycle jobs so the careers tab has jobs on day 1
         GameManager.Instance.CycleJobs();
+        
+        if (_logBuilder != null) _logBuilder.Clear();
+        data.historyLogsJson = "";
+        
+        string logMsg = string.IsNullOrEmpty(selectedBackstory.week1Log) 
+            ? "Game started on the gritty streets of the Slums!" 
+            : selectedBackstory.week1Log;
+            
+        Debug.Log("<color=#38BDF8><b>=== WEEK 1 ===</b></color>");
+        Debug.Log(logMsg);
 
         GameManager.Instance.SaveGame();
 
@@ -763,7 +813,7 @@ public class GameUIManager : MonoBehaviour
         {
             screenContainer.style.backgroundColor = new StyleColor(Color.clear);
             
-            var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card");
+            var targetTopCard = targetRoot.Q<VisualElement>(className: "top-card-root");
             if (targetTopCard != null) targetTopCard.style.visibility = Visibility.Hidden;
 
             // Animate the UXML-defined wrapper
@@ -824,34 +874,85 @@ public class GameUIManager : MonoBehaviour
         {
             if (root == null) continue;
             
-            var topCard = root.Q<VisualElement>(className: "top-card");
-            if (topCard != null)
+            var topCard = root.Q<VisualElement>(className: "top-card-root");
+            var accentBar = root.Q<VisualElement>("DistrictAccentBar");
+            Color districtAccent;
+            Color districtBg;
+            if (data.zone == District.Slums)
             {
-                if (data.zone == District.Slums) 
-                    topCard.style.backgroundColor = new StyleColor(new Color(0.20f, 0.11f, 0.08f, 0.88f)); // Brown rust
-                else if (data.zone == District.Suburbs) 
-                    topCard.style.backgroundColor = new StyleColor(new Color(0.08f, 0.16f, 0.09f, 0.88f)); // Green
-                else if (data.zone == District.FinancialDistrict) 
-                    topCard.style.backgroundColor = new StyleColor(new Color(0.05f, 0.10f, 0.18f, 0.88f)); // Blue slate
+                districtAccent = new Color(0.89f, 0.45f, 0.24f); // Warm rust orange
+                districtBg = new Color(0.12f, 0.07f, 0.05f, 0.95f);
+            }
+            else if (data.zone == District.Suburbs)
+            {
+                districtAccent = new Color(0.18f, 0.80f, 0.44f); // Fresh green
+                districtBg = new Color(0.05f, 0.10f, 0.06f, 0.95f);
+            }
+            else
+            {
+                districtAccent = new Color(0.22f, 0.74f, 0.97f); // Cyan blue
+                districtBg = new Color(0.04f, 0.07f, 0.16f, 0.95f);
+            }
+            if (topCard != null) topCard.style.backgroundColor = new StyleColor(districtBg);
+            if (accentBar != null) accentBar.style.backgroundColor = new StyleColor(districtAccent);
+
+            // Animated diagonal watermark
+            var wmContainer = root.Q<VisualElement>("WatermarkContainer");
+            if (wmContainer != null)
+            {
+                string zoneName = data.zone.ToString().ToUpper();
+                string wmLine = string.Join("   ", System.Linq.Enumerable.Repeat(zoneName, 20));
+                string wmBlock = string.Join("\n\n", System.Linq.Enumerable.Repeat(wmLine, 15));
+                
+                var existing = wmContainer.Q<Label>("WatermarkText");
+                if (existing == null)
+                {
+                    existing = new Label { name = "WatermarkText" };
+                    existing.style.position = Position.Absolute;
+                    existing.style.fontSize = 28;
+                    existing.style.color = new StyleColor(new Color(1f, 1f, 1f, 0.01f));
+                    existing.style.unityFontStyleAndWeight = FontStyle.Bold;
+                    existing.style.whiteSpace = WhiteSpace.NoWrap;
+                    existing.style.rotate = new StyleRotate(new Rotate(Angle.Degrees(-35f)));
+                    existing.style.width = 3000;
+                    existing.style.height = 3000;
+                    existing.style.left = -400;
+                    existing.style.top = -400;
+                    wmContainer.Add(existing);
+                    
+                    // Animate: drift diagonally
+                    float offset = 0f;
+                    existing.schedule.Execute(() => {
+                        offset = (offset + 0.5f) % 120f;
+                        existing.style.translate = new StyleTranslate(new Translate(offset, offset));
+                    }).Every(33); // ~30fps
+                }
+                existing.text = wmBlock;
             }
 
-            var pName = root.Q<Label>("PlayerNameText");
-            if (pName != null) pName.text = playerName;
+            root.Query<Label>("PlayerNameText").ForEach(l => l.text = playerName);
+            root.Query<Button>(className: "id-card-name-btn").ForEach(b => b.text = playerName);
             
-            var sTitle = root.Q<Label>("SubTitleText");
-            if (sTitle != null) sTitle.text = $"Current CV • Week {data.currentWeek}";
+            root.Query<Label>("SubTitleText").ForEach(l => l.text = $"WEEK {data.currentWeek}");
             
-            var cText = root.Q<Label>("CashText");
-            if (cText != null) cText.text = $"${data.balance:F2}";
+            root.Query<Label>("CashText").ForEach(l => l.text = $"${data.balance:F2}");
             
-            var eText = root.Q<Label>("ExpenseText");
-            if (eText != null) eText.text = $"-${(data.rent + data.food)}";
+            root.Query<Label>("ExpenseText").ForEach(l => l.text = $"-${(data.rent + data.food)}");
+            double income = GameManager.Instance.GetBaseSalary(data.jobTitle);
+            root.Query<Label>("IncomeText").ForEach(l => l.text = $"+${income:F2}");
             
-            var jText = root.Q<Label>("JobText");
-            if (jText != null) jText.text = data.jobTitle;
+            root.Query<Label>("JobText").ForEach(l => l.text = data.jobTitle);
             
-            var dText = root.Q<Label>("DistrictText");
-            if (dText != null) dText.text = data.zone.ToString();
+            root.Query<Label>("DistrictText").ForEach(l => l.text = data.zone.ToString());
+            root.Query<Label>("PlayerInitials").ForEach(l => l.text = !string.IsNullOrEmpty(playerName) ? playerName.Substring(0, 1).ToUpper() : "X");
+            root.Query<Label>("IDCardWeek").ForEach(l => l.text = $"VALID: WK {data.currentWeek}");
+            root.Query<Label>("PhoneTime").ForEach(l => l.text = $"WEEK {data.currentWeek}");
+            root.Query<Label>("DistrictSignal").ForEach(l => l.text = $"📶 {data.zone.ToString().ToUpper()} - 3G");
+            root.Query<Label>("LedgerDate").ForEach(l => l.text = $"DATE: WEEK {data.currentWeek}");
+            root.Query<Label>("TickerWeek").ForEach(l => l.text = $"WK:{data.currentWeek:D2}");
+
+
+
 
             RefreshLogDisplay();
             
@@ -895,6 +996,7 @@ public class GameUIManager : MonoBehaviour
     }
 
     // --- SETTINGS LOGIC ---
+    
     private void OpenSettings()
     {
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
@@ -904,12 +1006,14 @@ public class GameUIManager : MonoBehaviour
         RefreshHistoryLedger();
     }
 
-        private void RefreshHistoryLedger()
+    private void RefreshHistoryLedger()
     {
         var historyContainer = dashboardRoot.Q<ScrollView>("HistoryContainer");
+        var expandedHistoryContainer = dashboardRoot.Q<ScrollView>("ExpandedHistoryContainer");
         if (historyContainer == null) return;
         
         historyContainer.Clear();
+        if (expandedHistoryContainer != null) expandedHistoryContainer.Clear();
         var history = SaveSystem.LoadHistory(); 
 
         if (history == null || history.Count == 0)
@@ -918,6 +1022,13 @@ public class GameUIManager : MonoBehaviour
             emptyLbl.style.color = new StyleColor(Color.gray);
             emptyLbl.style.whiteSpace = WhiteSpace.Normal;
             historyContainer.Add(emptyLbl);
+            if (expandedHistoryContainer != null)
+            {
+                Label emptyLbl2 = new Label("No past lives recorded in the mainframe.");
+                emptyLbl2.style.color = new StyleColor(Color.gray);
+                emptyLbl2.style.whiteSpace = WhiteSpace.Normal;
+                expandedHistoryContainer.Add(emptyLbl2);
+            }
             return;
         }
 
@@ -940,6 +1051,17 @@ public class GameUIManager : MonoBehaviour
             card.Q<Label>("FinalBank").text = $"Bank: ${record.finalBalance:F2}";
 
             historyContainer.Add(card);
+
+            if (expandedHistoryContainer != null)
+            {
+                VisualElement card2 = template.Instantiate().Q<VisualElement>(className: "card");
+                card2.Q<Label>("PlayerName").text = pName;
+                card2.Q<Label>("DeathBadge").text = record.endingAchieved;
+                card2.Q<Label>("JobTitle").text = record.highestJob;
+                card2.Q<Label>("WeeksSurvived").text = $"Survived: {record.weeksSurvived} weeks";
+                card2.Q<Label>("FinalBank").text = $"Bank: ${record.finalBalance:F2}";
+                expandedHistoryContainer.Add(card2);
+            }
         }
     }
 
@@ -960,10 +1082,19 @@ public class GameUIManager : MonoBehaviour
 
     private void PurgeAllData()
     {
-        PlayerPrefs.DeleteAll(); 
-        PlayerPrefs.Save();
+        if (GameManager.Instance != null && GameManager.Instance.currentData != null)
+        {
+            string finalName = string.IsNullOrEmpty(GameManager.Instance.currentData.playerName) ? "Unknown Citizen" : GameManager.Instance.currentData.playerName;
+            SaveSystem.SaveHistoryRecord(
+                finalName, 
+                GameManager.Instance.currentData.balance, 
+                GameManager.Instance.currentData.currentWeek, 
+                GameManager.Instance.currentData.jobTitle, 
+                "Gave up on life."
+            );
+        }
         SaveSystem.DeleteActiveGame(); 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     private void ToggleTheme()

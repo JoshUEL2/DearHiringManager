@@ -21,3 +21,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.45
   startingTechLuck: 0.3
   startingCorpLuck: 0.1
+  week1Log: "You used old-world intuition to find unpolluted water pipes. The city mapped the grid with AI, rendering your intuition obsolete and you unemployed."

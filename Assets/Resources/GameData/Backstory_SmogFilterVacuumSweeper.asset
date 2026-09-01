@@ -21,3 +21,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.3
   startingCorpLuck: 0.05
+  week1Log: "You vacuumed the city's smog filters. The city stopped funding the filters, letting everyone breathe the smog instead. Your job evaporated."

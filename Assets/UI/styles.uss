@@ -4,7 +4,8 @@
     background-color: #0A1128; /* Deep dark blue */
     padding: 20px; 
     padding-bottom: 160px; /* Room for bottom nav */
-    align-items: stretch; 
+    align-items: stretch;
+    -unity-font: resource("Rajdhani-SemiBold");
 }
 
 /* Typography */
@@ -1468,3 +1469,5 @@
 .anim-bg-briefcase { background-color: rgba(60, 30, 80, 0.85); }
 .anim-bg-atm { background-color: rgba(20, 60, 30, 0.85); }
 .anim-bg-hack { background-color: rgba(80, 10, 10, 0.85); }
+
+.terminal-card .unity-scroll-view__content-container { flex-grow: 1; justify-content: flex-end; }

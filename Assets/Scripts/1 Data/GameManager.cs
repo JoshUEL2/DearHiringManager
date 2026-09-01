@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (!isGameOver)
         {
             currentData.currentWeek++;
+            Debug.Log($"<color=#38BDF8><b>=== WEEK {currentData.currentWeek} ===</b></color>");
             TickCooldowns();
             CycleJobs();
             SaveGame();

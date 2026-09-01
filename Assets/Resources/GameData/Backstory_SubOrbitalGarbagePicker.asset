@@ -22,3 +22,4 @@ MonoBehaviour:
   startingHospitalityLuck: 0.2
   startingTechLuck: 0.4
   startingCorpLuck: 0.15
+  week1Log: "You caught space junk before it hit the city. You missed a satellite that crushed the boss's car. You were immediately fired."
