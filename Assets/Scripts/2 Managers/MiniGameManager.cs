@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
@@ -388,6 +389,11 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         instructionsText.text = currentConfig.instructions;
         overlay.style.display = DisplayStyle.Flex;
         overlay.pickingMode = PickingMode.Position;
+        overlay.schedule.Execute(() => {
+            overlay.style.opacity = 1;
+            var card = overlay.Q<VisualElement>("MiniGameCard");
+            if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+        }).StartingIn(10);
 
         GameType typeToSetup = currentConfig.type;
         
@@ -486,8 +492,14 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         AbortGame();
     }
 
-    public void AbortGame()
+    public async void AbortGame()
     {
+        if (overlay.style.display == DisplayStyle.None) return;
+        overlay.style.opacity = 0;
+        var card = overlay.Q<VisualElement>("MiniGameCard");
+        if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+        await Task.Delay(300);
+
         isPlaying = false;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
         
@@ -556,8 +568,14 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         uiManager?.CheckJailStatus();
     }
 
-    private void FinishGame()
+    private async void FinishGame()
     {
+        if (overlay.style.display == DisplayStyle.None) return;
+        overlay.style.opacity = 0;
+        var card = overlay.Q<VisualElement>("MiniGameCard");
+        if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+        await Task.Delay(300);
+
         if (!hasWon) return;
 
         isPlaying = false;
