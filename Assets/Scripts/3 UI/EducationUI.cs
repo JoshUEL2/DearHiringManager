@@ -107,6 +107,7 @@ public class EducationUI
 
         string currentTrack = "";
         VisualElement trackContainer = null;
+        VisualElement coursesList = null;
 
         foreach (var course in catalog)
         {
@@ -114,66 +115,47 @@ public class EducationUI
             {
                 currentTrack = course.trackName;
 
-                // Create a University Building / Pediment style header for the track
                 trackContainer = new VisualElement();
+                trackContainer.AddToClassList("stunning-card");
                 trackContainer.style.marginBottom = 40;
-                trackContainer.style.backgroundColor = new StyleColor(new Color(0.08f, 0.11f, 0.20f));
-                trackContainer.style.borderTopLeftRadius = 10; trackContainer.style.borderTopRightRadius = 10;
-                trackContainer.style.borderBottomLeftRadius = 10; trackContainer.style.borderBottomRightRadius = 10;
-                trackContainer.style.borderTopWidth = 6;
-                trackContainer.style.borderTopColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f, 0.7f)); 
-                trackContainer.style.borderBottomWidth = 2;
-                trackContainer.style.borderBottomColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f, 0.2f));
+                trackContainer.style.paddingLeft = 0; trackContainer.style.paddingRight = 0;
+                trackContainer.style.paddingTop = 0; trackContainer.style.paddingBottom = 0;
+                trackContainer.style.overflow = Overflow.Hidden;
 
-                // The Pediment (Header)
+                // The Header
                 VisualElement pediment = new VisualElement();
                 pediment.style.alignItems = Align.Center;
                 pediment.style.justifyContent = Justify.Center;
-                pediment.style.paddingTop = 25; pediment.style.paddingBottom = 25;
-                pediment.style.backgroundColor = new StyleColor(new Color(0.08f, 0.12f, 0.22f));
+                pediment.style.paddingTop = 30; pediment.style.paddingBottom = 30;
+                pediment.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.28f, 0.8f));
+                pediment.style.borderBottomWidth = 1;
+                pediment.style.borderBottomColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f, 0.4f));
                 
-                Label trackHeader = new Label($"🏛️ {currentTrack} COLLEGE");
-                trackHeader.style.color = new StyleColor(new Color(0.85f, 0.9f, 0.95f));
+                Label trackHeader = new Label($"🏛️ {currentTrack}");
+                trackHeader.style.color = new StyleColor(new Color(0.9f, 0.95f, 1f));
                 trackHeader.style.fontSize = 32;
                 trackHeader.style.unityFontStyleAndWeight = FontStyle.Bold;
-                trackHeader.style.letterSpacing = 5;
+                trackHeader.style.letterSpacing = 4;
                 pediment.Add(trackHeader);
-                
-                // Add an elegant divider under the header
-                VisualElement divider = new VisualElement();
-                divider.style.width = Length.Percent(40);
-                divider.style.height = 2;
-                divider.style.backgroundColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f, 0.5f));
-                divider.style.marginTop = 10;
-                pediment.Add(divider);
 
                 trackContainer.Add(pediment);
 
-                // The Content Area (between pillars)
                 VisualElement contentArea = new VisualElement();
                 contentArea.style.flexDirection = FlexDirection.Column;
-                contentArea.style.paddingTop = 10;
-                contentArea.style.paddingBottom = 20;
+                contentArea.style.paddingTop = 25;
+                contentArea.style.paddingBottom = 15;
                 
-                // Left Pillar
-                
-
-                // Courses List
-                VisualElement coursesList = new VisualElement();
+                coursesList = new VisualElement();
                 coursesList.style.flexGrow = 1;
-                coursesList.style.paddingLeft = 20;
-                coursesList.style.paddingRight = 20;
+                coursesList.style.paddingLeft = 25;
+                coursesList.style.paddingRight = 25;
                 contentArea.Add(coursesList);
-
-                // Right Pillar
-                
 
                 trackContainer.Add(contentArea);
                 courseScrollView.Add(trackContainer);
             }
 
             bool isCompleted = GameManager.Instance.completedCourses.Contains(course.title);
-            
             if (course.title == "React Bootcamp" && GameManager.Instance.currentData.hasBootcamp) isCompleted = true;
             if (course.title == "BA (Trash Sorting)" && GameManager.Instance.currentData.hasBa) isCompleted = true;
             if (course.title == "MA (Corp Aggression)" && GameManager.Instance.currentData.hasMa) isCompleted = true;
@@ -188,22 +170,18 @@ public class EducationUI
             bool isEnrolled = data.activeEducationTitle == course.title;
 
             VisualElement card = new VisualElement();
-            card.AddToClassList("squircle-card");
-            card.style.flexDirection = FlexDirection.Row;
-            card.style.justifyContent = Justify.SpaceBetween;
-            card.style.alignItems = Align.Center;
-            card.style.marginBottom = 15;
-            card.style.paddingLeft = 25; card.style.paddingRight = 25;
-            card.style.paddingTop = 25; card.style.paddingBottom = 25;
-            card.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.25f));
-            card.style.borderTopLeftRadius = 16; card.style.borderTopRightRadius = 16;
-            card.style.borderBottomLeftRadius = 16; card.style.borderBottomRightRadius = 16;
-
-            if (isCompleted) card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.3f, 0.15f));
-            else if (isEnrolled) card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.25f, 0.4f));
-            else if (!isPrereqMet) {
-                card.style.opacity = 0.4f;
-                card.style.backgroundColor = new StyleColor(new Color(0.08f, 0.08f, 0.1f));
+            card.AddToClassList("task-card-stunning");
+            
+            if (isCompleted) {
+                card.AddToClassList("extra"); // Green border
+                card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.3f, 0.15f, 0.6f));
+            } else if (isEnrolled) {
+                card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.35f, 0.5f, 0.6f));
+                card.style.borderLeftColor = new StyleColor(new Color(0.2f, 0.8f, 0.9f));
+            } else if (!isPrereqMet) {
+                card.style.opacity = 0.5f;
+                card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.1f, 0.1f, 0.6f));
+                card.style.borderLeftColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f));
             }
 
             VisualElement leftCol = new VisualElement();
@@ -212,36 +190,27 @@ public class EducationUI
             Label titleLabel = new Label(course.title);
             titleLabel.style.fontSize = 28;
             titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            titleLabel.style.color = new StyleColor(new Color(0.22f, 0.74f, 0.97f));
-            if (!isPrereqMet) titleLabel.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+            titleLabel.style.color = new StyleColor(new Color(1f, 1f, 1f));
+            if (!isPrereqMet) titleLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
             
             Label descLabel = new Label(course.description);
             descLabel.style.fontSize = 20;
             descLabel.style.color = new StyleColor(new Color(0.7f, 0.75f, 0.8f));
             descLabel.style.whiteSpace = WhiteSpace.Normal;
-            descLabel.style.marginTop = 5;
-
-            
-            
-            
-            
-            
-            
+            descLabel.style.marginTop = 8;
 
             leftCol.Add(titleLabel);
             leftCol.Add(descLabel);
-            
 
             VisualElement statsRow = new VisualElement();
             statsRow.style.flexDirection = FlexDirection.Row;
             statsRow.style.marginTop = 15;
-            statsRow.style.justifyContent = Justify.FlexStart;
 
             Label durationLabel = new Label($"⏳ {course.weeks} Weeks");
             durationLabel.style.fontSize = 22;
             durationLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             durationLabel.style.color = new StyleColor(new Color(0.94f, 0.77f, 0.06f));
-            durationLabel.style.marginRight = 20;
+            durationLabel.style.marginRight = 25;
 
             Label costLabel = new Label($"💰 -${course.cost}/wk");
             costLabel.style.fontSize = 22;
@@ -249,8 +218,8 @@ public class EducationUI
             costLabel.style.color = new StyleColor(new Color(0.9f, 0.3f, 0.23f));
 
             if (!isPrereqMet) {
-                durationLabel.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
-                costLabel.style.color = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
+                durationLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
+                costLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
             }
 
             statsRow.Add(durationLabel);
@@ -260,50 +229,38 @@ public class EducationUI
             card.Add(leftCol);
 
             Button actionBtn = new Button();
-            actionBtn.style.paddingLeft = 30; actionBtn.style.paddingRight = 30; actionBtn.style.width = 230;
+            actionBtn.AddToClassList("btn-task-stunning");
+            actionBtn.style.width = 240;
             actionBtn.style.paddingTop = 15; actionBtn.style.paddingBottom = 15;
-            actionBtn.style.fontSize = 24;
-            actionBtn.style.unityFontStyleAndWeight = FontStyle.Bold;
-            actionBtn.style.borderTopLeftRadius = 8; actionBtn.style.borderTopRightRadius = 8;
-            actionBtn.style.borderBottomLeftRadius = 8; actionBtn.style.borderBottomRightRadius = 8;
-            actionBtn.style.color = new StyleColor(Color.white);
 
             if (isCompleted)
             {
                 actionBtn.text = "🎓 GRADUATED";
                 actionBtn.SetEnabled(false);
-                actionBtn.style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f)); 
+                actionBtn.AddToClassList("extra"); 
             }
             else if (isEnrolled)
             {
                 actionBtn.text = "📚 STUDYING";
                 actionBtn.SetEnabled(false);
-                actionBtn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.6f, 0.86f)); 
             }
             else if (!isPrereqMet)
             {
                 actionBtn.text = "🔒 LOCKED";
                 actionBtn.SetEnabled(false);
-                actionBtn.style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f)); 
+                actionBtn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f)); 
                 actionBtn.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
             }
             else
             {
                 actionBtn.text = "ENROLL";
-                actionBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.6f, 0.2f)); 
                 actionBtn.clicked += () => EnrollInCourse(course);
             }
 
             card.Add(actionBtn);
-
-            if (trackContainer != null) {
-                var list = trackContainer.Q<VisualElement>(null, className: ""); // We need to get coursesList
-                // But we don't have a name for it. Let's just find the contentArea -> coursesList
-                trackContainer.ElementAt(1).ElementAt(0).Add(card);
-            }
+            if (coursesList != null) coursesList.Add(card);
         }
     }
-
 
     private void EnrollInCourse(CourseData course)
     {

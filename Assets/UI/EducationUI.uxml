@@ -45,7 +45,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <ui:VisualElement name="ActiveEnrollmentContainer" class="squircle-card" style="display: none; margin-bottom: 30px; padding: 25px; background-color: rgba(30, 70, 120, 0.4); border-color: #38BDF8; border-width: 2px; border-radius: 16px;">
+            <ui:VisualElement name="ActiveEnrollmentContainer" class="stunning-card" style="display: none; margin-bottom: 30px;">
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <ui:Label text="ACTIVE STUDIES" style="color: #38BDF8; font-size: 22px; -unity-font-style: bold; letter-spacing: 2px;" />
                     <ui:Label name="ActiveCostText" text="$0" style="color: #E74C3C; font-size: 24px; -unity-font-style: bold;" />
@@ -62,7 +62,7 @@
                     <ui:VisualElement name="ActiveCourseProgressFill" class="progress-fill" style="background-color: #F1C40F; height: 100%; border-radius: 6px;" />
                 </ui:VisualElement>
                 
-                <ui:Button name="BtnDropout" text="DROP OUT" style="background-color: transparent; border-color: #E74C3C; border-width: 2px; color: #E74C3C; font-size: 24px; -unity-font-style: bold; border-radius: 12px; padding: 12px; margin: 0; margin-top: 15px;" />
+                <ui:Button name="BtnDropout" text="DROP OUT" class="danger-button-advanced" style="margin: 0; margin-top: 15px; font-size: 24px; padding: 12px;" />
             </ui:VisualElement>
 
             <ui:ScrollView name="CourseScrollView" style="flex-grow: 1; width: 100%;" />
