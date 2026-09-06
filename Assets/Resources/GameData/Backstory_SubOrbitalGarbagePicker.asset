@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 3
   title: Corporate Buzzword Translator
   description: "You translated 'leveraging synergistic paradigms' into English for the interns. The company pivoted to plain English. You're unemployed."
-    vacuum regulator.
   startingCash: 350
   startingStress: 0.35
   startingManualLuck: 0.7

@@ -13,7 +13,7 @@
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; padding: 18px 30px 0 30px;">
                 <ui:Button name="BtnOpenSettings" text="≡" style="font-size: 52px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0; -unity-font-style: bold;" />
                 <ui:VisualElement style="width: 120px;" />
-                <ui:Button name="BtnOpenMigration" text="⌂" style="font-size: 48px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0;" />
+                <ui:Button name="BtnOpenMigration" text="⌂" style="font-size: 48px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0; margin-top: 15px;" />
             </ui:VisualElement>
 
             <!-- ROW 2: Name (left) + Job (right), full width -->
@@ -40,12 +40,12 @@
                 <ui:VisualElement style="width: 120px; height: 8px; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; margin-bottom: 20px;" />
                 
                 <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
-                    <ui:Label text="EDUCATION PORTAL" class="header-text" style="color: #38BDF8; margin: 0;" />
+                    <ui:Label text="EDUCATION PORTAL" class="header-text" style="color: #38BDF8; margin: 0; margin-top: 15px;" />
                     <ui:Button name="BtnCloseMenu" text="✕" style="background-color: transparent; color: #E74C3C; font-size: 50px; -unity-font-style: bold; border-width: 0; padding: 0; margin: 0; cursor: link;" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <ui:VisualElement name="ActiveEnrollmentContainer" class="squircle-card" style="display: none; margin-bottom: 30px; background-color: rgba(30, 70, 120, 0.4); border-color: #38BDF8; border-width: 2px;">
+            <ui:VisualElement name="ActiveEnrollmentContainer" class="squircle-card" style="display: none; margin-bottom: 30px; padding: 25px; background-color: rgba(30, 70, 120, 0.4); border-color: #38BDF8; border-width: 2px; border-radius: 16px;">
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <ui:Label text="ACTIVE STUDIES" style="color: #38BDF8; font-size: 22px; -unity-font-style: bold; letter-spacing: 2px;" />
                     <ui:Label name="ActiveCostText" text="$0" style="color: #E74C3C; font-size: 24px; -unity-font-style: bold;" />
@@ -53,16 +53,16 @@
                 
                 <ui:Label name="ActiveCourseNameText" text="Course Name" class="job-title" style="color: #FFFFFF; font-size: 34px; margin-bottom: 15px;" />
                 
-                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 5px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 8px;">
                     <ui:Label text="Semester Progress" style="color: #CBD5E1; font-size: 20px;" />
                     <ui:Label name="ActiveProgressText" text="0%" style="color: #F1C40F; font-size: 20px; -unity-font-style: bold;" />
                 </ui:VisualElement>
                 
-                <ui:VisualElement class="progress-track" style="margin-bottom: 20px;">
-                    <ui:VisualElement name="ActiveCourseProgressFill" class="progress-fill" style="background-color: #F1C40F;" />
+                <ui:VisualElement class="progress-track" style="margin-bottom: 25px; height: 12px; background-color: rgba(0,0,0,0.5); border-radius: 6px;">
+                    <ui:VisualElement name="ActiveCourseProgressFill" class="progress-fill" style="background-color: #F1C40F; height: 100%; border-radius: 6px;" />
                 </ui:VisualElement>
                 
-                <ui:Button name="BtnDropout" text="DROP OUT" style="background-color: #E74C3C; color: white; font-size: 24px; -unity-font-style: bold; border-radius: 8px; padding: 12px;" />
+                <ui:Button name="BtnDropout" text="DROP OUT" style="background-color: transparent; border-color: #E74C3C; border-width: 2px; color: #E74C3C; font-size: 24px; -unity-font-style: bold; border-radius: 12px; padding: 12px; margin: 0; margin-top: 15px;" />
             </ui:VisualElement>
 
             <ui:ScrollView name="CourseScrollView" style="flex-grow: 1; width: 100%;" />

@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 40
   title: Corporate Wellness Coach
   description: "You forced executives to do desk-yoga. The CEO pulled a hamstring during a downward dog. You were swiftly fired."
-    reporters.
   startingCash: 540
   startingStress: 0.16
   startingManualLuck: 0.35

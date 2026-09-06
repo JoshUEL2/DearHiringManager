@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 13
   title: Algorithmic Day Trader
   description: "You built an AI to day-trade meme stocks. It gained sentience just long enough to purposefully bankrupt you. You're ruined."
-    underground techno riffs.
   startingCash: 380
   startingStress: 0.28
   startingManualLuck: 0.55

@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 31
   title: Professional Line Stander
   description: "You stood in line for limited-edition sneakers so rich kids didn't have to. The brand moved to online-only drops. You're unemployed."
-    tips.
   startingCash: 220
   startingStress: 0.49
   startingManualLuck: 0.2

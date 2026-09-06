@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 28
   title: Digital Nomad Guru
   description: "You sold courses on how to work from a beach in Bali. You got terrible sunburn and your laptop was stolen by a monkey. You're back home, broke."
-    gossip.
   startingCash: 520
   startingStress: 0.39
   startingManualLuck: 0.4

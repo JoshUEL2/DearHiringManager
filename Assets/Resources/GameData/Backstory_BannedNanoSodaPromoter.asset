@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 10
   title: Hashtag Strategist
   description: "You were paid $100k a year to put #synergy on corporate posts. They figured out ChatGPT could do it for free. You were laid off."
-    brain-juices.
   startingCash: 450
   startingStress: 0.18
   startingManualLuck: 0.25

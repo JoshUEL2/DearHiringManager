@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 9
   title: Corporate Culture Ambassador
   description: "You organized mandatory fun events like 'Mandatory Monday Mimosas'. The employees unionized against your fun. You were terminated."
-    you know exactly what is paper.
   startingCash: 120
   startingStress: 0.6
   startingManualLuck: 0.9

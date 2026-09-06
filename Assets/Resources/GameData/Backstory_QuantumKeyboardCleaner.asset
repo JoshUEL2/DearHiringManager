@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 5
   title: Subscription Box Curator
   description: "You put random artisanal junk in a cardboard box and charged $40 a month for it. People realized it was junk. You went bankrupt."
-    shift. You lost a week.
   startingCash: 300
   startingStress: 0.25
   startingManualLuck: 0.6

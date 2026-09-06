@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 17
   title: Luxury Avocado Toast Critic
   description: "You traveled the world rating smashed avocados on sourdough. You developed a severe gluten allergy. Your career is over."
-    by drones.
   startingCash: 110
   startingStress: 0.65
   startingManualLuck: 0.85

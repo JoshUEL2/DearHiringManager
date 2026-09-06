@@ -15,7 +15,6 @@ MonoBehaviour:
   id: 6
   title: Startup Ping Pong Champion
   description: "Your only value to the tech company was beating the rival company at ping pong. You lost the tournament. You lost your job."
-    when tenants opening doors.
   startingCash: 600
   startingStress: 0.45
   startingManualLuck: 0.5
