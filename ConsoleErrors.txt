@@ -94,3 +94,381 @@ GameUIManager:Start () (at Assets/Scripts/2 Managers/GameUIManager.cs:275)
   at UnityEditor.UIElements.UXMLImporterImpl.ImportXml (System.String xmlPath, UnityEngine.UIElements.VisualTreeAsset& vta) [0x0000f] in /Users/bokken/build/output/unity/unity/Modules/UIElementsEditor/UIElementsViewImporter.cs:301 
 
 ---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedNanoSodaPromoter.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_QuantumKeyboardCleaner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_PigeonDronePilot.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_AlgaeFarmRakeTechnician.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedAIWhisperer.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CyberStreetSqueegeeOp.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateDogToyTester.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CardboardRecyclerExtraordinaire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_UnpaidBlockchainIntern.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_DefrockedSynthTuner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_Retrotypewriterrestorationist.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SlumLandlordsThirdAssistant.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateComplainerforHire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SubOrbitalGarbagePicker.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CSuiteTrashDecryptor.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] FreeType error: The font Assets/Resources/Rajdhani-Bold.ttf could not be imported because the  format is unsupported
+
+---
+[Error] FreeType error: The font Assets/Resources/Rajdhani-SemiBold.ttf could not be imported because the  format is unsupported
+
+---
+[Error] FreeType error: The font Assets/Fonts/Rajdhani-Medium.ttf could not be imported because the  format is unsupported
+
+---
+[Error] FreeType error: The font Assets/Resources/Rajdhani-Medium.ttf could not be imported because the  format is unsupported
+
+---
+[Error] FreeType error: The font Assets/Fonts/Rajdhani-Bold.ttf could not be imported because the  format is unsupported
+
+---
+[Error] FreeType error: The font Assets/Fonts/Rajdhani-SemiBold.ttf could not be imported because the  format is unsupported
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CardboardRecyclerExtraordinaire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_UnpaidBlockchainIntern.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SubOrbitalGarbagePicker.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_QuantumKeyboardCleaner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SlumLandlordsThirdAssistant.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedNanoSodaPromoter.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_PigeonDronePilot.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_DefrockedSynthTuner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CyberStreetSqueegeeOp.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_AlgaeFarmRakeTechnician.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CSuiteTrashDecryptor.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedAIWhisperer.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateDogToyTester.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateComplainerforHire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_Retrotypewriterrestorationist.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CyberStreetSqueegeeOp.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_CyberStreetSqueegeeOp.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_UnpaidBlockchainIntern.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_UnpaidBlockchainIntern.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedAIWhisperer.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_BannedAIWhisperer.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SubOrbitalGarbagePicker.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_SubOrbitalGarbagePicker.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_AlgaeFarmRakeTechnician.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_AlgaeFarmRakeTechnician.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_PigeonDronePilot.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_PigeonDronePilot.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CSuiteTrashDecryptor.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_CSuiteTrashDecryptor.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SlumLandlordsThirdAssistant.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_SlumLandlordsThirdAssistant.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_QuantumKeyboardCleaner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_QuantumKeyboardCleaner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_Retrotypewriterrestorationist.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_Retrotypewriterrestorationist.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateComplainerforHire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_CorporateComplainerforHire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_DefrockedSynthTuner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_DefrockedSynthTuner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedNanoSodaPromoter.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_BannedNanoSodaPromoter.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateDogToyTester.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_CorporateDogToyTester.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CardboardRecyclerExtraordinaire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] [Worker0] Unable to parse file Assets/Resources/GameData/Backstory_CardboardRecyclerExtraordinaire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CardboardRecyclerExtraordinaire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_UnpaidBlockchainIntern.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SubOrbitalGarbagePicker.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_QuantumKeyboardCleaner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_SlumLandlordsThirdAssistant.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedNanoSodaPromoter.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_PigeonDronePilot.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_DefrockedSynthTuner.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CyberStreetSqueegeeOp.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_AlgaeFarmRakeTechnician.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CSuiteTrashDecryptor.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_BannedAIWhisperer.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateDogToyTester.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_CorporateComplainerforHire.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---
+[Error] Unable to parse file Assets/Resources/GameData/Backstory_Retrotypewriterrestorationist.asset: [Parser Failure at line 20: Expect ':' between key and value within mapping]
+
+UnityEngine.Resources:Load<GameDatabaseSO> (string)
+GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
+
+---

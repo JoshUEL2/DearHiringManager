@@ -100,8 +100,8 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/YesManNodMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/GitMergeMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/NightShiftPitchMiniGame.cs" />
-    <Compile Include="Assets/Scripts/2 Managers/MiniGames/ChartAdjusterMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/PhysicalScrubMiniGame.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/ChartAdjusterMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/AutomatedTestsMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/RecycleBottlesMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/MemoryMatchMiniGame.cs" />
@@ -124,8 +124,8 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/SliderMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/UnitTestRunnerMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/Systems/FinancialSystem.cs" />
-    <Compile Include="Assets/Scripts/2 Managers/MiniGames/HotStoneSpaMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/StealthInjectMiniGame.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/HotStoneSpaMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/WhackABugMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/TicketSwipeMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/CourseSO.cs" />
@@ -143,13 +143,14 @@
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/DialogueChainMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/QATriageMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/GameDatabaseSO.cs" />
+    <Compile Include="Assets/Scripts/3 UI/LoadingScreenUI.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/IpHackMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/FileSorterMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/NameMemoryMiniGame.cs" />
-    <Compile Include="Assets/Scripts/2 Managers/MiniGames/SprintLaneMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/BalanceMeterMiniGame.cs" />
-    <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGames/SprintLaneMiniGame.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/VideoCallMiniGame.cs" />
+    <Compile Include="Assets/Scripts/2 Managers/MiniGameTypes.cs" />
     <Compile Include="Assets/Scripts/2 Managers/MiniGames/StartupPitchMiniGame.cs" />
     <Compile Include="Assets/Scripts/1 Data/ScriptableObjects/RandomEventSO.cs" />
     <Compile Include="Assets/Scripts/1 Data/Systems/JailSystem.cs" />
