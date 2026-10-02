@@ -33,10 +33,10 @@ public class AutomatedTestsMiniGame : IMiniGame
 
         for (int i = 0; i < 5; i++)
         {
-            atBtnTests[i] = container.Q<Button>($"AtBtnTest{i + 1}");
+            atBtnTests[i] = container.Q<Button>($"AtBtnTest{i}");
             if (atBtnTests[i] != null)
             {
-                atStatusTexts[i] = atBtnTests[i].Q<Label>("AtStatusText");
+                atStatusTexts[i] = atBtnTests[i].Q<Label>($"AtStatusText{i}");
                 int idx = i;
                 atBtnTests[i].clicked += () => OnAtTestClicked(idx);
             }

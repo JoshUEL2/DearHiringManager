@@ -55,7 +55,7 @@ public class CenterDivMiniGame : IMiniGame
         workArea = targetBox.parent;
         
         // Remove old UXML overlay if it exists
-        var oldOverlay = container.Q<VisualElement>("CdFlashOverlay");
+        var oldOverlay = container.Q<VisualElement>("CdFlashOverlay") ?? new VisualElement();
         if (oldOverlay != null) oldOverlay.style.display = DisplayStyle.None;
 
         centerBtn.clicked += OnCenterClicked;

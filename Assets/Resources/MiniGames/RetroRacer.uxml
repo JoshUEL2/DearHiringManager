@@ -43,5 +43,12 @@
             <ui:Label name="RrPlayer" text="🛵" style="position: absolute; font-size: 80px; bottom: 20px; -unity-text-align: middle-center; text-shadow: 0 10px 0 rgba(0,0,0,0.4);" />
         </ui:VisualElement>
 
+    
+        <!-- Controls -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; position: absolute; bottom: 20px; padding: 0 20px; z-index: 20;">
+            <ui:Button name="BtnRrLeft" text="&lt; LEFT" style="width: 120px; height: 80px; font-size: 24px; -unity-font-style: bold; background-color: rgba(0,0,0,0.5); color: white; border-width: 2px; border-color: white;" />
+            <ui:Button name="BtnRrRight" text="RIGHT &gt;" style="width: 120px; height: 80px; font-size: 24px; -unity-font-style: bold; background-color: rgba(0,0,0,0.5); color: white; border-width: 2px; border-color: white;" />
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

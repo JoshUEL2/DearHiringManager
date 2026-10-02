@@ -34,11 +34,11 @@ public class CodeCommenterMiniGame : IMiniGame
             ccLines[i] = container.Q<VisualElement>($"CcLine{i + 1}");
             if (ccLines[i] != null)
             {
-                ccLineTexts[i] = ccLines[i].Q<Label>("CcLineText");
+                ccLineTexts[i] = ccLines[i].Q<Label>($"CcLineText{i}");
                 if (ccLineTexts[i] != null) ccOriginalTexts[i] = ccLineTexts[i].text;
                 
                 int idx = i;
-                var btn = ccLines[i].Q<Button>("BtnComment");
+                var btn = ccLines[i] as Button;
                 if (btn != null) btn.clicked += () => OnCcLineClicked(idx);
             }
         }

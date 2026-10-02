@@ -44,7 +44,7 @@ public class SizeMatchMiniGame : IMiniGame
         changingBox = container.Q<Button>("SmBtnChangingBox");
         
         // Remove old UXML overlay if it exists, we create our own
-        var oldOverlay = container.Q<VisualElement>("SmFlashOverlay");
+        var oldOverlay = container.Q<VisualElement>("SmFlashOverlay") ?? new VisualElement();
         if (oldOverlay != null) oldOverlay.style.display = DisplayStyle.None;
 
         // Register on workArea so ANY tap counts, not just tapping the moving box!
