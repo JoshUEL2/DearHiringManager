@@ -18,7 +18,7 @@ public class TapMiniGame : IMiniGame
         this.config = config;
 
         container = root.Q<VisualElement>("TapGameContainer");
-        btnTap = container.Q<Button>("BtnActionTap");
+        btnTap = container.Q<Button>("BtnActionTap") ?? container.Q<Button>("BtnTap");
         tapProgressText = container.Q<Label>("TapProgressText");
 
         if (btnTap != null)

@@ -388,19 +388,24 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         operationNameText.text = game.name;
         instructionsText.text = currentConfig.instructions;
         overlay.style.display = DisplayStyle.Flex;
+        overlay.style.opacity = 1;
         overlay.pickingMode = PickingMode.Position;
-        overlay.schedule.Execute(() => {
-            overlay.style.opacity = 1;
-            var card = overlay.Q<VisualElement>("MiniGameCard");
-            if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
-        }).StartingIn(10);
+        var card = overlay.Q<VisualElement>("MiniGameCard");
+        if (card != null)
+        {
+            card.style.display = DisplayStyle.Flex;
+            card.style.opacity = 1;
+            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+        }
 
         GameType typeToSetup = currentConfig.type;
         
         // Delegate to new Strategy Pattern
         currentStrategy = MiniGameFactory.Create(typeToSetup);
 
-        // Phase 4 Automation: Automatically load UI templates if they exist
+        var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+        targetContainer.Clear();
+
         string uxmlName = GetUxmlName(typeToSetup);
         var template = Resources.Load<VisualTreeAsset>("MiniGames/" + uxmlName);
         
@@ -408,19 +413,18 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         {
             activeGameUI = template.Instantiate();
             activeGameUI.style.flexGrow = 1; // Ensure it expands
-            
-            var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
             targetContainer.Add(activeGameUI);
-            
             activeGameUI.Focus();
-            
-            currentStrategy.Initialize(this, activeGameUI, currentConfig);}
+            currentStrategy.Initialize(this, activeGameUI, currentConfig);
+        }
         else
         {
-            // Fallback to legacy massive UI document
-            currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);}
+            // Procedural minigames (IncineratorToss, PhysicalScrub, etc.)
+            currentStrategy.Initialize(this, targetContainer, currentConfig);
+        }
         
-        currentStrategy.StartGame();}
+        currentStrategy.StartGame();
+    }
 
     public void LaunchPhase(GameType typeToSetup)
     {
@@ -428,11 +432,9 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         
         currentStrategy?.AbortGame();
 
-        if (activeGameUI != null)
-        {
-            activeGameUI.RemoveFromHierarchy();
-            activeGameUI = null;
-        }
+        var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+        targetContainer.Clear();
+        activeGameUI = null;
 
         currentStrategy = MiniGameFactory.Create(typeToSetup);
         string uxmlName = GetUxmlName(typeToSetup);
@@ -442,16 +444,13 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         {
             activeGameUI = template.Instantiate();
             activeGameUI.style.flexGrow = 1;
-            
-            var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
             targetContainer.Add(activeGameUI);
-            
             activeGameUI.Focus();
             currentStrategy.Initialize(this, activeGameUI, currentConfig);
         }
         else
         {
-            currentStrategy.Initialize(this, miniGameDocument.rootVisualElement, currentConfig);
+            currentStrategy.Initialize(this, targetContainer, currentConfig);
         }
         
         currentStrategy.StartGame();
@@ -512,6 +511,8 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             activeGameUI.RemoveFromHierarchy();
             activeGameUI = null;
         }
+        var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+        targetContainer.Clear();
 
         if (currentGame != null && currentGame.category == "side_hustle")
         {
@@ -587,6 +588,8 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             activeGameUI.RemoveFromHierarchy();
             activeGameUI = null;
         }
+        var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
+        targetContainer.Clear();
         overlay.pickingMode = PickingMode.Ignore;
         var data = GameManager.Instance.currentData;
 

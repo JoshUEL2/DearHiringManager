@@ -27,10 +27,10 @@ public class IceShatterMiniGame : IMiniGame
 
         container = root.Q<VisualElement>("IceShatterContainer");
         
-        isFrostOverlay = root.Q<VisualElement>("IsFrostOverlay");
-        isTempFill = root.Q<VisualElement>("IsTempFill");
-        isNodeArea = root.Q<VisualElement>("IsNodeArea");
-        isTimerText = root.Q<Label>("IsTimerText");
+        isFrostOverlay = root.Q<VisualElement>("IsFrostOverlay") ?? root.Q<VisualElement>("isFrostOverlay");
+        isTempFill = root.Q<VisualElement>("IsTempFill") ?? root.Q<VisualElement>("isTempFill");
+        isNodeArea = root.Q<VisualElement>("IsNodeArea") ?? root.Q<VisualElement>("isNodeArea");
+        isTimerText = root.Q<Label>("IsTimerText") ?? root.Q<Label>("isTimerText");
     }
 
     public void StartGame()
