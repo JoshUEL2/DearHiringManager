@@ -78,6 +78,11 @@ public class LoadingScreenUI : MonoBehaviour
             root.RegisterCallback<PointerDownEvent>(evt => {
                 Destroy(gameObject);
             });
+            root.focusable = true;
+            root.Focus();
+            root.RegisterCallback<KeyDownEvent>(evt => {
+                Destroy(gameObject);
+            });
 
             root.Add(videoElement);
             uiDocument.rootVisualElement.Add(root);
@@ -96,14 +101,6 @@ public class LoadingScreenUI : MonoBehaviour
 
         // Fallback auto-dismiss after video duration + 1s
         Destroy(gameObject, (float)clip.length + 1f);
-    }
-
-    private void Update()
-    {
-        if (Input.anyKeyDown)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void OnVideoFinished(VideoPlayer vp)
