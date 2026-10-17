@@ -8,6 +8,8 @@ public class LoadingScreenUI : MonoBehaviour
     private VideoPlayer videoPlayer;
     private RenderTexture renderTexture;
     private UIDocument uiDocument;
+    private VisualElement rootContainer;
+    private VisualElement videoElement;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Initialize()
@@ -61,31 +63,31 @@ public class LoadingScreenUI : MonoBehaviour
 
         if (uiDocument.rootVisualElement != null)
         {
-            var root = new VisualElement();
-            root.style.flexGrow = 1;
-            root.style.backgroundColor = new Color(0.082f, 0f, 0f, 1f); // Red background as requested
-            root.style.position = Position.Absolute;
-            root.style.left = 0;
-            root.style.right = 0;
-            root.style.top = 0;
-            root.style.bottom = 0;
+            rootContainer = new VisualElement();
+            rootContainer.style.flexGrow = 1;
+            rootContainer.style.backgroundColor = new Color(0.082f, 0f, 0f, 1f); // Red background as requested
+            rootContainer.style.position = Position.Absolute;
+            rootContainer.style.left = 0;
+            rootContainer.style.right = 0;
+            rootContainer.style.top = 0;
+            rootContainer.style.bottom = 0;
             
-            var videoElement = new VisualElement();
+            videoElement = new VisualElement();
             videoElement.style.flexGrow = 1;
             videoElement.style.backgroundImage = Background.FromRenderTexture(renderTexture);
             videoElement.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
             
-            root.RegisterCallback<PointerDownEvent>(evt => {
+            rootContainer.RegisterCallback<PointerDownEvent>(evt => {
                 Destroy(gameObject);
             });
-            root.focusable = true;
-            root.Focus();
-            root.RegisterCallback<KeyDownEvent>(evt => {
+            rootContainer.focusable = true;
+            rootContainer.Focus();
+            rootContainer.RegisterCallback<KeyDownEvent>(evt => {
                 Destroy(gameObject);
             });
 
-            root.Add(videoElement);
-            uiDocument.rootVisualElement.Add(root);
+            rootContainer.Add(videoElement);
+            uiDocument.rootVisualElement.Add(rootContainer);
         }
         else
         {
@@ -110,10 +112,28 @@ public class LoadingScreenUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (videoPlayer != null)
+        {
+            videoPlayer.loopPointReached -= OnVideoFinished;
+            videoPlayer.targetTexture = null;
+            if (videoPlayer.isPlaying) videoPlayer.Stop();
+        }
+        if (videoElement != null)
+        {
+            videoElement.style.backgroundImage = null;
+            videoElement.RemoveFromHierarchy();
+            videoElement = null;
+        }
+        if (rootContainer != null)
+        {
+            rootContainer.RemoveFromHierarchy();
+            rootContainer = null;
+        }
         if (renderTexture != null)
         {
             renderTexture.Release();
             Destroy(renderTexture);
+            renderTexture = null;
         }
     }
 }

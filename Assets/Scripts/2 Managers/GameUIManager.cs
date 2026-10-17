@@ -291,6 +291,11 @@ public class GameUIManager : MonoBehaviour
         Application.logMessageReceived -= OnDebugLogReceived;
     }
 
+    private void OnDestroy()
+    {
+        Application.logMessageReceived -= OnDebugLogReceived;
+    }
+
     private void Start()
     {
         // Ensure the Dashboard is the base layer, and all popup menus render ON TOP of it
@@ -409,52 +414,80 @@ public class GameUIManager : MonoBehaviour
 
     private System.Text.StringBuilder _logBuilder;
     private System.Text.StringBuilder _devLogBuilder = new System.Text.StringBuilder();
+    private bool _devLogDirty = false;
+    private bool _normalLogDirty = false;
+    private readonly object _logLock = new object();
 
     private void OnDebugLogReceived(string condition, string stackTrace, LogType type)
     {
         if (GameManager.Instance == null || GameManager.Instance.currentData == null) return;
         
-        if (type == LogType.Warning || type == LogType.Error || type == LogType.Exception)
+        lock (_logLock)
         {
-            _devLogBuilder.Append($"[{type}] ").Append(condition).Append("\n\n");
-            if (dashboardRoot != null)
+            if (type == LogType.Warning || type == LogType.Error || type == LogType.Exception)
             {
-                var devLogUI = dashboardRoot.Q<Label>("DebugConsoleLog");
-                if (devLogUI != null) devLogUI.text = _devLogBuilder.ToString();
+                _devLogBuilder.Append($"[{type}] ").Append(condition).Append("\n\n");
+                _devLogDirty = true;
+            }
+            else if (type == LogType.Log)
+            {
+                if (condition.Contains("Unable to find a font") || condition.Contains("Unable to load font")) return;
+                
+                var data = GameManager.Instance.currentData;
+                if (_logBuilder == null) 
+                {
+                    _logBuilder = new System.Text.StringBuilder(data.historyLogsJson);
+                }
+                else
+                {
+                    // Sync builder in case historyLogsJson was modified elsewhere
+                    if (_logBuilder.Length != data.historyLogsJson.Length)
+                    {
+                        _logBuilder.Clear();
+                        _logBuilder.Append(data.historyLogsJson);
+                    }
+                }
+
+                _logBuilder.Append("<color=#38BDF8>[SYS]</color> ").Append(condition).Append("\n\n");
+                
+                if (_logBuilder.Length > 4000) 
+                {
+                    _logBuilder.Remove(0, _logBuilder.Length - 4000);
+                }
+                
+                data.historyLogsJson = _logBuilder.ToString();
+                _normalLogDirty = true;
             }
         }
-        else if (type == LogType.Log)
-        {
-            if (condition.Contains("Unable to find a font") || condition.Contains("Unable to load font")) return;
-            
-            var data = GameManager.Instance.currentData;
-            if (_logBuilder == null) 
-            {
-                _logBuilder = new System.Text.StringBuilder(data.historyLogsJson);
-            }
-            else
-            {
-                // Sync builder in case historyLogsJson was modified elsewhere
-                if (_logBuilder.Length != data.historyLogsJson.Length)
-                {
-                    _logBuilder.Clear();
-                    _logBuilder.Append(data.historyLogsJson);
-                }
-            }
+    }
 
-            // string prefix = "<color=#38BDF8>[SYS]</color>";
-            // _logBuilder.Append(prefix).Append(" ").Append(condition).Append("\n\n");
-            // The screenshot showed no prefix for some reason, maybe they want it just plain. I'll stick to what was there or what's asked.
-            // Wait, the prompt didn't ask to remove [SYS], but the image had [ALERT] because it was a Warning. 
-            // So if it's a Log, it will still have [SYS]. I'll keep it.
-            _logBuilder.Append("<color=#38BDF8>[SYS]</color> ").Append(condition).Append("\n\n");
-            
-            if (_logBuilder.Length > 4000) 
+    private void Update()
+    {
+        bool updateDev = false;
+        bool updateNormal = false;
+
+        lock (_logLock)
+        {
+            if (_devLogDirty)
             {
-                _logBuilder.Remove(0, _logBuilder.Length - 4000);
+                _devLogDirty = false;
+                updateDev = true;
             }
-            
-            data.historyLogsJson = _logBuilder.ToString();
+            if (_normalLogDirty)
+            {
+                _normalLogDirty = false;
+                updateNormal = true;
+            }
+        }
+
+        if (updateDev && dashboardRoot != null && dashboardRoot.panel != null)
+        {
+            var devLogUI = dashboardRoot.Q<Label>("DebugConsoleLog");
+            if (devLogUI != null) devLogUI.text = _devLogBuilder.ToString();
+        }
+
+        if (updateNormal)
+        {
             RefreshLogDisplay();
         }
     }

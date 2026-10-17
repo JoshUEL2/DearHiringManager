@@ -227,6 +227,7 @@ public class HustlesUI
                     fallingItems[i] = item;
                 }
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     for(int i=0; i<3; i++) {
                         itemY[i] += 4f;
                         if(itemY[i] > 350) itemY[i] = -50;
@@ -258,6 +259,7 @@ public class HustlesUI
                 int currentTile = 0;
                 float tTime = 0;
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     tTime += 1f;
                     if(tTime > 6) {
                         tTime = 0;
@@ -303,20 +305,21 @@ public class HustlesUI
                     leashes[i] = leash;
                     Label dog = new Label(dogEmojis[i]);
                     dog.style.position = Position.Absolute; dog.style.fontSize = 35;
+                    dog.style.left = Length.Percent(80); dog.style.top = Length.Percent(45);
                     bg.Add(dog);
                     dogs[i] = dog;
                     dogDistances[i] = 40f + (i*10);
                     dogAngles[i] = i * 72f;
                 }
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     for(int i=0; i<5; i++) {
                         dogDistances[i] += 0.3f;
                         if(dogDistances[i] > 110f) dogDistances[i] = 40f; 
                         float rad = dogAngles[i] * Mathf.Deg2Rad;
                         float x = Mathf.Cos(rad) * dogDistances[i];
                         float y = Mathf.Sin(rad) * dogDistances[i];
-                        dogs[i].style.left = Length.Percent(80); dogs[i].style.translate = new StyleTranslate(new Translate(x, y, 0));
-                        dogs[i].style.top = Length.Percent(45);
+                        dogs[i].style.translate = new StyleTranslate(new Translate(x, y, 0));
                         leashes[i].style.width = dogDistances[i];
                         leashes[i].style.rotate = new StyleRotate(new Rotate(Angle.Degrees(dogAngles[i])));
                     }
@@ -352,6 +355,7 @@ public class HustlesUI
                 
                 float roadY = 0;
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     roadY += 4f;
                     for(int i=0; i<4; i++) {
                         float curY = (i*60) + roadY;
@@ -400,6 +404,7 @@ public class HustlesUI
                 float cardX = 40f; 
                 float phase = 0;
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     phase += 0.015f;
                     if(phase < 1f) {
                         cardX += 0.5f;
@@ -470,6 +475,7 @@ public class HustlesUI
 
                 float[] dialY = {0, 0, 0};
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     for(int i=0; i<3; i++) {
                         dialY[i] -= (3f + (i * 0.5f)); 
                         if(dialY[i] < -200) dialY[i] = 0;
@@ -494,6 +500,7 @@ public class HustlesUI
                 int currWire = 0;
                 float wirePercent = 0;
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     wirePercent += 3f;
                     if(wirePercent > 100f) {
                         currWire++;
@@ -529,6 +536,7 @@ public class HustlesUI
                 bg.Add(ipGrid);
                 int ticks = 0;
                 if (!isOnCooldown) bg.schedule.Execute(() => {
+                    if (bg.panel == null) return;
                     ticks++;
                     if(ticks % 15 == 0) {
                         int rnd = Random.Range(0, 40);
