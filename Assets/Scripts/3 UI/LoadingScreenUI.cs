@@ -75,6 +75,10 @@ public class LoadingScreenUI : MonoBehaviour
             videoElement.style.backgroundImage = Background.FromRenderTexture(renderTexture);
             videoElement.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
             
+            root.RegisterCallback<PointerDownEvent>(evt => {
+                Destroy(gameObject);
+            });
+
             root.Add(videoElement);
             uiDocument.rootVisualElement.Add(root);
         }
@@ -89,6 +93,17 @@ public class LoadingScreenUI : MonoBehaviour
         // Prepare and play
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += (vp) => { vp.Play(); };
+
+        // Fallback auto-dismiss after video duration + 1s
+        Destroy(gameObject, (float)clip.length + 1f);
+    }
+
+    private void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnVideoFinished(VideoPlayer vp)

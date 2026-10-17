@@ -385,12 +385,30 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
 
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
 
-        operationNameText.text = game.name;
-        instructionsText.text = currentConfig.instructions;
-        overlay.style.display = DisplayStyle.Flex;
-        overlay.style.opacity = 1;
-        overlay.pickingMode = PickingMode.Position;
-        var card = overlay.Q<VisualElement>("MiniGameCard");
+        if (overlay == null || overlay.panel == null)
+        {
+            var root = miniGameDocument != null ? miniGameDocument.rootVisualElement : null;
+            if (root != null)
+            {
+                overlay = root.Q<VisualElement>("Overlay");
+                btnAbortMinigame = root.Q<UnityEngine.UIElements.Button>("BtnAbortMinigame");
+                if (btnAbortMinigame != null) btnAbortMinigame.clicked += AbortGame;
+                operationNameText = root.Q<Label>("OperationNameText");
+                instructionsText = root.Q<Label>("InstructionsText");
+                btnAbort = root.Q<Button>("BtnAbortMinigame");
+                if (btnAbort != null) btnAbort.clicked += AbortGame;
+            }
+        }
+
+        if (operationNameText != null) operationNameText.text = game.name;
+        if (instructionsText != null) instructionsText.text = currentConfig.instructions;
+        if (overlay != null)
+        {
+            overlay.style.display = DisplayStyle.Flex;
+            overlay.style.opacity = 1;
+            overlay.pickingMode = PickingMode.Position;
+        }
+        var card = overlay?.Q<VisualElement>("MiniGameCard");
         if (card != null)
         {
             card.style.display = DisplayStyle.Flex;

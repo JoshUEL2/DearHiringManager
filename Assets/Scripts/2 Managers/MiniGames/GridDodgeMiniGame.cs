@@ -217,13 +217,16 @@ public class GridDodgeMiniGame : IMiniGame
 
         container.style.display = DisplayStyle.Flex;
         
-        var root = container.panel.visualTree;
-        root.RegisterCallback<KeyDownEvent>(OnKeyDown);
-        root.RegisterCallback<PointerDownEvent>(OnPointerDown);
-        root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
-        root.RegisterCallback<PointerUpEvent>(OnPointerUp);
-        root.focusable = true;
-        root.Focus();
+        var root = container.panel?.visualTree ?? manager?.miniGameDocument?.rootVisualElement;
+        if (root != null)
+        {
+            root.RegisterCallback<KeyDownEvent>(OnKeyDown);
+            root.RegisterCallback<PointerDownEvent>(OnPointerDown);
+            root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            root.focusable = true;
+            root.Focus();
+        }
 
         manager.StartCoroutine(GridDodgeRoutine());
     }

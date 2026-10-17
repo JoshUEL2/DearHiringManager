@@ -5,7 +5,7 @@
     padding: 20px; 
     padding-bottom: 160px; /* Room for bottom nav */
     align-items: stretch;
-    -unity-font: resource("Rajdhani-SemiBold");
+    -unity-font-definition: url("project://database/Assets/Fonts/Rajdhani-SemiBold.ttf");
 }
 
 /* Typography */
