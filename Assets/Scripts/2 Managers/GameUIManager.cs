@@ -322,6 +322,21 @@ public class GameUIManager : MonoBehaviour
 
         Debug.Log("[GameUIManager] Tab controller initialization complete.");
 
+        // Mobile Safe Area handling for all UI screens
+        var safeArea = GetComponent<SafeAreaHelper>();
+        if (safeArea == null) safeArea = gameObject.AddComponent<SafeAreaHelper>();
+        if (safeArea != null)
+        {
+            safeArea.RegisterDocument(creationDocument);
+            safeArea.RegisterDocument(dashboardDocument);
+            safeArea.RegisterDocument(careersDocument);
+            safeArea.RegisterDocument(hustlesDocument);
+            safeArea.RegisterDocument(educationDocument);
+            safeArea.RegisterDocument(activitiesDocument);
+            safeArea.RegisterDocument(jailDocument);
+            safeArea.ApplySafeArea();
+        }
+
         // Strictly check if a save file actually exists on the hard drive
         try
         {
@@ -623,6 +638,8 @@ public class GameUIManager : MonoBehaviour
         dismissBtn.style.marginTop = 0; dismissBtn.style.marginBottom = 0;
 
         dismissBtn.clicked += () => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.LightImpact();
             panel.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
             overlay.style.opacity = 0f;
             overlay.schedule.Execute(() => activeRoot.Remove(overlay)).StartingIn(300);
@@ -639,6 +656,9 @@ public class GameUIManager : MonoBehaviour
 
     private void OnRandomizeBackstoryClicked()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
+
         if (string.IsNullOrWhiteSpace(nameInput.value)) return;
 
         var backstories = GameManager.Instance.gameDatabase.backstories.FindAll(b => b != null);
@@ -673,6 +693,8 @@ public class GameUIManager : MonoBehaviour
     private void OnBeginClicked()
     {
         if (selectedBackstory == null) return;
+        AudioManager.Instance?.PlayCash();
+        HapticManager.MediumImpact();
         var data = GameManager.Instance.currentData;
 
         // Save the typed name to the data model!
@@ -722,8 +744,146 @@ public class GameUIManager : MonoBehaviour
 
     private void OnAdvanceWeekClicked()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentData != null)
+        {
+            var data = GameManager.Instance.currentData;
+            if (data.jailWeeksRemaining <= 0 && data.jobTitle != "Unemployed" && !GameManager.Instance.completedRegularTaskThisWeek)
+            {
+                ShowShiftWarningDialog(() =>
+                {
+                    ExecuteAdvanceWeek();
+                });
+                return;
+            }
+        }
+
+        ExecuteAdvanceWeek();
+    }
+
+    private void ExecuteAdvanceWeek()
+    {
+        AudioManager.Instance?.PlayTurnAdvance();
+        HapticManager.MediumImpact();
         GameManager.Instance.AdvanceWeek();
         CheckJailStatus(); 
+    }
+
+    private void ShowShiftWarningDialog(System.Action onAdvanceAnyway)
+    {
+        AudioManager.Instance?.PlayExpense();
+        HapticManager.HeavyImpact();
+
+        VisualElement activeRoot = null;
+        if (dashboardRoot != null && dashboardRoot.style.display == DisplayStyle.Flex) activeRoot = dashboardRoot;
+        else if (careersRoot != null && careersRoot.style.display == DisplayStyle.Flex) activeRoot = careersRoot;
+        else if (hustlesRoot != null && hustlesRoot.style.display == DisplayStyle.Flex) activeRoot = hustlesRoot;
+        else if (educationRoot != null && educationRoot.style.display == DisplayStyle.Flex) activeRoot = educationRoot;
+        else if (activitiesRoot != null && activitiesRoot.style.display == DisplayStyle.Flex) activeRoot = activitiesRoot;
+        else activeRoot = dashboardRoot ?? creationRoot;
+
+        if (activeRoot == null)
+        {
+            onAdvanceAnyway?.Invoke();
+            return;
+        }
+
+        var overlay = new VisualElement();
+        overlay.name = "ShiftWarningDialogOverlay";
+        overlay.style.position = Position.Absolute;
+        overlay.style.top = 0; overlay.style.bottom = 0; overlay.style.left = 0; overlay.style.right = 0;
+        overlay.style.backgroundColor = new StyleColor(new Color(0.2f, 0.04f, 0.04f, 0.96f));
+        overlay.style.justifyContent = Justify.Center;
+        overlay.style.alignItems = Align.Center;
+        overlay.pickingMode = PickingMode.Position;
+        overlay.style.paddingLeft = 24; overlay.style.paddingRight = 24;
+
+        var card = new VisualElement();
+        card.AddToClassList("popup-card");
+        card.style.backgroundColor = new StyleColor(new Color(0.08f, 0.10f, 0.18f, 0.98f));
+        Color warnBorder = new Color(0.93f, 0.27f, 0.27f, 0.9f);
+        card.style.borderTopColor = warnBorder;
+        card.style.borderBottomColor = warnBorder;
+        card.style.borderLeftColor = warnBorder;
+        card.style.borderRightColor = warnBorder;
+        card.style.borderTopWidth = 3f;
+        card.style.borderBottomWidth = 3f;
+        card.style.borderLeftWidth = 3f;
+        card.style.borderRightWidth = 3f;
+        card.style.borderTopLeftRadius = 24f;
+        card.style.borderTopRightRadius = 24f;
+        card.style.borderBottomLeftRadius = 24f;
+        card.style.borderBottomRightRadius = 24f;
+        card.style.paddingTop = 32f;
+        card.style.paddingBottom = 32f;
+        card.style.paddingLeft = 32f;
+        card.style.paddingRight = 32f;
+        card.style.maxWidth = 640f;
+        card.style.width = Length.Percent(95);
+        card.style.alignItems = Align.Stretch;
+
+        var titleLbl = new Label("SHIFT UNWORKED!");
+        titleLbl.AddToClassList("header-text");
+        titleLbl.style.color = new StyleColor(new Color(0.95f, 0.28f, 0.28f));
+        titleLbl.style.fontSize = 44;
+        titleLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+        titleLbl.style.whiteSpace = WhiteSpace.Normal;
+        titleLbl.style.marginBottom = 15;
+
+        var descLbl = new Label("WARNING: You have not worked your shift this week! Advancing to next week will get you FIRED from your job. Advance anyway?");
+        descLbl.AddToClassList("sub-text");
+        descLbl.style.color = new StyleColor(new Color(0.95f, 0.95f, 0.95f));
+        descLbl.style.fontSize = 28;
+        descLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+        descLbl.style.whiteSpace = WhiteSpace.Normal;
+        descLbl.style.marginBottom = 30;
+
+        var btnWork = new Button { text = "Work Shift" };
+        btnWork.AddToClassList("popup-button");
+        btnWork.style.backgroundColor = new StyleColor(new Color(0.05f, 0.55f, 0.95f, 1f));
+        btnWork.style.color = Color.white;
+        btnWork.style.fontSize = 32;
+        btnWork.style.unityFontStyleAndWeight = FontStyle.Bold;
+        btnWork.style.paddingTop = 16;
+        btnWork.style.paddingBottom = 16;
+        btnWork.style.marginBottom = 14;
+        btnWork.clicked += () => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.LightImpact();
+            overlay.RemoveFromHierarchy();
+            SwitchTab(careersRoot);
+        };
+
+        var btnAdvance = new Button { text = "Slack Off & Advance" };
+        btnAdvance.AddToClassList("popup-button");
+        btnAdvance.style.backgroundColor = new StyleColor(new Color(0.35f, 0.12f, 0.12f, 0.9f));
+        Color advBorder = new Color(0.8f, 0.2f, 0.2f, 0.8f);
+        btnAdvance.style.borderTopColor = advBorder;
+        btnAdvance.style.borderBottomColor = advBorder;
+        btnAdvance.style.borderLeftColor = advBorder;
+        btnAdvance.style.borderRightColor = advBorder;
+        btnAdvance.style.borderTopWidth = 1.5f;
+        btnAdvance.style.borderBottomWidth = 1.5f;
+        btnAdvance.style.borderLeftWidth = 1.5f;
+        btnAdvance.style.borderRightWidth = 1.5f;
+        btnAdvance.style.color = new StyleColor(new Color(0.95f, 0.6f, 0.6f));
+        btnAdvance.style.fontSize = 28;
+        btnAdvance.style.paddingTop = 14;
+        btnAdvance.style.paddingBottom = 14;
+        btnAdvance.clicked += () => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.MediumImpact();
+            overlay.RemoveFromHierarchy();
+            onAdvanceAnyway?.Invoke();
+        };
+
+        card.Add(titleLbl);
+        card.Add(descLbl);
+        card.Add(btnWork);
+        card.Add(btnAdvance);
+        overlay.Add(card);
+
+        activeRoot.Add(overlay);
+        StartCoroutine(ShakeRoutine(card));
     }
 
     private void HideAllTabs()
@@ -795,6 +955,10 @@ public class GameUIManager : MonoBehaviour
     {
         if (_isAnimating) return;
         if (GameManager.Instance.currentData.jailWeeksRemaining > 0) return;
+
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
+        SafeAreaHelper.Instance?.ApplySafeArea();
 
         // If explicitly requesting dashboard or clicking the currently open tab
         if (targetRoot == dashboardRoot || targetRoot == activeOverlay)
@@ -1078,6 +1242,8 @@ public class GameUIManager : MonoBehaviour
     
     private void OpenSettings()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
         if (settingsOverlay == null) return;
         settingsOverlay.style.display = DisplayStyle.Flex;
@@ -1154,6 +1320,8 @@ public class GameUIManager : MonoBehaviour
 
     private void CloseSettings()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
         if (settingsOverlay == null) return;
         var card = settingsOverlay.Q<VisualElement>("SettingsCard");
         if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
@@ -1305,6 +1473,8 @@ public class GameUIManager : MonoBehaviour
         var btn = new Button { text = "ACKNOWLEDGE" };
         btn.AddToClassList("popup-button");
         btn.clicked += () => { 
+            AudioManager.Instance?.PlayClick();
+            HapticManager.LightImpact();
             card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
             overlay.style.opacity = 0f;
             overlay.schedule.Execute(() => {
@@ -1318,6 +1488,8 @@ public class GameUIManager : MonoBehaviour
         card.Add(btn);
         if (ev.title.Contains("FIRED"))
         {
+            AudioManager.Instance?.PlayExpense();
+            HapticManager.HeavyImpact();
             overlay.style.backgroundColor = new StyleColor(new Color(0.3f, 0f, 0f, 0.95f)); // Dark red
             titleLbl.style.color = new StyleColor(new Color(1f, 0.2f, 0.2f)); // Bright red
             btn.style.backgroundColor = new StyleColor(new Color(0.8f, 0.1f, 0.1f));
@@ -1354,6 +1526,9 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowCVPopup()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
+
         VisualElement activeRoot = null;
         if (dashboardRoot.style.display == DisplayStyle.Flex) activeRoot = dashboardRoot;
         else if (hustlesRoot.style.display == DisplayStyle.Flex) activeRoot = hustlesRoot;
@@ -1454,6 +1629,8 @@ public class GameUIManager : MonoBehaviour
         closeBtn.style.fontSize = 32;
 
         closeBtn.clicked += () => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.LightImpact();
             paper.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
             overlay.style.opacity = 0f;
             overlay.schedule.Execute(() => activeRoot.Remove(overlay)).StartingIn(300);

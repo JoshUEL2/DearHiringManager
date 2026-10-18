@@ -495,6 +495,9 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         hasWon = true;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
 
+        AudioManager.Instance?.PlayMinigameSuccess();
+        HapticManager.MediumImpact();
+
         FinishGame();
     }
 
@@ -520,6 +523,9 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         isPlaying = false;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
         
+        AudioManager.Instance?.PlayMinigameFail();
+        HapticManager.MediumImpact();
+
         currentStrategy?.AbortGame();
 
         overlay.style.display = DisplayStyle.None;
@@ -543,6 +549,8 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             if (jailWeeks > 0)
             {
                 UnityEngine.Debug.Log("Failed illegal minigame! Straight to jail.");
+                AudioManager.Instance?.PlayExpense();
+                HapticManager.HeavyImpact();
                 var gData = GameManager.Instance.currentData;
                 float fine = (float)(gData.balance * 0.5); 
                 gData.balance -= fine;
@@ -626,6 +634,8 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
                     data.zone = District.Slums;
                     double fine = data.balance * 0.20;
                     data.balance -= fine;
+                    AudioManager.Instance?.PlayExpense();
+                    HapticManager.HeavyImpact();
                     data.historyLogsJson += $@"
 
 [SYSTEM] {logMessage} BUT I WAS CAUGHT! Fined ${fine:F0} and jailed.";
@@ -633,6 +643,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
                 else
                 {
                     data.balance += currentGame.reward;
+                    AudioManager.Instance?.PlayCash();
                     data.historyLogsJson += $@"
 
 [SYSTEM] {logMessage} Got away with ${currentGame.reward}.";
@@ -641,6 +652,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             else
             {
                 data.balance += currentGame.reward;
+                AudioManager.Instance?.PlayCash();
                 data.stress = Mathf.Clamp(data.stress + 0.10f, 0f, 1f);
                 data.historyLogsJson += $@"
 
@@ -716,7 +728,8 @@ Check the dashboard for results!"
             data.completedTasksThisWeek.Add(currentGame.name);
             data.stress = Mathf.Clamp(data.stress + currentGame.stressCost, 0f, 1f);
 
-            if (data.completedTasksThisWeek.Count >= 3)
+            int regularTasksDone = data.completedTasksThisWeek.Count - (data.completedExtraTaskThisWeek > 0 ? 1 : 0);
+            if (regularTasksDone >= 3)
             {
                 GameManager.Instance.completedRegularTaskThisWeek = true;
             }
@@ -733,7 +746,7 @@ Check the dashboard for results!"
 
 <color=#E74C3C>Stress increased by {(currentGame.stressCost * 100):F0}%.</color>
 
-Weekly Tasks Done: {data.completedTasksThisWeek.Count}/3" 
+Weekly Tasks Done: {Mathf.Min(3, regularTasksDone)}/3" 
             }, () => { 
                 GameManager.Instance.CheckHeartAttack(() => {
                     CareerUI.Instance.RefreshView(); 
@@ -742,6 +755,7 @@ Weekly Tasks Done: {data.completedTasksThisWeek.Count}/3"
         }
         else if (currentGame.category == "work_extra")
         {
+            data.completedExtraTaskThisWeek = 1;
             PlayerPrefs.SetInt("completedExtraTaskThisWeek", 1);
             data.completedTasksThisWeek.Add(currentGame.name);
             data.stress = Mathf.Clamp(data.stress + currentGame.stressCost, 0f, 1f);

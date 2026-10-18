@@ -29,7 +29,7 @@ public class JailSystem : IWeeklySystem
             }
 
             data.completedTasksThisWeek.Clear();
-            PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
+            data.completedExtraTaskThisWeek = 0;
             manager.completedRegularTaskThisWeek = false;
             manager.hasHustledThisWeek = false;
 

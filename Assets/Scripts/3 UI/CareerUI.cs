@@ -74,10 +74,10 @@ public class CareerUI
         btnQuitJob = root.Q<Button>("BtnQuitJob");
 
         // Hook up buttons
-        if (btnRequestLessHours != null) btnRequestLessHours.clicked += OnRequestLessHours;
-        if (btnRequestMoreHours != null) btnRequestMoreHours.clicked += OnRequestMoreHours;
-        if (btnPromotion != null) btnPromotion.clicked += OnPromotionClicked;
-        if (btnQuitJob != null) btnQuitJob.clicked += OnQuitJobClicked;
+        if (btnRequestLessHours != null) btnRequestLessHours.clicked += () => { AudioManager.Instance?.PlayClick(); HapticManager.LightImpact(); OnRequestLessHours(); };
+        if (btnRequestMoreHours != null) btnRequestMoreHours.clicked += () => { AudioManager.Instance?.PlayClick(); HapticManager.LightImpact(); OnRequestMoreHours(); };
+        if (btnPromotion != null) btnPromotion.clicked += () => { AudioManager.Instance?.PlayClick(); HapticManager.LightImpact(); OnPromotionClicked(); };
+        if (btnQuitJob != null) btnQuitJob.clicked += () => { AudioManager.Instance?.PlayClick(); HapticManager.LightImpact(); OnQuitJobClicked(); };
 
         RefreshView();
     }
@@ -110,9 +110,9 @@ public class CareerUI
     private void UpdateActiveJobUI()
     {
         var data = GameManager.Instance.currentData;
-        int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
+        int currentHours = data.currentJobHours;
         
-        int jobLevel = PlayerPrefs.GetInt("jobLevel", 1);
+        int jobLevel = data.jobLevel;
         
         if (jobTitleText != null) jobTitleText.text = $"Level {jobLevel} {data.jobTitle}";
         
@@ -159,7 +159,7 @@ public class CareerUI
         if (regularTasksStatus != null) regularTasksStatus.text = regDone ? "✓ MET" : "⚠️ PENDING";
         if (regularTasksStatus != null) regularTasksStatus.style.color = new StyleColor(regDone ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f));
 
-        bool extDone = PlayerPrefs.GetInt("completedExtraTaskThisWeek", 0) == 1;
+        bool extDone = data.completedExtraTaskThisWeek == 1;
         if (extraTasksStatus != null) extraTasksStatus.text = extDone ? "✓ DONE THIS WEEK" : "⚠️ PENDING";
         if (extraTasksStatus != null) extraTasksStatus.style.color = new StyleColor(extDone ? new Color(0.22f, 0.74f, 0.97f) : new Color(0.9f, 0.3f, 0.24f));
 
@@ -190,6 +190,8 @@ public class CareerUI
             btn.AddToClassList("btn-task-stunning");
             btn.SetEnabled(!regDone);
             btn.clicked += () => {
+                AudioManager.Instance?.PlayClick();
+                HapticManager.LightImpact();
                 MiniGameManager.Instance.LaunchMiniGame(new ActiveMiniGame("work_regular", task.name, task.stress));
             };
             card.Add(btn);
@@ -234,6 +236,8 @@ public class CareerUI
             btn.AddToClassList("extra");
             btn.SetEnabled(!extDone);
             btn.clicked += () => {
+                AudioManager.Instance?.PlayClick();
+                HapticManager.LightImpact();
                 MiniGameManager.Instance.LaunchMiniGame(new ActiveMiniGame("work_extra", task.name, task.stress));
             };
             card.Add(btn);
@@ -343,7 +347,11 @@ public class CareerUI
             if (!meets) applyBtn.style.backgroundColor = new StyleColor(Color.gray);
             
             var localJob = job;
-            applyBtn.clicked += () => OnApplyClicked(localJob);
+            applyBtn.clicked += () => {
+                AudioManager.Instance?.PlayClick();
+                HapticManager.LightImpact();
+                OnApplyClicked(localJob);
+            };
 
             bottomRow.Add(checkRow);
             bottomRow.Add(applyBtn);
@@ -463,8 +471,9 @@ public class CareerUI
             data.jobTitle = job.title;
             data.nepotismActive = false;
             data.stress = Mathf.Clamp(data.stress - 0.15f, 0f, 1f);
-            PlayerPrefs.SetInt("jobLevel", 1);
-            PlayerPrefs.SetInt("currentJobHours", 40);
+            data.jobLevel = 1;
+            data.currentJobHours = 40;
+            GameManager.Instance.completedRegularTaskThisWeek = false;
             
             GameManager.Instance.availableJobOpenings.Remove(job);
             
@@ -478,7 +487,7 @@ public class CareerUI
 
             if (job.title == "Fortune 500 CEO")
             {
-                Debug.Log("[VICTORY] You climbed the modern corporate ladder and claimed the CEO desk. Global Overlord Victory achieved!");
+                GameManager.Instance.TriggerGameOver("VICTORY! You climbed the corporate ladder from the Slums to the executive penthouse. You are now the Fortune 500 CEO. Global Overlord Victory achieved!");
             }
         }
         else
@@ -506,8 +515,9 @@ public class CareerUI
         float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
         if (Random.value < perf)
         {
-            int level = PlayerPrefs.GetInt("jobLevel", 1);
-            PlayerPrefs.SetInt("jobLevel", level + 1);
+            var data = GameManager.Instance.currentData;
+            int level = data.jobLevel;
+            data.jobLevel = level + 1;
             PlayerPrefs.SetFloat("jobPerformance", 0f);
             
             CVManager.AddPromotionToCV(GameManager.Instance.currentData.jobTitle, level + 1);
@@ -563,9 +573,11 @@ public class CareerUI
 
         System.Action quitAction = () => {
             root.Remove(overlay);
-            GameManager.Instance.currentData.jobTitle = "Unemployed";
-            PlayerPrefs.SetInt("jobLevel", 1);
-            PlayerPrefs.SetInt("currentJobHours", 40);
+            var data = GameManager.Instance.currentData;
+            data.jobTitle = "Unemployed";
+            data.jobLevel = 1;
+            data.currentJobHours = 40;
+            GameManager.Instance.completedRegularTaskThisWeek = false;
             GameManager.Instance.SaveGame();
             RefreshView();
             GameUIManager.Instance.CheckJailStatus();
@@ -592,7 +604,8 @@ public class CareerUI
 
     private void OnRequestLessHours()
     {
-        int week = GameManager.Instance.currentData.currentWeek;
+        var data = GameManager.Instance.currentData;
+        int week = data.currentWeek;
         if (PlayerPrefs.GetInt("lastHourRequestLessWeek", -1) == week)
         {
             GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'LESS HOURS' request per week. Get back to work." });
@@ -600,14 +613,14 @@ public class CareerUI
         }
         PlayerPrefs.SetInt("lastHourRequestLessWeek", week);
 
-        int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
+        int currentHours = data.currentJobHours;
         if (currentHours <= 0) return;
 
         float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
         
         // Accepted with good performance (>40%)
         if (perf >= 0.40f) {
-            PlayerPrefs.SetInt("currentJobHours", Mathf.Max(0, currentHours - 5));
+            data.currentJobHours = Mathf.Max(0, currentHours - 5);
             PlayerPrefs.SetFloat("jobPerformance", perf - 0.20f); // Costs performance
             IncrementHourChangeTally();
             
@@ -630,7 +643,8 @@ public class CareerUI
 
     private void OnRequestMoreHours()
     {
-        int week = GameManager.Instance.currentData.currentWeek;
+        var data = GameManager.Instance.currentData;
+        int week = data.currentWeek;
         if (PlayerPrefs.GetInt("lastHourRequestMoreWeek", -1) == week)
         {
             GameUIManager.Instance.ShowPopup(new RandomEvent { title = "HR REJECTION", description = "You can only submit one 'MORE HOURS' request per week. Get back to work." });
@@ -638,12 +652,12 @@ public class CareerUI
         }
         PlayerPrefs.SetInt("lastHourRequestMoreWeek", week);
 
-        int currentHours = PlayerPrefs.GetInt("currentJobHours", 40);
+        int currentHours = data.currentJobHours;
         if (currentHours >= 80) return;
 
         // 50/50 chance
         if (UnityEngine.Random.value > 0.5f) {
-            PlayerPrefs.SetInt("currentJobHours", Mathf.Min(80, currentHours + 5));
+            data.currentJobHours = Mathf.Min(80, currentHours + 5);
             IncrementHourChangeTally();
             
             if (PlayerPrefs.GetInt("hourChangeTally", 0) > 3) {
@@ -672,10 +686,12 @@ public class CareerUI
 
     private void FirePlayer()
     {
-        GameManager.Instance.currentData.jobTitle = "Unemployed";
-        PlayerPrefs.SetInt("jobLevel", 1);
-        PlayerPrefs.SetInt("currentJobHours", 40);
+        var data = GameManager.Instance.currentData;
+        data.jobTitle = "Unemployed";
+        data.jobLevel = 1;
+        data.currentJobHours = 40;
         PlayerPrefs.SetInt("hourChangeTally", 0); // reset for next job
+        GameManager.Instance.completedRegularTaskThisWeek = false;
         GameManager.Instance.SaveGame();
         
         GameUIManager.Instance.ShowPopup(new RandomEvent { 

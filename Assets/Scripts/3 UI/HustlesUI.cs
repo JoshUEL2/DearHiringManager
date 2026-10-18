@@ -560,6 +560,9 @@ public class HustlesUI
 
     private void OnHustleClicked(SideHustleItem hustle)
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
+
         var data = GameManager.Instance.currentData;
         if (data.hustlesCompletedThisWeek >= 3)
         {

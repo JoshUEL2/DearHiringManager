@@ -26,6 +26,9 @@ public class SavedGame
     public double food = 25.0;
     public District zone = District.Slums; 
     public string jobTitle = "Unemployed";
+    public int jobLevel = 1;
+    public int currentJobHours = 40;
+    public int completedExtraTaskThisWeek = 0;
     public int dishwasherWeeks = 0;
     public int juniorDevWeeks = 0;
     

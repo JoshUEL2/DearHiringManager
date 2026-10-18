@@ -96,11 +96,25 @@ public class GameManager : MonoBehaviour
     private void ResetGameValues()
     {
         currentData = new SavedGame();
+        currentData.jobLevel = 1;
+        currentData.currentJobHours = 40;
+        currentData.completedExtraTaskThisWeek = 0;
+        completedRegularTaskThisWeek = false;
+        hasHustledThisWeek = false;
         isGameOver = false;
         gameOverReason = "";
         financialHistory.Clear();
-        financialHistory.Add(new FinancialSnapshot(1, 500.0, 0.0, 200.0));
+        financialHistory.Add(new FinancialSnapshot(1, 500.0, 0.0, currentData.rent + currentData.food));
         rejectedJobsCooldown.Clear();
+
+        PlayerPrefs.SetInt("jobLevel", 1);
+        PlayerPrefs.SetInt("currentJobHours", 40);
+        PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
+        PlayerPrefs.SetFloat("jobPerformance", 0f);
+        PlayerPrefs.SetInt("hourChangeTally", 0);
+        PlayerPrefs.DeleteKey("lastHourRequestLessWeek");
+        PlayerPrefs.DeleteKey("lastHourRequestMoreWeek");
+
         CycleJobs();
     }
 

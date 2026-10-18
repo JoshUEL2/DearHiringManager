@@ -4,20 +4,48 @@ public class FinancialSystem : IWeeklySystem
 {
     public bool ProcessWeek(SavedGame data, GameManager manager)
     {
-        double baseSalary = manager.GetBaseSalary(data.jobTitle);
-        
-        if (data.jobTitle == "Dishwasher") data.dishwasherWeeks++;
-        else if (data.jobTitle == "Junior React Trainee") data.juniorDevWeeks++;
+        double weeklySalary = 0.0;
 
-        int jobLevel = PlayerPrefs.GetInt("jobLevel", 1); 
-        int currentJobHours = PlayerPrefs.GetInt("currentJobHours", 40); 
-        double levelMultiplier = 1.0 + (jobLevel - 1) * 0.20;
-        double hoursMultiplier = currentJobHours / 40.0;
-        double weeklySalary = baseSalary * levelMultiplier * hoursMultiplier;
+        if (data.jobTitle != "Unemployed")
+        {
+            if (!manager.completedRegularTaskThisWeek)
+            {
+                string oldJob = data.jobTitle;
+                data.jobTitle = "Unemployed";
+                data.jobLevel = 1;
+                data.currentJobHours = 40;
+                AudioManager.Instance?.PlayExpense();
+                HapticManager.HeavyImpact();
+                GameEvents.TriggerShowPopup(new RandomEvent { 
+                    title = "FIRED!", 
+                    description = $"You failed to work your required weekly shift for {oldJob}. You have been terminated and security has escorted you off the premises." 
+                });
+            }
+            else
+            {
+                double baseSalary = manager.GetBaseSalary(data.jobTitle);
+                if (data.jobTitle == "Dishwasher") data.dishwasherWeeks++;
+                else if (data.jobTitle == "Junior React Trainee") data.juniorDevWeeks++;
+
+                double levelMultiplier = 1.0 + (data.jobLevel - 1) * 0.20;
+                double hoursMultiplier = data.currentJobHours / 40.0;
+                weeklySalary = baseSalary * levelMultiplier * hoursMultiplier;
+
+                if (weeklySalary > 0)
+                {
+                    AudioManager.Instance?.PlayCash();
+                    HapticManager.MediumImpact();
+                }
+            }
+        }
 
         double rentTally = data.rentHikeActive ? data.rent * 1.20 : data.rent;
         rentTally = System.Math.Max(0.0, rentTally - manager.rentDiscountThisWeek);
         double totalExpense = rentTally + data.food;
+        if (totalExpense > 0)
+        {
+            AudioManager.Instance?.PlayExpense();
+        }
         
         data.balance += (weeklySalary - totalExpense);
         manager.financialHistory.Add(new FinancialSnapshot(data.currentWeek, data.balance, weeklySalary, totalExpense));
@@ -33,18 +61,8 @@ public class FinancialSystem : IWeeklySystem
             }
         }
 
-        if (data.jobTitle != "Unemployed" && !manager.completedRegularTaskThisWeek)
-        {
-            string oldJob = data.jobTitle;
-            data.jobTitle = "Unemployed";
-            GameEvents.TriggerShowPopup(new RandomEvent { 
-                title = "FIRED!", 
-                description = $"You failed to complete your 3 required weekly tasks for {oldJob}. You have been terminated and security has escorted you off the premises." 
-            });
-        }
-
         data.completedTasksThisWeek.Clear();
-        PlayerPrefs.SetInt("completedExtraTaskThisWeek", 0);
+        data.completedExtraTaskThisWeek = 0;
         manager.completedRegularTaskThisWeek = false;
         manager.hasHustledThisWeek = false;
         manager.activeNewsFeed = $"Earned ${weeklySalary:F0}. Paid ${totalExpense:F0} in living expenses.";
@@ -71,12 +89,37 @@ public class FinancialSystem : IWeeklySystem
             }
         }
 
-        if (data.currentWeek % 3 == 0)
+        // Controlled inflation: Every 4 weeks rent increases by 4% and food by 3%, capped at 1.5x district base
+        if (data.currentWeek % 4 == 0)
         {
-            data.rent *= 1.12;
-            data.food *= 1.10;
+            double baseRent = GetDistrictBaseRent(data.zone);
+            double baseFood = GetDistrictBaseFood(data.zone);
+            data.rent = System.Math.Min(data.rent * 1.04, baseRent * 1.50);
+            data.food = System.Math.Min(data.food * 1.03, baseFood * 1.50);
         }
 
         return true;
+    }
+
+    private double GetDistrictBaseRent(District zone)
+    {
+        switch (zone)
+        {
+            case District.Slums: return 75.0;
+            case District.Suburbs: return 450.0;
+            case District.FinancialDistrict: return 2500.0;
+            default: return 75.0;
+        }
+    }
+
+    private double GetDistrictBaseFood(District zone)
+    {
+        switch (zone)
+        {
+            case District.Slums: return 25.0;
+            case District.Suburbs: return 100.0;
+            case District.FinancialDistrict: return 400.0;
+            default: return 25.0;
+        }
     }
 }
