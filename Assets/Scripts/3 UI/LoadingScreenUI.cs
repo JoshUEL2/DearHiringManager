@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 using System.Collections;
 using System.Linq;
 
@@ -7,10 +8,15 @@ public class LoadingScreenUI : MonoBehaviour
 {
     private UIDocument uiDocument;
     private VisualElement rootContainer;
-    private VisualElement logoContainer;
-    private VisualElement logoElement;
-    private VisualElement badgeElement;
+    private VisualElement videoElement;
+    private VisualElement fallbackLogo;
+    private VisualElement fallbackBadge;
+    private VideoPlayer videoPlayer;
+    private RenderTexture renderTexture;
     private bool isDismissing = false;
+
+    // Solid studio crimson red background (#E11D48)
+    private static readonly Color StudioRed = new Color(0.882f, 0.114f, 0.282f, 1f);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Initialize()
@@ -22,31 +28,18 @@ public class LoadingScreenUI : MonoBehaviour
 
     private void Awake()
     {
-        // Setup immediately on Awake so it covers the screen before the first render frame
         SetupUI();
     }
 
     private void Start()
     {
-        // Start animation sequence on first active frame
-        StartCoroutine(IntroSequence());
+        StartCoroutine(PlayIntroSequence());
     }
 
     private void SetupUI()
     {
-        Texture2D bgTexture = Resources.Load<Texture2D>("IntroBackground");
-        Texture2D logoTexture = Resources.Load<Texture2D>("StudioLogo");
-        Texture2D badgeTexture = Resources.Load<Texture2D>("MadeWithUnity");
-
-        if (logoTexture == null)
-        {
-            Debug.LogWarning("LoadingScreenUI: Could not load StudioLogo from Resources.");
-            Destroy(gameObject);
-            return;
-        }
-
         uiDocument = gameObject.AddComponent<UIDocument>();
-        uiDocument.sortingOrder = 9999; // Always on top of all other UI
+        uiDocument.sortingOrder = 9999; // Topmost UI layer
 
         uiDocument.visualTreeAsset = ScriptableObject.CreateInstance<VisualTreeAsset>();
         UIDocument existingDoc = FindObjectsByType<UIDocument>(FindObjectsInactive.Exclude).FirstOrDefault(d => d.panelSettings != null);
@@ -60,7 +53,7 @@ public class LoadingScreenUI : MonoBehaviour
 
         if (uiDocument.rootVisualElement != null)
         {
-            // Root Container - starts 100% opaque to completely hide underlying scene load
+            // Root Container - starts solid red immediately on Awake to eliminate any scene-loading flicker
             rootContainer = new VisualElement();
             rootContainer.style.flexGrow = 1;
             rootContainer.style.position = Position.Absolute;
@@ -68,68 +61,10 @@ public class LoadingScreenUI : MonoBehaviour
             rootContainer.style.right = 0;
             rootContainer.style.top = 0;
             rootContainer.style.bottom = 0;
-            rootContainer.style.backgroundColor = new Color(0.04f, 0.01f, 0.02f, 1f);
-
-            if (bgTexture != null)
-            {
-                rootContainer.style.backgroundImage = Background.FromTexture2D(bgTexture);
-                rootContainer.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
-                rootContainer.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
-                rootContainer.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
-            }
-
-            rootContainer.style.justifyContent = Justify.SpaceBetween;
+            rootContainer.style.backgroundColor = StudioRed;
+            rootContainer.style.justifyContent = Justify.Center;
             rootContainer.style.alignItems = Align.Center;
-            rootContainer.style.paddingTop = Length.Percent(14);
-            rootContainer.style.paddingBottom = Length.Percent(6);
             rootContainer.style.opacity = 1f;
-
-            // Top spacer
-            VisualElement topSpacer = new VisualElement();
-            topSpacer.style.height = 10;
-            rootContainer.Add(topSpacer);
-
-            // Centered Logo Container
-            logoContainer = new VisualElement();
-            logoContainer.style.alignItems = Align.Center;
-            logoContainer.style.justifyContent = Justify.Center;
-            logoContainer.style.width = Length.Percent(74);
-            logoContainer.style.maxWidth = 440;
-            logoContainer.style.aspectRatio = 934f / 1080f;
-            logoContainer.style.opacity = 0f;
-
-            logoElement = new VisualElement();
-            logoElement.style.width = Length.Percent(100);
-            logoElement.style.height = Length.Percent(100);
-            logoElement.style.backgroundImage = Background.FromTexture2D(logoTexture);
-            logoElement.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
-            logoElement.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
-            logoElement.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
-            logoElement.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
-            logoContainer.Add(logoElement);
-            rootContainer.Add(logoContainer);
-
-            // Bottom Section: Made With Unity Badge
-            VisualElement bottomContainer = new VisualElement();
-            bottomContainer.style.alignItems = Align.Center;
-            bottomContainer.style.justifyContent = Justify.Center;
-            bottomContainer.style.width = Length.Percent(100);
-
-            if (badgeTexture != null)
-            {
-                badgeElement = new VisualElement();
-                badgeElement.style.width = 184;
-                badgeElement.style.height = 56;
-                badgeElement.style.backgroundImage = Background.FromTexture2D(badgeTexture);
-                badgeElement.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
-                badgeElement.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
-                badgeElement.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
-                badgeElement.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
-                badgeElement.style.opacity = 0f;
-                bottomContainer.Add(badgeElement);
-            }
-
-            rootContainer.Add(bottomContainer);
 
             // Interactive Tap to Skip
             rootContainer.RegisterCallback<PointerDownEvent>(evt => Dismiss());
@@ -146,9 +81,125 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 
-    private IEnumerator IntroSequence()
+    private IEnumerator PlayIntroSequence()
     {
-        // Fade in logo and badge (0.45s) with subtle scale
+        VideoClip clip = Resources.Load<VideoClip>("StudioLogo");
+
+        if (clip != null)
+        {
+            // Create portrait high-resolution RenderTexture matching video aspect ratio
+            renderTexture = new RenderTexture(1080, 1920, 0, RenderTextureFormat.ARGB32);
+            renderTexture.filterMode = FilterMode.Bilinear;
+            renderTexture.Create();
+
+            videoPlayer = gameObject.AddComponent<VideoPlayer>();
+            videoPlayer.playOnAwake = false;
+            videoPlayer.clip = clip;
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            videoPlayer.targetTexture = renderTexture;
+            videoPlayer.isLooping = false;
+            videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+
+            videoElement = new VisualElement();
+            videoElement.style.width = Length.Percent(100);
+            videoElement.style.height = Length.Percent(100);
+            videoElement.style.backgroundImage = Background.FromRenderTexture(renderTexture);
+            videoElement.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
+            videoElement.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
+            videoElement.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
+            videoElement.style.opacity = 0f; // Hidden until video frame 1 is decoded
+
+            rootContainer.Add(videoElement);
+
+            // Wait for video player preparation
+            videoPlayer.Prepare();
+            while (!videoPlayer.isPrepared)
+            {
+                if (isDismissing) yield break;
+                yield return null;
+            }
+
+            videoPlayer.Play();
+            videoElement.style.opacity = 1f;
+
+            // Start synchronized mechanical audio ticks for clock hand rotation
+            StartCoroutine(SynchronizedTicksSFX());
+
+            // Listen for video finish
+            float elapsed = 0f;
+            float totalDuration = (float)clip.length;
+            if (totalDuration <= 0f) totalDuration = 3.95f;
+
+            while (elapsed < totalDuration)
+            {
+                if (isDismissing) yield break;
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            // Smooth fade out at end of video
+            yield return StartCoroutine(FadeOutAndDestroy(0.3f));
+        }
+        else
+        {
+            // Fallback to static StudioLogo.png
+            yield return StartCoroutine(FallbackStaticSequence());
+        }
+    }
+
+    private IEnumerator SynchronizedTicksSFX()
+    {
+        // 4 crisp mechanical clock ticks matching the clock hand rotation keyframes
+        float[] tickTimes = new float[] { 1.35f, 1.80f, 2.25f, 2.70f };
+        float elapsed = 0f;
+        int tickIdx = 0;
+
+        while (tickIdx < tickTimes.Length)
+        {
+            if (isDismissing) yield break;
+            elapsed += Time.unscaledDeltaTime;
+
+            if (elapsed >= tickTimes[tickIdx])
+            {
+                AudioManager.Instance?.PlayClick();
+                tickIdx++;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator FallbackStaticSequence()
+    {
+        Texture2D logoTexture = Resources.Load<Texture2D>("StudioLogo");
+        Texture2D badgeTexture = Resources.Load<Texture2D>("MadeWithUnity");
+
+        if (logoTexture != null)
+        {
+            fallbackLogo = new VisualElement();
+            fallbackLogo.style.width = Length.Percent(74);
+            fallbackLogo.style.maxWidth = 440;
+            fallbackLogo.style.aspectRatio = 934f / 1080f;
+            fallbackLogo.style.backgroundImage = Background.FromTexture2D(logoTexture);
+            fallbackLogo.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
+            fallbackLogo.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
+            fallbackLogo.style.opacity = 0f;
+            rootContainer.Add(fallbackLogo);
+        }
+
+        if (badgeTexture != null)
+        {
+            fallbackBadge = new VisualElement();
+            fallbackBadge.style.width = 184;
+            fallbackBadge.style.height = 56;
+            fallbackBadge.style.backgroundImage = Background.FromTexture2D(badgeTexture);
+            fallbackBadge.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
+            fallbackBadge.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
+            fallbackBadge.style.opacity = 0f;
+            fallbackBadge.style.position = Position.Absolute;
+            fallbackBadge.style.bottom = 60;
+            rootContainer.Add(fallbackBadge);
+        }
+
         float elapsed = 0f;
         float fadeInDuration = 0.45f;
         while (elapsed < fadeInDuration)
@@ -156,42 +207,19 @@ public class LoadingScreenUI : MonoBehaviour
             if (isDismissing) yield break;
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / fadeInDuration);
-            float ease = 1f - (1f - t) * (1f - t); // Ease-out quad
-
-            if (logoContainer != null)
-            {
-                logoContainer.style.opacity = ease;
-                float scale = Mathf.Lerp(0.93f, 1f, ease);
-                logoContainer.style.scale = new Scale(new Vector2(scale, scale));
-            }
-            if (badgeElement != null)
-            {
-                badgeElement.style.opacity = ease * 0.92f;
-            }
+            if (fallbackLogo != null) fallbackLogo.style.opacity = t;
+            if (fallbackBadge != null) fallbackBadge.style.opacity = t;
             yield return null;
         }
 
-        if (logoContainer != null)
-        {
-            logoContainer.style.opacity = 1f;
-            logoContainer.style.scale = new Scale(Vector2.one);
-        }
-        if (badgeElement != null)
-        {
-            badgeElement.style.opacity = 0.92f;
-        }
-
-        // Hold display (1.4s)
         elapsed = 0f;
-        float holdDuration = 1.4f;
-        while (elapsed < holdDuration)
+        while (elapsed < 2.0f)
         {
             if (isDismissing) yield break;
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        // Auto dismiss with smooth fade out
         yield return StartCoroutine(FadeOutAndDestroy(0.35f));
     }
 
@@ -199,7 +227,7 @@ public class LoadingScreenUI : MonoBehaviour
     {
         if (isDismissing) return;
         isDismissing = true;
-        StartCoroutine(FadeOutAndDestroy(0.2f));
+        StartCoroutine(FadeOutAndDestroy(0.18f));
     }
 
     private IEnumerator FadeOutAndDestroy(float duration)
@@ -224,26 +252,38 @@ public class LoadingScreenUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (logoElement != null)
+        if (videoPlayer != null)
         {
-            logoElement.style.backgroundImage = null;
-            logoElement.RemoveFromHierarchy();
-            logoElement = null;
+            videoPlayer.Stop();
+            Destroy(videoPlayer);
+            videoPlayer = null;
         }
-        if (badgeElement != null)
+        if (renderTexture != null)
         {
-            badgeElement.style.backgroundImage = null;
-            badgeElement.RemoveFromHierarchy();
-            badgeElement = null;
+            renderTexture.Release();
+            Destroy(renderTexture);
+            renderTexture = null;
         }
-        if (logoContainer != null)
+        if (videoElement != null)
         {
-            logoContainer.RemoveFromHierarchy();
-            logoContainer = null;
+            videoElement.style.backgroundImage = null;
+            videoElement.RemoveFromHierarchy();
+            videoElement = null;
+        }
+        if (fallbackLogo != null)
+        {
+            fallbackLogo.style.backgroundImage = null;
+            fallbackLogo.RemoveFromHierarchy();
+            fallbackLogo = null;
+        }
+        if (fallbackBadge != null)
+        {
+            fallbackBadge.style.backgroundImage = null;
+            fallbackBadge.RemoveFromHierarchy();
+            fallbackBadge = null;
         }
         if (rootContainer != null)
         {
-            rootContainer.style.backgroundImage = null;
             rootContainer.RemoveFromHierarchy();
             rootContainer = null;
         }
