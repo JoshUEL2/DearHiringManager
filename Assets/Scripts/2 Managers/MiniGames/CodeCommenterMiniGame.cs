@@ -102,10 +102,14 @@ public class CodeCommenterMiniGame : IMiniGame
         {
             ccLineIsFlaky[index] = false;
             ccLineCommented[index] = true;
+            AudioManager.Instance?.PlayScorePop();
+            MiniGameFeedback.PlaySuccess(ccLines[index], "// COMMENTED", container);
             UpdateCcLineUI(index);
         }
         else if (!ccLineIsFlaky[index] && !ccLineCommented[index])
         {
+            AudioManager.Instance?.PlayBuzzer();
+            MiniGameFeedback.PlayError(ccLines[index], "WORKING CODE!", container);
             if (manager.currentGame != null && manager.currentGame.canFail)
             {
                 if (ccTimerText != null) ccTimerText.text = "BUILD FAILED!";

@@ -99,7 +99,8 @@ public class IceShatterMiniGame : IMiniGame
                     node.clicked += () => {
                         if (!manager.isPlaying) return;
                         isBodyTemp = Mathf.Clamp(isBodyTemp + 12f, 0f, 100f);
-                        
+                        AudioManager.Instance?.PlayScorePop();
+                        MiniGameFeedback.PlaySuccess(node, "SHATTER! ❄️", container);
                         node.style.backgroundColor = Color.white;
                         node.text = ""; 
                         node.style.scale = new StyleScale(new Scale(new Vector3(0.3f, 0.3f, 1f)));

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dear Hiring Manager - Full Marketing Hub & House Style Showcase</title>
+  <style>
+    :root {
+      --bg-dark: #0A1128;
+      --card-bg: #151D33;
+      --cyan-accent: #38BDF8;
+      --crimson-accent: #FF1A46;
+      --text-muted: #94A3B8;
+    }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #060913;
+      color: #E2E8F0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 32px;
+      color: #FFF;
+      text-align: center;
+    }
+    .brand-pill {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid var(--cyan-accent);
+      color: var(--cyan-accent);
+      padding: 4px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFF;
+      border-left: 4px solid var(--cyan-accent);
+      padding-left: 12px;
+      margin-bottom: 16px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid #222C46;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .card h3 {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+      color: #FFF;
+    }
+    .card p {
+      margin: 0 0 16px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      background: #000;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    .palette-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .swatch {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFF;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <span class="brand-pill">DEAR HIRING MANAGER • OFFICIAL MARKETING HUB</span>
+  <h1>Unified House Style & Production Showcase</h1>
+  <p style="color: var(--text-muted); margin-bottom: 32px;">Consistent visual language connecting in-game UI to store trailers, graphics, and posters.</p>
+
+  <div class="container">
+
+    <!-- HOUSE STYLE PALETTE -->
+    <div class="card">
+      <h3>🎨 Visual House Style (Unified Design System)</h3>
+      <p>Direct bridge between <code>styles.uss</code> in-game and global marketing:</p>
+      <div class="palette-row">
+        <div class="swatch" style="background: #0A1128;">Deep Navy (#0A1128)<br>Screen BG</div>
+        <div class="swatch" style="background: #38BDF8; color: #000; text-shadow: none;">Cyan House (#38BDF8)<br>Actions & Headers</div>
+        <div class="swatch" style="background: #FF1A46;">Crimson Red (#FF1A46)<br>HIRED! Stamp</div>
+        <div class="swatch" style="background: #FBBF24; color: #000; text-shadow: none;">Gold (#FBBF24)<br>Skill Ratings</div>
+        <div class="swatch" style="background: #94A3B8; color: #000; text-shadow: none;">Muted Slate (#94A3B8)<br>Sub-text</div>
+      </div>
+    </div>
+
+    <!-- TRAILERS SECTION -->
+    <div>
+      <div class="section-title">🎬 Produced Gameplay Trailers</div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Google Play & YouTube Trailer (16:9 Landscape)</h3>
+          <p>Features ambient blurred backdrop, centered crisp mobile gameplay, dynamic captions, and cash/advancement SFX.</p>
+          <video controls preload="metadata">
+            <source src="./Official_Gameplay_Trailer_16x9.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="card">
+          <h3>TikTok, Reels & Shorts Video Ad (9:16 Vertical)</h3>
+          <p>Full-screen mobile vertical cut with high-energy banner hooks and Call-To-Action badges.</p>
+          <video controls preload="metadata" style="max-height: 480px; object-fit: contain;">
+            <source src="./Official_Shorts_Reels_Ad_9x16.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORE ASSETS & POSTERS -->
+    <div>
+      <div class="section-title">🖼️ Store Graphics & Key Art</div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Google Play Feature Graphic (1024 x 500 px)</h3>
+          <p>Required for store feature placements. Blends game title lockup with dossier key art.</p>
+          <img src="../StoreAssets/GooglePlay_FeatureGraphic_1024x500.svg" alt="Feature Graphic">
+        </div>
+
+        <div class="card">
+          <h3>Theatrical Launch Poster (1200 x 1600 px)</h3>
+          <p>High-resolution marketing key art for social promo, web banners, and Discord announcements.</p>
+          <img src="../StoreAssets/Official_Marketing_Poster_Portrait.svg" alt="Launch Poster" style="max-height: 520px; object-fit: contain;">
+        </div>
+      </div>
+    </div>
+
+    <!-- FINAL APP ICON -->
+    <div>
+      <div class="section-title">📱 Final Master App Icon (Final Pick)</div>
+      <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 32px;">
+        <img src="../Logos/DearHiringManager_Icon_Final.svg" alt="Final Icon" style="width: 140px; height: 140px; border-radius: 30px;">
+        <div>
+          <h3>DearHiringManager_Icon_Final.svg</h3>
+          <p style="margin: 0; line-height: 1.6;">
+            • Heavy Gothic athletic typography with tightened kerning<br>
+            • Zero artificial stroke blur; pure high-contrast crisp edges<br>
+            • Readable at standard 58x58 phone home screen scale
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

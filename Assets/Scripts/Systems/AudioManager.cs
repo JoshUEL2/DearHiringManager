@@ -63,6 +63,9 @@ public class AudioManager : MonoBehaviour
     private AudioClip scorePopClip;
     private AudioClip buzzerClip;
     private AudioClip whooshClip;
+    private AudioClip dogBarkClip;
+
+    private float lastClickTime = 0f;
 
     private const string MUTE_PREF_KEY = "dear_audio_muted";
     private const string MASTER_VOL_KEY = "dear_audio_master_vol";
@@ -436,12 +439,39 @@ public class AudioManager : MonoBehaviour
 
     public void PlayClick()
     {
+        if (isMuted) return;
+        if (Time.unscaledTime - lastClickTime < 0.04f) return;
+        lastClickTime = Time.unscaledTime;
+
+        if (clickClip == null) clickClip = GenerateClickClip();
         PlayClip(clickClip, 0.70f);
     }
 
     public void PlayCash()
     {
         PlayClip(cashClip, 0.85f);
+    }
+
+    public void PlayLedgerChaChing()
+    {
+        PlayCash();
+    }
+
+    public void PlayDogBark()
+    {
+        if (isMuted) return;
+        if (dogBarkClip == null) dogBarkClip = GenerateDogBarkClip();
+        if (sfxSource != null)
+        {
+            float prevPitch = sfxSource.pitch;
+            sfxSource.pitch = Random.Range(0.92f, 1.08f);
+            PlayClip(dogBarkClip, 0.85f);
+            sfxSource.pitch = prevPitch;
+        }
+        else
+        {
+            PlayClip(dogBarkClip, 0.85f);
+        }
     }
 
     public void PlayExpense()
@@ -817,6 +847,36 @@ public class AudioManager : MonoBehaviour
         }
 
         var clip = AudioClip.Create("Procedural_Whoosh", sampleCount, 1, SAMPLE_RATE, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
+
+    private AudioClip GenerateDogBarkClip()
+    {
+        float duration = 0.22f;
+        int sampleCount = (int)(SAMPLE_RATE * duration);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float t = (float)i / SAMPLE_RATE;
+            float progress = t / duration;
+
+            // Pitch drop curve: 480Hz -> 160Hz
+            float freq = Mathf.Lerp(480f, 160f, Mathf.Pow(progress, 0.7f));
+            float fundamental = Mathf.Sin(2f * Mathf.PI * freq * t);
+            float formant1 = Mathf.Sin(2f * Mathf.PI * (freq * 1.85f) * t) * 0.45f;
+            float formant2 = Mathf.Sin(2f * Mathf.PI * (freq * 2.7f) * t) * 0.25f;
+            float noise = (Random.value * 2f - 1f) * 0.15f * Mathf.Exp(-t * 20f);
+
+            float env;
+            if (t < 0.015f) env = t / 0.015f;
+            else env = Mathf.Exp(-(t - 0.015f) * 16f);
+
+            samples[i] = Mathf.Clamp((fundamental + formant1 + formant2 + noise) * env * 0.75f, -1f, 1f);
+        }
+
+        var clip = AudioClip.Create("Procedural_DogBark", sampleCount, 1, SAMPLE_RATE, false);
         clip.SetData(samples, 0);
         return clip;
     }

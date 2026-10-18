@@ -190,6 +190,8 @@ public class CorporateGolfMiniGame : IMiniGame
                     if (ballRect.Overlaps(holeRect))
                     {
                         if (cgCeo != null) cgCeo.text = "😡";
+                        AudioManager.Instance?.PlayBuzzer();
+                        MiniGameFeedback.PlayError(cgHole, "YOU BEAT THE CEO!", cgPlayArea ?? cgContainer);
                         yield return new WaitForSeconds(1f);
                         manager.EndGame(false);
                         yield break;
@@ -197,6 +199,8 @@ public class CorporateGolfMiniGame : IMiniGame
                     else if (ballRect.Overlaps(sandRect))
                     {
                         if (cgCeo != null) cgCeo.text = "🤑";
+                        AudioManager.Instance?.PlayScorePop();
+                        MiniGameFeedback.PlaySuccess(cgSandTrap, "CEO WON! PROMOTED!", cgPlayArea ?? cgContainer);
                         yield return new WaitForSeconds(1f);
                         manager.EndGame(true);
                         yield break;

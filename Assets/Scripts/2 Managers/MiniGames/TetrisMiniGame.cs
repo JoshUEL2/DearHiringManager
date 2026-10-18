@@ -180,6 +180,8 @@ public class TetrisMiniGame : IMiniGame
         
         if (CheckTetrisCollision(currentTetrisX, currentTetrisY, currentTetrisRot))
         {
+            AudioManager.Instance?.PlayBuzzer();
+            MiniGameFeedback.PlayError(tetrisGrid, "TOPPED OUT!", tetrisContainer);
             manager.AbortGame(); // Topped out
         }
         else
@@ -212,6 +214,8 @@ public class TetrisMiniGame : IMiniGame
         }
         
         tetrisScore++;
+        AudioManager.Instance?.PlayScorePop();
+        MiniGameFeedback.Punch(tetrisGrid, 1.05f);
         if (tetrisScoreText != null)
             tetrisScoreText.text = $"STEEL BEAMS: {tetrisScore} / 10";
             
@@ -287,6 +291,7 @@ public class TetrisMiniGame : IMiniGame
         
         if (!CheckTetrisCollision(nextX, nextY, nextRot))
         {
+            if (dx != 0 || drot != 0) AudioManager.Instance?.PlayClick();
             currentTetrisX = nextX;
             currentTetrisY = nextY;
             currentTetrisRot = nextRot;

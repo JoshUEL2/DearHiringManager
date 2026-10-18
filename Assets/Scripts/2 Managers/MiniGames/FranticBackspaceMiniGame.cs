@@ -35,6 +35,8 @@ public class FranticBackspaceMiniGame : IMiniGame
                     int removeCount = Mathf.Min(5, fbCurrentMessage.Length);
                     fbCurrentMessage = fbCurrentMessage.Substring(0, fbCurrentMessage.Length - removeCount);
                     if (fbPlayerText != null) fbPlayerText.text = fbCurrentMessage + "|";
+                    AudioManager.Instance?.PlayTypewriter();
+                    MiniGameFeedback.Punch(fbBackspaceBtn, 1.08f);
                 }
             };
         }
@@ -80,6 +82,8 @@ public class FranticBackspaceMiniGame : IMiniGame
                     fbTimerText.text = "SENT!";
                     fbTimerText.style.color = new StyleColor(Color.green);
                 }
+                AudioManager.Instance?.PlayScorePop();
+                MiniGameFeedback.PlaySuccess(fbPlayerText, "CRISIS AVERTED! 😅", container);
                 yield return new WaitForSeconds(1.0f);
                 manager.MarkWinReady();
                 yield break;
@@ -88,6 +92,8 @@ public class FranticBackspaceMiniGame : IMiniGame
             if (timer <= 0f) 
             {
                 if (fbTimerText != null) fbTimerText.text = "SENT FIRED!";
+                AudioManager.Instance?.PlayBuzzer();
+                MiniGameFeedback.PlayError(container, "ACCIDENTALLY SENT!", container);
                 yield return new WaitForSeconds(1.0f);
                 manager.AbortGame();
                 yield break;

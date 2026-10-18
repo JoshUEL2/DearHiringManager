@@ -9,6 +9,15 @@ public class GameUIManager : MonoBehaviour
 {
     public static GameUIManager Instance { get; private set; }
 
+    public enum GameTheme
+    {
+        Default = 0, // Logo Obsidian (Darker Dark Mode) - follows DearHiringManager_Icon_Final.svg
+        Dark = 1,    // Cyber Slate (Standard Dark Mode)
+        Light = 2    // Daylight Dossier (Light Mode)
+    }
+
+    public GameTheme CurrentTheme { get; private set; } = GameTheme.Default;
+
     [Header("UI Documents")]
     public UIDocument creationDocument; 
     public UIDocument dashboardDocument; 
@@ -172,6 +181,29 @@ public class GameUIManager : MonoBehaviour
             };
         }
         
+        // Theme initialization
+        int savedTheme = PlayerPrefs.GetInt("gameTheme", -1);
+        if (savedTheme >= 0 && savedTheme <= 2)
+        {
+            CurrentTheme = (GameTheme)savedTheme;
+        }
+        else if (PlayerPrefs.HasKey("themeIsDark"))
+        {
+            CurrentTheme = PlayerPrefs.GetInt("themeIsDark", 1) == 0 ? GameTheme.Light : GameTheme.Default;
+        }
+        else
+        {
+            CurrentTheme = GameTheme.Default;
+        }
+        ApplyTheme(CurrentTheme);
+
+        // Global Button Click SFX registration across all UI roots
+        var allScreens = new[] { creationRoot, dashboardRoot, careersRoot, hustlesRoot, educationRoot, activitiesRoot, jailRoot };
+        foreach (var screen in allScreens)
+        {
+            RegisterGlobalButtonClickSFX(screen);
+        }
+
         RefreshSettingsButtons();
 
         // Hook up the Console interceptor
@@ -179,8 +211,26 @@ public class GameUIManager : MonoBehaviour
 
         // BINDINGS (Updated to fix obsolete warnings)
         dashboardRoot.Q<Button>("BtnOpenMigration")?.RegisterCallback<ClickEvent>(ev => MigrationUI?.OpenPortal());
-        dashboardRoot.Q<Label>("CashText")?.parent.RegisterCallback<ClickEvent>(ev => FinancialGraphUI?.OpenGraph());
-        dashboardRoot.Q<Label>("ExpenseText")?.parent.RegisterCallback<ClickEvent>(ev => FinancialGraphUI?.OpenGraph());
+
+        // Financial Ledger Click -> Cha-Ching SFX + Graph Popup
+        var cashRow = dashboardRoot.Q<Label>("CashText")?.parent;
+        if (cashRow != null)
+        {
+            cashRow.RegisterCallback<ClickEvent>(ev => {
+                AudioManager.Instance?.PlayLedgerChaChing();
+                HapticManager.LightImpact();
+                FinancialGraphUI?.OpenGraph();
+            });
+        }
+        var expenseRow = dashboardRoot.Q<Label>("ExpenseText")?.parent;
+        if (expenseRow != null && expenseRow != cashRow)
+        {
+            expenseRow.RegisterCallback<ClickEvent>(ev => {
+                AudioManager.Instance?.PlayLedgerChaChing();
+                HapticManager.LightImpact();
+                FinancialGraphUI?.OpenGraph();
+            });
+        }
 
         // Setup Jail
         jailWeeksText = jailRoot.Q<Label>("JailWeeksText");
@@ -511,7 +561,72 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    private Texture2D _blurGradientTexture;
+    private Texture2D _blurGradientTextureDefault;
+    private Texture2D _blurGradientTextureDark;
+    private Texture2D _blurGradientTextureLight;
+
+    public Texture2D GetBlurTextureForTheme(GameTheme theme)
+    {
+        switch (theme)
+        {
+            case GameTheme.Light:
+                if (_blurGradientTextureLight == null)
+                    _blurGradientTextureLight = GenerateThemeGradientTexture(new Color(241f / 255f, 245f / 255f, 249f / 255f));
+                return _blurGradientTextureLight;
+            case GameTheme.Dark:
+                if (_blurGradientTextureDark == null)
+                    _blurGradientTextureDark = GenerateThemeGradientTexture(new Color(10f / 255f, 17f / 255f, 40f / 255f));
+                return _blurGradientTextureDark;
+            case GameTheme.Default:
+            default:
+                if (_blurGradientTextureDefault == null)
+                    _blurGradientTextureDefault = GenerateThemeGradientTexture(new Color(7f / 255f, 9f / 255f, 14f / 255f));
+                return _blurGradientTextureDefault;
+        }
+    }
+
+    private Texture2D GenerateThemeGradientTexture(Color baseColor)
+    {
+        int w = 256;
+        int h = 256;
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Bilinear;
+
+        Color[] pixels = new Color[w * h];
+        for (int y = 0; y < h; y++)
+        {
+            float t = (float)y / (h - 1); // 0 at bottom, 1 at top
+            float normalizedDistFromTop = 1.0f - t; // 0 at top, 1 at bottom
+            float alpha;
+            if (normalizedDistFromTop < 0.25f)
+            {
+                // Soft gradual entrance
+                alpha = Mathf.Pow(normalizedDistFromTop / 0.25f, 2f) * 0.45f;
+            }
+            else if (normalizedDistFromTop < 0.65f)
+            {
+                // Smoothstep ramp to dense opacity
+                float midT = (normalizedDistFromTop - 0.25f) / 0.40f;
+                alpha = Mathf.Lerp(0.45f, 0.98f, Mathf.SmoothStep(0f, 1f, midT));
+            }
+            else
+            {
+                // 100% solid barrier behind the nav bar and buttons
+                alpha = 1.0f;
+            }
+
+            Color c = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+            for (int x = 0; x < w; x++)
+            {
+                pixels[y * w + x] = c;
+            }
+        }
+
+        tex.SetPixels(pixels);
+        tex.Apply();
+        return tex;
+    }
 
     private void SetupBottomNavBlurShield(VisualElement root)
     {
@@ -520,24 +635,26 @@ public class GameUIManager : MonoBehaviour
         if (shield == null) return;
 
         shield.pickingMode = PickingMode.Ignore;
+        shield.style.unityBackgroundScaleMode = ScaleMode.StretchToFill;
+        shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(CurrentTheme));
+    }
 
-        if (_blurGradientTexture == null)
+    private void RegisterGlobalButtonClickSFX(VisualElement root)
+    {
+        if (root == null) return;
+        root.RegisterCallback<ClickEvent>(ev =>
         {
-            int h = 128;
-            _blurGradientTexture = new Texture2D(1, h, TextureFormat.RGBA32, false);
-            _blurGradientTexture.wrapMode = TextureWrapMode.Clamp;
-            Color baseCol = new Color(10f / 255f, 17f / 255f, 40f / 255f); // #0A1128 deep cyber backdrop
-            for (int y = 0; y < h; y++)
+            VisualElement curr = ev.target as VisualElement;
+            while (curr != null && curr != root)
             {
-                float t = (float)y / (h - 1); // 0 at bottom, 1 at top
-                // Soft exponential falloff: top dissolves into transparent, bottom smoothly solidifies
-                float alpha = Mathf.Pow(1.0f - t, 2.5f) * 0.98f;
-                _blurGradientTexture.SetPixel(0, y, new Color(baseCol.r, baseCol.g, baseCol.b, alpha));
+                if (curr is Button)
+                {
+                    AudioManager.Instance?.PlayClick();
+                    break;
+                }
+                curr = curr.parent;
             }
-            _blurGradientTexture.Apply();
-        }
-
-        shield.style.backgroundImage = new StyleBackground(_blurGradientTexture);
+        }, TrickleDown.TrickleDown);
     }
 
     private void SetupNavBar(VisualElement root)
@@ -1411,12 +1528,52 @@ public class GameUIManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
+    public void ApplyTheme(GameTheme theme)
+    {
+        CurrentTheme = theme;
+        PlayerPrefs.SetInt("gameTheme", (int)theme);
+        PlayerPrefs.SetInt("themeIsDark", theme == GameTheme.Light ? 0 : 1);
+        PlayerPrefs.Save();
+
+        var allRoots = new[] { creationRoot, dashboardRoot, careersRoot, hustlesRoot, educationRoot, activitiesRoot, jailRoot };
+        foreach (var r in allRoots)
+        {
+            if (r == null) continue;
+            r.RemoveFromClassList("theme-default");
+            r.RemoveFromClassList("theme-dark");
+            r.RemoveFromClassList("theme-light");
+
+            switch (theme)
+            {
+                case GameTheme.Default:
+                    r.AddToClassList("theme-default");
+                    break;
+                case GameTheme.Dark:
+                    r.AddToClassList("theme-dark");
+                    break;
+                case GameTheme.Light:
+                    r.AddToClassList("theme-light");
+                    break;
+            }
+
+            var shield = r.Q<VisualElement>("BottomNavBlurShield");
+            if (shield != null)
+            {
+                shield.style.unityBackgroundScaleMode = ScaleMode.StretchToFill;
+                shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(theme));
+            }
+        }
+
+        RefreshSettingsButtons();
+    }
+
     private void ToggleTheme()
     {
-        bool isDark = PlayerPrefs.GetInt("themeIsDark", 1) == 1;
-        PlayerPrefs.SetInt("themeIsDark", isDark ? 0 : 1);
-        Debug.Log($"[System] Theme toggled. IsDark: {!isDark}");
-        RefreshSettingsButtons();
+        GameTheme nextTheme = (GameTheme)(((int)CurrentTheme + 1) % 3);
+        ApplyTheme(nextTheme);
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
+        Debug.Log($"[System] Theme switched to: {CurrentTheme}");
     }
 
     private void RefreshSettingsButtons()
@@ -1436,10 +1593,24 @@ public class GameUIManager : MonoBehaviour
 
         if (btnToggleTheme != null)
         {
-            bool isDark = PlayerPrefs.GetInt("themeIsDark", 1) == 1;
-            btnToggleTheme.text = isDark ? "Render Theme: Dark" : "Render Theme: Light";
-            btnToggleTheme.style.backgroundColor = isDark ? new StyleColor(Color.white) : new StyleColor(Color.black);
-            btnToggleTheme.style.color = isDark ? new StyleColor(Color.black) : new StyleColor(Color.white);
+            switch (CurrentTheme)
+            {
+                case GameTheme.Default:
+                    btnToggleTheme.text = "Style: Default (Obsidian)";
+                    btnToggleTheme.style.backgroundColor = new StyleColor(new Color(0.09f, 0.11f, 0.17f));
+                    btnToggleTheme.style.color = new StyleColor(new Color(1f, 0.72f, 0.01f)); // Logo Amber Gold
+                    break;
+                case GameTheme.Dark:
+                    btnToggleTheme.text = "Style: Dark (Slate)";
+                    btnToggleTheme.style.backgroundColor = new StyleColor(new Color(0.04f, 0.07f, 0.16f));
+                    btnToggleTheme.style.color = new StyleColor(new Color(0.22f, 0.74f, 0.97f)); // Cyber Cyan
+                    break;
+                case GameTheme.Light:
+                    btnToggleTheme.text = "Style: Light (Paper)";
+                    btnToggleTheme.style.backgroundColor = new StyleColor(Color.white);
+                    btnToggleTheme.style.color = new StyleColor(new Color(0.06f, 0.09f, 0.16f)); // Charcoal Ink
+                    break;
+            }
         }
     }
 

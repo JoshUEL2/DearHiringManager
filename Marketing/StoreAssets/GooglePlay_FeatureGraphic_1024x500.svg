@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <defs>
+    <!-- Background Corporate Deep Navy / Cyan Glow -->
+    <radialGradient id="fgBg" cx="70%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1B263B" />
+      <stop offset="50%" stop-color="#0A1128" />
+      <stop offset="100%" stop-color="#050814" />
+    </radialGradient>
+
+    <!-- Vibrant Cyan Neon House Accent -->
+    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Crimson Stamp Gradient -->
+    <linearGradient id="crimsonStamp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A46" />
+      <stop offset="100%" stop-color="#C20023" />
+    </linearGradient>
+
+    <!-- Paper Gradient -->
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+
+    <filter id="heroShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+
+    <filter id="stampShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+  </defs>
+
+  <!-- 1. Background Canvas -->
+  <rect width="1024" height="500" fill="url(#fgBg)" />
+
+  <!-- Subtle Blueprint / Grid lines (Corporate satire vibe) -->
+  <g stroke="#1E293B" stroke-width="1" stroke-opacity="0.3">
+    <line x1="0" y1="100" x2="1024" y2="100" />
+    <line x1="0" y1="200" x2="1024" y2="200" />
+    <line x1="0" y1="300" x2="1024" y2="300" />
+    <line x1="0" y1="400" x2="1024" y2="400" />
+    <line x1="200" y1="0" x2="200" y2="500" />
+    <line x1="400" y1="0" x2="400" y2="500" />
+    <line x1="600" y1="0" x2="600" y2="500" />
+    <line x1="800" y1="0" x2="800" y2="500" />
+  </g>
+
+  <!-- Cyan Neon Ambient Flare -->
+  <circle cx="280" cy="220" r="260" fill="#38BDF8" fill-opacity="0.06" filter="blur(60px)" />
+  <circle cx="820" cy="250" r="220" fill="#FF1A46" fill-opacity="0.05" filter="blur(50px)" />
+
+  <!-- 2. LEFT HERO BRANDING: Title & Punchy Tagline -->
+  <g transform="translate(68, 120)">
+    <!-- Category Pill Badge -->
+    <rect x="0" y="0" width="220" height="34" rx="17" fill="rgba(56, 189, 248, 0.15)" stroke="#38BDF8" stroke-width="1.5" />
+    <text x="110" y="22" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#38BDF8" text-anchor="middle" letter-spacing="2">
+      CORPORATE SURVIVAL SIM
+    </text>
+
+    <!-- Main Game Title -->
+    <text x="0" y="96" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="64" font-weight="900" fill="#FFFFFF" letter-spacing="1">
+      DEAR HIRING
+    </text>
+    <text x="0" y="156" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="64" font-weight="900" fill="url(#cyanGlow)" letter-spacing="1">
+      MANAGER
+    </text>
+
+    <!-- Satirical Subtitle -->
+    <text x="0" y="210" font-family="'Inter', -apple-system, sans-serif" font-size="20" font-weight="500" fill="#94A3B8" letter-spacing="0.5">
+      Lie on your CV. Outsmart the algorithm.
+    </text>
+    <text x="0" y="238" font-family="'Inter', -apple-system, sans-serif" font-size="20" font-weight="700" fill="#E2E8F0">
+      Can YOU survive the modern job market?
+    </text>
+
+    <!-- Feature Pills -->
+    <g transform="translate(0, 275)">
+      <!-- Pill 1 -->
+      <rect x="0" y="0" width="130" height="32" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="65" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#CBD5E1" text-anchor="middle">50+ MINIGAMES</text>
+      <!-- Pill 2 -->
+      <rect x="142" y="0" width="130" height="32" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="207" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#CBD5E1" text-anchor="middle">WILD OUTCOMES</text>
+      <!-- Pill 3 -->
+      <rect x="284" y="0" width="110" height="32" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1" />
+      <text x="339" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#38BDF8" text-anchor="middle">PLAY FREE</text>
+    </g>
+  </g>
+
+  <!-- 3. RIGHT HERO ARTWORK: The Application Dossier & 3D Stamp -->
+  <g transform="translate(730, 80) rotate(6)" filter="url(#heroShadow)">
+    <!-- Paper Page -->
+    <path d="M 0 16 C 0 7.16 7.16 0 16 0 L 175 0 L 250 75 L 250 310 C 250 318.84 242.84 326 234 326 L 16 326 C 7.16 326 0 318.84 0 310 Z" fill="url(#paperGrad)" />
+    <!-- Folded Corner -->
+    <path d="M 175 0 L 250 75 L 188 75 C 180.82 75 175 69.18 175 62 Z" fill="#CBD5E1" />
+
+    <!-- Avatar / ID Header -->
+    <rect x="26" y="28" width="46" height="46" rx="12" fill="#2E3850" />
+    <circle cx="49" cy="45" r="11" fill="#FFFFFF" />
+    <path d="M 36 67 C 36 58 42 56 49 56 C 56 56 62 58 62 67 Z" fill="#FFFFFF" />
+    <rect x="85" y="34" width="80" height="15" rx="7" fill="#0A1128" />
+    <rect x="85" y="55" width="55" height="10" rx="5" fill="#64748B" />
+
+    <!-- Content Lines -->
+    <rect x="26" y="96" width="198" height="13" rx="6" fill="#94A3B8" />
+    <rect x="26" y="118" width="170" height="13" rx="6" fill="#94A3B8" />
+    <rect x="26" y="140" width="186" height="13" rx="6" fill="#94A3B8" />
+    <rect x="26" y="162" width="140" height="13" rx="6" fill="#94A3B8" />
+
+    <!-- 5 Stars -->
+    <g transform="translate(26, 192)">
+      <polygon points="10,1 13,7 20,7 15,12 17,18 10,14 4,18 6,12 1,7 8,7" fill="#FBBF24" />
+      <polygon points="32,1 35,7 42,7 37,12 39,18 32,14 26,18 28,12 23,7 30,7" fill="#FBBF24" />
+      <polygon points="54,1 57,7 64,7 59,12 61,18 54,14 48,18 50,12 45,7 52,7" fill="#FBBF24" />
+      <polygon points="76,1 79,7 86,7 81,12 83,18 76,14 70,18 72,12 67,7 74,7" fill="#FBBF24" />
+      <polygon points="98,1 101,7 108,7 103,12 105,18 98,14 92,18 94,12 89,7 96,7" fill="#CBD5E1" />
+    </g>
+
+    <!-- Signature -->
+    <path d="M 26 248 Q 50 226 75 248 T 125 244" fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round" />
+
+    <!-- SLANTED RUBBER STAMP: HIRED! -->
+    <g transform="translate(125, 230) rotate(-14)" filter="url(#stampShadow)">
+      <rect x="-140" y="-45" width="280" height="90" rx="16" fill="url(#crimsonStamp)" stroke="#FFFFFF" stroke-width="6" />
+      <rect x="-132" y="-37" width="264" height="74" rx="10" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="240, 8, 8, 8" stroke-opacity="0.95" />
+      <text x="0" y="24" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="64" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">
+        HIRED!
+      </text>
+    </g>
+  </g>
+
+  <!-- Polished Vignette Border -->
+  <rect x="0" y="0" width="1024" height="500" fill="none" stroke="#38BDF8" stroke-width="2" stroke-opacity="0.2" />
+</svg>

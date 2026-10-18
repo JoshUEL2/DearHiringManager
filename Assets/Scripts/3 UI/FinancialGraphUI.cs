@@ -35,6 +35,8 @@ public class FinancialGraphUI : MonoBehaviour
 
     public void OpenGraph()
     {
+        AudioManager.Instance?.PlayLedgerChaChing();
+        HapticManager.LightImpact();
         DrawGraph();
         graphOverlay.style.display = DisplayStyle.Flex;
         graphOverlay.style.opacity = 0f;
@@ -49,6 +51,7 @@ public class FinancialGraphUI : MonoBehaviour
 
     private void CloseGraph()
     {
+        AudioManager.Instance?.PlayClick();
         var card = graphOverlay.Q<VisualElement>("GraphCard");
         if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
         graphOverlay.style.opacity = 0f;

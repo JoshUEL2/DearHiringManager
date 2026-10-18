@@ -209,10 +209,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 360px;
+    height: 420px;
     background-color: transparent;
     border-top-width: 0;
     pointer-events: none;
+    -unity-background-scale-mode: stretch-to-fill;
     transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
     translate: 0 0;
     opacity: 1;
@@ -1528,3 +1529,167 @@
 .anim-bg-hack { background-color: rgba(80, 10, 10, 0.85); }
 
 .terminal-card .unity-scroll-view__content-container { flex-grow: 1; justify-content: flex-end; }
+
+/* ============================================================== */
+/* THREE-MODE THEME SYSTEM: DEFAULT (LOGO OBSIDIAN), DARK, LIGHT   */
+/* ============================================================== */
+
+/* 1. DEFAULT THEME: Logo Obsidian (Darker Dark Mode) */
+.theme-default.screen-container, .theme-default .screen-container {
+    background-color: #07090E;
+    color: #F8FAFC;
+}
+.theme-default .card, .theme-default .terminal-card {
+    background-color: #0E121B;
+    border-color: #242E46;
+}
+.theme-default .top-card-root {
+    background-color: #0E121B;
+    border-color: rgba(61, 75, 110, 0.6);
+}
+.theme-default .bottom-nav-container {
+    background-color: rgba(14, 18, 27, 0.98);
+    border-color: rgba(61, 75, 110, 0.8);
+}
+.theme-default .header-text, .theme-default #DashboardTitle {
+    color: #E2E8F0;
+}
+.theme-default #DistrictAccentBar {
+    background-color: #FF1A46;
+}
+.theme-default #CashText {
+    color: #FFB703;
+}
+.theme-default #JobText {
+    color: #909CBF;
+}
+.theme-default .sub-text, .theme-default .job-desc, .theme-default .footer-label {
+    color: #909CBF;
+}
+.theme-default .nav-button {
+    color: #909CBF;
+}
+.theme-default .nav-button:hover {
+    color: #FFB703;
+}
+.theme-default .task-card {
+    background-color: rgba(14, 18, 27, 0.92);
+    border-color: rgba(61, 75, 110, 0.5);
+}
+.theme-default #SettingsCard, .theme-default #ExpandedHistoryCard, .theme-default .popup-card {
+    background-color: #0E121B;
+    border-color: #3D4B6E;
+}
+
+/* 2. DARK THEME: Cyber Slate / Blue (Standard Dark) */
+.theme-dark.screen-container, .theme-dark .screen-container {
+    background-color: #0A1128;
+    color: #FFFFFF;
+}
+.theme-dark .card, .theme-dark .terminal-card {
+    background-color: #0A1128;
+    border-color: #475569;
+}
+.theme-dark .top-card-root {
+    background-color: rgba(10, 17, 40, 0.95);
+    border-color: rgba(56, 189, 248, 0.4);
+}
+.theme-dark .bottom-nav-container {
+    background-color: rgba(12, 22, 46, 0.98);
+    border-color: rgba(56, 189, 248, 0.6);
+}
+.theme-dark .header-text, .theme-dark #DashboardTitle {
+    color: #38BDF8;
+}
+.theme-dark #DistrictAccentBar {
+    background-color: #38BDF8;
+}
+.theme-dark #CashText {
+    color: #F8FAFC;
+}
+.theme-dark #JobText {
+    color: #38BDF8;
+}
+.theme-dark .sub-text, .theme-dark .job-desc, .theme-dark .footer-label {
+    color: #94A3B8;
+}
+.theme-dark .nav-button {
+    color: #94A3B8;
+}
+.theme-dark .nav-button:hover {
+    color: #38BDF8;
+}
+.theme-dark .task-card {
+    background-color: rgba(15, 23, 42, 0.85);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.theme-dark #SettingsCard, .theme-dark #ExpandedHistoryCard, .theme-dark .popup-card {
+    background-color: #0F172A;
+    border-color: #38BDF8;
+}
+
+/* 3. LIGHT THEME: Daylight Dossier / Paper */
+.theme-light.screen-container, .theme-light .screen-container {
+    background-color: #F1F5F9;
+    color: #0F172A;
+}
+.theme-light .card, .theme-light .terminal-card {
+    background-color: #FFFFFF;
+    border-color: #CBD5E1;
+}
+.theme-light .top-card-root {
+    background-color: #FFFFFF;
+    border-color: rgba(2, 132, 199, 0.35);
+}
+.theme-light .bottom-nav-container {
+    background-color: rgba(255, 255, 255, 0.98);
+    border-color: rgba(148, 163, 184, 0.8);
+}
+.theme-light .header-text, .theme-light #DashboardTitle {
+    color: #0284C7;
+}
+.theme-light #LogText {
+    color: #0F172A;
+}
+.theme-light #DistrictAccentBar {
+    background-color: #0284C7;
+}
+.theme-light #CashText {
+    color: #0F172A;
+}
+.theme-light #JobText {
+    color: #0284C7;
+}
+.theme-light #BtnViewCV {
+    color: #0F172A;
+    border-color: rgba(2, 132, 199, 0.4);
+}
+.theme-light .sub-text, .theme-light .job-desc, .theme-light .footer-label {
+    color: #475569;
+}
+.theme-light .footer-val {
+    color: #0F172A;
+}
+.theme-light .nav-button {
+    color: #334155;
+}
+.theme-light .nav-button:hover {
+    color: #0284C7;
+}
+.theme-light .nav-button-label {
+    color: #334155;
+}
+.theme-light .task-card {
+    background-color: #FFFFFF;
+    border-color: #E2E8F0;
+}
+.theme-light .job-title, .theme-light .career-title {
+    color: #0F172A;
+}
+.theme-light #SettingsCard, .theme-light #ExpandedHistoryCard, .theme-light .popup-card {
+    background-color: #FFFFFF;
+    border-color: #0284C7;
+}
+.theme-light #SettingsCard .unity-label, .theme-light #ExpandedHistoryCard .unity-label {
+    color: #0F172A;
+}

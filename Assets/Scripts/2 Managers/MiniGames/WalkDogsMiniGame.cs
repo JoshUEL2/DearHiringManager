@@ -85,6 +85,10 @@ public class WalkDogsMiniGame : IMiniGame
                     dog.RegisterCallback<PointerDownEvent>(ev => {
                         if (manager.isPlaying) {
                             wdDogYankTimers[idx] = 1.0f; // Set yank timer to 1 second
+                            AudioManager.Instance?.PlayDogBark();
+                            MiniGameFeedback.PlayTap(dog);
+                            MiniGameFeedback.SpawnFloatingText(dog, "WOOF! 🐕", wdPlayArea ?? wdContainer, new Color(1f, 0.85f, 0.2f));
+                            MiniGameFeedback.SpawnSparks(wdPlayArea ?? wdContainer, dog.layout.center, Color.yellow, 8);
                         }
                     });
                     

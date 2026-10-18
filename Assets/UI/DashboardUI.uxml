@@ -5,7 +5,7 @@
     <ui:VisualElement class="screen-container" style="padding-bottom: 360px;">
         
         <!-- TOP CARD ROOT -->
-        <ui:VisualElement name="TopCardRoot" class="card top-card-root" style="margin-bottom: 20px; border-radius: 0 0 24px 24px; border-width: 0 0 3px 0; border-color: rgba(56, 189, 248, 0.4); padding: 0; flex-direction: column; background-color: rgba(10, 17, 40, 0.95); overflow: hidden;">
+        <ui:VisualElement name="TopCardRoot" class="card top-card-root" style="margin-bottom: 20px; border-radius: 0 0 24px 24px; border-width: 0 0 3px 0; padding: 0; flex-direction: column; overflow: hidden;">
             
             <!-- Animated watermark layer -->
             <ui:VisualElement name="WatermarkContainer" style="position: absolute; left: -200px; top: -200px; right: -200px; bottom: -200px; overflow: hidden;" />
@@ -34,13 +34,13 @@
             <ui:VisualElement name="DistrictAccentBar" style="height: 4px; background-color: #38BDF8; border-radius: 0 0 24px 24px;" />
         </ui:VisualElement>
 
-        <ui:Label name="DashboardTitle" text="DASHBOARD" class="header-text" style="color: #38BDF8; margin: 0; margin-bottom: 20px;" />
+        <ui:Label name="DashboardTitle" text="DASHBOARD" class="header-text" style="margin: 0; margin-bottom: 20px;" />
 
         <!-- TERMINAL LOG -->
-        <ui:VisualElement name="TerminalCard" class="card terminal-card" style="flex-grow: 1; margin-bottom: 0; background-color: #0A1128; border-color: #475569; border-width: 2px; border-radius: 20px; padding: 30px;">
+        <ui:VisualElement name="TerminalCard" class="card terminal-card" style="flex-grow: 1; margin-bottom: 0; overflow: hidden; border-width: 2px; border-radius: 20px; padding: 30px;">
             <ui:ScrollView name="TerminalScrollView" style="flex-grow: 1;">
                 <ui:VisualElement style="flex-grow: 1;" />
-                <ui:Label name="LogText" text="" enable-rich-text="true" style="color: #FFFFFF; font-size: 24px; white-space: normal;" />
+                <ui:Label name="LogText" text="" enable-rich-text="true" style="font-size: 24px; white-space: normal;" />
             </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>

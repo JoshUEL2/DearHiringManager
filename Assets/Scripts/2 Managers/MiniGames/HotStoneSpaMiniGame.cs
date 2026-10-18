@@ -138,6 +138,8 @@ public class HotStoneSpaMiniGame : IMiniGame
             if (Vector2.Distance(sCenter, targetCenter) < 50f) {
                 stonePlaced[stoneIdx] = true;
                 stones[stoneIdx].style.backgroundColor = new StyleColor(new Color(0.82f, 0.33f, 0f)); // #D35400
+                AudioManager.Instance?.PlayScorePop();
+                MiniGameFeedback.PlaySuccess(stones[stoneIdx], "SOOTHING! ♨️", container);
                 // Center the stone roughly in the slot
                 stones[stoneIdx].style.left = stones[stoneIdx].resolvedStyle.left + (targetCenter.x - sCenter.x);
                 stones[stoneIdx].style.top = stones[stoneIdx].resolvedStyle.top + (targetCenter.y - sCenter.y);

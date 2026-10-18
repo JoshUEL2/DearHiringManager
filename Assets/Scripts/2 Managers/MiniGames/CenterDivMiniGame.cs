@@ -186,6 +186,7 @@ public class CenterDivMiniGame : IMiniGame
         isPaused = true;
         score++;
         UpdateScoreText();
+        AudioManager.Instance?.PlayScorePop();
 
         // Snap to absolute perfection
         movingBoxPos = 50f;
@@ -226,6 +227,7 @@ public class CenterDivMiniGame : IMiniGame
     private IEnumerator HandleFailure()
     {
         isPaused = true;
+        AudioManager.Instance?.PlayBuzzer();
         
         // Failure Juice
         movingBox.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.22f)); // Red

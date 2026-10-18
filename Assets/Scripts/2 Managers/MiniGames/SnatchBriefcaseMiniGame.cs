@@ -87,6 +87,8 @@ public class SnatchBriefcaseMiniGame : IMiniGame
         int currentNum = sbCurrentDialNums[sbCurrentDial];
         if (currentNum == sbTargetNums[sbCurrentDial])
         {
+            AudioManager.Instance?.PlayScorePop();
+            MiniGameFeedback.PlaySuccess(sbStopBtn, "CLICK! 🔓", container);
             if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new Color(0.18f, 0.8f, 0.44f); // Green
             if (sbDialStrips[sbCurrentDial] != null) sbDialStrips[sbCurrentDial].style.top = -75f; // Snap to perfect center
             sbCurrentDial++;
@@ -102,6 +104,8 @@ public class SnatchBriefcaseMiniGame : IMiniGame
         }
         else
         {
+            AudioManager.Instance?.PlayBuzzer();
+            MiniGameFeedback.PlayError(sbStopBtn, "JAMMED!", container);
             if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new Color(0.9f, 0.3f, 0.23f); // Red
             if (sbStopBtn != null) sbStopBtn.text = "WRONG PIN!";
             manager.AbortGame();

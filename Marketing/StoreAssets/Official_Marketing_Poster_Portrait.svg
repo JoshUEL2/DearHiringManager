@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+  <defs>
+    <!-- Background Radial Gradient -->
+    <radialGradient id="posterBg" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#1E2A44" />
+      <stop offset="45%" stop-color="#0A1128" />
+      <stop offset="100%" stop-color="#03050B" />
+    </radialGradient>
+
+    <!-- Cyan Glow -->
+    <linearGradient id="cyanHouse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Crimson Stamp Gradient -->
+    <linearGradient id="stampGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A46" />
+      <stop offset="100%" stop-color="#C20023" />
+    </linearGradient>
+
+    <!-- Paper Gradient -->
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+
+    <!-- Poster Shadows -->
+    <filter id="bigShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="30" stdDeviation="40" flood-color="#000000" flood-opacity="0.85" />
+    </filter>
+
+    <filter id="stampShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+  </defs>
+
+  <!-- 1. Background -->
+  <rect width="1200" height="1600" fill="url(#posterBg)" />
+
+  <!-- Subtle Blueprint Tech / Office Wire Grid -->
+  <g stroke="#334155" stroke-width="1.5" stroke-opacity="0.2">
+    <line x1="0" y1="200" x2="1200" y2="200" />
+    <line x1="0" y1="400" x2="1200" y2="400" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
+    <line x1="0" y1="800" x2="1200" y2="800" />
+    <line x1="0" y1="1000" x2="1200" y2="1000" />
+    <line x1="0" y1="1200" x2="1200" y2="1200" />
+    <line x1="0" y1="1400" x2="1200" y2="1400" />
+    <line x1="300" y1="0" x2="300" y2="1600" />
+    <line x1="600" y1="0" x2="600" y2="1600" />
+    <line x1="900" y1="0" x2="900" y2="1600" />
+  </g>
+
+  <!-- Ambient Light Halos -->
+  <circle cx="600" cy="500" r="450" fill="#38BDF8" fill-opacity="0.06" filter="blur(80px)" />
+  <circle cx="600" cy="1100" r="400" fill="#FF1A46" fill-opacity="0.05" filter="blur(80px)" />
+
+  <!-- 2. TOP BILLING / HEADER -->
+  <g transform="translate(600, 110)">
+    <rect x="-180" y="0" width="360" height="40" rx="20" fill="rgba(56, 189, 248, 0.12)" stroke="#38BDF8" stroke-width="2" />
+    <text x="0" y="26" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#38BDF8" text-anchor="middle" letter-spacing="3">
+      A SATIRICAL WORKPLACE ODYSSEY
+    </text>
+  </g>
+
+  <!-- Title Lockup -->
+  <g transform="translate(600, 260)">
+    <text x="0" y="0" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="94" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">
+      DEAR HIRING
+    </text>
+    <text x="0" y="86" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="94" font-weight="900" fill="url(#cyanHouse)" text-anchor="middle" letter-spacing="2">
+      MANAGER
+    </text>
+  </g>
+
+  <!-- 3. CENTRAL HERO KEY ART: The Iconic Dossier + HIRED! Stamp -->
+  <g transform="translate(360, 480)" filter="url(#bigShadow)">
+    <!-- Giant Dossier Paper (480px wide x 620px tall) -->
+    <path d="M 0 24 C 0 10.75 10.75 0 24 0 L 340 0 L 480 140 L 480 596 C 480 609.25 469.25 620 456 620 L 24 620 C 10.75 620 0 609.25 0 596 Z" fill="url(#paperGrad)" />
+    <!-- Folded Corner -->
+    <path d="M 340 0 L 480 140 L 364 140 C 350.75 140 340 129.25 340 116 Z" fill="#CBD5E1" />
+
+    <!-- Candidate Photo & Bio -->
+    <rect x="52" y="52" width="94" height="94" rx="24" fill="#1E293B" />
+    <circle cx="99" cy="88" r="23" fill="#FFFFFF" />
+    <path d="M 72 132 C 72 114 84 110 99 110 C 114 110 126 114 126 132 Z" fill="#FFFFFF" />
+
+    <!-- Application Headline -->
+    <rect x="174" y="66" width="180" height="28" rx="14" fill="#0A1128" />
+    <rect x="174" y="106" width="120" height="20" rx="10" fill="#64748B" />
+
+    <!-- Text Lines -->
+    <rect x="52" y="186" width="376" height="24" rx="12" fill="#94A3B8" />
+    <rect x="52" y="228" width="330" height="24" rx="12" fill="#94A3B8" />
+    <rect x="52" y="270" width="354" height="24" rx="12" fill="#94A3B8" />
+    <rect x="52" y="312" width="280" height="24" rx="12" fill="#94A3B8" />
+
+    <!-- Candidate 5 Star Rating -->
+    <g transform="translate(52, 365) scale(1.4)">
+      <polygon points="12,1 15,8 23,8 17,13 19,20 12,16 5,20 7,13 1,8 9,8" fill="#FBBF24" />
+      <polygon points="38,1 41,8 49,8 43,13 45,20 38,16 31,20 33,13 27,8 35,8" fill="#FBBF24" />
+      <polygon points="64,1 67,8 75,8 69,13 71,20 64,16 57,20 59,13 53,8 61,8" fill="#FBBF24" />
+      <polygon points="90,1 93,8 101,8 95,13 97,20 90,16 83,20 85,13 79,8 87,8" fill="#FBBF24" />
+      <polygon points="116,1 119,8 127,8 121,13 123,20 116,16 109,20 111,13 105,8 113,8" fill="#CBD5E1" />
+    </g>
+
+    <!-- Authentic Signature -->
+    <path d="M 52 470 Q 100 420 148 470 T 240 460" fill="none" stroke="#1E293B" stroke-width="7" stroke-linecap="round" />
+
+    <!-- THE ICONIC "HIRED!" RUBBER STAMP (SLANTED OVER THE DOCUMENT) -->
+    <g transform="translate(240, 460) rotate(-12)" filter="url(#stampShadow)">
+      <rect x="-240" y="-80" width="480" height="160" rx="28" fill="url(#stampGrad)" stroke="#FFFFFF" stroke-width="11" />
+      <rect x="-225" y="-65" width="450" height="130" rx="18" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-dasharray="410, 12, 12, 12" stroke-opacity="0.95" />
+      <text x="0" y="42" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="114" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="7">
+        HIRED!
+      </text>
+    </g>
+  </g>
+
+  <!-- 4. BOTTOM CREDITS / CALL TO ACTION -->
+  <g transform="translate(600, 1280)">
+    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="28" font-weight="700" fill="#E2E8F0" text-anchor="middle">
+      LIE ON YOUR RESUME. BRIBE THE BOSS. SURVIVE THE OFFICE.
+    </text>
+    <text x="0" y="45" font-family="'Inter', sans-serif" font-size="20" font-weight="500" fill="#94A3B8" text-anchor="middle">
+      Coming Soon to Google Play &amp; Apple App Store
+    </text>
+
+    <!-- Platform Badges Mockup -->
+    <g transform="translate(-210, 85)">
+      <!-- Google Play Pill -->
+      <rect x="0" y="0" width="200" height="54" rx="27" fill="#0F172A" stroke="#334155" stroke-width="2" />
+      <text x="100" y="34" font-family="'Inter', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">GET IT ON GOOGLE PLAY</text>
+      <!-- App Store Pill -->
+      <rect x="220" y="0" width="200" height="54" rx="27" fill="#0F172A" stroke="#334155" stroke-width="2" />
+      <text x="320" y="34" font-family="'Inter', sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">DOWNLOAD ON APP STORE</text>
+    </g>
+  </g>
+
+  <!-- 5. Outer Precision Framing -->
+  <rect x="24" y="24" width="1152" height="1552" fill="none" stroke="#38BDF8" stroke-width="2" stroke-opacity="0.3" rx="16" />
+</svg>
