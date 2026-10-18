@@ -101,6 +101,7 @@ public class VideoCallMiniGame : IMiniGame
     private void OnVcAcknowledgeTapped()
     {
         if (!manager.isPlaying || vcCurrentPhase != 1) return;
+        AudioManager.Instance?.PlayClick();
         
         vcCurrentPhase = 2;
         if (vcPhase1 != null) vcPhase1.style.display = DisplayStyle.None;
@@ -110,6 +111,7 @@ public class VideoCallMiniGame : IMiniGame
     private void OnVcRaiseHandTapped()
     {
         if (!manager.isPlaying || vcCurrentPhase != 2) return;
+        AudioManager.Instance?.PlayClick();
         
         vcCurrentPhase = 3;
         if (vcPhase2 != null) vcPhase2.style.display = DisplayStyle.None;
@@ -141,6 +143,7 @@ public class VideoCallMiniGame : IMiniGame
                 if (percent >= 100f)
                 {
                     if (vcWigglePromptText != null) vcWigglePromptText.text = "ONLINE!";
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
             }
@@ -181,6 +184,7 @@ public class VideoCallMiniGame : IMiniGame
             if (timer <= 0f)
             {
                 if (vcTimerText != null) vcTimerText.text = "TIME UP!";
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

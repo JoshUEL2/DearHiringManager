@@ -146,6 +146,7 @@ public class GalacticCouncilMiniGame : IMiniGame
                 float playerX = 150f + podiumX;
                 if (p.pos.y > 270f && p.pos.y < 310f && Mathf.Abs(p.pos.x - playerX) < 25f) {
                     hits++;
+                    AudioManager.Instance?.PlayBuzzer();
                     p.ve.RemoveFromHierarchy();
                     projs.RemoveAt(i);
                     // Shake podium
@@ -160,11 +161,13 @@ public class GalacticCouncilMiniGame : IMiniGame
             }
 
             if (hits >= 3) {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame(); // Fail
                 yield break;
             }
 
             if (timer <= 0f) {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }

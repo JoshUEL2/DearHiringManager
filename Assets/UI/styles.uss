@@ -265,13 +265,13 @@
 }
 
 .nav-button-icon {
-    font-size: 34px;
-    margin-bottom: 2px;
+    font-size: 42px;
+    margin-bottom: 4px;
     -unity-text-align: middle-center;
 }
 
 .nav-button-label {
-    font-size: 19px;
+    font-size: 22px;
     color: #94A3B8;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
@@ -286,7 +286,7 @@
 .advance-week-btn {
     background-color: #2ECC71;
     border-radius: 40px; /* Perfect pill */
-    height: 106px;
+    height: 98px;
     width: 220px; 
     flex-direction: column;
     align-items: center;
@@ -295,7 +295,7 @@
     flex-shrink: 0;
     margin-left: 8px;
     margin-right: 8px;
-    padding: 4px 8px;
+    padding: 6px 12px;
     transition: background-color 0.2s, scale 0.1s;
 }
 
@@ -311,10 +311,11 @@
 }
 
 .advance-week-label {
-    font-size: 24px;
+    font-size: 34px;
     color: white;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
+    letter-spacing: 1px;
 }
 
 .footer-stats-row {

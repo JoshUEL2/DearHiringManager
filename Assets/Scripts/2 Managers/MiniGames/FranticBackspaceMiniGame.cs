@@ -35,7 +35,7 @@ public class FranticBackspaceMiniGame : IMiniGame
                     int removeCount = Mathf.Min(5, fbCurrentMessage.Length);
                     fbCurrentMessage = fbCurrentMessage.Substring(0, fbCurrentMessage.Length - removeCount);
                     if (fbPlayerText != null) fbPlayerText.text = fbCurrentMessage + "|";
-                    AudioManager.Instance?.PlayTypewriter();
+                    AudioManager.Instance?.PlayFranticKey();
                     MiniGameFeedback.Punch(fbBackspaceBtn, 1.08f);
                 }
             };

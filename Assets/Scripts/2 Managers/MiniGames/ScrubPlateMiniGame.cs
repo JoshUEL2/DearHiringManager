@@ -76,6 +76,7 @@ public class ScrubPlateMiniGame : IMiniGame
                         scrubDirtOverlay.style.opacity = 0f;
                         scrubPlateArea.ReleasePointer(ev.pointerId);
                         AudioManager.Instance?.PlayDishClatter();
+                        AudioManager.Instance?.PlayVictoryFanfare();
                         manager.MarkWinReady();
                     }
                 }

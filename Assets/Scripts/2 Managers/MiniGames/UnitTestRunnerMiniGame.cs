@@ -144,6 +144,7 @@ public class UnitTestRunnerMiniGame : IMiniGame
         if (utCurrentRound >= config.unitTestRounds)
         {
             isPlaying = false;
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
             return;
         }
@@ -156,6 +157,7 @@ public class UnitTestRunnerMiniGame : IMiniGame
         if (utBtnOption3 != null) utBtnOption3.text = options.Length > 2 ? options[2] : "";
 
         string targetText = config.unitTestQuestions[utCurrentRound];
+        AudioManager.Instance?.PlayTypewriter();
         manager.StartCoroutine(TypewriterEffect(targetText));
     }
 
@@ -302,6 +304,7 @@ public class UnitTestRunnerMiniGame : IMiniGame
                 {
                     if (utTimerText != null) utTimerText.text = "FAILED!";
                     isPlaying = false;
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                     yield break;
                 }

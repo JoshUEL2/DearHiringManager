@@ -114,6 +114,7 @@ public class RetroRacerMiniGame : IMiniGame
             timer -= Time.deltaTime;
             if (timer <= 0f)
             {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
@@ -188,6 +189,8 @@ public class RetroRacerMiniGame : IMiniGame
                     float playerX = rrPlayer.style.left.value.value;
                     if (Mathf.Abs(playerX - laneTargetX) < 12f)
                     {
+                        AudioManager.Instance?.PlayBuzzer();
+                        AudioManager.Instance?.PlayMinigameFail();
                         manager.AbortGame();
                         yield break;
                     }

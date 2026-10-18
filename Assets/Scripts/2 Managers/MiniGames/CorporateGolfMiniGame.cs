@@ -115,6 +115,7 @@ public class CorporateGolfMiniGame : IMiniGame
         if (dragVector.sqrMagnitude > 400f) {
             cgBallVel = dragVector * 4f;
             cgBallInMotion = true;
+            AudioManager.Instance?.PlayActivityNetworking("golf");
         }
     }
 

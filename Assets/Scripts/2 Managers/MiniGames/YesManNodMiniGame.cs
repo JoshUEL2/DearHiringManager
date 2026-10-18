@@ -123,11 +123,13 @@ public class YesManNodMiniGame : IMiniGame
             }
             
             if (!reacted) {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame(); // Didn't nod in time, fired.
                 yield break;
             }
             
             // Successfully nodded
+            AudioManager.Instance?.PlayScorePop();
             if (ymPlayerBubble != null) ymPlayerBubble.style.display = DisplayStyle.Flex;
             complaintsHandled++;
             
@@ -142,6 +144,7 @@ public class YesManNodMiniGame : IMiniGame
             if (ymBossBubble != null) ymBossBubble.style.display = DisplayStyle.None;
         }
 
+        AudioManager.Instance?.PlayVictoryFanfare();
         manager.MarkWinReady();
     }
 }

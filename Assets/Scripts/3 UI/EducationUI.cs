@@ -268,6 +268,7 @@ public class EducationUI
 
         if (!string.IsNullOrEmpty(data.activeEducationTitle))
         {
+            AudioManager.Instance?.PlayBuzzer();
             global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "ENROLLMENT ERROR", 
                 description = "You are already studying for a degree. Drop out first!" 
@@ -277,6 +278,7 @@ public class EducationUI
 
         if (data.balance < course.cost)
         {
+            AudioManager.Instance?.PlayBuzzer();
             global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "TUITION REJECT", 
                 description = "Insufficient funds to cover the first week of tuition." 
@@ -284,6 +286,7 @@ public class EducationUI
             return;
         }
 
+        AudioManager.Instance?.PlayStampPass(true);
         GameManager.Instance.currentData.activeEducationTitle = course.title;
         GameManager.Instance.currentData.currentEducationProgressWeeks = 0;
         GameManager.Instance.currentData.totalEducationWeeksRequested = course.weeks;
@@ -304,6 +307,7 @@ public class EducationUI
 
     private void DropoutOfCourse()
     {
+        AudioManager.Instance?.PlayPromotionRefused();
         GameManager.Instance.currentData.activeEducationTitle = null;
         GameManager.Instance.currentData.currentEducationProgressWeeks = 0;
         GameManager.Instance.currentData.totalEducationWeeksRequested = 0;

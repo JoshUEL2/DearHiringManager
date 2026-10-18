@@ -96,6 +96,8 @@ public class AutomatedTestsMiniGame : IMiniGame
         if (atIsFailing[index])
         {
             atIsFailing[index] = false;
+            AudioManager.Instance?.PlayCherrySwitch();
+            MiniGameFeedback.PlayTap(atBtnTests[index]);
             UpdateAtTestUI(index);
         }
     }
@@ -121,6 +123,7 @@ public class AutomatedTestsMiniGame : IMiniGame
                     int toFail = available[Random.Range(0, available.Count)];
                     atIsFailing[toFail] = true;
                     atFuses[toFail] = 3.0f; 
+                    AudioManager.Instance?.PlayBuzzer();
                     UpdateAtTestUI(toFail);
                 }
                 atNextFailTimer = Random.Range(1.0f, 2.5f);
@@ -136,6 +139,7 @@ public class AutomatedTestsMiniGame : IMiniGame
                     if (atFuses[i] <= 0f)
                     {
                         if (atTimerText != null) atTimerText.text = "SUITE CRASHED!";
+                        AudioManager.Instance?.PlayMinigameFail();
                         
                         if (manager.currentGame != null && manager.currentGame.canFail)
                         {
@@ -161,6 +165,7 @@ public class AutomatedTestsMiniGame : IMiniGame
                 if (anyFailing && manager.currentGame != null && manager.currentGame.canFail)
                 {
                     if (atTimerText != null) atTimerText.text = "FAILED (Flaky test open)";
+                    AudioManager.Instance?.PlayMinigameFail();
                     isPlaying = false;
                     manager.AbortGame();
                     yield break;
@@ -168,6 +173,7 @@ public class AutomatedTestsMiniGame : IMiniGame
                 else
                 {
                     if (atTimerText != null) atTimerText.text = "SUITE PASSED!";
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     isPlaying = false;
                     manager.MarkWinReady();
                     yield break;

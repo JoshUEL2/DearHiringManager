@@ -226,6 +226,7 @@ public class KanbanBoardMiniGame : IMiniGame
             {
                 // Valid move to DONE
                 SnapToColumn(ticket, kanbanColDone);
+                AudioManager.Instance?.PlayScorePop();
                 
                 // Done Juice
                 ticket.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
@@ -241,11 +242,16 @@ public class KanbanBoardMiniGame : IMiniGame
                 manager.StartCoroutine(BounceRoutine(ticket));
                 
                 kanbanTicketsDone++;
-                if (kanbanTicketsDone >= config.kanbanTicketCount) manager.MarkWinReady();
+                if (kanbanTicketsDone >= config.kanbanTicketCount)
+                {
+                    AudioManager.Instance?.PlayVictoryFanfare();
+                    manager.MarkWinReady();
+                }
             }
             else
             {
                 // Tried to skip IN PROGRESS -> Shake Red
+                AudioManager.Instance?.PlayBuzzer();
                 manager.StartCoroutine(ShakeTicketRoutine(ticket, kanbanColTodo));
             }
         }
@@ -256,6 +262,7 @@ public class KanbanBoardMiniGame : IMiniGame
             {
                 ticket.AddToClassList("in-progress");
                 SnapToColumn(ticket, kanbanColProgress);
+                AudioManager.Instance?.PlayClick();
                 
                 // Progress Juice
                 ticket.style.borderLeftColor = new StyleColor(new Color(0.96f, 0.62f, 0.04f)); // Orange accent
@@ -344,6 +351,7 @@ public class KanbanBoardMiniGame : IMiniGame
             
             if (timer <= 0f)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

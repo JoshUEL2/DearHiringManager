@@ -119,6 +119,7 @@ public class RecycleBottlesMiniGame : IMiniGame
         if (idx < 3)
         {
             // 0, 1, 2 are bottles
+            AudioManager.Instance?.PlayRecycleBottle();
             MiniGameFeedback.PlaySuccess(rbItems[idx], "+1 BOTTLE", container);
             rbItems[idx].style.display = DisplayStyle.None;
             rbCollected++;
@@ -130,6 +131,7 @@ public class RecycleBottlesMiniGame : IMiniGame
         else
         {
             // Tapped trash!
+            AudioManager.Instance?.PlayBuzzer();
             MiniGameFeedback.PlayError(rbItems[idx], "TRASH!", container);
             manager.EndGame(false);
         }

@@ -256,6 +256,7 @@ public class FileSorterMiniGame : IMiniGame
         }
         
         // Folder catch bounce juice
+        AudioManager.Instance?.PlayScorePop();
         if (targetFolder != null)
         {
             manager.StartCoroutine(FolderBounceRoutine(targetFolder));
@@ -267,6 +268,7 @@ public class FileSorterMiniGame : IMiniGame
         if (fileSorterSortedCount >= config.fileSorterTarget)
         {
             fileSorterActiveFile.style.display = DisplayStyle.None;
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
         }
         else
@@ -298,6 +300,7 @@ public class FileSorterMiniGame : IMiniGame
     
     private IEnumerator FileSorterShakeError()
     {
+        AudioManager.Instance?.PlayBuzzer();
         // Use hardcoded white because reading .style.backgroundColor returns transparent if it was set via UXML
         StyleColor originalBg = new StyleColor(Color.white);
         fileSorterActiveFile.style.backgroundColor = new StyleColor(new Color(0.9f, 0.2f, 0.2f));
@@ -333,6 +336,7 @@ public class FileSorterMiniGame : IMiniGame
             
             if (timer <= 0f)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

@@ -142,9 +142,11 @@ public class VrArcadePongMiniGame : IMiniGame
                     vrBallVel *= 1.1f;
                     
                     vrBounces++;
+                    AudioManager.Instance?.PlayActivityWellness("arcade");
                     if (vrScoreText != null) vrScoreText.text = $"BOUNCES: {vrBounces} / 5";
 
                     if (vrBounces >= 5) {
+                        AudioManager.Instance?.PlayVictoryFanfare();
                         manager.MarkWinReady();
                         yield break;
                     }
@@ -153,6 +155,7 @@ public class VrArcadePongMiniGame : IMiniGame
 
             // Floor Collision (Miss)
             if (vrBallPos.y > containerH) {
+                AudioManager.Instance?.PlayMinigameFail();
                 if (vrScoreText != null) vrScoreText.text = "FAILED!";
                 yield return new WaitForSeconds(1.0f);
                 manager.AbortGame();

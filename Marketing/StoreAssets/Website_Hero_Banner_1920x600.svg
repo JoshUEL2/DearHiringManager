@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 600" width="1920" height="600">
+  <defs>
+    <!-- Panoramic Gradient -->
+    <linearGradient id="webBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050814" />
+      <stop offset="35%" stop-color="#0A1128" />
+      <stop offset="70%" stop-color="#141E36" />
+      <stop offset="100%" stop-color="#050814" />
+    </linearGradient>
+
+    <!-- Cyan Glow -->
+    <linearGradient id="cyanHouse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Crimson Stamp Gradient -->
+    <linearGradient id="crimsonStamp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A46" />
+      <stop offset="100%" stop-color="#C20023" />
+    </linearGradient>
+
+    <!-- Paper Gradient -->
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="bigShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="24" stdDeviation="30" flood-color="#000000" flood-opacity="0.85" />
+    </filter>
+    <filter id="stampShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="600" fill="url(#webBg)" />
+
+  <!-- Blueprint Subtle Tech Lines -->
+  <g stroke="#1E293B" stroke-width="1.5" stroke-opacity="0.35">
+    <line x1="0" y1="150" x2="1920" y2="150" />
+    <line x1="0" y1="300" x2="1920" y2="300" />
+    <line x1="0" y1="450" x2="1920" y2="450" />
+    <line x1="480" y1="0" x2="480" y2="600" />
+    <line x1="960" y1="0" x2="960" y2="600" />
+    <line x1="1440" y1="0" x2="1440" y2="600" />
+  </g>
+
+  <!-- Cyan Neon Ambient Glow -->
+  <circle cx="500" cy="300" r="380" fill="#38BDF8" fill-opacity="0.08" filter="blur(80px)" />
+  <circle cx="1500" cy="300" r="320" fill="#FF1A46" fill-opacity="0.06" filter="blur(80px)" />
+
+  <!-- LEFT BRANDING & HEADLINE -->
+  <g transform="translate(140, 140)">
+    <!-- Category Pill -->
+    <rect x="0" y="0" width="260" height="36" rx="18" fill="rgba(56, 189, 248, 0.15)" stroke="#38BDF8" stroke-width="2" />
+    <text x="130" y="24" font-family="'Inter', sans-serif" font-size="14" font-weight="800" fill="#38BDF8" text-anchor="middle" letter-spacing="2.5">
+      CORPORATE SURVIVAL SIM
+    </text>
+
+    <!-- Main Title -->
+    <text x="0" y="110" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="82" font-weight="900" fill="#FFFFFF" letter-spacing="2">
+      DEAR HIRING
+    </text>
+    <text x="0" y="185" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="82" font-weight="900" fill="url(#cyanHouse)" letter-spacing="2">
+      MANAGER
+    </text>
+
+    <!-- Tagline -->
+    <text x="0" y="250" font-family="'Inter', sans-serif" font-size="24" font-weight="500" fill="#94A3B8">
+      Start broke in the slums. Lie on your resume. Outsmart the corporate ladder.
+    </text>
+    <text x="0" y="285" font-family="'Inter', sans-serif" font-size="22" font-weight="700" fill="#E2E8F0">
+      Available for Android &amp; Web • Play 100% Free
+    </text>
+
+    <!-- Badges Row -->
+    <g transform="translate(0, 330)">
+      <rect x="0" y="0" width="160" height="42" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+      <text x="80" y="27" font-family="'Inter', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="middle">50+ MINIGAMES</text>
+
+      <rect x="180" y="0" width="160" height="42" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+      <text x="260" y="27" font-family="'Inter', sans-serif" font-size="14" font-weight="800" fill="#FFFFFF" text-anchor="middle">SLUMS TO CEO</text>
+
+      <rect x="360" y="0" width="180" height="42" rx="12" fill="rgba(56, 189, 248, 0.2)" stroke="#38BDF8" stroke-width="2" />
+      <text x="450" y="27" font-family="'Inter', sans-serif" font-size="14" font-weight="800" fill="#38BDF8" text-anchor="middle">PLAY ON ITCH.IO</text>
+    </g>
+  </g>
+
+  <!-- RIGHT HERO KEY ART: The Iconic Dossier + HIRED! Rubber Stamp -->
+  <g transform="translate(1420, 70) rotate(8)" filter="url(#bigShadow)">
+    <path d="M 0 20 C 0 8.95 8.95 0 20 0 L 250 0 L 350 100 L 350 440 C 350 451.05 341.05 460 330 460 L 20 460 C 8.95 460 0 451.05 0 440 Z" fill="url(#paperGrad)" />
+    <path d="M 250 0 L 350 100 L 268 100 C 258 100 250 92 250 82 Z" fill="#CBD5E1" />
+
+    <!-- Avatar silhouette -->
+    <rect x="36" y="38" width="65" height="65" rx="16" fill="#1E293B" />
+    <circle cx="68" cy="62" r="15" fill="#FFFFFF" />
+    <path d="M 50 92 C 50 78 60 76 68 76 C 76 76 86 78 86 92 Z" fill="#FFFFFF" />
+    
+    <!-- Header lines -->
+    <rect x="120" y="46" width="120" height="20" rx="10" fill="#0A1128" />
+    <rect x="120" y="74" width="80" height="14" rx="7" fill="#64748B" />
+
+    <!-- Text lines -->
+    <rect x="36" y="130" width="278" height="18" rx="9" fill="#94A3B8" />
+    <rect x="36" y="162" width="245" height="18" rx="9" fill="#94A3B8" />
+    <rect x="36" y="194" width="265" height="18" rx="9" fill="#94A3B8" />
+    <rect x="36" y="226" width="200" height="18" rx="9" fill="#94A3B8" />
+
+    <!-- 5 Star Rating -->
+    <g transform="translate(36, 265)">
+      <polygon points="12,1 15,8 23,8 17,13 19,20 12,16 5,20 7,13 1,8 9,8" fill="#FBBF24" />
+      <polygon points="38,1 41,8 49,8 43,13 45,20 38,16 31,20 33,13 27,8 35,8" fill="#FBBF24" />
+      <polygon points="64,1 67,8 75,8 69,13 71,20 64,16 57,20 59,13 53,8 61,8" fill="#FBBF24" />
+      <polygon points="90,1 93,8 101,8 95,13 97,20 90,16 83,20 85,13 79,8 87,8" fill="#FBBF24" />
+      <polygon points="116,1 119,8 127,8 121,13 123,20 116,16 109,20 111,13 105,8 113,8" fill="#CBD5E1" />
+    </g>
+
+    <!-- Signature -->
+    <path d="M 36 340 Q 75 305 115 340 T 195 330" fill="none" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+
+    <!-- HIRED! STAMP -->
+    <g transform="translate(175, 330) rotate(-13)" filter="url(#stampShadow)">
+      <rect x="-190" y="-60" width="380" height="120" rx="22" fill="url(#crimsonStamp)" stroke="#FFFFFF" stroke-width="8" />
+      <rect x="-178" y="-48" width="356" height="96" rx="14" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="320, 10, 10, 10" stroke-opacity="0.95" />
+      <text x="0" y="30" font-family="'Franklin Gothic Heavy', 'Impact', sans-serif" font-size="86" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="5">
+        HIRED!
+      </text>
+    </g>
+  </g>
+
+  <!-- Border Frame -->
+  <rect x="0" y="0" width="1920" height="600" fill="none" stroke="#38BDF8" stroke-width="2" stroke-opacity="0.25" />
+</svg>

@@ -86,6 +86,7 @@ public class BalanceMeterMiniGame : IMiniGame
                 {
                     isPlaying = false;
                     MiniGameFeedback.PlaySuccess(balanceTimeBar ?? container, "BALANCED!", container);
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
             }

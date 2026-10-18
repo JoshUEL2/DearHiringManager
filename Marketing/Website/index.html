@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEAR HIRING MANAGER — The Satirical Corporate Life Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070B16;
+      --bg-card: rgba(16, 24, 44, 0.75);
+      --bg-card-solid: #10182C;
+      --cyan-house: #38BDF8;
+      --cyan-glow: rgba(56, 189, 248, 0.4);
+      --crimson: #FF1A46;
+      --crimson-dark: #C20023;
+      --gold: #FBBF24;
+      --slate-border: #222E48;
+      --text-muted: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-dark);
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Custom Futuristic Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050812;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 4px;
+      border: 1px solid var(--cyan-house);
+    }
+
+    /* Ambient Background Grid & Noise */
+    body {
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 85% 60%, rgba(255, 26, 70, 0.06) 0%, transparent 50%),
+        linear-gradient(to right, rgba(30, 41, 59, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.15) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      position: relative;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 76px;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 11, 22, 0.85);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      transition: all 0.3s ease;
+    }
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #FFF;
+    }
+    .logo-lockup img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+    .logo-lockup span {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    .logo-lockup span em {
+      color: var(--cyan-house);
+      font-style: normal;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover {
+      color: var(--cyan-house);
+    }
+    .cta-button {
+      background: var(--cyan-house);
+      color: #050814;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      padding: 10px 22px;
+      border-radius: 24px;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(56, 189, 248, 0.7);
+      background: #7dd3fc;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 100vh;
+      padding: 140px 48px 80px 48px;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 60px;
+      position: relative;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid var(--cyan-house);
+      border-radius: 30px;
+      color: var(--cyan-house);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero-title .glow-text {
+      color: var(--cyan-house);
+      text-shadow: 0 0 32px rgba(56, 189, 248, 0.4);
+    }
+    .hero-subtitle {
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+    .cta-crimson {
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+      color: #FFF;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 28px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255, 26, 70, 0.4);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cta-crimson:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(255, 26, 70, 0.65);
+    }
+    .cta-secondary {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--slate-border);
+      color: #F8FAFC;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 28px;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+    .cta-secondary:hover {
+      border-color: var(--cyan-house);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(51, 65, 85, 0.5);
+    }
+    .stat-item h4 {
+      font-size: 28px;
+      font-weight: 900;
+      color: #FFF;
+      margin-bottom: 4px;
+    }
+    .stat-item p {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    /* 3D FLOATING MOCKUP SHOWCASE */
+    .hero-visual {
+      position: relative;
+      perspective: 1200px;
+      display: flex;
+      justify-content: center;
+    }
+    .phone-container {
+      width: 320px;
+      height: 640px;
+      background: #000;
+      border: 10px solid #1E293B;
+      border-radius: 46px;
+      box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(56, 189, 248, 0.2);
+      overflow: hidden;
+      position: relative;
+      transform: rotateY(-10deg) rotateX(6deg);
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .phone-container:hover {
+      transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+    }
+    .phone-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Floating Stamp Badge over Phone */
+    .floating-stamp {
+      position: absolute;
+      bottom: 60px;
+      right: -20px;
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+      border: 4px solid #FFF;
+      border-radius: 16px;
+      padding: 12px 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      transform: rotate(-12deg);
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    .floating-stamp span {
+      font-family: 'Impact', 'Franklin Gothic Heavy', sans-serif;
+      font-size: 38px;
+      color: #FFF;
+      letter-spacing: 3px;
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: rotate(-12deg) translateY(0); }
+      50% { transform: rotate(-10deg) translateY(-12px); }
+    }
+
+    /* SECTIONS COMMON */
+    section {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-header h2 {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* SCROLL-REVEAL CARDS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* GAMEPLAY TRAILER STAGE */
+    .trailer-stage {
+      background: var(--bg-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      backdrop-filter: blur(20px);
+      position: relative;
+    }
+    .trailer-stage video {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 24px;
+      padding: 36px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan-house), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+    .feature-icon {
+      width: 54px;
+      height: 54px;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: #FFF;
+    }
+    .feature-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* THE LADDER PROGRESSION */
+    .ladder-section {
+      background: linear-gradient(180deg, transparent 0%, rgba(10, 17, 40, 0.6) 50%, transparent 100%);
+    }
+    .districts-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .district-card {
+      background: var(--bg-card-solid);
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .district-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--cyan-house);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .district-card h4 {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+    .district-card ul {
+      list-style: none;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .district-card li {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .district-card li::before {
+      content: '▹';
+      color: var(--cyan-house);
+    }
+
+    /* STORE & BANNER GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .gallery-item {
+      background: var(--bg-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      padding: 24px;
+      overflow: hidden;
+    }
+    .gallery-item img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.02);
+    }
+    .gallery-item h4 {
+      margin-top: 18px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .gallery-item p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(56, 189, 248, 0.15);
+      background: #04060C;
+      padding: 60px 48px;
+      text-align: center;
+    }
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .footer-logo {
+      font-size: 24px;
+      font-weight: 900;
+      color: #FFF;
+    }
+    .footer-logo span {
+      color: var(--cyan-house);
+    }
+    .footer-nav {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .footer-nav a:hover {
+      color: var(--cyan-house);
+    }
+    .copyright {
+      font-size: 12px;
+      color: #64748B;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 120px;
+        text-align: center;
+      }
+      .hero-subtitle {
+        margin: 0 auto 36px auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-stats {
+        justify-content: center;
+      }
+      .districts-container {
+        grid-template-columns: 1fr;
+      }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY BLUR NAVBAR -->
+  <nav id="navbar">
+    <a href="#" class="logo-lockup">
+      <img src="../Logos/DearHiringManager_Icon_Final.svg" alt="App Icon">
+      <span>DEAR HIRING <em>MANAGER</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#trailer">Trailer</a></li>
+      <li><a href="#gameplay">Gameplay</a></li>
+      <li><a href="#districts">The Ladder</a></li>
+      <li><a href="#store">Store Assets</a></li>
+      <li><a href="https://itch.io" class="cta-button" target="_blank">PLAY ON ITCH.IO</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION WITH INTERACTIVE 3D PERSPECTIVE PHONE -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge-pill">CORPORATE SURVIVAL SIMULATOR</div>
+      <h1 class="hero-title">
+        Lie on your resume.<br>
+        Survive the <span class="glow-text">ladder.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Start broke in the Slums, evade debt collectors, master 50+ chaotic job minigames, and outsmart the algorithm to become Fortune 500 CEO.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#trailer" class="cta-crimson">
+          <span>▶ WATCH TRAILER</span>
+        </a>
+        <a href="https://itch.io" class="cta-secondary" target="_blank">
+          <span>DOWNLOAD ON ITCH.IO</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <h4>50+</h4>
+          <p>Workplace Minigames</p>
+        </div>
+        <div class="stat-item">
+          <h4>3</h4>
+          <p>Economic Districts</p>
+        </div>
+        <div class="stat-item">
+          <h4>1</h4>
+          <p>Fortune 500 Desk</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Mobile Visual -->
+    <div class="hero-visual">
+      <div class="phone-container">
+        <video class="phone-video" autoplay loop muted playsinline>
+          <source src="../Trailers/Official_Shorts_Reels_Ad_9x16.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="floating-stamp">
+        <span>HIRED!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMEPLAY TRAILER SECTION -->
+  <section id="trailer" class="reveal">
+    <div class="section-header">
+      <h2>Official Gameplay Trailer</h2>
+      <p>Watch the climb from Dishwasher in the Slums to board meetings in the Financial District.</p>
+    </div>
+    <div class="trailer-stage">
+      <video controls preload="metadata" poster="../StoreAssets/GooglePlay_FeatureGraphic_1024x500.svg">
+        <source src="../Trailers/Official_Gameplay_Trailer_16x9.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- CORE FEATURES GRID -->
+  <section id="gameplay" class="reveal">
+    <div class="section-header">
+      <h2>The Mechanics of Corporate Survival</h2>
+      <p>Turn-based accounting meets high-stakes micro-action in an unforgiving simulation.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💼</div>
+        <h3>Compounding Economy</h3>
+        <p>Rent and food costs compound over time. Fail to secure raises or side-hustles, and inflation will bankrupt you in weeks.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>50+ Job Minigames</h3>
+        <p>From street-sign timing rings to frantic server firefighting and scrap sorting. Your performance directly impacts your bonuses.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3>Bootcamps &amp; Fraud</h3>
+        <p>Upskill through overnight coding bootcamps and executive MBAs—or fake your certifications and bribe the background check officers.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💀</div>
+        <h3>Burnout &amp; Stress</h3>
+        <p>Keep your stress meter under 100%. One too many overtime shifts without meditation could trigger an instant cardiovascular crisis.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏙️</div>
+        <h3>District Migration</h3>
+        <p>Earn residency permits to leave the toxic air of the Slums, move into the gated Suburbs, and lease a glass Penthouse.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">👑</div>
+        <h3>The CEO Desk</h3>
+        <p>Navigate boardroom betrayals, manage whistleblowers, and claim the ultimate crown as Fortune 500 CEO.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ECONOMIC LADDER -->
+  <section id="districts" class="ladder-section reveal">
+    <div class="section-header">
+      <h2>The Corporate Food Chain</h2>
+      <p>Every district enforces strict economic barriers to entry. Where will you finish?</p>
+    </div>
+
+    <div class="districts-container">
+      <div class="district-card">
+        <div class="district-tag">TIER 1 • ENTRY</div>
+        <h4>The Slums</h4>
+        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5;">
+          Toxic smog, micro-apartments, and predatory debt collectors. Survive by scrubbing dishes and recycling copper wire.
+        </p>
+        <ul>
+          <li>Rent: $75/week</li>
+          <li>Jobs: Dishwasher, Scrap Sorter</li>
+          <li>Education: Self-Taught Scripts</li>
+        </ul>
+      </div>
+
+      <div class="district-card" style="border-color: rgba(56, 189, 248, 0.4);">
+        <div class="district-tag" style="color: #38BDF8;">TIER 2 • MID-LEVEL</div>
+        <h4>The Suburbs</h4>
+        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5;">
+          Suburban sprawl, artificial lawns, and middle management anxiety. The corporate machine demands daily proof of loyalty.
+        </p>
+        <ul>
+          <li>Rent: $250/week</li>
+          <li>Jobs: Helpdesk Tech, QA Analyst</li>
+          <li>Education: Tech Bootcamp Certs</li>
+        </ul>
+      </div>
+
+      <div class="district-card" style="border-color: rgba(251, 191, 36, 0.4);">
+        <div class="district-tag" style="color: #FBBF24;">TIER 3 • THE SUMMIT</div>
+        <h4>Financial District</h4>
+        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.5;">
+          Glass towers, private security, and billion-dollar stock options. Only the ruthlessly ambitious hold the corner office.
+        </p>
+        <ul>
+          <li>Rent: $1,200/week</li>
+          <li>Jobs: VP of Growth, Fortune 500 CEO</li>
+          <li>Education: Elite MBA &amp; Political Bribes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE ASSET GALLERY -->
+  <section id="store" class="reveal">
+    <div class="section-header">
+      <h2>Official Storefront Artwork</h2>
+      <p>High-resolution marketing graphics developed in the unified House Style.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="../StoreAssets/GooglePlay_FeatureGraphic_1024x500.svg" alt="Google Play Feature Graphic">
+        <h4>Google Play Feature Graphic</h4>
+        <p>1024 x 500 px • Official store banner</p>
+      </div>
+
+      <div class="gallery-item">
+        <img src="../StoreAssets/ItchIO_Cover_630x500.svg" alt="Itch.io Cover">
+        <h4>Itch.io Store Cover</h4>
+        <p>630 x 500 px • Discovery feed card</p>
+      </div>
+
+      <div class="gallery-item" style="grid-column: 1 / -1;">
+        <img src="../StoreAssets/Website_Hero_Banner_1920x600.svg" alt="Panoramic Banner">
+        <h4>Panoramic Web Header Banner</h4>
+        <p>1920 x 600 px • Header for web and press kits</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">DEAR HIRING <span>MANAGER</span></div>
+      <p style="color: #64748B; font-size: 14px;">A Satirical Corporate Life Simulator built in Unity 6 &amp; UI Toolkit.</p>
+      <ul class="footer-nav">
+        <li><a href="#trailer">Trailer</a></li>
+        <li><a href="#gameplay">Gameplay</a></li>
+        <li><a href="#districts">Districts</a></li>
+        <li><a href="#store">Press Kit</a></li>
+        <li><a href="https://itch.io" target="_blank">Itch.io</a></li>
+      </ul>
+      <p class="copyright">© 2026 Dear Hiring Manager. All rights reserved. No real resumes were harmed in the making of this game.</p>
+    </div>
+  </footer>
+
+  <!-- CUSTOM SCROLL ANIMATIONS -->
+  <script>
+    // Smooth scroll reveal observer
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Dynamic 3D tilt on phone mockup
+    const phone = document.querySelector('.phone-container');
+    const heroVisual = document.querySelector('.hero-visual');
+
+    if (heroVisual && phone) {
+      heroVisual.addEventListener('mousemove', (e) => {
+        const rect = heroVisual.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = -(y / 20);
+        const rotateY = (x / 20);
+        phone.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
+
+      heroVisual.addEventListener('mouseleave', () => {
+        phone.style.transform = 'rotateY(-10deg) rotateX(6deg)';
+      });
+    }
+  </script>
+
+</body>
+</html>

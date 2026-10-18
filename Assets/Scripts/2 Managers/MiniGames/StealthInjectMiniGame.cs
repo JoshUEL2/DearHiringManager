@@ -124,6 +124,7 @@ public class StealthInjectMiniGame : IMiniGame
             {
                 // Toggle state
                 siIsReviewing = !siIsReviewing;
+                if (siIsReviewing) AudioManager.Instance?.PlayShiftWarning();
                 siReviewTimer = siIsReviewing ? Random.Range(1.0f, 2.0f) : Random.Range(2.0f, 4.0f);
                 UpdateSiUI();
             }
@@ -135,6 +136,7 @@ public class StealthInjectMiniGame : IMiniGame
                     // Caught! Apply massive penalty.
                     siIsHolding = false; // force release internally until they lift and press again
                     siProgress = Mathf.Max(0f, siProgress - 50f);
+                    AudioManager.Instance?.PlayBuzzer();
                     
                     // Flash red intensely
                     if (siWorkArea != null)
@@ -153,6 +155,7 @@ public class StealthInjectMiniGame : IMiniGame
                     {
                         siProgress = 100f;
                         UpdateSiUI();
+                        AudioManager.Instance?.PlayVictoryFanfare();
                         manager.MarkWinReady();
                         yield break;
                     }
@@ -166,11 +169,13 @@ public class StealthInjectMiniGame : IMiniGame
                 if (config.canFail)
                 {
                     if (siTimerText != null) siTimerText.text = "TIME UP!";
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.isPlaying = false;
                     yield break;
                 }
                 else
                 {
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
             }

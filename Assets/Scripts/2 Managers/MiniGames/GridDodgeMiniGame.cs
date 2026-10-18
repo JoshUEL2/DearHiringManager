@@ -270,6 +270,7 @@ public class GridDodgeMiniGame : IMiniGame
                     if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1)
                     {
                         slideDir = Vector2.zero; slideProgress = 0f;
+                        AudioManager.Instance?.PlayVictoryFanfare();
                         manager.MarkWinReady();
                     }
 
@@ -318,12 +319,14 @@ public class GridDodgeMiniGame : IMiniGame
         {
             if (slideDir == Vector2.zero) slideProgress = 0f;
             slideDir = new Vector2(dx, dy);
+            AudioManager.Instance?.PlayWhoosh();
         }
     }
 
     private void TakeDamage()
     {
         health--;
+        AudioManager.Instance?.PlayBuzzer();
         
         if (damageOverlay != null)
         {
@@ -333,6 +336,7 @@ public class GridDodgeMiniGame : IMiniGame
 
         if (health <= 0)
         {
+            AudioManager.Instance?.PlayMinigameFail();
             manager.AbortGame();
         }
     }

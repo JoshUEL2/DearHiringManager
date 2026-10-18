@@ -164,6 +164,7 @@ public class TicketSwipeMiniGame : IMiniGame
         if (isCorrect)
         {
             score++;
+            AudioManager.Instance?.PlayTurnstileSwipe();
             MiniGameFeedback.PlaySuccess(currentCard, "+1 SORTED", container);
             manager.StartCoroutine(AnimateCardSwipe(currentCard, selectedCategory, true));
         }
@@ -171,6 +172,7 @@ public class TicketSwipeMiniGame : IMiniGame
         {
             timeRemaining -= 2f; // Penalty!
             if (timeRemaining < 0) timeRemaining = 0;
+            AudioManager.Instance?.PlayBuzzer();
             MiniGameFeedback.PlayError(currentCard, "-2s PENALTY!", container);
             manager.StartCoroutine(AnimateCardSwipe(currentCard, selectedCategory, false));
         }

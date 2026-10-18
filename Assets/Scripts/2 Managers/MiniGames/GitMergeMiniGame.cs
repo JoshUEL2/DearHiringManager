@@ -136,6 +136,7 @@ public class GitMergeMiniGame : IMiniGame
         {
             score++;
             UpdateScoreText();
+            AudioManager.Instance?.PlayGitMerge(false);
             Button rightBtn = isCurrent ? currentBtn : incomingBtn;
             MiniGameFeedback.PlaySuccess(rightBtn, "MERGED!", container);
             manager.StartCoroutine(MergeAnimation(isCurrent));
@@ -143,6 +144,7 @@ public class GitMergeMiniGame : IMiniGame
         else
         {
             timeRemaining -= 2f;
+            AudioManager.Instance?.PlayGitMerge(true);
             Button wrongBtn = isCurrent ? currentBtn : incomingBtn;
             MiniGameFeedback.PlayError(wrongBtn, "CONFLICT!", container);
             manager.StartCoroutine(ErrorShake(wrongBtn));

@@ -167,6 +167,7 @@ public class CodeCommenterMiniGame : IMiniGame
             {
                 if (ccTimerText != null) ccTimerText.text = "BUILD FAILED!";
                 isPlaying = false;
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }
@@ -176,6 +177,7 @@ public class CodeCommenterMiniGame : IMiniGame
                 if (ccTimerText != null) ccTimerText.text = "SUITE PASSED!";
                 for(int i=0; i<5; i++) if (ccLines[i] != null) ccLines[i].style.translate = new Translate(0, 0, 0);
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }

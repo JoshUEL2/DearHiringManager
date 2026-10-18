@@ -29,6 +29,7 @@ public class TwoPhaseHeistMiniGame : IMiniGame
             lbl.style.fontSize = 24;
             lbl.style.unityTextAlign = TextAnchor.MiddleCenter;
             tphContainer.Add(lbl);
+            AudioManager.Instance?.PlayShiftWarning();
         }
         
         manager.StartCoroutine(TwoPhaseHeistFlashRoutine());

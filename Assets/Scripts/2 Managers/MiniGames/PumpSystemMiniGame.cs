@@ -659,6 +659,7 @@ public class PumpSystemMiniGame : IMiniGame
         
         if (manager.miniGameDocument.rootVisualElement.Contains(stampText)) manager.miniGameDocument.rootVisualElement.Remove(stampText);
         if (manager.miniGameDocument.rootVisualElement.Contains(backgroundFade)) manager.miniGameDocument.rootVisualElement.Remove(backgroundFade);
+        AudioManager.Instance?.PlayVictoryFanfare();
         manager.MarkWinReady();
     }
 

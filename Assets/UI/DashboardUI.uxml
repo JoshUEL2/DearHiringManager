@@ -61,7 +61,6 @@
                 <ui:Label text="Hustles" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnAdvanceWeek" class="advance-week-btn">
-                <ui:Label text="🗓️" class="advance-week-icon" />
                 <ui:Label text="+ Week" class="advance-week-label" />
             </ui:Button>
             <ui:Button name="BtnEducation" class="nav-button">

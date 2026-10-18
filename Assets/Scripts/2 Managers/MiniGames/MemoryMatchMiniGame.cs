@@ -89,6 +89,7 @@ public class MemoryMatchMiniGame : IMiniGame
         if (!isPlaying || !manager.isPlaying || isCheckingMatch || memoryCards[index].text != "?") return;
 
         MiniGameFeedback.PlayTap(memoryCards[index]);
+        AudioManager.Instance?.PlayClick();
         memoryCards[index].text = memoryValues[index];
         memoryCards[index].RemoveFromClassList("memory-card");
         memoryCards[index].AddToClassList("memory-card-matched");
@@ -117,10 +118,12 @@ public class MemoryMatchMiniGame : IMiniGame
             
             MiniGameFeedback.PlaySuccess(memoryCards[flippedIndex1], "MATCH!", memoryGrid);
             MiniGameFeedback.Punch(memoryCards[flippedIndex2], 1.22f);
+            AudioManager.Instance?.PlayScorePop();
 
             if (score >= pairs)
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             }
         }
@@ -128,6 +131,7 @@ public class MemoryMatchMiniGame : IMiniGame
         {
             MiniGameFeedback.PlayError(memoryCards[flippedIndex1], "NOPE", memoryGrid);
             MiniGameFeedback.Shake(memoryCards[flippedIndex2], 8f);
+            AudioManager.Instance?.PlayBuzzer();
 
             yield return new WaitForSeconds(0.2f);
             memoryCards[flippedIndex1].text = "?";

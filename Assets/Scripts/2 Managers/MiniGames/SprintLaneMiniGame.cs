@@ -61,12 +61,15 @@ public class SprintLaneMiniGame : IMiniGame
         if (success)
         {
             sprintDistance++;
+            AudioManager.Instance?.PlayWhoosh();
             float pct = Mathf.Clamp01((float)sprintDistance / config.sprintObstacles) * 100f;
             if (sprintProgressBar != null) sprintProgressBar.style.width = new Length(pct, LengthUnit.Percent);
             sprintWaitingForInput = false;
         }
         else if (manager.currentGame != null && manager.currentGame.canFail)
         {
+            AudioManager.Instance?.PlayBuzzer();
+            AudioManager.Instance?.PlayMinigameFail();
             isPlaying = false;
             manager.AbortGame();
         }
@@ -91,6 +94,7 @@ public class SprintLaneMiniGame : IMiniGame
             
             if (sprintWaitingForInput && manager.currentGame != null && manager.currentGame.canFail) 
             { 
+                AudioManager.Instance?.PlayMinigameFail();
                 isPlaying = false; 
                 manager.AbortGame(); 
                 yield break; 
@@ -98,6 +102,10 @@ public class SprintLaneMiniGame : IMiniGame
             sprintWaitingForInput = false;
             yield return new WaitForSeconds(0.2f);
         }
-        if (sprintDistance >= config.sprintObstacles) manager.MarkWinReady();
+        if (sprintDistance >= config.sprintObstacles)
+        {
+            AudioManager.Instance?.PlayVictoryFanfare();
+            manager.MarkWinReady();
+        }
     }
 }

@@ -84,6 +84,7 @@ public class WhackABugMiniGame : IMiniGame
                 
                 if (wbScore >= 15)
                 {
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.EndGame(true);
                 }
             };
@@ -142,13 +143,17 @@ public class WhackABugMiniGame : IMiniGame
 
             if (redCount >= 4)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.EndGame(false);
                 yield break;
             }
 
             if (timer <= 0f)
             {
-                manager.EndGame(wbScore >= 15);
+                bool won = wbScore >= 15;
+                if (won) AudioManager.Instance?.PlayVictoryFanfare();
+                else AudioManager.Instance?.PlayMinigameFail();
+                manager.EndGame(won);
                 yield break;
             }
             

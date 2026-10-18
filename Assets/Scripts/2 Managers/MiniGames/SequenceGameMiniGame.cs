@@ -208,10 +208,12 @@ public class SequenceGameMiniGame : IMiniGame
         if (hit)
         {
             successfulFlips++;
+            AudioManager.Instance?.PlayScorePop();
             if (flipCounterLabel != null) flipCounterLabel.text = $"FLIPS: {successfulFlips} / 3";
         }
         else
         {
+            AudioManager.Instance?.PlayBuzzer();
             isPlaying = false; // Trigger fail immediately
             manager.StartCoroutine(FailAnimation());
         }
@@ -220,6 +222,7 @@ public class SequenceGameMiniGame : IMiniGame
     private IEnumerator TrampolineRoutine()
     {
         // 1. HUGE JUMP from trampoline (bottom to top)
+        AudioManager.Instance?.PlayWhoosh();
         float jumpTime = 0.6f;
         float elapsed = 0;
         while(elapsed < jumpTime)
@@ -357,6 +360,9 @@ public class SequenceGameMiniGame : IMiniGame
 
     private IEnumerator StampEffectRoutine(string text, Color color, bool isWin)
     {
+        if (isWin) AudioManager.Instance?.PlayVictoryFanfare();
+        else AudioManager.Instance?.PlayMinigameFail();
+
         Label stampText = new Label(text);
         stampText.style.position = Position.Absolute;
         stampText.style.color = new StyleColor(color);

@@ -155,6 +155,8 @@ public class SizeMatchMiniGame : IMiniGame
         UpdateBoxVisuals(true);
 
         // Success Juice
+        AudioManager.Instance?.PlayCenterDivSnap();
+        AudioManager.Instance?.PlayScorePop();
         changingBox.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f, 0.9f));
         changingBox.text = "🔒 100%";
         cssTooltip.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
@@ -166,6 +168,7 @@ public class SizeMatchMiniGame : IMiniGame
 
         if (score >= 3)
         {
+            AudioManager.Instance?.PlayVictoryFanfare();
             yield return new WaitForSeconds(0.8f);
             manager.EndGame(true);
         }
@@ -186,6 +189,7 @@ public class SizeMatchMiniGame : IMiniGame
     private IEnumerator HandleFailure()
     {
         isPaused = true;
+        AudioManager.Instance?.PlayBuzzer();
         
         // Instant fail on miss
         floatingPenaltyText.text = "FATAL ERROR!";
@@ -213,6 +217,7 @@ public class SizeMatchMiniGame : IMiniGame
         flashOverlay.style.backgroundColor = new StyleColor(new Color(1f, 1f, 1f, 0f));
         
         yield return new WaitForSeconds(1.0f);
+        AudioManager.Instance?.PlayMinigameFail();
         manager.EndGame(false);
     }
 

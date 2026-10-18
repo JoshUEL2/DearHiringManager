@@ -236,6 +236,7 @@ public class CodeBreakerMiniGame : IMiniGame
     private void OnCodeClear()
     {
         if (isAnimating) return;
+        AudioManager.Instance?.PlayClick();
         currentGuess.Clear();
         UpdateCodeSlots();
     }
@@ -337,6 +338,7 @@ public class CodeBreakerMiniGame : IMiniGame
         if (correctPos == config.codeLength) 
         { 
             MiniGameFeedback.PlaySuccess(container, "ACCESS GRANTED!", container);
+            AudioManager.Instance?.PlayVictoryFanfare();
             yield return WaveBounce(histBlocks);
             manager.MarkWinReady(); 
             yield break;
@@ -355,6 +357,7 @@ public class CodeBreakerMiniGame : IMiniGame
         
         if (codeAttemptsRemaining <= 0)
         {
+            AudioManager.Instance?.PlayMinigameFail();
             if (manager.currentGame.canFail) { manager.EndGame(false); }
             else { SetupCodeBreaker(); } 
         }

@@ -93,6 +93,7 @@ public class QATriageMiniGame : IMiniGame
         dragStartPointerPos = e.position;
         lastPointerPos = e.position;
         paperStartPos = currentTranslate;
+        AudioManager.Instance?.PlayCVOpen();
         
         e.StopPropagation();
     }
@@ -189,6 +190,7 @@ public class QATriageMiniGame : IMiniGame
                 MiniGameFeedback.PlaySuccess(folders[droppedFolderIndex], "TRIAGED!", container);
                 if (score >= targetScore)
                 {
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                     return;
                 }
@@ -240,6 +242,7 @@ public class QATriageMiniGame : IMiniGame
 
             if (timeRemaining <= 0)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

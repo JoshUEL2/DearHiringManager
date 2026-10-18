@@ -194,10 +194,14 @@ public class SkimATMMiniGame : IMiniGame
             targetNode.enabledSelf = false;
             
             MiniGameFeedback.PlaySuccess(targetNode, "LINKED!", saContainer);
+            AudioManager.Instance?.PlayLockpickPin();
             saConnections++;
             if (saConnectionLabel != null) saConnectionLabel.text = $"LINKS: {saConnections}/4";
             
-            if (saConnections >= 4) manager.EndGame(true);
+            if (saConnections >= 4) {
+                AudioManager.Instance?.PlayATMDispense();
+                manager.EndGame(true);
+            }
         } else {
             // Snap back / Destroy
             if (saWireContainer.Contains(saActiveWire)) {
@@ -206,6 +210,7 @@ public class SkimATMMiniGame : IMiniGame
             if (targetNode != null && targetNode.style.backgroundColor.value != saStartNode.style.backgroundColor.value) {
                 // Penalty for connecting wrong colors
                 MiniGameFeedback.PlayError(targetNode, "SHORT CIRCUIT!", saContainer);
+                AudioManager.Instance?.PlayBuzzer();
                 timer -= 2f;
             }
         }

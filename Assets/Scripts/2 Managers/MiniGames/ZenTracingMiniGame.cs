@@ -87,16 +87,19 @@ public class ZenTracingMiniGame : IMiniGame
                 if (ztScore >= totalTime * 0.7f)
                 {
                     isPlaying = false;
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
                 else if (manager.currentGame != null && manager.currentGame.canFail)
                 {
                     isPlaying = false;
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                 }
                 else 
                 {
                     isPlaying = false;
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady(); 
                 }
                 yield break;

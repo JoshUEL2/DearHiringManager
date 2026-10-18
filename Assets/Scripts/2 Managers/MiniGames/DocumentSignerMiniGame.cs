@@ -30,6 +30,7 @@ public class DocumentSignerMiniGame : IMiniGame
             btnStampApproval.clicked += () => {
                 if (isPlaying)
                 {
+                    AudioManager.Instance?.PlayStampPass(true);
                     if (dsTimerText != null) dsTimerText.text = "SIGNED!";
                     isPlaying = false;
                     MiniGameFeedback.PlaySuccess(btnStampApproval, "APPROVED! ✍️", container);

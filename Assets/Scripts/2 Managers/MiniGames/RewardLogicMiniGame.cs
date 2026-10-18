@@ -54,6 +54,7 @@ public class RewardLogicMiniGame : IMiniGame
     {
         if (!manager.isPlaying) return;
         rlState[index] = !rlState[index];
+        AudioManager.Instance?.PlayCherrySwitch();
         if (rlArrows[index] != null) rlArrows[index].text = rlState[index] ? "→" : "←";
     }
 
@@ -129,9 +130,11 @@ public class RewardLogicMiniGame : IMiniGame
             else if (rlCoreY >= 280) {
                 // If X > 0 it hits PRESERVE (Green), else DESTROY (Red)
                 if (currentX > 0f) {
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                     yield break;
                 } else {
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame(); // Fail
                     yield break;
                 }
@@ -142,6 +145,7 @@ public class RewardLogicMiniGame : IMiniGame
             }
 
             if (timer <= 0f) {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

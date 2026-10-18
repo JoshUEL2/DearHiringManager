@@ -362,11 +362,16 @@ public class ActivitiesUI
             {
                 AudioManager.Instance?.PlayParkAmbience();
             }
+            else
+            {
+                AudioManager.Instance?.PlayActivityWellness(actName);
+            }
             ActiveMiniGame game = new ActiveMiniGame("wellness", actName, stressReduction, 0f, cost, false);
             MiniGameManager.Instance.LaunchMiniGame(game);
         }
         else
         {
+            AudioManager.Instance?.PlayBuzzer();
             global::GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "INSUFFICIENT FUNDS", 
                 description = $"You need <color=#E74C3C>${cost}</color> to purchase {actName}." 
@@ -385,11 +390,13 @@ public class ActivitiesUI
             if (type == "tech") actName = "Startup Pitch Meetup";
             if (type == "corp") actName = "Corporate Golf Outing";
 
+            AudioManager.Instance?.PlayActivityNetworking(actName);
             ActiveMiniGame game = new ActiveMiniGame("mixer", actName, luckBoost, 0f, cost, false);
             MiniGameManager.Instance.LaunchMiniGame(game);
         }
         else
         {
+            AudioManager.Instance?.PlayBuzzer();
             global::GameUIManager.Instance?.ShowPopup(new RandomEvent { 
                 title = "INSUFFICIENT FUNDS", 
                 description = $"You need <color=#E74C3C>${cost}</color> to attend this networking mixer." 

@@ -55,6 +55,7 @@ public class SwipeGameMiniGame : IMiniGame
     private void OnDodgeClicked(int dir)
     {
         if (!isPlaying || !manager.isPlaying) return;
+        AudioManager.Instance?.PlayWhoosh();
         if (expectedDodgeDir == dir)
         {
             expectedDodgeDir = 0;
@@ -81,6 +82,7 @@ public class SwipeGameMiniGame : IMiniGame
                 if (expectedDodgeDir == 0)
                 {
                     score++;
+                    AudioManager.Instance?.PlayScorePop();
                     if (swipeProgressText != null) swipeProgressText.text = $"Dodged: {score} / {config.targetScore}";
                     break;
                 }
@@ -96,11 +98,13 @@ public class SwipeGameMiniGame : IMiniGame
         {
             if (swipeObstacleText != null) swipeObstacleText.text = "SURVIVED!";
             isPlaying = false;
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
         }
         else if (timer <= 0 && manager.currentGame != null && manager.currentGame.canFail)
         {
             isPlaying = false;
+            AudioManager.Instance?.PlayMinigameFail();
             manager.AbortGame();
         }
     }

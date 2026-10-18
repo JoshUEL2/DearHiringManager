@@ -186,7 +186,7 @@ public class CenterDivMiniGame : IMiniGame
         isPaused = true;
         score++;
         UpdateScoreText();
-        AudioManager.Instance?.PlayScorePop();
+        AudioManager.Instance?.PlayCenterDivSnap();
 
         // Snap to absolute perfection
         movingBoxPos = 50f;
@@ -207,6 +207,7 @@ public class CenterDivMiniGame : IMiniGame
 
         if (score >= 3)
         {
+            AudioManager.Instance?.PlayVictoryFanfare();
             yield return new WaitForSeconds(0.8f);
             manager.EndGame(true);
         }
@@ -274,6 +275,7 @@ public class CenterDivMiniGame : IMiniGame
         flashOverlay.style.backgroundColor = new StyleColor(new Color(1f, 1f, 1f, 0f));
         
         yield return new WaitForSeconds(0.8f);
+        AudioManager.Instance?.PlayMinigameFail();
         manager.EndGame(false);
     }
 
@@ -297,6 +299,7 @@ public class CenterDivMiniGame : IMiniGame
 
             if (timeRemaining <= 0)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.EndGame(false);
                 yield break;
             }

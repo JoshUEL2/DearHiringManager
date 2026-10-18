@@ -92,6 +92,7 @@ public class PhysicalScrubMiniGame : IMiniGame
                 timerLabel.text = $"⏱️ {Mathf.CeilToInt(timeLeft)}s";
                 if (timeLeft <= 0)
                 {
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                 }
             }
@@ -252,6 +253,7 @@ public class PhysicalScrubMiniGame : IMiniGame
                 dirtSizes.Clear();
                 isScrubbing = false;
                 AudioManager.Instance?.PlayDishClatter();
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 drawArea.MarkDirtyRepaint();
             }

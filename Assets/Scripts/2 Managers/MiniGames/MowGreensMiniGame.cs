@@ -187,11 +187,13 @@ public class MowGreensMiniGame : IMiniGame
             if (mgIsObstacle[index])
             {
                 mgGrid.ElementAt(index).style.backgroundColor = new StyleColor(Color.red);
+                AudioManager.Instance?.PlayBuzzer();
                 manager.EndGame(false);
             }
             else if (!mgCutStatus[index])
             {
                 mgCutStatus[index] = true;
+                AudioManager.Instance?.PlayLawnMower();
                 VisualElement tile = mgGrid.ElementAt(index);
                 tile.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
                 tile.Clear();

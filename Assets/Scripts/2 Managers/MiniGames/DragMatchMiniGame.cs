@@ -352,7 +352,9 @@ public class DragMatchMiniGame : IMiniGame
             rBtn.style.color = new StyleColor(Color.black);
             rBtn.SetEnabled(false);
             dragMatchCount++;
+            AudioManager.Instance?.PlayScorePop();
             if (dragMatchCount >= config.matchLeft.Length) {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 if (!isAudit) manager.StartCoroutine(ReactorWinAnimation());
                 else manager.MarkWinReady();
             }
@@ -363,7 +365,11 @@ public class DragMatchMiniGame : IMiniGame
             var btnToRevert = dragLeftButtons[dragSelectedLeft];
             btnToRevert.style.backgroundColor = new StyleColor(errorColor);
             manager.StartCoroutine(RevertColorRoutine(btnToRevert, lDef, textColor));
-            if (manager.currentGame != null && manager.currentGame.canFail) manager.AbortGame();
+            if (manager.currentGame != null && manager.currentGame.canFail)
+            {
+                AudioManager.Instance?.PlayMinigameFail();
+                manager.AbortGame();
+            }
         }
         dragSelectedLeft = -1;
     }

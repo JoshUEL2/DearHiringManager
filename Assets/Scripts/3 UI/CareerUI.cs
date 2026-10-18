@@ -434,6 +434,7 @@ public class CareerUI
 
         if (!CheckPreReqs(job, out string errorMsg))
         {
+            AudioManager.Instance?.PlayMinigameFail();
             data.stress = Mathf.Clamp(data.stress + 0.10f, 0f, 1f);
             GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "APPLICATION BLOCK", 
@@ -450,6 +451,7 @@ public class CareerUI
         // GHOST JOB RNG (20%)
         if (Random.value < 0.20f)
         {
+            AudioManager.Instance?.PlayMinigameFail();
             data.stress = Mathf.Clamp(data.stress + 0.12f, 0f, 1f);
             GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "GHOST JOB ENCOUNTER", 
@@ -468,6 +470,7 @@ public class CareerUI
         if (Random.value <= CalculateHireChance(job) || data.nepotismActive)
         {
             // Hired!
+            AudioManager.Instance?.PlayInterviewHired();
             data.jobTitle = job.title;
             data.nepotismActive = false;
             data.stress = Mathf.Clamp(data.stress - 0.15f, 0f, 1f);
@@ -493,6 +496,7 @@ public class CareerUI
         else
         {
             // Rejected
+            AudioManager.Instance?.PlayInterviewRejected();
             data.stress = Mathf.Clamp(data.stress + 0.15f, 0f, 1f);
             GameManager.Instance.availableJobOpenings.Remove(job);
             GameManager.Instance.rejectedJobsCooldown[job.title] = 3;
@@ -515,6 +519,7 @@ public class CareerUI
         float perf = PlayerPrefs.GetFloat("jobPerformance", 0f);
         if (Random.value < perf)
         {
+            AudioManager.Instance?.PlayPromotion();
             var data = GameManager.Instance.currentData;
             int level = data.jobLevel;
             data.jobLevel = level + 1;
@@ -529,6 +534,7 @@ public class CareerUI
         }
         else
         {
+            AudioManager.Instance?.PlayPromotionRefused();
             GameUIManager.Instance.ShowPopup(new RandomEvent { 
                 title = "PROMOTION REFUSED", 
                 description = "Managers ignored your requests. (Warning: excessive requests carry high firing risks!)" 

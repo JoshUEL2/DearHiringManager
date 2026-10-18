@@ -68,12 +68,12 @@ public abstract class BaseMiniGame : MonoBehaviour
         
         if (success)
         {
-            AudioManager.Instance?.PlayScorePop();
+            AudioManager.Instance?.PlayVictoryFanfare();
             HapticManager.LightImpact();
         }
         else
         {
-            AudioManager.Instance?.PlayBuzzer();
+            AudioManager.Instance?.PlayMinigameFail();
             HapticManager.MediumImpact();
         }
 

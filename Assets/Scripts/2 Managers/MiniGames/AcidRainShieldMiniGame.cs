@@ -178,6 +178,7 @@ public class AcidRainShieldMiniGame : IMiniGame
                     if (diff <= 35f) // Blocked!
                     {
                         manager.StartCoroutine(SignImpactRoutine());
+                        AudioManager.Instance?.PlayAcidRainDeflect();
                         drop.element.RemoveFromHierarchy();
                         activeAcidDrops.RemoveAt(i);
                         continue;
@@ -190,6 +191,7 @@ public class AcidRainShieldMiniGame : IMiniGame
                     activeAcidDrops.RemoveAt(i);
                     
                     manager.StartCoroutine(DamageFlashRoutine());
+                    AudioManager.Instance?.PlayBuzzer();
                     
                     acidBurn += 8f;
                     if (acidBurn > 100f) acidBurn = 100f;

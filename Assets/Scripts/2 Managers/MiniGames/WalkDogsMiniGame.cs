@@ -87,8 +87,8 @@ public class WalkDogsMiniGame : IMiniGame
                             wdDogYankTimers[idx] = 1.0f; // Set yank timer to 1 second
                             AudioManager.Instance?.PlayDogBark();
                             MiniGameFeedback.PlayTap(dog);
-                            MiniGameFeedback.SpawnFloatingText(wdPlayArea ?? wdContainer, dog.layout.center, "WOOF! 🐕", new Color(1f, 0.85f, 0.2f));
-                            MiniGameFeedback.SpawnSparks(wdPlayArea ?? wdContainer, dog.layout.center, Color.yellow, 8);
+                            MiniGameFeedback.SpawnFloatingText(wdPlayArea ?? wdContainer, dog.worldBound.center, "WOOF! 🐕", new Color(1f, 0.85f, 0.2f));
+                            MiniGameFeedback.SpawnSparks(wdPlayArea ?? wdContainer, dog.worldBound.center, Color.yellow, 8);
                         }
                     });
                     
@@ -117,6 +117,7 @@ public class WalkDogsMiniGame : IMiniGame
             
             if (timer <= 0f)
             {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady(); // Survived
                 yield break;
             }
@@ -188,6 +189,7 @@ public class WalkDogsMiniGame : IMiniGame
                     if (isOut)
                     {
                         if (wdLeashElements[i] != null) wdLeashElements[i].style.display = DisplayStyle.None;
+                        AudioManager.Instance?.PlayMinigameFail();
                         manager.EndGame(false); // Leash snaps
                         yield break;
                     }

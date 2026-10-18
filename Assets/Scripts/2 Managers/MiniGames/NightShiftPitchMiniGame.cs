@@ -65,6 +65,7 @@ public class NightShiftPitchMiniGame : IMiniGame
         {
             nsCoffeeBtn.clicked += () => {
                 if (!manager.isPlaying) return;
+                AudioManager.Instance?.PlayEspressoSteam();
                 nsEyelidGravity = Mathf.Max(0f, nsEyelidGravity - 0.25f);
             };
         }
@@ -133,11 +134,13 @@ public class NightShiftPitchMiniGame : IMiniGame
             }
 
             if (allAligned) {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
 
             if (timer <= 0f) {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
                 yield break;
             }

@@ -87,13 +87,14 @@ public class SnatchBriefcaseMiniGame : IMiniGame
         int currentNum = sbCurrentDialNums[sbCurrentDial];
         if (currentNum == sbTargetNums[sbCurrentDial])
         {
-            AudioManager.Instance?.PlayScorePop();
+            AudioManager.Instance?.PlayLockpickPin();
             MiniGameFeedback.PlaySuccess(sbStopBtn, "CLICK! 🔓", container);
             if (sbDialsMid[sbCurrentDial] != null) sbDialsMid[sbCurrentDial].style.color = new Color(0.18f, 0.8f, 0.44f); // Green
             if (sbDialStrips[sbCurrentDial] != null) sbDialStrips[sbCurrentDial].style.top = -75f; // Snap to perfect center
             sbCurrentDial++;
             if (sbCurrentDial >= 3)
             {
+                AudioManager.Instance?.PlaySnatchBriefcase();
                 if (sbStopBtn != null) sbStopBtn.text = "UNLOCKED!";
                 manager.MarkWinReady();
             }

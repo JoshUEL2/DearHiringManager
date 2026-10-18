@@ -30,6 +30,7 @@ public class JailUI : MonoBehaviour
 
     private void LaunchPrisonActivity(string activityName)
     {
+        AudioManager.Instance?.PlayShiftWarning();
         Debug.Log($"[JAIL] Launching Prison Yard Activity: {activityName}");
 
         ActiveMiniGame gameConfig = new ActiveMiniGame(

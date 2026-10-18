@@ -149,10 +149,12 @@ public class TimingRingMiniGame : IMiniGame
             timingMarkerMoving = false; // Stop briefly on hit for juice
             timingCurrentRound++;
             MiniGameFeedback.PlaySuccess(timingMarker, "PERFECT!", container);
+            AudioManager.Instance?.PlayScorePop();
             
             if (timingCurrentRound >= config.timingRounds)
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.StartCoroutine(HitAuraRoutine(new Color(0.18f, 0.8f, 0.44f), true, true));
             }
             else
@@ -166,6 +168,7 @@ public class TimingRingMiniGame : IMiniGame
         {
             // MISS! We DO NOT stop the marker. It keeps spinning!
             MiniGameFeedback.PlayError(timingCircle, "MISS!", container);
+            AudioManager.Instance?.PlayBuzzer();
             manager.StartCoroutine(HitAuraRoutine(new Color(0.9f, 0.16f, 0.16f), false, false)); 
         }
     }
@@ -250,7 +253,10 @@ public class TimingRingMiniGame : IMiniGame
             if (isEndGame)
             {
                 if (isWin) manager.MarkWinReady();
-                else if (manager.currentGame.canFail) manager.AbortGame();
+                else if (manager.currentGame.canFail) {
+                    AudioManager.Instance?.PlayMinigameFail();
+                    manager.AbortGame();
+                }
             }
         }
         else

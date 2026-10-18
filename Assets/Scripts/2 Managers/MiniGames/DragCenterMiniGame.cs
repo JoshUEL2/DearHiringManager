@@ -313,6 +313,7 @@ public class DragCenterMiniGame : IMiniGame
         if (matchPercent >= 90f)
         {
             // SUCCESS JUICE
+            AudioManager.Instance?.PlayCenterDivSnap();
             Color winCol = new Color(0.13f, 0.77f, 0.36f);
             if (scoreValueText != null) scoreValueText.style.color = new StyleColor(winCol);
             draggableIcon.text = "✓";
@@ -337,6 +338,7 @@ public class DragCenterMiniGame : IMiniGame
         else
         {
             // FAILURE JUICE
+            AudioManager.Instance?.PlayBuzzer();
             Color failCol = new Color(0.9f, 0.1f, 0.1f);
             if (scoreValueText != null) scoreValueText.style.color = new StyleColor(failCol);
             draggableIcon.style.color = new StyleColor(failCol);

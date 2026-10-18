@@ -146,6 +146,7 @@ public class NeuralAlignerMiniGame : IMiniGame
                 {
                     naStatusText.style.translate = new StyleTranslate(new Translate(0, 0, 0));
                 }
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
@@ -159,10 +160,12 @@ public class NeuralAlignerMiniGame : IMiniGame
                         naStatusText.text = "CORE MELTDOWN!";
                         naStatusText.style.translate = new StyleTranslate(new Translate(0, 0, 0));
                     }
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.FailGame();
                 }
                 else
                 {
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
                 yield break;

@@ -128,6 +128,7 @@ public class ChartAdjusterMiniGame : IMiniGame
                 }
                 isPlaying = false;
                 MiniGameFeedback.PlaySuccess(caOurBar, "STOCKS SOAR! 📈", container);
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
@@ -139,11 +140,13 @@ public class ChartAdjusterMiniGame : IMiniGame
                     if (caTimerText != null) caTimerText.text = "BOARD ANGRY!";
                     isPlaying = false;
                     MiniGameFeedback.PlayError(container, "BOARD ANGRY!", container);
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                 }
                 else
                 {
                     isPlaying = false;
+                    AudioManager.Instance?.PlayVictoryFanfare();
                     manager.MarkWinReady();
                 }
                 yield break;

@@ -44,7 +44,12 @@ public class ChoiceMiniGame : IMiniGame
         if (!manager.isPlaying) return;
         if (choice == config.correctChoice)
         {
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
+        }
+        else
+        {
+            AudioManager.Instance?.PlayBuzzer();
         }
     }
 }

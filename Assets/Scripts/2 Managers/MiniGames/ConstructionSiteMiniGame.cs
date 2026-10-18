@@ -223,6 +223,7 @@ public class ConstructionSiteMiniGame : IMiniGame
 
             if (analysisTime >= requiredAnalysis)
             {
+                AudioManager.Instance?.PlayConstructionRivet();
                 statusText.text = "FAULT DETECTED!";
                 statusText.style.color = new StyleColor(new Color(0.13f, 0.77f, 0.36f)); // Green
                 manager.MarkWinReady();

@@ -80,9 +80,11 @@ public class StartupPitchMiniGame : IMiniGame
         
         if (isGood) {
             spSlots[spCurrentReel].style.color = new Color(0.18f, 0.8f, 0.44f); // Green
+            AudioManager.Instance?.PlayActivityNetworking("startup");
             spCurrentReel++;
             if (spCurrentReel >= 3) {
                 if (spStopBtn != null) spStopBtn.text = "FUNDED!";
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             } else {
                 if (spStopBtn != null) spStopBtn.text = $"STOP REEL {spCurrentReel + 1}";
@@ -90,6 +92,7 @@ public class StartupPitchMiniGame : IMiniGame
         } else {
             spSlots[spCurrentReel].style.color = new Color(0.9f, 0.29f, 0.23f); // Red
             if (spStopBtn != null) spStopBtn.text = "FAILED PITCH";
+            AudioManager.Instance?.PlayBuzzer();
             manager.AbortGame();
         }
     }

@@ -119,6 +119,7 @@ public class IncineratorTossMiniGame : IMiniGame
         if (delta.y < -40f) // Swiped up
         {
             isBagFlying = true;
+            AudioManager.Instance?.PlayWhoosh();
             bagVel = new Vector2(0, -900f); // Throw velocity!
             bagRotVel = Random.Range(-100f, 100f);
             isSwiping = false;
@@ -155,7 +156,11 @@ public class IncineratorTossMiniGame : IMiniGame
                     {
                         bagsTossed++;
                         TriggerExplosion(true);
-                        if (bagsTossed >= targetBags) manager.MarkWinReady();
+                        if (bagsTossed >= targetBags)
+                        {
+                            AudioManager.Instance?.PlayVictoryFanfare();
+                            manager.MarkWinReady();
+                        }
                         
                         isBagFlying = false;
                         bagPos = new Vector2(200, 320);
@@ -175,6 +180,7 @@ public class IncineratorTossMiniGame : IMiniGame
                 
                 // If it falls off screen while dead
                 if (isDead && bagPos.y > 500f) {
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                 }
                 

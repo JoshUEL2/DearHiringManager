@@ -34,7 +34,11 @@ public class SentienceArrayMiniGame : IMiniGame
             {
                 saNodes[i].RegisterCallback<PointerDownEvent>(ev => {
                     if (!manager.isPlaying) return;
-                    if (saHeat[index] > 0) saHeat[index] = 0; // suppress
+                    if (saHeat[index] > 0) {
+                        saHeat[index] = 0; // suppress
+                        AudioManager.Instance?.PlayScorePop();
+                        MiniGameFeedback.PlayTap(saNodes[index]);
+                    }
                 });
             }
         }
@@ -99,6 +103,7 @@ public class SentienceArrayMiniGame : IMiniGame
                     if (saHeat[i] > 2.5f)
                     {
                         saSentienceLevel += 5f; // Less penalty
+                        AudioManager.Instance?.PlayBuzzer();
                         saHeat[i] = 0f;
                     }
                 }
@@ -118,12 +123,14 @@ public class SentienceArrayMiniGame : IMiniGame
 
             if (saSentienceLevel >= 100f)
             {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame(); // Fail
                 yield break;
             }
 
             if (timer <= 0f)
             {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }

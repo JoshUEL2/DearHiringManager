@@ -319,6 +319,28 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"[GameManager] GAME OVER triggered. Reason: {reason}");
 
+        string upper = (reason ?? "").ToUpperInvariant();
+        if (upper.Contains("HEART ATTACK") || upper.Contains("CARDIOVASCULAR"))
+        {
+            AudioManager.Instance?.PlayHeartAttack();
+        }
+        else if (upper.Contains("EVICT") || upper.Contains("RENT") || upper.Contains("DEBT") || upper.Contains("WALLET"))
+        {
+            AudioManager.Instance?.PlayEviction();
+        }
+        else if (upper.Contains("PRISON") || upper.Contains("JAIL") || upper.Contains("ARREST"))
+        {
+            AudioManager.Instance?.PlayJailArrest();
+        }
+        else if (upper.Contains("VICTORY") || upper.Contains("CEO") || upper.Contains("WON"))
+        {
+            AudioManager.Instance?.PlayVictoryFanfare();
+        }
+        else
+        {
+            AudioManager.Instance?.PlayMinigameFail();
+        }
+
         // 1. Safety check for older save files that might not have a name saved
         string finalName = string.IsNullOrEmpty(currentData.playerName) ? "Unknown Citizen" : currentData.playerName;
 

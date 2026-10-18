@@ -138,8 +138,16 @@ public class OrderQueueMiniGame : IMiniGame
                 if (timer <= 0)
                 {
                     isPlaying = false;
-                    if (manager.currentGame != null && manager.currentGame.canFail) manager.AbortGame();
-                    else manager.MarkWinReady();
+                    if (manager.currentGame != null && manager.currentGame.canFail)
+                    {
+                        AudioManager.Instance?.PlayMinigameFail();
+                        manager.AbortGame();
+                    }
+                    else
+                    {
+                        AudioManager.Instance?.PlayVictoryFanfare();
+                        manager.MarkWinReady();
+                    }
                     yield break;
                 }
             }
@@ -261,6 +269,7 @@ public class OrderQueueMiniGame : IMiniGame
             if (orderInputIndex >= orderCorrectSequence.Count)
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             }
         }

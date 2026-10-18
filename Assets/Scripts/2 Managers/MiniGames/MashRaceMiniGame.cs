@@ -159,8 +159,14 @@ public class MashRaceMiniGame : IMiniGame
         if (manager.miniGameDocument.rootVisualElement.Contains(stampText)) manager.miniGameDocument.rootVisualElement.Remove(stampText);
         if (manager.miniGameDocument.rootVisualElement.Contains(backgroundFade)) manager.miniGameDocument.rootVisualElement.Remove(backgroundFade);
         
-        if (isWin) manager.MarkWinReady();
-        else manager.AbortGame();
+        if (isWin) {
+            AudioManager.Instance?.PlayVictoryFanfare();
+            manager.MarkWinReady();
+        }
+        else {
+            AudioManager.Instance?.PlayMinigameFail();
+            manager.AbortGame();
+        }
     }
 
     private IEnumerator PunchEffectRoutine(VisualElement bar, Color originalColor, bool isPlayer)

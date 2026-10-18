@@ -97,11 +97,13 @@ public class DialogueChainMiniGame : IMiniGame
             if (targetRapportValue >= config.rapportThreshold || (manager.currentGame != null && !manager.currentGame.canFail)) 
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             }
             else 
             { 
                 isPlaying = false; 
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.AbortGame();
             } 
             return;
@@ -187,6 +189,7 @@ public class DialogueChainMiniGame : IMiniGame
         if (isCorrect)
         {
             targetRapportValue += 0.25f;
+            AudioManager.Instance?.PlayScorePop();
             
             if (btn != null)
             {
@@ -203,6 +206,7 @@ public class DialogueChainMiniGame : IMiniGame
         else
         {
             targetRapportValue -= 0.15f;
+            AudioManager.Instance?.PlayBuzzer();
             
             if (btn != null)
             {

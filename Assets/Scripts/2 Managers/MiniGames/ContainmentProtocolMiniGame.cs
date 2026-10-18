@@ -41,22 +41,41 @@ public class ContainmentProtocolMiniGame : IMiniGame
             int index = i;
             if (cpSwitches[i] != null) {
                 cpSwitches[i].RegisterCallback<PointerMoveEvent>(ev => {
-                    if (ev.pressedButtons != 0 && ev.deltaPosition.y > 5f) cpSwitchState[index] = true;
+                    if (ev.pressedButtons != 0 && ev.deltaPosition.y > 5f && !cpSwitchState[index]) {
+                        cpSwitchState[index] = true;
+                        AudioManager.Instance?.PlayCherrySwitch();
+                    }
                 });
-                cpSwitches[i].RegisterCallback<PointerDownEvent>(ev => { cpSwitchState[index] = true; }); // fallback tap
+                cpSwitches[i].RegisterCallback<PointerDownEvent>(ev => { 
+                    if (!cpSwitchState[index]) {
+                        cpSwitchState[index] = true;
+                        AudioManager.Instance?.PlayCherrySwitch();
+                    }
+                }); // fallback tap
             }
         }
 
         if (cpGlassCover != null) {
             cpGlassCover.RegisterCallback<PointerMoveEvent>(ev => {
-                if (ev.pressedButtons != 0 && ev.deltaPosition.y < -5f) cpGlassLifted = true;
+                if (ev.pressedButtons != 0 && ev.deltaPosition.y < -5f && !cpGlassLifted) {
+                    cpGlassLifted = true;
+                    AudioManager.Instance?.PlayWhoosh();
+                }
             });
-            cpGlassCover.RegisterCallback<PointerDownEvent>(ev => { cpGlassLifted = true; });
+            cpGlassCover.RegisterCallback<PointerDownEvent>(ev => { 
+                if (!cpGlassLifted) {
+                    cpGlassLifted = true;
+                    AudioManager.Instance?.PlayWhoosh();
+                }
+            });
         }
 
         if (cpRedButton != null) {
             cpRedButton.RegisterCallback<PointerDownEvent>(ev => {
-                if (cpGlassLifted) cpMashCount++;
+                if (cpGlassLifted) {
+                    cpMashCount++;
+                    AudioManager.Instance?.PlayClick();
+                }
             });
         }
     }
@@ -127,11 +146,13 @@ public class ContainmentProtocolMiniGame : IMiniGame
 
             if (cpMashCount >= 10) {
                 if (cpButtonText != null) cpButtonText.text = "SECURED";
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
 
             if (timer <= 0f) {
+                AudioManager.Instance?.PlayMinigameFail();
                 manager.isPlaying = false;
                 yield break;
             }

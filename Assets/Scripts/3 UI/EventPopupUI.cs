@@ -39,6 +39,7 @@ public class EventPopupUI : MonoBehaviour
     {
         if (eventOverlay == null) return;
 
+        AudioManager.Instance?.PlayPopupOpen();
         titleText.text = ev.title; 
         descText.text = ev.description; 
 
@@ -56,6 +57,7 @@ public class EventPopupUI : MonoBehaviour
 
     private void HideEvent()
     {
+        AudioManager.Instance?.PlayPopupClose();
         if (eventOverlay != null)
         {
             var card = eventOverlay.Q<VisualElement>("EventCard");

@@ -124,6 +124,7 @@ public class FoodPrepRushMiniGame : IMiniGame
         float p = prepProgress[index];
         if (p < 70f)
         {
+            AudioManager.Instance?.PlayBuzzer();
             if (prepStatus[index] != null) 
             {
                 prepStatus[index].text = "RAW!";
@@ -136,6 +137,7 @@ public class FoodPrepRushMiniGame : IMiniGame
         }
         else if (p >= 70f && p <= 95f)
         {
+            AudioManager.Instance?.PlayFoodChop();
             if (prepStatus[index] != null) 
             {
                 prepStatus[index].text = "PERFECT!";
@@ -154,6 +156,7 @@ public class FoodPrepRushMiniGame : IMiniGame
         }
         else
         {
+            AudioManager.Instance?.PlayBuzzer();
             if (prepStatus[index] != null) 
             {
                 prepStatus[index].text = (index == 2) ? "SPILLED!" : "BURNED!";

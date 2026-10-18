@@ -47,6 +47,7 @@ public class TapMiniGame : IMiniGame
         if (score >= config.targetScore)
         {
             MiniGameFeedback.PlaySuccess(btnTap, "DONE!", container);
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
         }
     }

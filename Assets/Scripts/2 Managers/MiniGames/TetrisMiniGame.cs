@@ -214,7 +214,7 @@ public class TetrisMiniGame : IMiniGame
         }
         
         tetrisScore++;
-        AudioManager.Instance?.PlayScorePop();
+        AudioManager.Instance?.PlayTetrisDrop();
         MiniGameFeedback.Punch(tetrisGrid, 1.05f);
         if (tetrisScoreText != null)
             tetrisScoreText.text = $"STEEL BEAMS: {tetrisScore} / 10";
@@ -291,7 +291,8 @@ public class TetrisMiniGame : IMiniGame
         
         if (!CheckTetrisCollision(nextX, nextY, nextRot))
         {
-            if (dx != 0 || drot != 0) AudioManager.Instance?.PlayClick();
+            if (drot != 0) AudioManager.Instance?.PlayTetrisRotate();
+            else if (dx != 0) AudioManager.Instance?.PlayClick();
             currentTetrisX = nextX;
             currentTetrisY = nextY;
             currentTetrisRot = nextRot;

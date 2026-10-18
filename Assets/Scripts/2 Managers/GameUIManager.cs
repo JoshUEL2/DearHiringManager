@@ -1417,7 +1417,7 @@ public class GameUIManager : MonoBehaviour
     
     private void OpenSettings()
     {
-        AudioManager.Instance?.PlayClick();
+        AudioManager.Instance?.PlayPopupOpen();
         HapticManager.LightImpact();
         SwitchTab(dashboardRoot); // Settings only exists on Dashboard root!
         if (settingsOverlay == null) return;
@@ -1495,7 +1495,7 @@ public class GameUIManager : MonoBehaviour
 
     private void CloseSettings()
     {
-        AudioManager.Instance?.PlayClick();
+        AudioManager.Instance?.PlayPopupClose();
         HapticManager.LightImpact();
         if (settingsOverlay == null) return;
         var card = settingsOverlay.Q<VisualElement>("SettingsCard");
@@ -1569,7 +1569,7 @@ public class GameUIManager : MonoBehaviour
     {
         GameTheme nextTheme = (GameTheme)(((int)CurrentTheme + 1) % 3);
         ApplyTheme(nextTheme);
-        AudioManager.Instance?.PlayClick();
+        AudioManager.Instance?.PlayThemeShift((int)nextTheme);
         HapticManager.LightImpact();
         Debug.Log($"[System] Theme switched to: {CurrentTheme}");
     }
@@ -1654,6 +1654,7 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowPopup(RandomEvent ev, System.Action onAcknowledge = null)
     {
+        AudioManager.Instance?.PlayPopupOpen();
         VisualElement activeRoot = dashboardRoot;
         if (activeOverlay != null && activeOverlay.style.display == DisplayStyle.Flex) 
         {
@@ -1701,7 +1702,7 @@ public class GameUIManager : MonoBehaviour
         var btn = new Button { text = "ACKNOWLEDGE" };
         btn.AddToClassList("popup-button");
         btn.clicked += () => { 
-            AudioManager.Instance?.PlayClick();
+            AudioManager.Instance?.PlayPopupClose();
             HapticManager.LightImpact();
             card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
             overlay.style.opacity = 0f;
@@ -1754,7 +1755,7 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowCVPopup()
     {
-        AudioManager.Instance?.PlayClick();
+        AudioManager.Instance?.PlayCVOpen();
         HapticManager.LightImpact();
 
         VisualElement activeRoot = null;
@@ -1857,7 +1858,7 @@ public class GameUIManager : MonoBehaviour
         closeBtn.style.fontSize = 32;
 
         closeBtn.clicked += () => {
-            AudioManager.Instance?.PlayClick();
+            AudioManager.Instance?.PlayPopupClose();
             HapticManager.LightImpact();
             paper.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
             overlay.style.opacity = 0f;

@@ -84,6 +84,7 @@ public class NameMemoryMiniGame : IMiniGame
         if (seatIndex == nmCorrectIndex)
         {
             nmPlates[seatIndex].style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f)); // Green
+            AudioManager.Instance?.PlayActivityNetworking("gala");
             nmCorrectAnswers++;
         }
         else
@@ -93,6 +94,7 @@ public class NameMemoryMiniGame : IMiniGame
             {
                 nmPlates[nmCorrectIndex].style.backgroundColor = new StyleColor(new Color(0.18f, 0.8f, 0.44f));
             }
+            AudioManager.Instance?.PlayBuzzer();
             manager.EndGame(false); // Strict fail condition!
         }
     }

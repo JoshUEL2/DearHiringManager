@@ -79,6 +79,10 @@ public class FinancialSystem : IWeeklySystem
             manager.TriggerGameOver("EVICTED! Your bank account went below $0. Debt collectors seized your bed, and the landlord locked you out.");
             return false;
         }
+        else if (data.balance < totalExpense)
+        {
+            AudioManager.Instance?.PlayDebtWarning();
+        }
 
         if (data.stress >= 1.0f)
         {

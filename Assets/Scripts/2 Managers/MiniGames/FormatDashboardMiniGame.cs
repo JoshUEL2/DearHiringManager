@@ -131,6 +131,7 @@ public class FormatDashboardMiniGame : IMiniGame
             });
             track.RegisterCallback<PointerDownEvent>(evt => {
                 if (!manager.isPlaying) return;
+                AudioManager.Instance?.PlayCherrySwitch();
                 float localY = evt.localPosition.y;
                 float pct = 1f - Mathf.Clamp01(localY / 200f);
                 fdValues[index] = pct;
@@ -254,6 +255,7 @@ public class FormatDashboardMiniGame : IMiniGame
                     fdTimerText.text = "POPPIN!";
                     fdTimerText.style.color = Color.green;
                 }
+                AudioManager.Instance?.PlayVictoryFanfare();
                 yield return new WaitForSeconds(1.0f);
                 manager.EndGame(true);
                 yield break;
@@ -261,6 +263,7 @@ public class FormatDashboardMiniGame : IMiniGame
 
             if (timer <= 0f) {
                 if (fdTimerText != null) fdTimerText.text = "FAILED!";
+                AudioManager.Instance?.PlayMinigameFail();
                 yield return new WaitForSeconds(1.5f);
                 manager.EndGame(false);
                 yield break;

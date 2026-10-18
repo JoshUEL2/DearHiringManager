@@ -82,8 +82,18 @@ public class WhackGridMiniGame : IMiniGame
         if (!isPlaying || !manager.isPlaying) return;
         if (idx == activeWhackCell)
         {
-            if (isDecoy) whackScore = Mathf.Max(0, whackScore - 1);
-            else whackScore++;
+            if (isDecoy)
+            {
+                whackScore = Mathf.Max(0, whackScore - 1);
+                AudioManager.Instance?.PlayBuzzer();
+                MiniGameFeedback.PlayError(whackCells[idx], "-1", container);
+            }
+            else
+            {
+                whackScore++;
+                AudioManager.Instance?.PlayScorePop();
+                MiniGameFeedback.PlaySuccess(whackCells[idx], "+1", container);
+            }
             
             if (whackScoreText != null) whackScoreText.text = $"Score: {whackScore} / {config.whackTarget}";
             ResetWhackBtn(whackCells[activeWhackCell]);
@@ -92,6 +102,7 @@ public class WhackGridMiniGame : IMiniGame
             if (whackScore >= config.whackTarget)
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             }
         }
@@ -130,10 +141,12 @@ public class WhackGridMiniGame : IMiniGame
         }
         if (whackScore >= config.whackTarget || (manager.currentGame != null && !manager.currentGame.canFail && timer <= 0))
         {
+            AudioManager.Instance?.PlayVictoryFanfare();
             manager.MarkWinReady();
         }
         else if (timer <= 0 && manager.currentGame != null && manager.currentGame.canFail)
         {
+            AudioManager.Instance?.PlayMinigameFail();
             manager.AbortGame();
         }
     }

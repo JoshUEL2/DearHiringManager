@@ -67,6 +67,7 @@ public class SliderMiniGame : IMiniGame
             if (val >= config.sliderMin && val <= config.sliderMax)
             {
                 MiniGameFeedback.PlaySuccess(gameSlider, "TARGET MATCH!", container);
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
             }
             else

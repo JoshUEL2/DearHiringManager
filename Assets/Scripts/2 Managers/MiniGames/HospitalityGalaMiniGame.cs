@@ -82,6 +82,8 @@ public class HospitalityGalaMiniGame : IMiniGame
             if (hgBalance < 0f || hgBalance > 1f) 
             {
                 if (hgTimerText != null) hgTimerText.text = "SPILLED!";
+                AudioManager.Instance?.PlayDishClatter();
+                AudioManager.Instance?.PlayMinigameFail();
                 yield return new WaitForSeconds(1f);
                 manager.AbortGame();
                 yield break;
@@ -89,6 +91,7 @@ public class HospitalityGalaMiniGame : IMiniGame
 
             if (timer <= 0f) 
             {
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }

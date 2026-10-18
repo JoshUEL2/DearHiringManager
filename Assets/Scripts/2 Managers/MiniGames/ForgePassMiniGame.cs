@@ -97,6 +97,7 @@ public class ForgePassMiniGame : IMiniGame
     private IEnumerator ShowFpStampResult(bool success)
     {
         fpIsPaused = true;
+        AudioManager.Instance?.PlayStampPass(success);
         
         if (fpPassStampOverlay != null) {
             fpPassStampOverlay.text = success ? "APPROVED" : "REJECTED";

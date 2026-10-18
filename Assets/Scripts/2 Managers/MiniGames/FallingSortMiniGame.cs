@@ -182,6 +182,7 @@ public class FallingSortMiniGame : IMiniGame
             if (sortScore >= config.sortTarget)
             {
                 isPlaying = false;
+                AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;
             }
@@ -401,7 +402,12 @@ public class FallingSortMiniGame : IMiniGame
     private IEnumerator SpawnNextItemButtonSort()
     {
         isAnimating = true;
-        if (sortScore >= config.sortTarget) { isPlaying = false; manager.MarkWinReady(); yield break; }
+        if (sortScore >= config.sortTarget) { 
+            isPlaying = false; 
+            AudioManager.Instance?.PlayVictoryFanfare();
+            manager.MarkWinReady(); 
+            yield break; 
+        }
         
         currentItemType = Random.Range(0, config.fallingItems.Length);
         string text = config.fallingItems[currentItemType];
@@ -503,6 +509,7 @@ public class FallingSortMiniGame : IMiniGame
                 if (manager.currentGame != null && manager.currentGame.canFail)
                 {
                     isPlaying = false;
+                    AudioManager.Instance?.PlayMinigameFail();
                     manager.AbortGame();
                     yield break;
                 }

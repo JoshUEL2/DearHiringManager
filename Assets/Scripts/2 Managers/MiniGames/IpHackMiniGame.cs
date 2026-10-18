@@ -162,6 +162,7 @@ public class IpHackMiniGame : IMiniGame
 
         if (val == targets[currentProgress])
         {
+            AudioManager.Instance?.PlayIPHackFlurry();
             if (targetLabels[currentProgress] != null)
             {
                 targetLabels[currentProgress].style.color = new StyleColor(new Color(0.06f, 0.72f, 0.5f)); // Green
@@ -179,6 +180,7 @@ public class IpHackMiniGame : IMiniGame
         else
         {
             timer -= 5f;
+            AudioManager.Instance?.PlayBuzzer();
             btn.style.backgroundColor = new StyleColor(new Color(0.93f, 0.26f, 0.26f, 0.4f)); // Red background flash
             btn.style.color = new StyleColor(Color.white);
             btn.enabledSelf = false;
