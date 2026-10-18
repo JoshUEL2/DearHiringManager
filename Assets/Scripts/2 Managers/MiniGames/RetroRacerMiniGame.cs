@@ -11,8 +11,8 @@ public class RetroRacerMiniGame : IMiniGame
     private VisualElement rrContainer;
     private Label rrPlayer;
     private Label rrDistanceLabel;
+    private Label rrFoodLabel;
     private Label rrTimeLabel;
-    private Button btnRrLeft, btnRrRight;
     private VisualElement[] rrRoadLines = new VisualElement[8];
     private Label[] rrObstacleElements = new Label[8];
     private bool[] rrObstacleActive = new bool[8];
@@ -22,6 +22,8 @@ public class RetroRacerMiniGame : IMiniGame
     private bool rrIsDragging = false;
     private float rrTargetLeft = 50f;
     private float timer;
+    private int foodHealth = 3;
+    private float crashInvulnTimer = 0f;
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -34,9 +36,8 @@ public class RetroRacerMiniGame : IMiniGame
         {
             rrPlayer = rrContainer.Q<Label>("RrPlayer");
             rrDistanceLabel = rrContainer.Q<Label>("RrDistanceLabel");
+            rrFoodLabel = rrContainer.Q<Label>("RrFoodLabel");
             rrTimeLabel = rrContainer.Q<Label>("RrTimeLabel");
-            btnRrLeft = rrContainer.Q<Button>("BtnRrLeft");
-            btnRrRight = rrContainer.Q<Button>("BtnRrRight");
 
             for (int i = 0; i < 8; i++)
             {
@@ -46,8 +47,9 @@ public class RetroRacerMiniGame : IMiniGame
 
             rrContainer.RegisterCallback<PointerDownEvent>(OnRrPointerDown);
             rrContainer.RegisterCallback<PointerMoveEvent>(OnRrPointerMove);
-            rrContainer.RegisterCallback<PointerUpEvent>(ev => rrIsDragging = false);
-            rrContainer.RegisterCallback<PointerOutEvent>(ev => rrIsDragging = false);
+            rrContainer.RegisterCallback<PointerUpEvent>(OnRrPointerUp);
+            rrContainer.RegisterCallback<PointerCancelEvent>(OnRrPointerUp);
+            rrContainer.RegisterCallback<PointerCaptureOutEvent>(ev => rrIsDragging = false);
         }
     }
 
@@ -59,9 +61,20 @@ public class RetroRacerMiniGame : IMiniGame
         rrBlocks = 0;
         rrDistanceTimer = 0f;
         rrTargetLeft = 50f;
+        foodHealth = 3;
+        crashInvulnTimer = 0f;
         
+        if (rrPlayer != null)
+        {
+            rrPlayer.text = "🛵";
+            rrPlayer.style.left = new Length(50f, LengthUnit.Percent);
+            rrPlayer.style.rotate = new Rotate(Angle.Degrees(0f));
+            rrPlayer.style.opacity = 1f;
+        }
+
         if (rrDistanceLabel != null) rrDistanceLabel.text = "DISTANCE: 0";
         if (rrTimeLabel != null) rrTimeLabel.text = $"TIME: {Mathf.CeilToInt(timer)}";
+        UpdateFoodDisplay();
         
         for (int i = 0; i < 8; i++) {
             rrObstacleActive[i] = false;
@@ -77,50 +90,99 @@ public class RetroRacerMiniGame : IMiniGame
         rrIsDragging = false;
     }
 
+    private void UpdateFoodDisplay()
+    {
+        if (rrFoodLabel != null)
+        {
+            int safeBurgers = Mathf.Clamp(foodHealth, 0, 3);
+            string display = "";
+            for (int i = 0; i < safeBurgers; i++) display += "🍔";
+            for (int i = 0; i < (3 - safeBurgers); i++) display += "❌";
+            rrFoodLabel.text = $"FOOD: {display}";
+            rrFoodLabel.style.color = foodHealth > 1 ? new StyleColor(new Color(0.2f, 0.85f, 0.4f)) : new StyleColor(new Color(0.95f, 0.3f, 0.2f));
+        }
+    }
+
     private void OnRrPointerDown(PointerDownEvent ev)
     {
         if (!manager.isPlaying) return;
         rrIsDragging = true;
-        UpdateRrPlayerPos(ev.localPosition.x);
+        if (rrContainer != null) rrContainer.CapturePointer(ev.pointerId);
+        UpdateRrPlayerPos(ev.position.x);
     }
 
     private void OnRrPointerMove(PointerMoveEvent ev)
     {
         if (!rrIsDragging || !manager.isPlaying) return;
-        UpdateRrPlayerPos(ev.localPosition.x);
+        UpdateRrPlayerPos(ev.position.x);
     }
 
-    private void UpdateRrPlayerPos(float mouseX)
+    private void OnRrPointerUp(EventBase ev)
+    {
+        rrIsDragging = false;
+        if (rrContainer == null) return;
+
+        if (ev is PointerUpEvent pue && rrContainer.HasPointerCapture(pue.pointerId))
+        {
+            rrContainer.ReleasePointer(pue.pointerId);
+        }
+        else if (ev is PointerCancelEvent pce && rrContainer.HasPointerCapture(pce.pointerId))
+        {
+            rrContainer.ReleasePointer(pce.pointerId);
+        }
+    }
+
+    private void UpdateRrPlayerPos(float screenMouseX)
     {
         if (rrContainer == null) return;
+        float containerX = rrContainer.worldBound.xMin;
         float width = rrContainer.worldBound.width;
         if (width <= 0f) return;
-        float pct = (mouseX / width) * 100f;
+
+        float relativeX = screenMouseX - containerX;
+        float pct = (relativeX / width) * 100f;
+        // Restrict steering safely within visible road bounds (15% to 85%)
         rrTargetLeft = Mathf.Clamp(pct, 15f, 85f);
     }
 
     private IEnumerator RetroRacerRoutine()
     {
-        float spawnTimer = 0f;
-        float[] laneTargets = { 15f, 50f, 85f };
+        float spawnTimer = 0.5f;
+        float[] laneTargets = { 18f, 50f, 82f };
         
         float[] lineProgress = new float[8];
-        for(int i=0; i<8; i++) lineProgress[i] = (float)i / 8f;
+        for(int i = 0; i < 8; i++) lineProgress[i] = (float)i / 8f;
         
-        float speed = 0.5f;
+        float speed = 0.55f;
 
         while (manager.isPlaying)
         {
             timer -= Time.deltaTime;
+            if (crashInvulnTimer > 0f)
+            {
+                crashInvulnTimer -= Time.deltaTime;
+                if (rrPlayer != null)
+                {
+                    // Rapid flicker during recovery
+                    float pulse = Mathf.PingPong(Time.time * 20f, 1f);
+                    rrPlayer.style.opacity = pulse > 0.4f ? 1f : 0.3f;
+                }
+            }
+            else if (rrPlayer != null && rrPlayer.style.opacity.value != 1f)
+            {
+                rrPlayer.style.opacity = 1f;
+            }
+
             if (timer <= 0f)
             {
                 AudioManager.Instance?.PlayVictoryFanfare();
+                MiniGameFeedback.PlaySuccess(rrPlayer, "DELIVERED! 🛵", rrContainer);
                 manager.MarkWinReady();
                 yield break;
             }
             if (rrTimeLabel != null) rrTimeLabel.text = $"TIME: {Mathf.CeilToInt(timer)}";
 
-            speed += Time.deltaTime * 0.05f;
+            speed += Time.deltaTime * 0.04f;
             
             rrDistanceTimer += Time.deltaTime * speed;
             if (rrDistanceTimer > 0.1f)
@@ -130,6 +192,7 @@ public class RetroRacerMiniGame : IMiniGame
                 if (rrDistanceLabel != null) rrDistanceLabel.text = $"DISTANCE: {rrBlocks}";
             }
 
+            // Animate 3D road strips
             for (int i = 0; i < 8; i++) {
                 lineProgress[i] += Time.deltaTime * speed * 2f;
                 if (lineProgress[i] > 1f) lineProgress[i] -= 1f;
@@ -141,7 +204,7 @@ public class RetroRacerMiniGame : IMiniGame
                     float w = Mathf.Lerp(10f, 800f, y);
                     rrRoadLines[i].style.width = w;
                     rrRoadLines[i].style.left = new Length(50f, LengthUnit.Percent);
-                    rrRoadLines[i].style.marginLeft = -w/2f;
+                    rrRoadLines[i].style.marginLeft = -w / 2f;
                     
                     float h = Mathf.Lerp(1f, 15f, y);
                     rrRoadLines[i].style.height = h;
@@ -150,13 +213,29 @@ public class RetroRacerMiniGame : IMiniGame
                 }
             }
 
+            // Keyboard steering support (A/D or Arrows)
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            {
+                rrTargetLeft = Mathf.Clamp(rrTargetLeft - Time.deltaTime * 75f, 15f, 85f);
+            }
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            {
+                rrTargetLeft = Mathf.Clamp(rrTargetLeft + Time.deltaTime * 75f, 15f, 85f);
+            }
+
+            // Position and tilt player
             if (rrPlayer != null)
             {
                 float currentLeft = rrPlayer.style.left.value.value;
-                float newLeft = Mathf.Lerp(currentLeft, rrTargetLeft, Time.deltaTime * 15f);
+                float newLeft = Mathf.Lerp(currentLeft, rrTargetLeft, Time.deltaTime * 25f);
                 rrPlayer.style.left = new Length(newLeft, LengthUnit.Percent);
+                
+                float steerDelta = rrTargetLeft - currentLeft;
+                float tilt = Mathf.Clamp(steerDelta * 2.8f, -22f, 22f);
+                rrPlayer.style.rotate = new Rotate(Angle.Degrees(tilt));
             }
 
+            // Spawn incoming obstacles
             spawnTimer -= Time.deltaTime;
             if (spawnTimer <= 0f)
             {
@@ -167,32 +246,65 @@ public class RetroRacerMiniGame : IMiniGame
                         rrObstaclePos[i] = new Vector2(obsLane, 0f);
                         if (rrObstacleElements[i] != null) {
                             rrObstacleElements[i].style.display = DisplayStyle.Flex;
-                            rrObstacleElements[i].text = Random.value > 0.5f ? "🚕" : (Random.value > 0.5f ? "🚧" : "🛢️");
+                            float r = Random.value;
+                            rrObstacleElements[i].text = r < 0.45f ? "🚕" : (r < 0.75f ? "🚧" : "🛢️");
                         }
                         break;
                     }
                 }
-                spawnTimer = Random.Range(0.4f, 0.8f) / speed;
+                spawnTimer = Random.Range(0.6f, 1.1f) / speed;
             }
+
+            // Update obstacles and check collisions
+            float playerX = rrPlayer != null ? rrPlayer.style.left.value.value : 50f;
 
             for (int i = 0; i < 8; i++)
             {
                 if (!rrObstacleActive[i]) continue;
 
                 Vector2 pos = rrObstaclePos[i];
-                pos.y += Time.deltaTime * speed * 0.8f;
+                pos.y += Time.deltaTime * speed * 0.85f;
                 rrObstaclePos[i] = pos;
 
-                if (pos.y >= 0.9f && pos.y <= 1.0f && rrPlayer != null)
+                float screenY = Mathf.Pow(pos.y, 2f);
+                float laneTargetX = laneTargets[(int)pos.x];
+                float currentX = Mathf.Lerp(50f, laneTargetX, screenY);
+
+                // Accurate, tactile collision detection:
+                // Obstacle is in player's vertical contact zone (screenY 65% to 95%)
+                if (pos.y >= 0.78f && pos.y <= 0.98f && crashInvulnTimer <= 0f)
                 {
-                    float laneTargetX = laneTargets[(int)pos.x];
-                    float playerX = rrPlayer.style.left.value.value;
-                    if (Mathf.Abs(playerX - laneTargetX) < 12f)
+                    float xDiff = Mathf.Abs(playerX - currentX);
+                    if (xDiff < 15f)
                     {
+                        // Direct collision!
+                        rrObstacleActive[i] = false;
+                        if (rrObstacleElements[i] != null) rrObstacleElements[i].style.display = DisplayStyle.None;
+
+                        foodHealth--;
+                        UpdateFoodDisplay();
+                        crashInvulnTimer = 1.0f; // 1s grace period
+
                         AudioManager.Instance?.PlayBuzzer();
-                        AudioManager.Instance?.PlayMinigameFail();
-                        manager.AbortGame();
-                        yield break;
+                        HapticManager.HeavyImpact();
+                        MiniGameFeedback.PlayError(rrPlayer, "CRASH! 💥", rrContainer);
+                        MiniGameFeedback.Shake(rrContainer, 16f, 250);
+
+                        if (rrPlayer != null)
+                        {
+                            rrPlayer.text = "💥";
+                            rrPlayer.schedule.Execute(() => {
+                                if (rrPlayer != null) rrPlayer.text = "🛵";
+                            }).StartingIn(350);
+                        }
+
+                        if (foodHealth <= 0)
+                        {
+                            AudioManager.Instance?.PlayMinigameFail();
+                            MiniGameFeedback.PlayError(rrPlayer, "ORDER DESTROYED!", rrContainer);
+                            manager.StartCoroutine(CrashSequenceAndAbort());
+                            yield break;
+                        }
                     }
                 }
 
@@ -203,16 +315,11 @@ public class RetroRacerMiniGame : IMiniGame
                 }
                 else
                 {
-                    float screenY = Mathf.Pow(pos.y, 2f);
-                    
-                    float laneTargetX = laneTargets[(int)pos.x];
-                    float currentX = Mathf.Lerp(50f, laneTargetX, screenY);
-                    
                     if (rrObstacleElements[i] != null) {
                         rrObstacleElements[i].style.left = new Length(currentX, LengthUnit.Percent);
                         rrObstacleElements[i].style.top = new Length(screenY * 100f, LengthUnit.Percent);
                         
-                        float scale = Mathf.Lerp(0.1f, 3.5f, screenY);
+                        float scale = Mathf.Lerp(0.2f, 3.4f, screenY);
                         rrObstacleElements[i].style.scale = new StyleScale(new Scale(new Vector3(scale, scale, 1f)));
                     }
                 }
@@ -220,5 +327,11 @@ public class RetroRacerMiniGame : IMiniGame
             
             yield return null;
         }
+    }
+
+    private IEnumerator CrashSequenceAndAbort()
+    {
+        yield return new WaitForSeconds(0.4f);
+        manager.AbortGame();
     }
 }

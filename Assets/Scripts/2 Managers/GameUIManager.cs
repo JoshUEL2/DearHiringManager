@@ -87,6 +87,12 @@ public class GameUIManager : MonoBehaviour
         step1Container = creationRoot.Q<VisualElement>("Step1Container");
         step2Container = creationRoot.Q<VisualElement>("Step2Container");
         nameInput = creationRoot.Q<TextField>("NameInput");
+        if (nameInput != null)
+        {
+            nameInput.style.color = new StyleColor(Color.black);
+            var inputChild = nameInput.Q(className: "unity-base-text-field__input");
+            if (inputChild != null) inputChild.style.color = new StyleColor(Color.black);
+        }
         
         btnRandomizeBackstory = creationRoot.Q<Button>("BtnRandomizeBackstory");
         btnRandomizeBackstory.clicked += OnRandomizeBackstoryClicked;
@@ -1560,6 +1566,13 @@ public class GameUIManager : MonoBehaviour
             {
                 shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(theme));
             }
+        }
+
+        if (nameInput != null)
+        {
+            nameInput.style.color = new StyleColor(Color.black);
+            var inputChild = nameInput.Q(className: "unity-base-text-field__input");
+            if (inputChild != null) inputChild.style.color = new StyleColor(Color.black);
         }
 
         RefreshSettingsButtons();

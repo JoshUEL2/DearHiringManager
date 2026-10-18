@@ -1689,3 +1689,24 @@
 .theme-light #SettingsCard .unity-label, .theme-light #ExpandedHistoryCard .unity-label {
     color: #0F172A;
 }
+
+/* ============================================================== */
+/* TEXT INPUT FIELDS - BLACK TEXT FOR LEGIBILITY                  */
+/* ============================================================== */
+.unity-base-text-field__input,
+.unity-text-field__input,
+.unity-base-text-field,
+.unity-text-field,
+#NameInput,
+#NameInput .unity-base-text-field__input,
+#NameInput TextInput {
+    color: #000000;
+}
+
+.theme-default #NameInput,
+.theme-default #NameInput .unity-base-text-field__input,
+.theme-default #NameInput TextInput,
+.theme-default .unity-base-text-field__input {
+    color: #000000;
+}
+

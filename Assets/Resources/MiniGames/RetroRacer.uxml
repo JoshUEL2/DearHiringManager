@@ -5,6 +5,7 @@
         <!-- UI Overlay -->
         <ui:VisualElement style="position: absolute; top: 15px; width: 100%; flex-direction: row; justify-content: space-between; padding: 0 20px; z-index: 10;">
             <ui:Label name="RrDistanceLabel" text="DISTANCE: 0" style="font-size: 24px; color: white; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
+            <ui:Label name="RrFoodLabel" text="FOOD: 🍔🍔🍔" style="font-size: 24px; color: #34D399; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
             <ui:Label text="TIME: 20" name="RrTimeLabel" style="font-size: 24px; color: #FCD34D; -unity-font-style: bold; text-shadow: 2px 2px 0 rgba(0,0,0,0.5);" />
         </ui:VisualElement>
         
@@ -44,11 +45,8 @@
         </ui:VisualElement>
 
     
-        <!-- Controls -->
-        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; position: absolute; bottom: 20px; padding: 0 20px; z-index: 20;">
-            <ui:Button name="BtnRrLeft" text="&lt; LEFT" style="width: 120px; height: 80px; font-size: 24px; -unity-font-style: bold; background-color: rgba(0,0,0,0.5); color: white; border-width: 2px; border-color: white;" />
-            <ui:Button name="BtnRrRight" text="RIGHT &gt;" style="width: 120px; height: 80px; font-size: 24px; -unity-font-style: bold; background-color: rgba(0,0,0,0.5); color: white; border-width: 2px; border-color: white;" />
-        </ui:VisualElement>
+        <!-- Drag to steer indicator -->
+        <ui:Label name="RrDragHint" text="👆 DRAG TO STEER" picking-mode="Ignore" style="position: absolute; bottom: 8px; width: 100%; -unity-text-align: middle-center; font-size: 20px; color: rgba(255,255,255,0.7); -unity-font-style: bold;" />
 
     </ui:VisualElement>
 </ui:UXML>

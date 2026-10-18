@@ -30,6 +30,9 @@ public class GridDodgeMiniGame : IMiniGame
     private float slideProgress = 0f;
     private float animTime = 0f;
 
+    private bool IsPark => (config != null && config.instructions != null && config.instructions.ToLower().Contains("peaceful")) || 
+                           (manager != null && manager.currentGame != null && manager.currentGame.name.ToLower().Contains("park"));
+
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
         this.manager = manager;
@@ -119,10 +122,9 @@ public class GridDodgeMiniGame : IMiniGame
     private void SetPlayerIcon()
     {
         bool isTrash = config.instructions.ToLower().Contains("leaky");
-        bool isPark = config.instructions.ToLower().Contains("peaceful");
         
         if (isTrash) playerIcon.text = "🗑️";
-        else if (isPark) playerIcon.text = "🚶";
+        else if (IsPark) playerIcon.text = "🚶";
         else playerIcon.text = "🏗️"; 
         
         playerIcon.style.backgroundColor = new StyleColor(Color.clear);
@@ -137,7 +139,7 @@ public class GridDodgeMiniGame : IMiniGame
         if (w == 0) return;
 
         bool isTrash = config.instructions.ToLower().Contains("leaky");
-        bool isPark = config.instructions.ToLower().Contains("peaceful");
+        bool isPark = IsPark;
         
         Color hazardColor = isTrash ? new Color(0.2f, 0.8f, 0.1f, 0.85f) : (isPark ? new Color(0.2f, 0.5f, 0.9f, 0.85f) : new Color(0.9f, 0.3f, 0.1f, 0.85f));
         Color walkColor = isPark ? new Color(0.4f, 0.7f, 0.3f) : new Color(0.45f, 0.45f, 0.5f);
@@ -213,6 +215,12 @@ public class GridDodgeMiniGame : IMiniGame
         slideDir = Vector2.zero;
         slideProgress = 0f;
         health = config.gridHealth;
+        
+        if (healthText != null)
+        {
+            healthText.style.display = IsPark ? DisplayStyle.None : DisplayStyle.Flex;
+        }
+
         UpdateUI();
 
         container.style.display = DisplayStyle.Flex;
@@ -260,25 +268,47 @@ public class GridDodgeMiniGame : IMiniGame
                     playerY += (int)slideDir.y;
                     slideProgress -= 1f;
 
-                    if (!safePath.Contains((playerX, playerY)))
+                    if (IsPark)
                     {
-                        TakeDamage();
-                        playerX = 0; playerY = 0; 
-                        slideDir = Vector2.zero; slideProgress = 0f;
+                        if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1)
+                        {
+                            slideDir = Vector2.zero; slideProgress = 0f;
+                            AudioManager.Instance?.PlayVictoryFanfare();
+                            manager.MarkWinReady();
+                        }
+                        else
+                        {
+                            int nextX = playerX + (int)slideDir.x;
+                            int nextY = playerY + (int)slideDir.y;
+                            if (nextX < 0 || nextX >= config.gridSize || nextY < 0 || nextY >= config.gridSize || !safePath.Contains((nextX, nextY)))
+                            {
+                                slideDir = Vector2.zero;
+                                slideProgress = 0f;
+                            }
+                        }
                     }
-                    
-                    if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1)
+                    else
                     {
-                        slideDir = Vector2.zero; slideProgress = 0f;
-                        AudioManager.Instance?.PlayVictoryFanfare();
-                        manager.MarkWinReady();
-                    }
+                        if (!safePath.Contains((playerX, playerY)))
+                        {
+                            TakeDamage();
+                            playerX = 0; playerY = 0; 
+                            slideDir = Vector2.zero; slideProgress = 0f;
+                        }
+                        
+                        if (playerX == config.gridSize - 1 && playerY == config.gridSize - 1)
+                        {
+                            slideDir = Vector2.zero; slideProgress = 0f;
+                            AudioManager.Instance?.PlayVictoryFanfare();
+                            manager.MarkWinReady();
+                        }
 
-                    int nx = playerX + (int)slideDir.x;
-                    int ny = playerY + (int)slideDir.y;
-                    if (nx < 0 || nx >= config.gridSize || ny < 0 || ny >= config.gridSize)
-                    {
-                        slideDir = Vector2.zero; slideProgress = 0f;
+                        int nx = playerX + (int)slideDir.x;
+                        int ny = playerY + (int)slideDir.y;
+                        if (nx < 0 || nx >= config.gridSize || ny < 0 || ny >= config.gridSize)
+                        {
+                            slideDir = Vector2.zero; slideProgress = 0f;
+                        }
                     }
                 }
             }
@@ -292,7 +322,18 @@ public class GridDodgeMiniGame : IMiniGame
 
     private void UpdateUI()
     {
-        healthText.text = $"❤️ {health}";
+        if (healthText != null)
+        {
+            if (IsPark)
+            {
+                healthText.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                healthText.style.display = DisplayStyle.Flex;
+                healthText.text = $"❤️ {health}";
+            }
+        }
         
         float cellSizePct = 100f / config.gridSize;
         float currentX = playerX + (slideDir.x * slideProgress);
@@ -315,6 +356,21 @@ public class GridDodgeMiniGame : IMiniGame
         
         int nx = playerX + dx;
         int ny = playerY + dy;
+
+        if (IsPark)
+        {
+            // Water stops the player completely
+            if (nx < 0 || nx >= config.gridSize || ny < 0 || ny >= config.gridSize || !safePath.Contains((nx, ny)))
+            {
+                return;
+            }
+
+            slideDir = new Vector2(dx, dy);
+            slideProgress = 0f;
+            AudioManager.Instance?.PlayWhoosh();
+            return;
+        }
+
         if (nx >= 0 && nx < config.gridSize && ny >= 0 && ny < config.gridSize)
         {
             if (slideDir == Vector2.zero) slideProgress = 0f;
@@ -325,6 +381,7 @@ public class GridDodgeMiniGame : IMiniGame
 
     private void TakeDamage()
     {
+        if (IsPark) return;
         health--;
         AudioManager.Instance?.PlayBuzzer();
         
