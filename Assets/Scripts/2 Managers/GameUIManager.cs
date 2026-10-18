@@ -530,9 +530,8 @@ public class GameUIManager : MonoBehaviour
             for (int y = 0; y < h; y++)
             {
                 float t = (float)y / (h - 1); // 0 at bottom, 1 at top
-                // Smooth cubic falloff: top dissolves into transparent, bottom is completely solid
-                float smoothT = Mathf.SmoothStep(0f, 1f, t);
-                float alpha = Mathf.Lerp(0.98f, 0.0f, smoothT);
+                // Soft exponential falloff: top dissolves into transparent, bottom smoothly solidifies
+                float alpha = Mathf.Pow(1.0f - t, 2.5f) * 0.98f;
                 _blurGradientTexture.SetPixel(0, y, new Color(baseCol.r, baseCol.g, baseCol.b, alpha));
             }
             _blurGradientTexture.Apply();

@@ -306,6 +306,17 @@ public class FallingSortMiniGame : IMiniGame
         if (index < 0 || index >= binsRow.childCount) yield break;
         var bin = binsRow.ElementAt(index);
         
+        if (correct)
+        {
+            AudioManager.Instance?.PlayScorePop();
+            HapticManager.LightImpact();
+        }
+        else
+        {
+            AudioManager.Instance?.PlayBuzzer();
+            HapticManager.MediumImpact();
+        }
+
         float elapsed = 0f;
         while(elapsed < 0.2f) {
             elapsed += Time.deltaTime;
@@ -424,6 +435,8 @@ public class FallingSortMiniGame : IMiniGame
     private IEnumerator FlingItemRoutineButtonSort(Button targetBtn)
     {
         isAnimating = true;
+        AudioManager.Instance?.PlayScorePop();
+        HapticManager.LightImpact();
         Label movingItem = currentItemLabel;
         currentItemLabel = null;
         
@@ -456,6 +469,8 @@ public class FallingSortMiniGame : IMiniGame
     private IEnumerator ErrorShakeRoutineButtonSort(Button targetBtn)
     {
         isAnimating = true;
+        AudioManager.Instance?.PlayBuzzer();
+        HapticManager.MediumImpact();
         StyleColor originalColor = targetBtn.style.backgroundColor;
         targetBtn.style.backgroundColor = new StyleColor(new Color(0.9f, 0.2f, 0.2f));
         

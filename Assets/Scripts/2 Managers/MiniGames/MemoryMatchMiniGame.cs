@@ -88,6 +88,7 @@ public class MemoryMatchMiniGame : IMiniGame
     {
         if (!isPlaying || !manager.isPlaying || isCheckingMatch || memoryCards[index].text != "?") return;
 
+        MiniGameFeedback.PlayTap(memoryCards[index]);
         memoryCards[index].text = memoryValues[index];
         memoryCards[index].RemoveFromClassList("memory-card");
         memoryCards[index].AddToClassList("memory-card-matched");
@@ -106,13 +107,17 @@ public class MemoryMatchMiniGame : IMiniGame
     private IEnumerator CheckMemoryMatch()
     {
         isCheckingMatch = true;
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.45f);
 
         if (memoryValues[flippedIndex1] == memoryValues[flippedIndex2])
         {
             score++;
             int pairs = config.pairs > 0 ? config.pairs : 4;
             if (matchStatusText != null) matchStatusText.text = $"Pairs Found: {score} / {pairs}";
+            
+            MiniGameFeedback.PlaySuccess(memoryCards[flippedIndex1], "MATCH!", memoryGrid);
+            MiniGameFeedback.Punch(memoryCards[flippedIndex2], 1.22f);
+
             if (score >= pairs)
             {
                 isPlaying = false;
@@ -121,6 +126,10 @@ public class MemoryMatchMiniGame : IMiniGame
         }
         else
         {
+            MiniGameFeedback.PlayError(memoryCards[flippedIndex1], "NOPE", memoryGrid);
+            MiniGameFeedback.Shake(memoryCards[flippedIndex2], 8f);
+
+            yield return new WaitForSeconds(0.2f);
             memoryCards[flippedIndex1].text = "?";
             memoryCards[flippedIndex1].RemoveFromClassList("memory-card-matched");
             memoryCards[flippedIndex1].AddToClassList("memory-card");

@@ -136,13 +136,15 @@ public class GitMergeMiniGame : IMiniGame
         {
             score++;
             UpdateScoreText();
+            Button rightBtn = isCurrent ? currentBtn : incomingBtn;
+            MiniGameFeedback.PlaySuccess(rightBtn, "MERGED!", container);
             manager.StartCoroutine(MergeAnimation(isCurrent));
         }
         else
         {
             timeRemaining -= 2f;
-            // Visual error shake could be added here
             Button wrongBtn = isCurrent ? currentBtn : incomingBtn;
+            MiniGameFeedback.PlayError(wrongBtn, "CONFLICT!", container);
             manager.StartCoroutine(ErrorShake(wrongBtn));
         }
     }

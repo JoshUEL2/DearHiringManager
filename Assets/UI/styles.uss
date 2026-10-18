@@ -209,10 +209,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 380px;
-    background-color: rgba(10, 17, 40, 0.96);
-    border-top-width: 1px;
-    border-top-color: rgba(56, 189, 248, 0.2);
+    height: 360px;
+    background-color: transparent;
+    border-top-width: 0;
     pointer-events: none;
     transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
     translate: 0 0;
@@ -234,7 +233,7 @@
     border-width: 2px;
     border-radius: 36px;
     flex-direction: column;
-    padding: 26px 20px; 
+    padding: 24px 18px; 
 }
 
 .nav-bar-row {
@@ -249,42 +248,76 @@
 
 .nav-button {
     background-color: transparent;
-    color: #CBD5E1;
     border-width: 0;
-    font-size: 24px; 
-    -unity-font-style: bold;
-    white-space: nowrap; 
-    -unity-text-align: middle-center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     flex-grow: 1;
     flex-shrink: 1; 
     margin: 0;
-    padding: 6px 2px;
-    transition: color 0.2s;
+    padding: 4px 2px;
+    transition: scale 0.15s ease-out;
 }
 
 .nav-button:hover {
+    scale: 1.06;
+}
+
+.nav-button-icon {
+    font-size: 34px;
+    margin-bottom: 2px;
+    -unity-text-align: middle-center;
+    pointer-events: none;
+}
+
+.nav-button-label {
+    font-size: 19px;
+    color: #94A3B8;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+
+.nav-button:hover .nav-button-label {
     color: #38BDF8;
 }
 
 .advance-week-btn {
     background-color: #2ECC71;
-    color: white;
-    border-radius: 45px; /* Perfect pill */
-    height: 120px;
-    width: 280px; 
-    font-size: 40px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
+    border-radius: 40px; /* Perfect pill */
+    height: 106px;
+    width: 220px; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border-width: 0;
     flex-shrink: 0;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 4px 8px;
     transition: background-color 0.2s, scale 0.1s;
 }
 
 .advance-week-btn:hover {
     background-color: #27AE60;
     scale: 1.05;
+}
+
+.advance-week-icon {
+    font-size: 30px;
+    margin-bottom: 2px;
+    -unity-text-align: middle-center;
+    pointer-events: none;
+}
+
+.advance-week-label {
+    font-size: 24px;
+    color: white;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    pointer-events: none;
 }
 
 .footer-stats-row {

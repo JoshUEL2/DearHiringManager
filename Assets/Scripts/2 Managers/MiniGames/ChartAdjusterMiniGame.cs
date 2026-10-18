@@ -127,6 +127,7 @@ public class ChartAdjusterMiniGame : IMiniGame
                     caStatusText.style.color = new StyleColor(Color.green);
                 }
                 isPlaying = false;
+                MiniGameFeedback.PlaySuccess(caOurBar, "STOCKS SOAR! 📈", container);
                 manager.MarkWinReady();
                 yield break;
             }
@@ -137,6 +138,7 @@ public class ChartAdjusterMiniGame : IMiniGame
                 {
                     if (caTimerText != null) caTimerText.text = "BOARD ANGRY!";
                     isPlaying = false;
+                    MiniGameFeedback.PlayError(container, "BOARD ANGRY!", container);
                     manager.AbortGame();
                 }
                 else

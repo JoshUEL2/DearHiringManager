@@ -164,6 +164,8 @@ public class SweepFloorMiniGame : IMiniGame
         playerGridX = Mathf.Clamp(playerGridX + dx, 0, 4);
         playerGridY = Mathf.Clamp(playerGridY + dy, 0, 4);
         sweepTileTimers[playerGridY * 5 + playerGridX] = 15f;
+        AudioManager.Instance?.PlayScrubPlate();
+        HapticManager.LightImpact();
     }
 
     private void OnDrawGame(MeshGenerationContext ctx)

@@ -61,6 +61,9 @@ public class BalanceMeterMiniGame : IMiniGame
         if (!isPlaying || !manager.isPlaying) return;
         balanceValue += amount;
         balanceDrift *= 0.5f; 
+        AudioManager.Instance?.PlayClick();
+        if (amount > 0 && btnNudgeRight != null) MiniGameFeedback.Punch(btnNudgeRight, 1.12f);
+        else if (amount < 0 && btnNudgeLeft != null) MiniGameFeedback.Punch(btnNudgeLeft, 1.12f);
     }
 
     private IEnumerator BalanceMeterRoutine()
@@ -82,6 +85,7 @@ public class BalanceMeterMiniGame : IMiniGame
                 if (balanceTimeInZone >= config.balanceHoldTime)
                 {
                     isPlaying = false;
+                    MiniGameFeedback.PlaySuccess(balanceTimeBar ?? container, "BALANCED!", container);
                     manager.MarkWinReady();
                 }
             }

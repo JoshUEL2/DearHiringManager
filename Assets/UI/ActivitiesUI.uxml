@@ -68,11 +68,26 @@
     <ui:VisualElement class="bottom-nav-container">
         <!-- Nav Buttons -->
         <ui:VisualElement class="nav-bar-row">
-            <ui:Button name="BtnCareers" text="💼 Careers" class="nav-button" />
-            <ui:Button name="BtnHustles" text="⚡ Hustles" class="nav-button" />
-            <ui:Button name="BtnAdvanceWeek" text="+ Week" class="advance-week-btn" />
-            <ui:Button name="BtnEducation" text="🎓 Education" class="nav-button" />
-            <ui:Button name="BtnActivities" text="☕ Activities" class="nav-button" />
+            <ui:Button name="BtnCareers" class="nav-button">
+                <ui:Label text="💼" class="nav-button-icon" />
+                <ui:Label text="Careers" class="nav-button-label" />
+            </ui:Button>
+            <ui:Button name="BtnHustles" class="nav-button">
+                <ui:Label text="⚡" class="nav-button-icon" />
+                <ui:Label text="Hustles" class="nav-button-label" />
+            </ui:Button>
+            <ui:Button name="BtnAdvanceWeek" class="advance-week-btn">
+                <ui:Label text="🗓️" class="advance-week-icon" />
+                <ui:Label text="+ Week" class="advance-week-label" />
+            </ui:Button>
+            <ui:Button name="BtnEducation" class="nav-button">
+                <ui:Label text="🎓" class="nav-button-icon" />
+                <ui:Label text="Education" class="nav-button-label" />
+            </ui:Button>
+            <ui:Button name="BtnActivities" class="nav-button">
+                <ui:Label text="☕" class="nav-button-icon" />
+                <ui:Label text="Activities" class="nav-button-label" />
+            </ui:Button>
         </ui:VisualElement>
 
         <!-- Progress Bars -->

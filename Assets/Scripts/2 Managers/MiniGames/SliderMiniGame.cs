@@ -66,7 +66,12 @@ public class SliderMiniGame : IMiniGame
             float val = gameSlider.value;
             if (val >= config.sliderMin && val <= config.sliderMax)
             {
+                MiniGameFeedback.PlaySuccess(gameSlider, "TARGET MATCH!", container);
                 manager.MarkWinReady();
+            }
+            else
+            {
+                MiniGameFeedback.PlayError(gameSlider, "OUT OF RANGE!", container);
             }
         }
     }

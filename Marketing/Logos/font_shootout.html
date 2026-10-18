@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font & Readability Shootout (58px Phone Scale)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #0b0e14;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 { margin-bottom: 6px; font-size: 26px; color: #fff; }
+    p { color: #94a3b8; margin-bottom: 30px; font-size: 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .card {
+      background: #151b28;
+      border: 1px solid #283248;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .card.winner {
+      border: 2px solid #3b82f6;
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-winner { background: #2563eb; color: #fff; }
+    .badge-opt { background: #334155; color: #cbd5e1; }
+    
+    .comparison-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 16px 0;
+    }
+    .phone-icon-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .phone-icon-box img {
+      width: 58px;
+      height: 58px;
+      border-radius: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+    .phone-icon-box span {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .master-icon img {
+      width: 130px;
+      height: 130px;
+      border-radius: 28px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .details {
+      text-align: center;
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .details strong { color: #f1f5f9; }
+  </style>
+</head>
+<body>
+
+  <h1>📱 The 58px Phone Screen Font Shootout</h1>
+  <p>Real-world testing: Every option rendered at actual 58x58 phone scale alongside its 130px preview.</p>
+
+  <div class="grid">
+
+    <!-- OPTION A: Impact Clean (No Stroke) with 14px Kerning -->
+    <div class="card">
+      <span class="badge badge-opt">Option A</span>
+      <div class="comparison-row">
+        <div class="phone-icon-box">
+          <img src="./shootout_A_impact_clean.svg" alt="Option A">
+          <span>58px Phone</span>
+        </div>
+        <div class="master-icon">
+          <img src="./shootout_A_impact_clean.svg" alt="Option A">
+        </div>
+      </div>
+      <div class="details">
+        <strong>Impact Pure Clean (No Stroke)</strong><br>
+        Exact v5 positioning, 14px letter spacing, no outline. Classic poster aesthetic.
+      </div>
+    </div>
+
+    <!-- OPTION B: Recreated Impact with Expanded Inner Counters (RECOMMENDED) -->
+    <div class="card winner">
+      <span class="badge badge-winner">🏆 Option B (Recommended)</span>
+      <div class="comparison-row">
+        <div class="phone-icon-box">
+          <img src="./shootout_B_impact_expanded.svg" alt="Option B">
+          <span>58px Phone</span>
+        </div>
+        <div class="master-icon">
+          <img src="./shootout_B_impact_expanded.svg" alt="Option B">
+        </div>
+      </div>
+      <div class="details">
+        <strong>Impact + Expanded Counters</strong><br>
+        Retains Impact's exact heavy proportions, but inside holes of R, D, and crossbars are widened by +60% so they never fill in at small sizes.
+      </div>
+    </div>
+
+    <!-- OPTION C: Montserrat Black (Modern Heavyweight) -->
+    <div class="card">
+      <span class="badge badge-opt">Option C</span>
+      <div class="comparison-row">
+        <div class="phone-icon-box">
+          <img src="./shootout_C_montserrat_black.svg" alt="Option C">
+          <span>58px Phone</span>
+        </div>
+        <div class="master-icon">
+          <img src="./shootout_C_montserrat_black.svg" alt="Option C">
+        </div>
+      </div>
+      <div class="details">
+        <strong>Montserrat Black / Arial Black</strong><br>
+        Geometric sans-serif, wider round counters in R and D, solid modern app aesthetic.
+      </div>
+    </div>
+
+    <!-- OPTION D: Agency FB / Bank Gothic (Punchy Athletic Heavy) -->
+    <div class="card">
+      <span class="badge badge-opt">Option D</span>
+      <div class="comparison-row">
+        <div class="phone-icon-box">
+          <img src="./shootout_D_agency_heavy.svg" alt="Option D">
+          <span>58px Phone</span>
+        </div>
+        <div class="master-icon">
+          <img src="./shootout_D_agency_heavy.svg" alt="Option D">
+        </div>
+      </div>
+      <div class="details">
+        <strong>Heavy Square Gothic</strong><br>
+        Square-jawed condensed stamp with sharp angled corners. Very punchy and industrial.
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

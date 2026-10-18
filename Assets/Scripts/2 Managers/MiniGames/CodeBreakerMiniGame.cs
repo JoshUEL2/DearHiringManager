@@ -159,6 +159,7 @@ public class CodeBreakerMiniGame : IMiniGame
             StyleTerminalButton(btn, false);
             btn.clicked += () => {
                 if (currentGuess.Count < config.codeLength && !isAnimating) {
+                    MiniGameFeedback.PlayTap(btn);
                     currentGuess.Add(sym);
                     UpdateCodeSlots();
                 }
@@ -305,15 +306,18 @@ public class CodeBreakerMiniGame : IMiniGame
             if (isGreen[i]) 
             {
                 targetColor = new Color(0.18f, 0.8f, 0.44f); // Standard Wordle Green
+                AudioManager.Instance?.PlayScorePop();
             } 
             else if (secretCounts.ContainsKey(currentGuess[i]) && secretCounts[currentGuess[i]] > 0) 
             {
                 targetColor = new Color(0.94f, 0.76f, 0.05f); // Standard Wordle Yellow
                 secretCounts[currentGuess[i]]--;
+                AudioManager.Instance?.PlayClick();
             } 
             else 
             {
                 targetColor = new Color(0.2f, 0.25f, 0.34f); // Slate Gray for misses
+                AudioManager.Instance?.PlayClick();
             }
             
             // Pop animation for reveal
@@ -332,11 +336,14 @@ public class CodeBreakerMiniGame : IMiniGame
         
         if (correctPos == config.codeLength) 
         { 
+            MiniGameFeedback.PlaySuccess(container, "ACCESS GRANTED!", container);
             yield return WaveBounce(histBlocks);
             manager.MarkWinReady(); 
             yield break;
         }
         
+        AudioManager.Instance?.PlayBuzzer();
+        HapticManager.MediumImpact();
         manager.StartCoroutine(ShakeRoutine(histRow)); // Shake on fail
         
         codeAttemptsRemaining--;

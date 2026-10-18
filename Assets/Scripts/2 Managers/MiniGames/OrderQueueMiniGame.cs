@@ -250,6 +250,7 @@ public class OrderQueueMiniGame : IMiniGame
         
         if (item == orderCorrectSequence[orderInputIndex])
         {
+            MiniGameFeedback.PlaySuccess(btn, "STEP OK!", container);
             btn.style.backgroundColor = new StyleColor(Color.green);
             if (manager.currentGame.name == "Dance with sign for tourists")
             {
@@ -265,6 +266,7 @@ public class OrderQueueMiniGame : IMiniGame
         }
         else
         {
+            MiniGameFeedback.PlayError(btn, "WRONG STEP!", container);
             if (manager.currentGame != null && manager.currentGame.canFail)
             {
                 manager.StartCoroutine(OrderQueueRoutine()); 

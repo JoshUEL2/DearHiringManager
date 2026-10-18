@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dear Hiring Manager - App Icon Mobile Preview</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #0f111a;
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin-bottom: 8px;
+      font-size: 24px;
+      color: #fff;
+    }
+    p {
+      color: #9ca3af;
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+    .preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px;
+      justify-content: center;
+      align-items: flex-end;
+      max-width: 1000px;
+    }
+    .card {
+      background: #1a1e2e;
+      border: 1px solid #2d354d;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .phone-mockup {
+      width: 320px;
+      height: 480px;
+      background: #000;
+      border: 8px solid #333b4d;
+      border-radius: 36px;
+      position: relative;
+      overflow: hidden;
+      padding: 20px 16px;
+      box-sizing: border-box;
+      background-image: linear-gradient(135deg, #1e2638 0%, #0d111a 100%);
+    }
+    .phone-header {
+      color: #fff;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      opacity: 0.8;
+    }
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      text-align: center;
+    }
+    .app-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .app-slot img {
+      width: 58px;
+      height: 58px;
+      border-radius: 13px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    .app-slot span {
+      font-size: 10px;
+      color: #fff;
+      max-width: 60px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dummy-app {
+      width: 58px;
+      height: 58px;
+      border-radius: 13px;
+      background: #2a334a;
+      opacity: 0.5;
+    }
+    .caption {
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .subcaption {
+      font-size: 11px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📱 Real-World Phone & Store Scale Test</h1>
+  <p>Comparing App Icon v2 visibility across standard mobile resolutions</p>
+
+  <div class="preview-grid">
+    <!-- Real Mobile Home Screen (58px Icon) -->
+    <div class="card">
+      <div class="phone-mockup">
+        <div class="phone-header">
+          <span>9:41</span>
+          <span>5G 100%</span>
+        </div>
+        <div class="app-grid">
+          <div class="app-slot">
+            <img src="./DearHiringManager_Icon_Final.svg" alt="Final Master">
+            <span>HiringMgr</span>
+          </div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Settings</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Messages</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Photos</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Maps</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Mail</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Files</span></div>
+          <div class="app-slot"><div class="dummy-app"></div><span>Store</span></div>
+        </div>
+      </div>
+      <div class="caption">Mobile Home Screen</div>
+      <div class="subcaption">Simulated 58x58 px on 390x844 viewport</div>
+    </div>
+
+    <!-- Google Play Store Card Scale (96px) -->
+    <div class="card">
+      <div style="width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; background: #141824; border-radius: 20px;">
+        <img src="./DearHiringManager_Icon_v6.svg" width="96" height="96" style="border-radius: 21px; box-shadow: 0 8px 20px rgba(0,0,0,0.5);">
+      </div>
+      <div class="caption">Store Search Result</div>
+      <div class="subcaption">96x96 px (Google Play & App Store grid)</div>
+    </div>
+
+    <!-- Full 512px Master Display -->
+    <div class="card">
+      <img src="./DearHiringManager_Icon_v6.svg" width="220" height="220" style="border-radius: 48px; box-shadow: 0 12px 30px rgba(0,0,0,0.6);">
+      <div class="caption">Store Listing Hero</div>
+      <div class="subcaption">512x512 Master Art</div>
+    </div>
+  </div>
+
+</body>
+</html>

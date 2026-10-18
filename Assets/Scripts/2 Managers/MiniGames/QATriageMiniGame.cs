@@ -186,6 +186,7 @@ public class QATriageMiniGame : IMiniGame
             {
                 score++;
                 UpdateScoreText();
+                MiniGameFeedback.PlaySuccess(folders[droppedFolderIndex], "TRIAGED!", container);
                 if (score >= targetScore)
                 {
                     manager.MarkWinReady();
@@ -196,7 +197,8 @@ public class QATriageMiniGame : IMiniGame
             else
             {
                 // Wrong folder, penalize time slightly
-                timeRemaining -= 2f;
+                timeRemaining = Mathf.Max(0, timeRemaining - 2f);
+                MiniGameFeedback.PlayError(folders[droppedFolderIndex], "WRONG QUEUE! -2s", container);
             }
         }
         

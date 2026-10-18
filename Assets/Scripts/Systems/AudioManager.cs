@@ -60,6 +60,9 @@ public class AudioManager : MonoBehaviour
     private AudioClip minigameSuccessClip;
     private AudioClip minigameFailClip;
     private AudioClip heartbeatClip;
+    private AudioClip scorePopClip;
+    private AudioClip buzzerClip;
+    private AudioClip whooshClip;
 
     private const string MUTE_PREF_KEY = "dear_audio_muted";
     private const string MASTER_VOL_KEY = "dear_audio_master_vol";
@@ -162,6 +165,9 @@ public class AudioManager : MonoBehaviour
         minigameSuccessClip = Resources.Load<AudioClip>("Audio/SFX/sfx_minigame_success") ?? GenerateSuccessClip();
         minigameFailClip = Resources.Load<AudioClip>("Audio/SFX/sfx_minigame_fail") ?? GenerateFailClip();
         heartbeatClip = Resources.Load<AudioClip>("Audio/SFX/sfx_heartbeat") ?? GenerateHeartbeatClip();
+        scorePopClip = Resources.Load<AudioClip>("Audio/SFX/sfx_score_pop") ?? GenerateScorePopClip();
+        buzzerClip = Resources.Load<AudioClip>("Audio/SFX/sfx_buzzer") ?? GenerateBuzzerClip();
+        whooshClip = Resources.Load<AudioClip>("Audio/SFX/sfx_whoosh") ?? GenerateWhooshClip();
 
         // Fallbacks for scrub and tab switch if not found
         if (sfxTabSwitch == null) sfxTabSwitch = clickClip;
@@ -458,6 +464,24 @@ public class AudioManager : MonoBehaviour
         PlayClip(minigameFailClip, 0.85f);
     }
 
+    public void PlayScorePop()
+    {
+        if (scorePopClip == null) scorePopClip = GenerateScorePopClip();
+        PlayClip(scorePopClip, 0.85f);
+    }
+
+    public void PlayBuzzer()
+    {
+        if (buzzerClip == null) buzzerClip = GenerateBuzzerClip();
+        PlayClip(buzzerClip, 0.85f);
+    }
+
+    public void PlayWhoosh()
+    {
+        if (whooshClip == null) whooshClip = GenerateWhooshClip();
+        PlayClip(whooshClip, 0.65f);
+    }
+
     public void PlayHeartbeat(float stressIntensity = 0.85f)
     {
         if (isMuted || heartbeatSource == null) return;
@@ -731,6 +755,68 @@ public class AudioManager : MonoBehaviour
         }
 
         var clip = AudioClip.Create("Procedural_Heartbeat", sampleCount, 1, SAMPLE_RATE, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
+
+    private AudioClip GenerateScorePopClip()
+    {
+        float duration = 0.14f;
+        int sampleCount = (int)(SAMPLE_RATE * duration);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float t = (float)i / SAMPLE_RATE;
+            float freq = Mathf.Lerp(880f, 1320f, t / duration);
+            float tone = Mathf.Sin(2f * Mathf.PI * freq * t);
+            float harmonic = Mathf.Sin(4f * Mathf.PI * freq * t) * 0.35f;
+            float env = Mathf.Exp(-t * 22f);
+            samples[i] = Mathf.Clamp((tone + harmonic) * env * 0.5f, -1f, 1f);
+        }
+
+        var clip = AudioClip.Create("Procedural_ScorePop", sampleCount, 1, SAMPLE_RATE, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
+
+    private AudioClip GenerateBuzzerClip()
+    {
+        float duration = 0.20f;
+        int sampleCount = (int)(SAMPLE_RATE * duration);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float t = (float)i / SAMPLE_RATE;
+            float square = Mathf.Sin(2f * Mathf.PI * 130f * t) > 0f ? 0.35f : -0.35f;
+            float buzz = Mathf.Sin(2f * Mathf.PI * 260f * t) * 0.2f;
+            float gate = (t < 0.08f || t > 0.11f) ? 1f : 0.05f; // Double buzz stutter
+            float env = Mathf.Exp(-t * 8f);
+            samples[i] = Mathf.Clamp((square + buzz) * gate * env * 0.45f, -1f, 1f);
+        }
+
+        var clip = AudioClip.Create("Procedural_Buzzer", sampleCount, 1, SAMPLE_RATE, false);
+        clip.SetData(samples, 0);
+        return clip;
+    }
+
+    private AudioClip GenerateWhooshClip()
+    {
+        float duration = 0.16f;
+        int sampleCount = (int)(SAMPLE_RATE * duration);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float t = (float)i / SAMPLE_RATE;
+            float progress = t / duration;
+            float noise = (Random.value * 2f - 1f);
+            float env = Mathf.Sin(progress * Mathf.PI);
+            samples[i] = Mathf.Clamp(noise * env * 0.35f, -1f, 1f);
+        }
+
+        var clip = AudioClip.Create("Procedural_Whoosh", sampleCount, 1, SAMPLE_RATE, false);
         clip.SetData(samples, 0);
         return clip;
     }

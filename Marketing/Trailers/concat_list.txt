@@ -1,0 +1,5 @@
+file '01_Dashboard_TurnAdvance.mp4'
+file '02_Minigame_TimingRing_Spin.mp4'
+file '03_Minigame_FallingSort_Freezer.mp4'
+file '04_SideHustles_RiskReward.mp4'
+file '05_HighStakes_ShiftWarning_Crisis.mp4'

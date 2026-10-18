@@ -78,6 +78,9 @@ public class CoffeeWorkMiniGame : IMiniGame
     {
         if (!isPlaying || !manager.isPlaying) return;
         cwEnergy = Mathf.Clamp(cwEnergy + config.coffeeBoost, 0f, 100f);
+        MiniGameFeedback.PlayTap(cwBtnCoffee);
+        MiniGameFeedback.Punch(cwEnergyFill, 1.12f);
+        AudioManager.Instance?.PlayWhoosh();
         UpdateCwUI();
     }
 
@@ -85,11 +88,14 @@ public class CoffeeWorkMiniGame : IMiniGame
     {
         if (!isPlaying || !manager.isPlaying) return;
         cwProgress = Mathf.Clamp(cwProgress + config.workProgressPerTap, 0f, 100f);
+        MiniGameFeedback.PlayTap(cwBtnType);
+        MiniGameFeedback.Punch(cwProgressFill, 1.08f);
         UpdateCwUI();
         
         if (cwProgress >= 100f)
         {
             isPlaying = false;
+            MiniGameFeedback.PlaySuccess(cwProgressFill, "WORK DONE!", container);
             manager.MarkWinReady();
         }
     }
@@ -109,6 +115,7 @@ public class CoffeeWorkMiniGame : IMiniGame
             if (cwEnergy <= 0f)
             {
                 isPlaying = false;
+                MiniGameFeedback.PlayError(container, "OUT OF ENERGY!", container);
                 manager.AbortGame(); // Fails the game
                 yield break;
             }

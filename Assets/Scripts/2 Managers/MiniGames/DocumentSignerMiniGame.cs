@@ -32,6 +32,7 @@ public class DocumentSignerMiniGame : IMiniGame
                 {
                     if (dsTimerText != null) dsTimerText.text = "SIGNED!";
                     isPlaying = false;
+                    MiniGameFeedback.PlaySuccess(btnStampApproval, "APPROVED! ✍️", container);
                     manager.MarkWinReady();
                 }
             };

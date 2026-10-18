@@ -131,6 +131,7 @@ public class FoodPrepRushMiniGame : IMiniGame
             }
             prepFreezes[index] = 1.0f;
             if (manager.currentGame.canFail) score = Mathf.Max(0, score - 1);
+            MiniGameFeedback.PlayError(prepStations[index], "RAW!", container);
             manager.StartCoroutine(ErrorShakeRoutine(index));
         }
         else if (p >= 70f && p <= 95f)
@@ -142,6 +143,7 @@ public class FoodPrepRushMiniGame : IMiniGame
             }
             prepFreezes[index] = 0.5f;
             score++;
+            MiniGameFeedback.PlaySuccess(prepStations[index], "+1 PREP!", container);
             manager.StartCoroutine(SuccessBounceRoutine(index));
             
             if (score >= config.targetScore)
@@ -159,6 +161,7 @@ public class FoodPrepRushMiniGame : IMiniGame
             }
             prepFreezes[index] = 1.5f;
             if (manager.currentGame.canFail) score = Mathf.Max(0, score - 1);
+            MiniGameFeedback.PlayError(prepStations[index], (index == 2) ? "SPILLED!" : "BURNED!", container);
             manager.StartCoroutine(ErrorShakeRoutine(index));
         }
         

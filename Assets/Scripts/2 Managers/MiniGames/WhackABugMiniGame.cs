@@ -69,11 +69,18 @@ public class WhackABugMiniGame : IMiniGame
             btn.style.color = Color.black;
             
             btn.clicked += () => {
-                if (!manager.isPlaying || !wbBugIsRed[index]) return;
+                if (!manager.isPlaying) return;
+                if (!wbBugIsRed[index])
+                {
+                    MiniGameFeedback.PlayTap(btn);
+                    return;
+                }
                 wbBugIsRed[index] = false;
                 btn.text = modules[index] + "\n✅ PASS";
                 btn.style.backgroundColor = Color.green;
                 wbScore++;
+                
+                MiniGameFeedback.PlaySuccess(btn, "+1 FIX!", wbContainer);
                 
                 if (wbScore >= 15)
                 {

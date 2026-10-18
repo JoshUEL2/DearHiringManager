@@ -217,6 +217,14 @@ public class IncineratorTossMiniGame : IMiniGame
         lastTossSuccess = success;
         explosionPos = new Vector2(200, 80);
         explosionTimer = 0.5f;
+        if (success)
+        {
+            MiniGameFeedback.PlaySuccess(drawArea, "INCINERATED!", container);
+        }
+        else
+        {
+            MiniGameFeedback.PlayError(drawArea, "FURNACE CLOSED!", container);
+        }
     }
 
     private void OnDrawGame(MeshGenerationContext ctx)

@@ -193,6 +193,7 @@ public class SkimATMMiniGame : IMiniGame
             saStartNode.enabledSelf = false;
             targetNode.enabledSelf = false;
             
+            MiniGameFeedback.PlaySuccess(targetNode, "LINKED!", saContainer);
             saConnections++;
             if (saConnectionLabel != null) saConnectionLabel.text = $"LINKS: {saConnections}/4";
             
@@ -204,6 +205,7 @@ public class SkimATMMiniGame : IMiniGame
             }
             if (targetNode != null && targetNode.style.backgroundColor.value != saStartNode.style.backgroundColor.value) {
                 // Penalty for connecting wrong colors
+                MiniGameFeedback.PlayError(targetNode, "SHORT CIRCUIT!", saContainer);
                 timer -= 2f;
             }
         }

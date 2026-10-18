@@ -164,12 +164,14 @@ public class TicketSwipeMiniGame : IMiniGame
         if (isCorrect)
         {
             score++;
+            MiniGameFeedback.PlaySuccess(currentCard, "+1 SORTED", container);
             manager.StartCoroutine(AnimateCardSwipe(currentCard, selectedCategory, true));
         }
         else
         {
             timeRemaining -= 2f; // Penalty!
             if (timeRemaining < 0) timeRemaining = 0;
+            MiniGameFeedback.PlayError(currentCard, "-2s PENALTY!", container);
             manager.StartCoroutine(AnimateCardSwipe(currentCard, selectedCategory, false));
         }
 

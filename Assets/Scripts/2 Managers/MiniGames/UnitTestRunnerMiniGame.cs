@@ -201,6 +201,9 @@ public class UnitTestRunnerMiniGame : IMiniGame
     private IEnumerator HandleSuccess(Button btn)
     {
         isTransitioning = true;
+        AudioManager.Instance?.PlayScorePop();
+        HapticManager.LightImpact();
+        MiniGameFeedback.Punch(btn, 1.18f);
 
         // Success Juice
         StyleColor greenColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
@@ -231,6 +234,8 @@ public class UnitTestRunnerMiniGame : IMiniGame
     private IEnumerator HandleFailure(Button btn)
     {
         // Failure Juice (Do NOT set isTransitioning, allow them to keep trying immediately)
+        AudioManager.Instance?.PlayBuzzer();
+        HapticManager.MediumImpact();
         StyleColor redColor = new StyleColor(new Color(0.93f, 0.26f, 0.22f));
         btn.style.backgroundColor = redColor;
         

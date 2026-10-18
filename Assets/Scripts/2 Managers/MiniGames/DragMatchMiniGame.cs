@@ -288,6 +288,7 @@ public class DragMatchMiniGame : IMiniGame
             
             lBtn.clicked += () => { 
                 if (!lBtn.enabledSelf) return;
+                MiniGameFeedback.PlayTap(lBtn);
                 dragSelectedLeft = idx; 
                 for(int j=0; j<dragLeftButtons.Count; j++) {
                     if (dragLeftButtons[j].enabledSelf) {
@@ -342,6 +343,8 @@ public class DragMatchMiniGame : IMiniGame
         
         if (dragCorrectMap[dragSelectedLeft] == rIdx)
         {
+            MiniGameFeedback.PlaySuccess(rBtn, "CONNECTED!", container);
+            MiniGameFeedback.Punch(dragLeftButtons[dragSelectedLeft], 1.2f);
             dragLeftButtons[dragSelectedLeft].style.backgroundColor = new StyleColor(matchedColor);
             dragLeftButtons[dragSelectedLeft].style.color = new StyleColor(Color.black);
             dragLeftButtons[dragSelectedLeft].SetEnabled(false);
@@ -356,6 +359,7 @@ public class DragMatchMiniGame : IMiniGame
         }
         else
         {
+            MiniGameFeedback.PlayError(rBtn, "MISMATCH", container);
             var btnToRevert = dragLeftButtons[dragSelectedLeft];
             btnToRevert.style.backgroundColor = new StyleColor(errorColor);
             manager.StartCoroutine(RevertColorRoutine(btnToRevert, lDef, textColor));

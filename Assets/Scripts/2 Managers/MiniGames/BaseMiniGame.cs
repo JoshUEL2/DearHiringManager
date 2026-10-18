@@ -65,6 +65,18 @@ public abstract class BaseMiniGame : MonoBehaviour
     {
         if (!isPlaying) return;
         isPlaying = false;
+        
+        if (success)
+        {
+            AudioManager.Instance?.PlayScorePop();
+            HapticManager.LightImpact();
+        }
+        else
+        {
+            AudioManager.Instance?.PlayBuzzer();
+            HapticManager.MediumImpact();
+        }
+
         UnbindUI();
         OnGameEnded?.Invoke(success);
         

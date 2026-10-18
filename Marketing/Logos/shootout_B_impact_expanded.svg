@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlowB" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#242E46" />
+      <stop offset="65%" stop-color="#121622" />
+      <stop offset="100%" stop-color="#07090E" />
+    </radialGradient>
+    <linearGradient id="paperGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E7F2" />
+    </linearGradient>
+    <linearGradient id="stampGradB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A46" />
+      <stop offset="100%" stop-color="#C20023" />
+    </linearGradient>
+    <filter id="docShadowB" x="-25%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#000000" flood-opacity="0.75" />
+    </filter>
+    <filter id="stampShadowB" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.85" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bgGlowB)" />
+  <rect x="2" y="2" width="508" height="508" rx="110" fill="none" stroke="#3D4B6E" stroke-width="3" stroke-opacity="0.5" />
+
+  <g transform="translate(92, 42)" filter="url(#docShadowB)">
+    <path d="M 0 22 C 0 9.85 9.85 0 22 0 L 230 0 L 328 98 L 328 388 C 328 400.15 318.15 410 306 410 L 22 410 C 9.85 410 0 400.15 0 388 Z" fill="url(#paperGradB)" />
+    <path d="M 230 0 L 328 98 L 250 98 C 238.95 98 230 89.05 230 78 Z" fill="#BAC3D9" />
+    <path d="M 230 0 L 230 78 C 230 89.05 238.95 98 250 98 L 328 98" fill="none" stroke="#909CBF" stroke-width="3" />
+    <rect x="36" y="38" width="64" height="64" rx="16" fill="#2E3850" />
+    <circle cx="68" cy="60" r="16" fill="#FFFFFF" />
+    <path d="M 48 92 C 48 78 57 76 68 76 C 79 76 88 78 88 92 Z" fill="#FFFFFF" />
+    <rect x="116" y="46" width="115" height="20" rx="10" fill="#182032" />
+    <rect x="116" y="74" width="75" height="14" rx="7" fill="#66738F" />
+    <rect x="36" y="126" width="256" height="18" rx="9" fill="#B4BED2" />
+    <rect x="36" y="158" width="224" height="18" rx="9" fill="#B4BED2" />
+    <rect x="36" y="190" width="244" height="18" rx="9" fill="#B4BED2" />
+    <g transform="translate(36, 230)">
+      <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#FFB703" />
+      <polygon points="47,2 51,11 61,11 53,17 56,26 47,20 38,26 41,17 33,11 43,11" fill="#FFB703" />
+      <polygon points="79,2 83,11 93,11 85,17 88,26 79,20 70,26 73,17 65,11 75,11" fill="#FFB703" />
+      <polygon points="111,2 115,11 125,11 117,17 120,26 111,20 102,26 105,17 97,11 107,11" fill="#FFB703" />
+      <polygon points="143,2 147,11 157,11 149,17 152,26 143,20 134,26 137,17 129,11 139,11" fill="#C5CEE0" />
+    </g>
+  </g>
+
+  <!-- STAMP OPTION B: Recreated Impact Vectors with +60% Expanded Inner Loops (No Stroke) -->
+  <g transform="translate(256, 368) rotate(-10)" filter="url(#stampShadowB)">
+    <rect x="-215" y="-68" width="430" height="136" rx="24" fill="url(#stampGradB)" stroke="#FFFFFF" stroke-width="9" />
+    <rect x="-202" y="-55" width="404" height="110" rx="16" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-dasharray="370, 10, 10, 10" stroke-opacity="0.95" />
+
+    <!-- Pure vector shapes tuned for Impact silhouette + big clear openings -->
+    <g fill="#FFFFFF">
+      <!-- 'H' (Bold 18px stems, wide center gap) -->
+      <path d="M -176,-36 L -156,-36 L -156,-7 L -138,-7 L -138,-36 L -118,-36 L -118,36 L -138,36 L -138,7 L -156,7 L -156,36 L -176,36 Z" />
+
+      <!-- 'I' (Single solid 18px bar) -->
+      <path d="M -98,-36 L -80,-36 L -80,36 L -98,36 Z" />
+
+      <!-- 'R' (Impact weight with wide open bowl and angled leg) -->
+      <path d="M -60,-36 L -18,-36 C -4,-36 -4,-4 -18,-4 L -40,-4 L -40,-2 L -12,36 L -34,36 L -54,4 L -42,4 L -42,36 L -60,36 Z M -42,-22 L -42,-18 L -20,-18 C -14,-18 -14,-22 -20,-22 Z" />
+
+      <!-- 'E' (Impact heavy horizontal bars) -->
+      <path d="M 6,-36 L 50,-36 L 50,-21 L 24,-21 L 24,-7 L 44,-7 L 44,7 L 24,7 L 24,21 L 50,21 L 50,36 L 6,36 Z" />
+
+      <!-- 'D' (Impact arched right with large open inner counter) -->
+      <path d="M 68,-36 L 102,-36 C 128,-36 128,36 102,36 L 68,36 Z M 86,-20 L 86,20 L 100,20 C 111,20 111,-20 100,-20 Z" />
+
+      <!-- '!' (High impact exclamation) -->
+      <path d="M 142,-36 L 160,-36 L 156,12 L 146,12 Z M 141,24 L 161,24 L 161,37 L 141,37 Z" />
+    </g>
+  </g>
+  <path d="M 0 0 L 290 0 L 145 512 L 0 512 Z" fill="#FFFFFF" fill-opacity="0.04" />
+</svg>

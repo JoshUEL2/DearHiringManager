@@ -90,6 +90,8 @@ public class RecycleBottlesMiniGame : IMiniGame
         if (!manager.isPlaying || rbBagOpen) return;
         
         rbSwipes++;
+        MiniGameFeedback.Punch(rbBag, 1.05f);
+        AudioManager.Instance?.PlayWhoosh();
         // Visual feedback for tear
         if (rbBag != null)
         {
@@ -100,6 +102,8 @@ public class RecycleBottlesMiniGame : IMiniGame
         if (rbSwipes >= 3)
         {
             rbBagOpen = true;
+            AudioManager.Instance?.PlayScorePop();
+            MiniGameFeedback.SpawnSparks(container, new Vector2(300, 200), Color.yellow, 16);
             if (rbBag != null) rbBag.style.display = DisplayStyle.None;
             if (rbItemsContainer != null) rbItemsContainer.style.display = DisplayStyle.Flex;
             if (rbInstructionText != null) rbInstructionText.text = "COLLECT ALL 3 BOTTLES!";
@@ -115,6 +119,7 @@ public class RecycleBottlesMiniGame : IMiniGame
         if (idx < 3)
         {
             // 0, 1, 2 are bottles
+            MiniGameFeedback.PlaySuccess(rbItems[idx], "+1 BOTTLE", container);
             rbItems[idx].style.display = DisplayStyle.None;
             rbCollected++;
             if (rbCollected >= 3)
@@ -125,6 +130,7 @@ public class RecycleBottlesMiniGame : IMiniGame
         else
         {
             // Tapped trash!
+            MiniGameFeedback.PlayError(rbItems[idx], "TRASH!", container);
             manager.EndGame(false);
         }
     }

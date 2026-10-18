@@ -98,6 +98,7 @@ public class CloggedVentsMiniGame : IMiniGame
             int index = i;
             vent.RegisterCallback<PointerDownEvent>(ev => {
                 if (!manager.isPlaying || cvIsClogged[index]) return;
+                MiniGameFeedback.PlaySuccess(vent, "BLAST!", container);
                 cvDustLevels[index] = 0f;
                 blastTimers[index] = 1f;
                 manager.StartCoroutine(ShakeVent(vent));
@@ -156,6 +157,7 @@ public class CloggedVentsMiniGame : IMiniGame
                         cvDustLevels[i] = 100f;
                         cvIsClogged[i] = true;
                         cloggedCount++;
+                        MiniGameFeedback.PlayError(cvVents[i], "CLOGGED!", container);
                         manager.StartCoroutine(DeathSpark(cvVents[i]));
                     }
                 }

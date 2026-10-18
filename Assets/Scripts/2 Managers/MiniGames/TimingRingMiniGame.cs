@@ -148,6 +148,7 @@ public class TimingRingMiniGame : IMiniGame
         {
             timingMarkerMoving = false; // Stop briefly on hit for juice
             timingCurrentRound++;
+            MiniGameFeedback.PlaySuccess(timingMarker, "PERFECT!", container);
             
             if (timingCurrentRound >= config.timingRounds)
             {
@@ -164,6 +165,7 @@ public class TimingRingMiniGame : IMiniGame
         else
         {
             // MISS! We DO NOT stop the marker. It keeps spinning!
+            MiniGameFeedback.PlayError(timingCircle, "MISS!", container);
             manager.StartCoroutine(HitAuraRoutine(new Color(0.9f, 0.16f, 0.16f), false, false)); 
         }
     }

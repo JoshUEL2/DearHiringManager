@@ -80,6 +80,8 @@ public class MashRaceMiniGame : IMiniGame
 
         playerMashProgress += 1f;
         score = Mathf.FloorToInt(playerMashProgress);
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
         
         // Physical Button Press
         if (btnMashTap != null)

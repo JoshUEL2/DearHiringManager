@@ -41,10 +41,12 @@ public class TapMiniGame : IMiniGame
         if (!manager.isPlaying) return;
 
         score++;
+        MiniGameFeedback.PlayTap(btnTap);
         tapProgressText.text = $"Progress: {score} / {config.targetScore}";
         
         if (score >= config.targetScore)
         {
+            MiniGameFeedback.PlaySuccess(btnTap, "DONE!", container);
             manager.MarkWinReady();
         }
     }
