@@ -212,8 +212,8 @@
     height: 420px;
     background-color: transparent;
     border-top-width: 0;
-    pointer-events: none;
     -unity-background-scale-mode: stretch-to-fill;
+    background-size: 100% 100%;
     transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
     translate: 0 0;
     opacity: 1;
@@ -268,7 +268,6 @@
     font-size: 34px;
     margin-bottom: 2px;
     -unity-text-align: middle-center;
-    pointer-events: none;
 }
 
 .nav-button-label {
@@ -277,7 +276,6 @@
     -unity-font-style: bold;
     -unity-text-align: middle-center;
     white-space: nowrap;
-    pointer-events: none;
     transition: color 0.2s;
 }
 
@@ -310,7 +308,6 @@
     font-size: 30px;
     margin-bottom: 2px;
     -unity-text-align: middle-center;
-    pointer-events: none;
 }
 
 .advance-week-label {
@@ -318,7 +315,6 @@
     color: white;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
-    pointer-events: none;
 }
 
 .footer-stats-row {
@@ -1325,7 +1321,6 @@
     border-radius: 20px;
     padding: 30px;
     margin-bottom: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .stunning-card-header {

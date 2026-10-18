@@ -635,7 +635,6 @@ public class GameUIManager : MonoBehaviour
         if (shield == null) return;
 
         shield.pickingMode = PickingMode.Ignore;
-        shield.style.unityBackgroundScaleMode = ScaleMode.StretchToFill;
         shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(CurrentTheme));
     }
 
@@ -1559,7 +1558,6 @@ public class GameUIManager : MonoBehaviour
             var shield = r.Q<VisualElement>("BottomNavBlurShield");
             if (shield != null)
             {
-                shield.style.unityBackgroundScaleMode = ScaleMode.StretchToFill;
                 shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(theme));
             }
         }
