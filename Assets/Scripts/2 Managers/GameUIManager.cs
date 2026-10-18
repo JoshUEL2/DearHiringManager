@@ -202,6 +202,7 @@ public class GameUIManager : MonoBehaviour
 
         // Cache dashboard footer for animation
         dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
+        SetupBottomNavBlurShield(dashboardRoot);
 
         // For the 4 sub-pages: hide their own bottom-nav (they'll use the dashboard area),
         // and wire up close buttons
@@ -211,6 +212,9 @@ public class GameUIManager : MonoBehaviour
             // Hide the sub-page's own bottom-nav-container (nav + footer stats)
             var pageFooter = page?.Q<VisualElement>(className: "bottom-nav-container");
             if (pageFooter != null) pageFooter.style.display = DisplayStyle.None;
+
+            var pageShield = page?.Q<VisualElement>("BottomNavBlurShield");
+            if (pageShield != null) pageShield.style.display = DisplayStyle.None;
 
             // Wire the BtnCloseMenu button
             var closeBtn = page?.Q<Button>("BtnCloseMenu");
@@ -507,6 +511,36 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
+    private Texture2D _blurGradientTexture;
+
+    private void SetupBottomNavBlurShield(VisualElement root)
+    {
+        if (root == null) return;
+        var shield = root.Q<VisualElement>("BottomNavBlurShield");
+        if (shield == null) return;
+
+        shield.pickingMode = PickingMode.Ignore;
+
+        if (_blurGradientTexture == null)
+        {
+            int h = 128;
+            _blurGradientTexture = new Texture2D(1, h, TextureFormat.RGBA32, false);
+            _blurGradientTexture.wrapMode = TextureWrapMode.Clamp;
+            Color baseCol = new Color(10f / 255f, 17f / 255f, 40f / 255f); // #0A1128 deep cyber backdrop
+            for (int y = 0; y < h; y++)
+            {
+                float t = (float)y / (h - 1); // 0 at bottom, 1 at top
+                // Smooth cubic falloff: top dissolves into transparent, bottom is completely solid
+                float smoothT = Mathf.SmoothStep(0f, 1f, t);
+                float alpha = Mathf.Lerp(0.98f, 0.0f, smoothT);
+                _blurGradientTexture.SetPixel(0, y, new Color(baseCol.r, baseCol.g, baseCol.b, alpha));
+            }
+            _blurGradientTexture.Apply();
+        }
+
+        shield.style.backgroundImage = new StyleBackground(_blurGradientTexture);
+    }
+
     private void SetupNavBar(VisualElement root)
     {
         root.Q<Button>("BtnCareers")?.RegisterCallback<ClickEvent>(ev => SwitchTab(careersRoot));
@@ -770,7 +804,7 @@ public class GameUIManager : MonoBehaviour
 
     private void ShowShiftWarningDialog(System.Action onAdvanceAnyway)
     {
-        AudioManager.Instance?.PlayExpense();
+        AudioManager.Instance?.PlayShiftWarning();
         HapticManager.HeavyImpact();
 
         VisualElement activeRoot = null;
@@ -956,7 +990,7 @@ public class GameUIManager : MonoBehaviour
         if (_isAnimating) return;
         if (GameManager.Instance.currentData.jailWeeksRemaining > 0) return;
 
-        AudioManager.Instance?.PlayClick();
+        AudioManager.Instance?.PlayTabSwitch();
         HapticManager.LightImpact();
         SafeAreaHelper.Instance?.ApplySafeArea();
 
@@ -1046,6 +1080,9 @@ public class GameUIManager : MonoBehaviour
         var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (dashboardFooter != null) dashboardFooter.AddToClassList("bottom-nav-hidden");
 
+        var dashboardShield = dashboardRoot.Q<VisualElement>("BottomNavBlurShield");
+        if (dashboardShield != null) dashboardShield.AddToClassList("bottom-nav-hidden");
+
         var targetFooter = targetRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (targetFooter != null) targetFooter.style.display = DisplayStyle.None;
 
@@ -1069,16 +1106,36 @@ public class GameUIManager : MonoBehaviour
             }
         }
 
-        // Only refresh the tab we are actually opening to prevent stutter
-        if (targetRoot == careersRoot && CareerUI.Instance != null) CareerUI.Instance.RefreshView();
-        else if (targetRoot == hustlesRoot && HustlesUI.Instance != null) HustlesUI.Instance.PopulateHustlesBoard();
-        else if (targetRoot == educationRoot && EducationUI.Instance != null) EducationUI.Instance.RefreshView();
-        else if (targetRoot == dashboardRoot) RefreshDashboardUI(GameManager.Instance.currentData.playerName);
-        // ActivitiesUI manages its own Population in Initialize, but we can refresh here if needed later
+        // Only refresh the tab we are actually opening to prevent stutter, and route contextual music/ambience
+        if (targetRoot == careersRoot)
+        {
+            AudioManager.Instance?.ReturnToBaseMusic();
+            if (CareerUI.Instance != null) CareerUI.Instance.RefreshView();
+        }
+        else if (targetRoot == hustlesRoot)
+        {
+            AudioManager.Instance?.ReturnToBaseMusic();
+            if (HustlesUI.Instance != null) HustlesUI.Instance.PopulateHustlesBoard();
+        }
+        else if (targetRoot == educationRoot)
+        {
+            AudioManager.Instance?.PlayEducationAmbience();
+            if (EducationUI.Instance != null) EducationUI.Instance.RefreshView();
+        }
+        else if (targetRoot == activitiesRoot)
+        {
+            AudioManager.Instance?.PlayParkAmbience();
+        }
+        else if (targetRoot == dashboardRoot)
+        {
+            AudioManager.Instance?.ReturnToBaseMusic();
+            RefreshDashboardUI(GameManager.Instance.currentData.playerName);
+        }
     }
 
     private void AnimateCloseMenu(VisualElement menuRoot)
     {
+        AudioManager.Instance?.ReturnToBaseMusic();
         menuRoot.pickingMode = PickingMode.Ignore;
         var screenContainer = menuRoot.Q<VisualElement>(className: "screen-container");
         if (screenContainer != null) 
@@ -1092,6 +1149,9 @@ public class GameUIManager : MonoBehaviour
 
         var dashboardFooter = dashboardRoot.Q<VisualElement>(className: "bottom-nav-container");
         if (dashboardFooter != null) dashboardFooter.RemoveFromClassList("bottom-nav-hidden");
+
+        var dashboardShield = dashboardRoot.Q<VisualElement>("BottomNavBlurShield");
+        if (dashboardShield != null) dashboardShield.RemoveFromClassList("bottom-nav-hidden");
 
         menuRoot.schedule.Execute(() => {
             menuRoot.style.display = DisplayStyle.None;

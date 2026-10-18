@@ -358,6 +358,10 @@ public class ActivitiesUI
         var data = GameManager.Instance.currentData;
         if (data.balance >= cost)
         {
+            if (actName == "Walk in the Park")
+            {
+                AudioManager.Instance?.PlayParkAmbience();
+            }
             ActiveMiniGame game = new ActiveMiniGame("wellness", actName, stressReduction, 0f, cost, false);
             MiniGameManager.Instance.LaunchMiniGame(game);
         }

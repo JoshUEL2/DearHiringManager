@@ -219,6 +219,7 @@ public class PhysicalScrubMiniGame : IMiniGame
         {
             if (currentTheme == ScrubTheme.Grill)
             {
+                AudioManager.Instance?.PlayScrubPlate();
                 for (int j = 0; j < 3; j++) {
                     sparks.Add(new Spark {
                         pos = pos + new Vector2(Random.Range(-15f, 15f), Random.Range(-15f, 15f)),
@@ -229,6 +230,7 @@ public class PhysicalScrubMiniGame : IMiniGame
             }
             else if (currentTheme == ScrubTheme.WasteContainer)
             {
+                AudioManager.Instance?.PlayWaterSplash();
                 // Spraying water!
                 for (int j = 0; j < 4; j++) {
                     sparks.Add(new Spark {
@@ -238,12 +240,18 @@ public class PhysicalScrubMiniGame : IMiniGame
                     });
                 }
             }
+            else
+            {
+                AudioManager.Instance?.PlayScrubPlate();
+            }
+
             drawArea.MarkDirtyRepaint();
             if (dirtParticles.Count == 0) // 100% cleaned
             {
                 dirtParticles.Clear();
                 dirtSizes.Clear();
                 isScrubbing = false;
+                AudioManager.Instance?.PlayDishClatter();
                 manager.MarkWinReady();
                 drawArea.MarkDirtyRepaint();
             }

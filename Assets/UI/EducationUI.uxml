@@ -69,15 +69,18 @@
         </ui:VisualElement>
     </ui:VisualElement>
 
+    <!-- FROSTED BLUR SHIELD BEHIND BOTTOM NAV -->
+    <ui:VisualElement name="BottomNavBlurShield" class="bottom-nav-blur-shield" />
+
     <!-- BOTTOM NAV & FOOTER -->
     <ui:VisualElement class="bottom-nav-container">
         <!-- Nav Buttons -->
         <ui:VisualElement class="nav-bar-row">
-            <ui:Button name="BtnCareers" text="Careers" class="nav-button" />
-            <ui:Button name="BtnHustles" text="Hustles" class="nav-button" />
+            <ui:Button name="BtnCareers" text="💼 Careers" class="nav-button" />
+            <ui:Button name="BtnHustles" text="⚡ Hustles" class="nav-button" />
             <ui:Button name="BtnAdvanceWeek" text="+ Week" class="advance-week-btn" />
-            <ui:Button name="BtnEducation" text="Education" class="nav-button" />
-            <ui:Button name="BtnActivities" text="Activities" class="nav-button" />
+            <ui:Button name="BtnEducation" text="🎓 Education" class="nav-button" />
+            <ui:Button name="BtnActivities" text="☕ Activities" class="nav-button" />
         </ui:VisualElement>
 
         <!-- Progress Bars -->

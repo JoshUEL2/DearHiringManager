@@ -65,6 +65,8 @@ public class ScrubPlateMiniGame : IMiniGame
                     scrubProgress += delta * 0.015f; 
                     scrubProgressBar.value = scrubProgress;
                     
+                    AudioManager.Instance?.PlayScrubPlate();
+
                     float opacity = 1f - (scrubProgress / config.targetScore);
                     scrubDirtOverlay.style.opacity = Mathf.Clamp01(opacity);
                     
@@ -73,6 +75,7 @@ public class ScrubPlateMiniGame : IMiniGame
                         scrubProgressBar.value = config.targetScore;
                         scrubDirtOverlay.style.opacity = 0f;
                         scrubPlateArea.ReleasePointer(ev.pointerId);
+                        AudioManager.Instance?.PlayDishClatter();
                         manager.MarkWinReady();
                     }
                 }
