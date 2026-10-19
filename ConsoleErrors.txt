@@ -472,3 +472,63 @@ UnityEngine.Resources:Load<GameDatabaseSO> (string)
 GameManager:Awake () (at Assets/Scripts/1 Data/GameManager.cs:67)
 
 ---
+[Error] Invalid CSS property separator: "{"
+UnityEngine.Debug:LogError (object)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseProperty (System.Collections.Generic.List`1<string>,string&,string&)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseProperties (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGPropertySheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseSelector (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGStyleSheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:Parse (string)
+Unity.VectorGraphics.SVGDocument:style ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:svg ()
+Unity.VectorGraphics.SVGDocument:Import ()
+Unity.VectorGraphics.SVGParser:ImportSVG (System.IO.TextReader,Unity.VectorGraphics.ViewportOptions,single,single,int,int)
+Unity.VectorGraphics.Editor.SVGImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Invalid CSS selector closing bracket: "stroke-dashoffset"
+UnityEngine.Debug:LogError (object)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseSelector (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGStyleSheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:Parse (string)
+Unity.VectorGraphics.SVGDocument:style ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:svg ()
+Unity.VectorGraphics.SVGDocument:Import ()
+Unity.VectorGraphics.SVGParser:ImportSVG (System.IO.TextReader,Unity.VectorGraphics.ViewportOptions,single,single,int,int)
+Unity.VectorGraphics.Editor.SVGImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
