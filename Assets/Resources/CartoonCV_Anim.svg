@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient (matching DearHiringManager_Icon_Final.svg) -->
+    <radialGradient id="bgGlow" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#242E46" />
+      <stop offset="65%" stop-color="#121622" />
+      <stop offset="100%" stop-color="#07090E" />
+    </radialGradient>
+
+    <!-- Paper Gradient (white → #E2E7F2) -->
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E7F2" />
+    </linearGradient>
+
+    <!-- Stamp Gradient (#FF1A46 → #C20023) -->
+    <linearGradient id="stampGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A46" />
+      <stop offset="100%" stop-color="#C20023" />
+    </linearGradient>
+
+    <!-- Document Drop Shadow -->
+    <filter id="hardShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+
+    <!-- Stamp 3D Drop Shadow -->
+    <filter id="stampShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+
+    <style>
+      /* CV flips in from below, lands, then exits upward — ONE SHOT (animation-fill-mode: forwards) */
+      @keyframes cvIn {
+        0%   { transform: translate(400px, 380px) scale(0.15) rotate(-18deg); opacity: 0; }
+        18%  { transform: translate(400px, 380px) scale(1.06) rotate(3deg); opacity: 1; }
+        24%  { transform: translate(400px, 380px) scale(0.97) rotate(-1deg); opacity: 1; }
+        30%  { transform: translate(400px, 380px) scale(1) rotate(0deg); opacity: 1; }
+        82%  { transform: translate(400px, 380px) scale(1) rotate(0deg); opacity: 1; }
+        90%  { transform: translate(400px, 380px) scale(1.03) rotate(-2deg); opacity: 1; }
+        100% { transform: translate(400px, 380px) scale(0.75) rotate(20deg) translateY(-1000px); opacity: 0; }
+      }
+
+      @keyframes stampSlam {
+        0%,  36% { transform: scale(3.2) rotate(-30deg); opacity: 0; }
+        43%       { transform: scale(0.90) rotate(-10deg); opacity: 1; }
+        48%       { transform: scale(1.05) rotate(-10deg); opacity: 1; }
+        54%, 100% { transform: scale(1)    rotate(-10deg); opacity: 1; }
+      }
+
+      @keyframes lineDraw {
+        0%,  26% { transform: scaleX(0); opacity: 0.6; }
+        38%, 100% { transform: scaleX(1); opacity: 1; }
+      }
+
+      @keyframes starPop {
+        0%,  31% { transform: scale(0) rotate(-90deg); opacity: 0; }
+        38%       { transform: scale(1.35) rotate(12deg); opacity: 1; }
+        43%, 100% { transform: scale(1)    rotate(0deg);  opacity: 1; }
+      }
+
+      @keyframes impactBurst {
+        0%,  42% { transform: scale(0.1); opacity: 0; }
+        44%       { transform: scale(1.3); opacity: 0.9; }
+        50%, 100% { transform: scale(1.8); opacity: 0; }
+      }
+
+      /* SINGLE PLAY — animation-iteration-count: 1, fill-mode: forwards */
+      .cv-container {
+        animation: cvIn 4.5s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+        transform-origin: 0 0;
+      }
+      .stamp-group {
+        animation: stampSlam 4.5s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+        transform-origin: 0 0;
+      }
+      .impact-lines {
+        animation: impactBurst 4.5s ease-out 1 forwards;
+        transform-origin: 0 0;
+      }
+      .line-1 { animation: lineDraw 4.5s ease-out 1 forwards; transform-origin: left; }
+      .star-1 { animation: starPop  4.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1 forwards; transform-origin: 15px 15px; }
+    </style>
+  </defs>
+
+  <!-- Background (radial gradient matching icon) -->
+  <rect width="100%" height="100%" fill="url(#bgGlow)" />
+  <!-- Subtle specular sheen (matching icon) -->
+  <path d="M 0 0 L 460 0 L 230 800 L 0 800 Z" fill="#FFFFFF" fill-opacity="0.025" />
+
+  <!-- Cartoon CV Root Group — centred on 800×800 canvas -->
+  <g class="cv-container">
+    <!-- Paper + Dog-ear, offset so transform-origin (400,380) is the doc centre -->
+    <g transform="translate(-190, -250)" filter="url(#hardShadow)">
+      <!-- Main CV Paper -->
+      <path d="M 0 28
+               C 0 12, 12 0, 28 0
+               L 268 0
+               L 380 112
+               L 380 492
+               C 380 508, 368 520, 352 520
+               L 28 520
+               C 12 520, 0 508, 0 492 Z"
+            fill="url(#paperGrad)" stroke="#0b1226" stroke-width="7" stroke-linejoin="round" />
+
+      <!-- Folded Dog-Ear Corner (matching icon proportions) -->
+      <path d="M 268 0 L 268 90 C 268 100, 272 112, 280 112 L 380 112 Z"
+            fill="#BAC3D9" stroke="#0b1226" stroke-width="7" stroke-linejoin="round" />
+      <path d="M 268 0 L 268 90 C 268 100, 272 112, 280 112 L 380 112"
+            fill="none" stroke="#909CBF" stroke-width="2.5"/>
+
+      <!-- Candidate Avatar -->
+      <rect x="34" y="36" width="82" height="82" rx="18" fill="#2E3850" stroke="#0b1226" stroke-width="5"/>
+      <g fill="#FFFFFF">
+        <circle cx="75" cy="62" r="17"/>
+        <path d="M 50 110 C 50 88, 62 84, 75 84 C 88 84, 100 88, 100 110 Z"/>
+      </g>
+
+      <!-- Heading Bars -->
+      <rect x="130" y="44" width="148" height="20" rx="10" fill="#182032"/>
+      <rect x="130" y="72" width="96"  height="14" rx="7"  fill="#66738F"/>
+
+      <!-- Content Lines (animated scaleX reveal) -->
+      <g fill="#B4BED2">
+        <rect x="34" y="148" width="308" height="17" rx="8" class="line-1"/>
+        <rect x="34" y="182" width="268" height="17" rx="8" class="line-1"/>
+        <rect x="34" y="216" width="292" height="17" rx="8" class="line-1"/>
+        <rect x="34" y="250" width="218" height="17" rx="8" class="line-1"/>
+      </g>
+
+      <!-- 5-Star Rating (4 gold #FFB703, 1 silver #C5CEE0) -->
+      <g transform="translate(34, 298)">
+        <g class="star-1" transform="translate(0,0)">
+          <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#FFB703" stroke="#0b1226" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="star-1" transform="translate(36,0)">
+          <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#FFB703" stroke="#0b1226" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="star-1" transform="translate(72,0)">
+          <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#FFB703" stroke="#0b1226" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="star-1" transform="translate(108,0)">
+          <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#FFB703" stroke="#0b1226" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+        <g class="star-1" transform="translate(144,0)">
+          <polygon points="15,2 19,11 29,11 21,17 24,26 15,20 6,26 9,17 1,11 11,11" fill="#C5CEE0" stroke="#0b1226" stroke-width="2.5" stroke-linejoin="round"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Impact Lines burst on stamp slam -->
+    <g transform="translate(30, 90)" class="impact-lines" stroke="#0b1226" stroke-width="6" stroke-linecap="round">
+      <line x1="-170" y1="-65" x2="-215" y2="-85"/>
+      <line x1="170"  y1="-65" x2="215"  y2="-85"/>
+      <line x1="-180" y1="55"  x2="-225" y2="75"/>
+      <line x1="180"  y1="55"  x2="225"  y2="75"/>
+      <line x1="0"    y1="120" x2="0"    y2="162"/>
+      <line x1="0"    y1="-128" x2="0"   y2="-168"/>
+    </g>
+
+    <!-- HIRED! Stamp — matching Icon_Final: gradient, dashed inner border, -10deg, Franklin Gothic Heavy -->
+    <g transform="translate(30, 90)">
+      <g class="stamp-group">
+        <g transform="translate(-185, -60)" filter="url(#stampShadow)">
+          <!-- Outer Stamp Plate -->
+          <rect x="0" y="0" width="370" height="120" rx="24" fill="url(#stampGrad)" stroke="#FFFFFF" stroke-width="9"/>
+          <!-- Distressed Inner Border (dashed, matching icon) -->
+          <rect x="12" y="12" width="346" height="96" rx="16" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-dasharray="370, 10, 10, 10" stroke-opacity="0.95"/>
+          <!-- HIRED! Text — Franklin Gothic Heavy, matching icon -->
+          <text x="185" y="86"
+                text-anchor="middle"
+                font-family="'Franklin Gothic Heavy', 'Impact', 'Trebuchet MS', 'Arial Black', sans-serif"
+                font-size="78"
+                font-weight="900"
+                letter-spacing="6"
+                fill="#FFFFFF">
+            HIRED!
+          </text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -624,6 +624,24 @@ public class AudioManager : MonoBehaviour
         HapticManager.HeavyImpact();
     }
 
+    /// <summary>
+    /// Generic SFX player: loads any clip by resource name from Audio/SFX/
+    /// and plays it once at the standard SFX volume.
+    /// e.g. PlaySFX("sfx_pencil_sketch")  loads "Audio/SFX/sfx_pencil_sketch"
+    /// </summary>
+    public void PlaySFX(string clipName, float volumeScale = 0.85f)
+    {
+        if (isMuted || sfxSource == null) return;
+        string resourcePath = clipName.Contains("/") ? clipName : $"Audio/SFX/{clipName}";
+        AudioClip clip = Resources.Load<AudioClip>(resourcePath);
+        if (clip == null)
+        {
+            Debug.LogWarning($"AudioManager.PlaySFX: clip not found at '{resourcePath}'");
+            return;
+        }
+        sfxSource.PlayOneShot(clip, Mathf.Clamp01(volumeScale * sfxVolume * masterVolume));
+    }
+
     public void PlayActivityWellness(string activityName)
     {
         string lower = (activityName ?? "").ToLowerInvariant();
