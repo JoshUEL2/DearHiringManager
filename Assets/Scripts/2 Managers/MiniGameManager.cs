@@ -48,8 +48,13 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Sweep kitchen floors", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Sweep everywhere! Tiles get dirty again after 15s!"});
         AddConfigFull("Mop grease spills", new MiniGameConfig { type = GameType.SweepFloor, instructions = "Mop everywhere! Tiles get dirty again after 15s!"});
         AddConfigFull("Scour microwave grease", new MiniGameConfig { type = GameType.ScrubPlate, targetScore = 15, instructions = "Fast! Scour the grease bubbles!"});
-        AddConfigFull("Power-wash the waste bins", new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 20, timeLimit = 5f, instructions = "Power-wash the garbage sludge!"});
-        AddConfigFull("Scrape the burger grill", new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 25, timeLimit = 10f, instructions = "Scrape the carbonized grill!"});
+                var deepScrubConfig = new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 20, timeLimit = 6f, instructions = "Power-wash the garbage sludge and waste containers!"};
+        AddConfigFull("Power-wash the waste bins", deepScrubConfig);
+        AddConfigFull("Deep scrub waste containers", deepScrubConfig);
+
+        var scrapeGrillConfig = new MiniGameConfig { type = GameType.PhysicalScrub, targetScore = 25, timeLimit = 10f, instructions = "Scrape the carbonized grill and fryer grease vats!"};
+        AddConfigFull("Scrape the burger grill", scrapeGrillConfig);
+        AddConfigFull("Clean fryer grease vats", scrapeGrillConfig);
         AddConfigFull("Empty waste bin", new MiniGameConfig { type = GameType.IncineratorToss, instructions = "Time the tosses into the furnace!"});
         AddConfigFull("Unclog toilets", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the toilet!"});
         AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🥩 Beef","🍗 Chicken","🐟 Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!"});
@@ -58,7 +63,16 @@ public partial class MiniGameManager : MonoBehaviour
         // =============================================
         // SCRAP METAL SORTER (6 tasks)
         // =============================================
-        AddConfigFull("Sort metal scraps", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🔩 Bolts", "🪙 Coins", "🥫 Cans"}, binLabels = new string[]{"Bolts", "Coins", "Cans"}, sortTarget = 10, sortTimeLimit = 25f, instructions = "Sort falling metal scraps!"});
+        var sortIronCopperConfig = new MiniGameConfig { 
+            type = GameType.FallingSort, 
+            fallingItems = new string[] { "🔩 Iron Scrap", "⚙️ Iron Cog", "🥉 Copper Wire", "🪈 Copper Pipe" }, 
+            binLabels = new string[] { "Iron", "Copper" }, 
+            sortTarget = 10, 
+            sortTimeLimit = 25f, 
+            instructions = "Sort falling scrap into Iron or Copper bins!"
+        };
+        AddConfigFull("Sort iron from copper", sortIronCopperConfig);
+        AddConfigFull("Sort metal scraps", sortIronCopperConfig);
         AddConfigFull("Stack rusty steel pipes", new MiniGameConfig { type = GameType.Tetris, instructions = "Stack 10 beams perfectly!"});
         AddConfigFull("Clear conveyor dust filters", new MiniGameConfig { type = GameType.CloggedVents, timeLimit = 20f, ventCount = 6, dustBuildRate = 12f, instructions = "Rapidly tap clogged vents before they overheat!"});
         AddConfigFull("Inspect lithium reactor tubes", new MiniGameConfig { type = GameType.DragMatch, matchLeft = new string[]{"Tube A","Tube B","Tube C","Tube D","Tube E"}, matchRight = new string[]{"Critical","Warning","Stable","Optimal","Offline"}, instructions = "Match tubes to statuses!"});
@@ -95,7 +109,9 @@ dialogueCorrectIndices = new int[]{0,0,0,0}, instructions = "De-escalate the com
         // =============================================
         // CORPORATE CUBICLE DRONE (6 tasks)
         // =============================================
-        AddConfigFull("Access payroll database", new MiniGameConfig { type = GameType.CodeBreaker, codeLength = 4, maxAttempts = 6, instructions = "Guess the password to access database!"});
+                var tpsReportConfig = new MiniGameConfig { type = GameType.CodeBreaker, codeLength = 4, maxAttempts = 6, instructions = "Crack security code to authorize weekly TPS reports!"};
+        AddConfigFull("Access payroll database", tpsReportConfig);
+        AddConfigFull("Send weekly TPS reports", tpsReportConfig);
         AddConfigFull("Attend 3-hour video call", new MiniGameConfig { type = GameType.VideoCall, timeLimit = 15f, targetScore = 1, instructions = "Pay attention!"});
         AddConfigFull("Reorganize shared drive", new MiniGameConfig { type = GameType.FileSorter, timeLimit = 18f, fileSorterTarget = 15, fileSorterItems = new string[]{"Q3_Budget.xlsx", "Q2_Payroll_Final.pdf", "Logo_v4.png", "MeetingNotes.docx", "DO_NOT_DELETE.sys", "ClientList.csv", "Q1_Forecast.xlsx", "Jan_Invoice.pdf", "Deck_v9_Final.pptx"}, instructions = "Swipe files to correct folders!"});
         AddConfigFull("Corporate sprint tasks", new MiniGameConfig { type = GameType.KanbanBoard, timeLimit = 20f, kanbanTicketCount = 8, instructions = "Drag all tickets to IN PROGRESS then DONE!"});
@@ -185,7 +201,9 @@ dialogueOptions = new string[][]{
     new string[]{"They'll vest on schedule","Forfeited as per contract","We'll negotiate","I'm keeping them","What options?"}
 }, 
 dialogueCorrectIndices = new int[]{0,0,0}, instructions = "Fire them smoothly!"});
-        AddConfigFull("Construction site inspection", new MiniGameConfig { type = GameType.ConstructionSite, timeLimit = 15f, balanceDriftSpeed = 0f, instructions = "Scan the wall for heat leaks!"});
+                var constructionSiteConfig = new MiniGameConfig { type = GameType.ConstructionSite, timeLimit = 15f, balanceDriftSpeed = 0f, instructions = "Scan the offshore site for structural and heat leaks!"};
+        AddConfigFull("Construction site inspection", constructionSiteConfig);
+        AddConfigFull("Offshore tax-haven site inspection", constructionSiteConfig);
 
         // =============================================
         // AI PROPHECY ALIGNMENT DIRECTOR (6 tasks)
@@ -254,7 +272,44 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         AddConfigFull("Forge Transit Passes", new MiniGameConfig { type = GameType.ForgePass, timeLimit = 10f, instructions = "Stamp exactly in the center!"});
         AddConfigFull("Crack Luxury Briefcase", new MiniGameConfig { type = GameType.SnatchBriefcase, timeLimit = 15f, instructions = "Crack the lock!"});
         AddConfigFull("Skim ATM Card Data", new MiniGameConfig { type = GameType.SkimATM, timeLimit = 10f, instructions = "Connect the skimmer wires!"});
-        AddConfigFull("Corporate Espionage Heist", new MiniGameConfig { type = GameType.IpHack, timeLimit = 30f, instructions = "Hack the IP Address!"});}
+                AddConfigFull("Corporate Espionage Heist", new MiniGameConfig { type = GameType.IpHack, timeLimit = 30f, instructions = "Hack the IP Address!"});
+
+        // =============================================
+        // PRISON YARD ACTIVITIES (4 tasks)
+        // =============================================
+        AddConfigFull("Workout", new MiniGameConfig { 
+            type = GameType.MashRace, 
+            instructions = "Hit your prison yard reps! Mash to stay swole!", 
+            targetScore = 35, 
+            timeLimit = 12f 
+        });
+        AddConfigFull("Read Tech Docs", new MiniGameConfig { 
+            type = GameType.CodeCommenter, 
+            timeLimit = 12f, 
+            instructions = "Study and comment obsolete prison tech manuals!" 
+        });
+        AddConfigFull("Practice Social Skills", new MiniGameConfig { 
+            type = GameType.DialogueChain, 
+            rapportThreshold = 0.65f,
+            dialogueScenarios = new string[] {
+                "Inmate: What are you looking at, new fish?",
+                "Cellmate: Keep your hands off my bunk.",
+                "Yard Boss: You got any commissary to trade?"
+            },
+            dialogueOptions = new string[][] {
+                new string[] { "Just admiring your tattoo work", "Nothing, mind your business", "I run this yard now", "I'm a software engineer", "Don't look at me" },
+                new string[] { "Respect. Keeping strictly to my side", "Whatever, it's just a mattress", "I'll sleep where I want", "Can we share?", "I brought sanitizer" },
+                new string[] { "Got ramen and protein bars for trade", "Nothing for you", "I don't do trades", "Is crypto accepted?", "Get lost" }
+            },
+            dialogueCorrectIndices = new int[] { 0, 0, 0 },
+            instructions = "De-escalate yard tensions and make alliances!"
+        });
+        AddConfigFull("Bribe / C-Suite Chat", new MiniGameConfig { 
+            type = GameType.SnatchBriefcase, 
+            timeLimit = 15f, 
+            instructions = "Crack the lockbox to pass contraband to the warden!" 
+        });
+    }
 
     private void AddConfig(string name, GameType type, string instructions, int targetScore = 0, float timeLimit = 0, float sMin = 0, float sMax = 0, string c1 = null, string c2 = null, string c3 = null, string cCorrect = null, int seqLen = 4, int pairs = 4)
     {
@@ -279,14 +334,37 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
 
     private MiniGameConfig GetConfigForGame(string gameName)
     {
+        if (string.IsNullOrEmpty(gameName)) return GetFallbackConfig();
         if (gameConfigs.TryGetValue(gameName, out var config)) return config;
 
-        int hash = Mathf.Abs(gameName.GetHashCode());
-        GameType randomType = GameType.Tap;
+        // 1. Case-insensitive lookup
+        foreach (var kvp in gameConfigs)
+        {
+            if (kvp.Key.Equals(gameName, System.StringComparison.OrdinalIgnoreCase))
+                return kvp.Value;
+        }
 
+        // 2. Substring / partial match
+        string lower = gameName.ToLower();
+        foreach (var kvp in gameConfigs)
+        {
+            string kLower = kvp.Key.ToLower();
+            if (kLower.Contains(lower) || lower.Contains(kLower))
+            {
+                Debug.LogWarning($"[MiniGameManager] Exact config not found for '{gameName}'. Matched '{kvp.Key}'");
+                return kvp.Value;
+            }
+        }
+
+        Debug.LogWarning($"[MiniGameManager] No config match found for '{gameName}'. Using default Tap fallback.");
+        return GetFallbackConfig();
+    }
+
+    private MiniGameConfig GetFallbackConfig()
+    {
         return new MiniGameConfig
         {
-            type = randomType,
+            type = GameType.Tap,
             instructions = "Complete the designated task.",
             targetScore = 15,
             timeLimit = 15f,
@@ -295,7 +373,9 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
             choices = new string[] { "Option A", "Option B", "Option C"},
             correctChoice = "Option A",
             sequenceLength = 4,
-            pairs = 4};}
+            pairs = 4
+        };
+    }
 
     private TemplateContainer activeGameUI;
 
@@ -423,6 +503,11 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
 
         var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
         targetContainer.Clear();
+        var sv = overlay.Q<ScrollView>();
+        if (sv != null && sv.contentContainer != null)
+        {
+            sv.contentContainer.style.flexGrow = 1;
+        }
 
         string uxmlName = GetUxmlName(typeToSetup);
         var template = Resources.Load<VisualTreeAsset>("MiniGames/" + uxmlName);
@@ -452,6 +537,11 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
 
         var targetContainer = overlay.Q<ScrollView>() as VisualElement ?? overlay;
         targetContainer.Clear();
+        var svPhase = overlay.Q<ScrollView>();
+        if (svPhase != null && svPhase.contentContainer != null)
+        {
+            svPhase.contentContainer.style.flexGrow = 1;
+        }
         activeGameUI = null;
 
         currentStrategy = MiniGameFactory.Create(typeToSetup);

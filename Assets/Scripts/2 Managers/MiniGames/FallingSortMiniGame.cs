@@ -60,6 +60,7 @@ public class FallingSortMiniGame : IMiniGame
         if (sortScoreText != null) sortScoreText.text = $"Sorted: 0 / {config.sortTarget}";
 
         container.style.minWidth = 600; // Force popup to expand for comfortable sorting!
+        container.style.minHeight = 560;
 
         if (isButtonSort)
         {
@@ -114,10 +115,16 @@ public class FallingSortMiniGame : IMiniGame
             bin.style.marginLeft = 10;
             
             Color c = binColors[i % binColors.Length];
+            string lblLower = config.binLabels[i].ToLower();
+            if (lblLower.Contains("iron")) c = new Color(0.65f, 0.75f, 0.85f); // Steel/Iron Cyan-Gray
+            else if (lblLower.Contains("copper")) c = new Color(0.92f, 0.48f, 0.22f); // Copper Bronze/Orange
+
             bin.generateVisualContent += (ctx) => {
                 var p = ctx.painter2D;
                 float w = ctx.visualElement.layout.width;
                 float h = ctx.visualElement.layout.height;
+
+                if (float.IsNaN(w) || float.IsNaN(h) || w <= 0 || h <= 0) return;
 
                 // Back rim
                 p.fillColor = new Color(c.r*0.4f, c.g*0.4f, c.b*0.4f);
@@ -139,6 +146,7 @@ public class FallingSortMiniGame : IMiniGame
             };
 
             var label = new Label(config.binLabels[i]);
+            label.pickingMode = PickingMode.Ignore;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
             label.style.fontSize = 26;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -158,6 +166,8 @@ public class FallingSortMiniGame : IMiniGame
         var p = ctx.painter2D;
         float w = ctx.visualElement.layout.width;
         float h = ctx.visualElement.layout.height;
+
+        if (float.IsNaN(w) || float.IsNaN(h) || w <= 0 || h <= 0) return;
 
         p.strokeColor = new Color(0.15f, 0.15f, 0.15f);
         p.lineWidth = 3f;
@@ -194,6 +204,7 @@ public class FallingSortMiniGame : IMiniGame
                 string emojiText = text.Contains(" ") ? text.Split(' ')[0] : text;
                 
                 var crate = new VisualElement();
+                crate.pickingMode = PickingMode.Position;
                 crate.style.position = Position.Absolute;
                 crate.style.width = 100; crate.style.height = 100;
                 crate.style.backgroundColor = new StyleColor(new Color(0.15f, 0.15f, 0.18f)); 
@@ -206,10 +217,13 @@ public class FallingSortMiniGame : IMiniGame
                 crate.style.alignItems = Align.Center;
 
                 var label = new Label(emojiText);
+                label.pickingMode = PickingMode.Ignore;
                 label.style.fontSize = 65;
                 crate.Add(label);
                 
-                float startX = Random.Range(50f, Mathf.Max(60f, fallZone.layout.width - 120f));
+                float zoneW = (fallZone != null && !float.IsNaN(fallZone.layout.width) && fallZone.layout.width > 120f) 
+                    ? fallZone.layout.width : 500f;
+                float startX = Random.Range(50f, Mathf.Max(60f, zoneW - 120f));
                 
                 FallingItemData itemData = new FallingItemData {
                     element = crate,
@@ -230,8 +244,9 @@ public class FallingSortMiniGame : IMiniGame
                 
                 crate.RegisterCallback<PointerMoveEvent>(ev => {
                     if (itemData.isDragging && crate.HasPointerCapture(ev.pointerId)) {
+                        float dt = Mathf.Max(Time.deltaTime, 0.001f);
                         itemData.position += (Vector2)ev.deltaPosition;
-                        itemData.velocity = (Vector2)ev.deltaPosition / Time.deltaTime;
+                        itemData.velocity = (Vector2)ev.deltaPosition / dt;
                     }
                 });
                 
@@ -243,6 +258,13 @@ public class FallingSortMiniGame : IMiniGame
                     }
                 });
 
+                crate.RegisterCallback<PointerCaptureOutEvent>(ev => {
+                    if (itemData.isDragging) {
+                        itemData.isDragging = false;
+                        crate.style.scale = new StyleScale(new Vector2(1f, 1f));
+                    }
+                });
+
                 if (fallZone != null) fallZone.Add(crate);
                 activeItems.Add(itemData);
                 itemsSpawned++;
@@ -250,8 +272,10 @@ public class FallingSortMiniGame : IMiniGame
             }
             if (spawnTimer > 0f) spawnTimer -= Time.deltaTime;
 
-            float w = fallZone.layout.width > 0 ? fallZone.layout.width : 500f;
-            float h = fallZone.layout.height > 0 ? fallZone.layout.height : 500f;
+            float w = (fallZone != null && !float.IsNaN(fallZone.layout.width) && fallZone.layout.width > 100f) 
+                ? fallZone.layout.width : 500f;
+            float h = (fallZone != null && !float.IsNaN(fallZone.layout.height) && fallZone.layout.height > 100f) 
+                ? fallZone.layout.height : 400f;
 
             for (int i = activeItems.Count - 1; i >= 0; i--)
             {
@@ -271,17 +295,31 @@ public class FallingSortMiniGame : IMiniGame
                     item.rotation = Mathf.Lerp(item.rotation, -item.velocity.x * 0.05f, Time.deltaTime * 15f);
                 }
                 
+                if (float.IsNaN(item.position.x) || float.IsInfinity(item.position.x)) item.position.x = w * 0.5f;
+                if (float.IsNaN(item.position.y) || float.IsInfinity(item.position.y)) item.position.y = 0f;
+
                 item.element.style.left = item.position.x;
                 item.element.style.top = item.position.y;
                 item.element.style.rotate = new StyleRotate(new Rotate(Angle.Degrees(item.rotation)));
                 
                 if (item.position.y >= h - 50f && !item.isDragging) 
                 {
-                    float binWidth = w / config.binLabels.Length;
+                    float binWidth = w / Mathf.Max(1, config.binLabels.Length);
                     int binIdx = Mathf.FloorToInt((item.position.x + 50f) / binWidth);
                     binIdx = Mathf.Clamp(binIdx, 0, config.binLabels.Length - 1);
                     
-                    if (binIdx == item.typeId)
+                    bool isCorrect = (binIdx == item.typeId);
+                    if (!isCorrect && binIdx >= 0 && binIdx < config.binLabels.Length && item.typeId >= 0 && item.typeId < config.fallingItems.Length)
+                    {
+                        string binClean = config.binLabels[binIdx].ToLower().Replace("bin", "").Trim();
+                        string itemClean = config.fallingItems[item.typeId].ToLower();
+                        if (itemClean.Contains(binClean) || binClean.Contains(itemClean))
+                        {
+                            isCorrect = true;
+                        }
+                    }
+
+                    if (isCorrect)
                     {
                         sortScore++;
                         if (sortScoreText != null) sortScoreText.text = $"Sorted: {sortScore} / {config.sortTarget}";
@@ -383,7 +421,18 @@ public class FallingSortMiniGame : IMiniGame
         btn.style.scale = new StyleScale(new Vector2(0.9f, 0.9f));
         btn.schedule.Execute(() => { if (btn != null) btn.style.scale = new StyleScale(new Vector2(1f, 1f)); }).StartingIn(100);
 
-        if (binIndex == currentItemType)
+        bool isCorrect = (binIndex == currentItemType);
+        if (!isCorrect && binIndex >= 0 && binIndex < config.binLabels.Length && currentItemType >= 0 && currentItemType < config.fallingItems.Length)
+        {
+            string binClean = config.binLabels[binIndex].ToLower().Replace("bin", "").Trim();
+            string itemClean = config.fallingItems[currentItemType].ToLower();
+            if (itemClean.Contains(binClean) || binClean.Contains(itemClean))
+            {
+                isCorrect = true;
+            }
+        }
+
+        if (isCorrect)
         {
             sortScore++;
             if (sortScoreText != null) sortScoreText.text = $"Sorted: {sortScore} / {config.sortTarget}";
