@@ -5,16 +5,19 @@ using System.Collections;
 using System.Linq;
 
 /// <summary>
-/// Plays the two-stage intro sequence:
-///   Phase 1 — 24 Hour Studios Logo (StudioLogo.mp4):
-///              - Sketching SFX (sfx_pencil_sketch) plays during the initial drawing phase (0 - 1.35s)
-///              - Crisp mechanical clock ticks play at 1.35s, 1.80s, 2.25s, 2.70s
-///   Transition — Smooth cut to dark slate background (#07090E) matching marketing logo
-///   Phase 2 — Dear Hiring Manager Cartoon CV (CartoonCV.mp4):
-///              - Intro whoosh SFX (sfx_intro_whoosh) at start
-///              - HIRED! stamp slam SFX (sfx_stamp_slam) + heavy haptic impact timed to stamp impact (~2.05s)
-///              - Holds on the complete marketing icon visual
-///   Phase 3 — Smooth fade to game dashboard → GameObject self-destructs
+/// Plays the unified master cinematic intro sequence:
+///   1. 0.0s – 1.4s: 24 Hour Studios logo original pencil sketch in crisp white on dark slate.
+///                   - sfx_pencil_sketch plays during drawing.
+///   2. 1.5s – 2.5s: Mechanical clock hand rotation.
+///                   - 4 crisp synchronized clock ticks click.
+///   3. 2.7s – 3.1s: Dear Hiring Manager Cartoon CV swoops & slams down directly on top of the logo.
+///                   - sfx_intro_whoosh plays on swoop.
+///                   - Candidate details draw out and 5 stars pop into place.
+///   4. 3.6s – 3.95s: Red "HIRED!" stamp drops and slams onto the CV.
+///                   - sfx_stamp_slam THWACK + Heavy Haptic impact.
+///                   - Impact burst lines radiate outward.
+///   5. 3.95s – 5.6s: Complete marketing logo document sits proud in center.
+///   6. 5.6s – 6.0s: Smooth fade to black → Game Dashboard loads!
 ///
 /// Tap or any keypress skips immediately.
 /// </summary>
@@ -30,9 +33,7 @@ public class LoadingScreenUI : MonoBehaviour
     private RenderTexture renderTexture;
     private bool isDismissing = false;
 
-    // Solid studio crimson red background (#E11D48) for Phase 1
-    private static readonly Color StudioRed = new Color(0.882f, 0.114f, 0.282f, 1f);
-    // Dark Slate Blue (#07090E) for Phase 2 (matches CartoonCV & marketing logo background)
+    // Dark Slate Blue (#07090E) - Consistent background throughout the entire intro (no red)
     private static readonly Color LogoDark = new Color(0.027f, 0.035f, 0.055f, 1f);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -83,7 +84,7 @@ public class LoadingScreenUI : MonoBehaviour
         rootContainer.style.right = 0;
         rootContainer.style.top = 0;
         rootContainer.style.bottom = 0;
-        rootContainer.style.backgroundColor = StudioRed;
+        rootContainer.style.backgroundColor = LogoDark;
         rootContainer.style.justifyContent = Justify.Center;
         rootContainer.style.alignItems = Align.Center;
         rootContainer.style.opacity = 1f;
@@ -94,7 +95,7 @@ public class LoadingScreenUI : MonoBehaviour
         rootContainer.Focus();
         rootContainer.RegisterCallback<KeyDownEvent>(_ => Dismiss());
 
-        // Prepare video element inside rootContainer from the start
+        // High-resolution portrait render texture (1080x1920)
         renderTexture = new RenderTexture(1080, 1920, 0, RenderTextureFormat.ARGB32);
         renderTexture.filterMode = FilterMode.Bilinear;
         renderTexture.Create();
@@ -122,88 +123,57 @@ public class LoadingScreenUI : MonoBehaviour
 
     private IEnumerator PlayIntroSequence()
     {
-        VideoClip studioClip = Resources.Load<VideoClip>("StudioLogo");
-        VideoClip cvClip = Resources.Load<VideoClip>("CartoonCV");
+        VideoClip clip = Resources.Load<VideoClip>("StudioLogo");
 
-        // ── Phase 1: Studio Logo ──────────────────────────────────────────
-        if (studioClip != null)
+        if (clip != null)
         {
-            yield return StartCoroutine(PlayVideoClipRoutine(studioClip, onStart: () =>
+            videoPlayer.clip = clip;
+            videoPlayer.Prepare();
+            while (!videoPlayer.isPrepared)
             {
-                // Play sketching SFX during the drawing phase (0 - 1.35s)
-                StartCoroutine(PlaySketchSFX(1.35f));
-                // Play clock ticks starting at 1.35s
-                StartCoroutine(SynchronizedTicksSFX());
-            }));
+                if (isDismissing) yield break;
+                yield return null;
+            }
+
+            videoPlayer.Play();
+            videoElement.style.opacity = 1f;
+
+            // ── Synchronized Audio Timeline ──
+            // 0.0s – 1.35s: Sketching SFX as studio logo is drawn
+            StartCoroutine(PlaySketchSFX(1.35f));
+
+            // 1.5s – 2.5s: 4 mechanical clock ticks
+            StartCoroutine(SynchronizedTicksSFX());
+
+            // 2.7s: Swoop whoosh when CV slams on top
+            StartCoroutine(DelayedSFX("sfx_intro_whoosh", 2.70f));
+
+            // 3.9s: Rubber stamp slam THWACK + haptic impact
+            StartCoroutine(DelayedSFX("sfx_stamp_slam", 3.90f, true));
+
+            float elapsed = 0f;
+            float totalLength = (float)clip.length;
+            if (totalLength <= 0f) totalLength = 6.0f;
+
+            while (elapsed < totalLength)
+            {
+                if (isDismissing) yield break;
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            // Smooth fade out at the end
+            yield return StartCoroutine(FadeOutAndDestroy(0.35f));
         }
         else
         {
             yield return StartCoroutine(FallbackStaticSequence());
         }
-
-        if (isDismissing) yield break;
-
-        // ── Phase 2: Cartoon CV Animation ──────────────────────────────────
-        if (cvClip != null)
-        {
-            // Transition background to dark slate blue matching marketing icon
-            rootContainer.style.backgroundColor = LogoDark;
-            videoElement.style.opacity = 0f;
-
-            // Brief clean breathing room between clips
-            yield return new WaitForSecondsRealtime(0.1f);
-            if (isDismissing) yield break;
-
-            yield return StartCoroutine(PlayVideoClipRoutine(cvClip, onStart: () =>
-            {
-                // Rising whoosh sound when CV swoops in
-                AudioManager.Instance?.PlaySFX("sfx_intro_whoosh", 0.85f);
-                // Heavy stamp slam THWACK when HIRED! stamp lands at ~2.05s
-                StartCoroutine(DelayedSFX("sfx_stamp_slam", 2.05f, true));
-            }));
-        }
-
-        if (isDismissing) yield break;
-
-        // ── Phase 3: Fade out to game ─────────────────────────────────────
-        yield return StartCoroutine(FadeOutAndDestroy(0.35f));
-    }
-
-    private IEnumerator PlayVideoClipRoutine(VideoClip clip, System.Action onStart = null)
-    {
-        if (clip == null || videoPlayer == null) yield break;
-
-        videoElement.style.opacity = 0f;
-        videoPlayer.Stop();
-        videoPlayer.clip = clip;
-
-        videoPlayer.Prepare();
-        while (!videoPlayer.isPrepared)
-        {
-            if (isDismissing) yield break;
-            yield return null;
-        }
-
-        videoPlayer.Play();
-        videoElement.style.opacity = 1f;
-
-        onStart?.Invoke();
-
-        float elapsed = 0f;
-        float totalLength = (float)clip.length;
-        if (totalLength <= 0f) totalLength = 4.0f;
-
-        while (elapsed < totalLength)
-        {
-            if (isDismissing) yield break;
-            elapsed += Time.unscaledDeltaTime;
-            yield return null;
-        }
     }
 
     private IEnumerator PlaySketchSFX(float duration)
     {
-        AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.75f);
+        AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.80f);
         yield return new WaitForSecondsRealtime(duration);
     }
 
@@ -222,7 +192,7 @@ public class LoadingScreenUI : MonoBehaviour
 
     private IEnumerator SynchronizedTicksSFX()
     {
-        float[] tickTimes = { 1.35f, 1.80f, 2.25f, 2.70f };
+        float[] tickTimes = { 1.55f, 1.85f, 2.15f, 2.45f };
         float elapsed = 0f;
         int tickIdx = 0;
 
