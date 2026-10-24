@@ -5,39 +5,36 @@ using System.Collections;
 using System.Linq;
 
 /// <summary>
-/// Plays the full game intro sequence then destroys itself.
-/// 
-/// Sequence:
-///   Phase 1 — Studio Logo (StudioLogo.mp4)
-///              + sfx_pencil_sketch.wav looping during playback
-///              + 4 synchronized clock-tick clicks from SynchronizedTicksSFX
-///   Phase 2 — CartoonCV animation (CartoonCV.mp4)
-///              + sfx_intro_whoosh.wav at start
-///              + sfx_stamp_slam.wav timed to stamp impact (~42% through anim)
-///   Phase 3 — Fade to black → Destroy
+/// Plays the two-stage intro sequence:
+///   Phase 1 — 24 Hour Studios Logo (StudioLogo.mp4):
+///              - Sketching SFX (sfx_pencil_sketch) plays during the initial drawing phase (0 - 1.35s)
+///              - Crisp mechanical clock ticks play at 1.35s, 1.80s, 2.25s, 2.70s
+///   Transition — Smooth cut to dark slate background (#07090E) matching marketing logo
+///   Phase 2 — Dear Hiring Manager Cartoon CV (CartoonCV.mp4):
+///              - Intro whoosh SFX (sfx_intro_whoosh) at start
+///              - HIRED! stamp slam SFX (sfx_stamp_slam) + heavy haptic impact timed to stamp impact (~2.05s)
+///              - Holds on the complete marketing icon visual
+///   Phase 3 — Smooth fade to game dashboard → GameObject self-destructs
 ///
-/// Tap / any key skips at any point.
+/// Tap or any keypress skips immediately.
 /// </summary>
 public class LoadingScreenUI : MonoBehaviour
 {
-    // ── UI references ──────────────────────────────────────────────────────
-    private UIDocument     uiDocument;
-    private VisualElement  rootContainer;
-    private VisualElement  videoElement;
-    private VisualElement  fallbackLogo;
-    private VisualElement  fallbackBadge;
+    private UIDocument uiDocument;
+    private VisualElement rootContainer;
+    private VisualElement videoElement;
+    private VisualElement fallbackLogo;
+    private VisualElement fallbackBadge;
 
-    // ── Video ──────────────────────────────────────────────────────────────
-    private VideoPlayer    videoPlayer;
-    private RenderTexture  renderTexture;
-
-    // ── State ──────────────────────────────────────────────────────────────
+    private VideoPlayer videoPlayer;
+    private RenderTexture renderTexture;
     private bool isDismissing = false;
 
-    // Solid studio crimson red background (#E11D48) — kept as instant cover
+    // Solid studio crimson red background (#E11D48) for Phase 1
     private static readonly Color StudioRed = new Color(0.882f, 0.114f, 0.282f, 1f);
+    // Dark Slate Blue (#07090E) for Phase 2 (matches CartoonCV & marketing logo background)
+    private static readonly Color LogoDark = new Color(0.027f, 0.035f, 0.055f, 1f);
 
-    // ── Initialization ─────────────────────────────────────────────────────
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Initialize()
     {
@@ -56,17 +53,18 @@ public class LoadingScreenUI : MonoBehaviour
         StartCoroutine(PlayIntroSequence());
     }
 
-    // ── UI Setup ───────────────────────────────────────────────────────────
     private void SetupUI()
     {
         uiDocument = gameObject.AddComponent<UIDocument>();
-        uiDocument.sortingOrder = 9999;
+        uiDocument.sortingOrder = 9999; // Topmost UI layer
 
         uiDocument.visualTreeAsset = ScriptableObject.CreateInstance<VisualTreeAsset>();
         UIDocument existingDoc = FindObjectsByType<UIDocument>(FindObjectsInactive.Exclude)
                                      .FirstOrDefault(d => d.panelSettings != null);
         if (existingDoc != null)
+        {
             uiDocument.panelSettings = existingDoc.panelSettings;
+        }
 
         uiDocument.enabled = false;
         uiDocument.enabled = true;
@@ -78,40 +76,63 @@ public class LoadingScreenUI : MonoBehaviour
             return;
         }
 
-        // Root container — covers full screen, crimson red immediately
         rootContainer = new VisualElement();
-        rootContainer.style.flexGrow            = 1;
-        rootContainer.style.position            = Position.Absolute;
-        rootContainer.style.left                = 0;
-        rootContainer.style.right               = 0;
-        rootContainer.style.top                 = 0;
-        rootContainer.style.bottom              = 0;
-        rootContainer.style.backgroundColor     = StudioRed;
-        rootContainer.style.justifyContent      = Justify.Center;
-        rootContainer.style.alignItems          = Align.Center;
-        rootContainer.style.opacity             = 1f;
+        rootContainer.style.flexGrow = 1;
+        rootContainer.style.position = Position.Absolute;
+        rootContainer.style.left = 0;
+        rootContainer.style.right = 0;
+        rootContainer.style.top = 0;
+        rootContainer.style.bottom = 0;
+        rootContainer.style.backgroundColor = StudioRed;
+        rootContainer.style.justifyContent = Justify.Center;
+        rootContainer.style.alignItems = Align.Center;
+        rootContainer.style.opacity = 1f;
 
-        // Tap / keyboard to skip
+        // Interactive Tap / Key to Skip
         rootContainer.RegisterCallback<PointerDownEvent>(_ => Dismiss());
         rootContainer.focusable = true;
         rootContainer.Focus();
         rootContainer.RegisterCallback<KeyDownEvent>(_ => Dismiss());
 
+        // Prepare video element inside rootContainer from the start
+        renderTexture = new RenderTexture(1080, 1920, 0, RenderTextureFormat.ARGB32);
+        renderTexture.filterMode = FilterMode.Bilinear;
+        renderTexture.Create();
+
+        videoElement = new VisualElement();
+        videoElement.style.width = Length.Percent(100);
+        videoElement.style.height = Length.Percent(100);
+        videoElement.style.backgroundImage = Background.FromRenderTexture(renderTexture);
+        videoElement.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
+        videoElement.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
+        videoElement.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
+        videoElement.style.opacity = 0f;
+
+        rootContainer.Add(videoElement);
         uiDocument.rootVisualElement.Add(rootContainer);
+
+        // VideoPlayer component
+        videoPlayer = gameObject.AddComponent<VideoPlayer>();
+        videoPlayer.playOnAwake = false;
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.targetTexture = renderTexture;
+        videoPlayer.isLooping = false;
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
     }
 
-    // ── Main Intro Coroutine ───────────────────────────────────────────────
     private IEnumerator PlayIntroSequence()
     {
-        // ── Phase 1: Studio Logo ──────────────────────────────────────────
         VideoClip studioClip = Resources.Load<VideoClip>("StudioLogo");
+        VideoClip cvClip = Resources.Load<VideoClip>("CartoonCV");
+
+        // ── Phase 1: Studio Logo ──────────────────────────────────────────
         if (studioClip != null)
         {
-            yield return StartCoroutine(PlayVideoPhase(studioClip, onStart: () =>
+            yield return StartCoroutine(PlayVideoClipRoutine(studioClip, onStart: () =>
             {
-                // Pencil sketch SFX loops during studio logo
-                StartCoroutine(LoopSFXDuring("sfx_pencil_sketch", (float)studioClip.length));
-                // Synchronized mechanical clock ticks
+                // Play sketching SFX during the drawing phase (0 - 1.35s)
+                StartCoroutine(PlaySketchSFX(1.35f));
+                // Play clock ticks starting at 1.35s
                 StartCoroutine(SynchronizedTicksSFX());
             }));
         }
@@ -122,74 +143,39 @@ public class LoadingScreenUI : MonoBehaviour
 
         if (isDismissing) yield break;
 
-        // Brief black frame between clips
-        rootContainer.style.backgroundColor = Color.black;
-        videoElement?.RemoveFromHierarchy();
-        yield return new WaitForSecondsRealtime(0.12f);
-
-        // ── Phase 2: CartoonCV Animation ──────────────────────────────────
-        VideoClip cvClip = Resources.Load<VideoClip>("CartoonCV");
+        // ── Phase 2: Cartoon CV Animation ──────────────────────────────────
         if (cvClip != null)
         {
-            yield return StartCoroutine(PlayVideoPhase(cvClip, onStart: () =>
+            // Transition background to dark slate blue matching marketing icon
+            rootContainer.style.backgroundColor = LogoDark;
+            videoElement.style.opacity = 0f;
+
+            // Brief clean breathing room between clips
+            yield return new WaitForSecondsRealtime(0.1f);
+            if (isDismissing) yield break;
+
+            yield return StartCoroutine(PlayVideoClipRoutine(cvClip, onStart: () =>
             {
-                // Rising whoosh at start of CV anim
-                AudioManager.Instance?.PlaySFX("sfx_intro_whoosh");
-                // Stamp slam timed to ~42% through the animation (≈ 2.1s in 5s clip)
-                StartCoroutine(DelayedSFX("sfx_stamp_slam", (float)cvClip.length * 0.42f));
+                // Rising whoosh sound when CV swoops in
+                AudioManager.Instance?.PlaySFX("sfx_intro_whoosh", 0.85f);
+                // Heavy stamp slam THWACK when HIRED! stamp lands at ~2.05s
+                StartCoroutine(DelayedSFX("sfx_stamp_slam", 2.05f, true));
             }));
         }
-        // If CartoonCV.mp4 not found, skip silently
 
         if (isDismissing) yield break;
 
-        // ── Phase 3: Fade out ─────────────────────────────────────────────
+        // ── Phase 3: Fade out to game ─────────────────────────────────────
         yield return StartCoroutine(FadeOutAndDestroy(0.35f));
     }
 
-    // ── Utility: Play a VideoClip full-screen ─────────────────────────────
-    private IEnumerator PlayVideoPhase(VideoClip clip, System.Action onStart = null)
+    private IEnumerator PlayVideoClipRoutine(VideoClip clip, System.Action onStart = null)
     {
-        // Reuse or create render texture
-        if (renderTexture == null)
-        {
-            renderTexture = new RenderTexture(1080, 1920, 0, RenderTextureFormat.ARGB32);
-            renderTexture.filterMode = FilterMode.Bilinear;
-            renderTexture.Create();
-        }
-
-        // Reuse or create video player
-        if (videoPlayer == null)
-        {
-            videoPlayer = gameObject.AddComponent<VideoPlayer>();
-            videoPlayer.playOnAwake    = false;
-            videoPlayer.renderMode     = VideoRenderMode.RenderTexture;
-            videoPlayer.targetTexture  = renderTexture;
-            videoPlayer.isLooping      = false;
-            videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
-        }
-
-        videoPlayer.clip = clip;
-        videoPlayer.Stop();
-
-        // Reuse or create video display element
-        if (videoElement == null)
-        {
-            videoElement = new VisualElement();
-            videoElement.style.width              = Length.Percent(100);
-            videoElement.style.height             = Length.Percent(100);
-            videoElement.style.backgroundImage    = Background.FromRenderTexture(renderTexture);
-            videoElement.style.backgroundSize     = new BackgroundSize(BackgroundSizeType.Cover);
-            videoElement.style.backgroundPositionX = new BackgroundPosition(BackgroundPositionKeyword.Center);
-            videoElement.style.backgroundPositionY = new BackgroundPosition(BackgroundPositionKeyword.Center);
-            rootContainer.Add(videoElement);
-        }
-        else
-        {
-            videoElement.style.backgroundImage = Background.FromRenderTexture(renderTexture);
-        }
+        if (clip == null || videoPlayer == null) yield break;
 
         videoElement.style.opacity = 0f;
+        videoPlayer.Stop();
+        videoPlayer.clip = clip;
 
         videoPlayer.Prepare();
         while (!videoPlayer.isPrepared)
@@ -203,9 +189,9 @@ public class LoadingScreenUI : MonoBehaviour
 
         onStart?.Invoke();
 
-        float elapsed     = 0f;
+        float elapsed = 0f;
         float totalLength = (float)clip.length;
-        if (totalLength <= 0f) totalLength = 4f;
+        if (totalLength <= 0f) totalLength = 4.0f;
 
         while (elapsed < totalLength)
         {
@@ -215,35 +201,30 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 
-    // ── Utility: Loop an SFX AudioClip for a given duration ──────────────
-    private IEnumerator LoopSFXDuring(string clipName, float duration)
+    private IEnumerator PlaySketchSFX(float duration)
     {
-        AudioClip clip = Resources.Load<AudioClip>($"Audio/SFX/{clipName}");
-        if (clip == null) yield break;
-
-        float elapsed = 0f;
-        while (elapsed < duration && !isDismissing)
-        {
-            AudioManager.Instance?.PlaySFX(clipName);
-            yield return new WaitForSecondsRealtime(clip.length);
-            elapsed += clip.length;
-        }
+        AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.75f);
+        yield return new WaitForSecondsRealtime(duration);
     }
 
-    // ── Utility: Play SFX after a delay ──────────────────────────────────
-    private IEnumerator DelayedSFX(string clipName, float delay)
+    private IEnumerator DelayedSFX(string clipName, float delay, bool triggerHaptic = false)
     {
         yield return new WaitForSecondsRealtime(delay);
         if (!isDismissing)
-            AudioManager.Instance?.PlaySFX(clipName);
+        {
+            AudioManager.Instance?.PlaySFX(clipName, 0.95f);
+            if (triggerHaptic)
+            {
+                HapticManager.HeavyImpact();
+            }
+        }
     }
 
-    // ── Synchronized clock ticks (matching StudioLogo.mp4 keyframes) ──────
     private IEnumerator SynchronizedTicksSFX()
     {
         float[] tickTimes = { 1.35f, 1.80f, 2.25f, 2.70f };
-        float elapsed     = 0f;
-        int   tickIdx     = 0;
+        float elapsed = 0f;
+        int tickIdx = 0;
 
         while (tickIdx < tickTimes.Length)
         {
@@ -258,47 +239,46 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 
-    // ── Fallback static logo (if StudioLogo.mp4 missing) ─────────────────
     private IEnumerator FallbackStaticSequence()
     {
-        Texture2D logoTex  = Resources.Load<Texture2D>("StudioLogo");
+        Texture2D logoTex = Resources.Load<Texture2D>("StudioLogo");
         Texture2D badgeTex = Resources.Load<Texture2D>("MadeWithUnity");
 
         if (logoTex != null)
         {
             fallbackLogo = new VisualElement();
-            fallbackLogo.style.width            = Length.Percent(74);
-            fallbackLogo.style.maxWidth         = 440;
-            fallbackLogo.style.aspectRatio      = 934f / 1080f;
-            fallbackLogo.style.backgroundImage  = Background.FromTexture2D(logoTex);
-            fallbackLogo.style.backgroundSize   = new BackgroundSize(BackgroundSizeType.Contain);
+            fallbackLogo.style.width = Length.Percent(74);
+            fallbackLogo.style.maxWidth = 440;
+            fallbackLogo.style.aspectRatio = 934f / 1080f;
+            fallbackLogo.style.backgroundImage = Background.FromTexture2D(logoTex);
+            fallbackLogo.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
             fallbackLogo.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
-            fallbackLogo.style.opacity          = 0f;
+            fallbackLogo.style.opacity = 0f;
             rootContainer.Add(fallbackLogo);
         }
 
         if (badgeTex != null)
         {
             fallbackBadge = new VisualElement();
-            fallbackBadge.style.width            = 184;
-            fallbackBadge.style.height           = 56;
-            fallbackBadge.style.backgroundImage  = Background.FromTexture2D(badgeTex);
-            fallbackBadge.style.backgroundSize   = new BackgroundSize(BackgroundSizeType.Contain);
+            fallbackBadge.style.width = 184;
+            fallbackBadge.style.height = 56;
+            fallbackBadge.style.backgroundImage = Background.FromTexture2D(badgeTex);
+            fallbackBadge.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Contain);
             fallbackBadge.style.backgroundRepeat = new BackgroundRepeat(Repeat.NoRepeat, Repeat.NoRepeat);
-            fallbackBadge.style.opacity          = 0f;
-            fallbackBadge.style.position         = Position.Absolute;
-            fallbackBadge.style.bottom           = 60;
+            fallbackBadge.style.opacity = 0f;
+            fallbackBadge.style.position = Position.Absolute;
+            fallbackBadge.style.bottom = 60;
             rootContainer.Add(fallbackBadge);
         }
 
         float elapsed = 0f;
-        float fadeIn  = 0.45f;
+        float fadeIn = 0.45f;
         while (elapsed < fadeIn)
         {
             if (isDismissing) yield break;
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / fadeIn);
-            if (fallbackLogo  != null) fallbackLogo.style.opacity  = t;
+            if (fallbackLogo != null) fallbackLogo.style.opacity = t;
             if (fallbackBadge != null) fallbackBadge.style.opacity = t;
             yield return null;
         }
@@ -314,7 +294,6 @@ public class LoadingScreenUI : MonoBehaviour
         yield return StartCoroutine(FadeOutAndDestroy(0.35f));
     }
 
-    // ── Dismiss (tap/key skip) ────────────────────────────────────────────
     public void Dismiss()
     {
         if (isDismissing) return;
@@ -322,12 +301,11 @@ public class LoadingScreenUI : MonoBehaviour
         StartCoroutine(FadeOutAndDestroy(0.18f));
     }
 
-    // ── Fade + Destroy ────────────────────────────────────────────────────
     private IEnumerator FadeOutAndDestroy(float duration)
     {
         isDismissing = true;
-        float elapsed     = 0f;
-        float startOpacity = rootContainer?.style.opacity.value ?? 1f;
+        float elapsed = 0f;
+        float startOpacity = rootContainer != null ? rootContainer.style.opacity.value : 1f;
 
         while (elapsed < duration)
         {
@@ -341,7 +319,6 @@ public class LoadingScreenUI : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // ── Cleanup ───────────────────────────────────────────────────────────
     private void OnDestroy()
     {
         if (videoPlayer != null)
@@ -358,19 +335,19 @@ public class LoadingScreenUI : MonoBehaviour
         }
         if (videoElement != null)
         {
-            videoElement.style.backgroundImage = Background.none;
+            videoElement.style.backgroundImage = default;
             videoElement.RemoveFromHierarchy();
             videoElement = null;
         }
         if (fallbackLogo != null)
         {
-            fallbackLogo.style.backgroundImage = Background.none;
+            fallbackLogo.style.backgroundImage = default;
             fallbackLogo.RemoveFromHierarchy();
             fallbackLogo = null;
         }
         if (fallbackBadge != null)
         {
-            fallbackBadge.style.backgroundImage = Background.none;
+            fallbackBadge.style.backgroundImage = default;
             fallbackBadge.RemoveFromHierarchy();
             fallbackBadge = null;
         }
@@ -381,4 +358,3 @@ public class LoadingScreenUI : MonoBehaviour
         }
     }
 }
-
