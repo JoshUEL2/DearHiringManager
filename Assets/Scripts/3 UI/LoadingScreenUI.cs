@@ -5,17 +5,19 @@ using System.Collections;
 using System.Linq;
 
 /// <summary>
-/// Plays the unified master cinematic intro sequence:
-///   1. 0.0s – 4.8s: Simultaneous composition featuring:
-///                   - Cartoon CV Hero Logo (top/center) swoops in, details draw, 5-star rating pops,
-///                     and bold red "HIRED!" stamp slams on top with impact burst lines.
-///                   - 24 Hour Studios emblem (smaller below) ticking mechanically every 0.6s.
-///                   - Hero lock holds both logos together in golden-ratio balance.
-///   2. Synchronized SFX & haptics:
-///                   - Continuous clock ticks (0.0s, 0.6s, 1.2s, 1.8s, 2.4s, 3.0s, 3.6s, 4.2s).
-///                   - Swoop whoosh at 0.35s.
-///                   - Rubber stamp slam THWACK + heavy haptic impact at 1.85s.
-///   3. Tap or any keypress skips immediately.
+/// Plays the unified master cinematic intro & loading screen sequence (5.0s = 150 frames @ 30fps):
+///   1. 0.00s – 0.35s (0% – 7%):   "DEAR HIRING MANAGER" title lockup, "DEVELOPED BY" header,
+///                                 24 Hour Studios emblem, and loading progress bar appear.
+///                                 - Musical intro jingle (sfx_intro_jingle) starts while gameplay BGM is ducked.
+///   2. 0.40s – 0.80s (8% – 16%):  Cartoon CV swoops into center (sfx_intro_whoosh at 0.40s / Frame 12).
+///   3. 0.80s – 1.15s (16% – 23%): 5 CV dossier lines draw with rising marimba notes (sfx_pencil_sketch at 0.80s / Frame 24).
+///   4. 1.20s, 1.70s, 2.20s, 2.70s (24%, 34%, 44%, 54% | Frames 36, 51, 66, 81):
+///                                 4 exact 5° mechanical clock ticks (5° -> 10° -> 15° -> 20° lock)
+///                                 with sfx_clock_tick and haptic ticks.
+///   5. 2.70s (54% | Frame 81):    Final 20° clock lock coincides with the red "HIRED!" stamp slam
+///                                 (sfx_stamp_slam + HeavyImpact haptic + triumphant jingle chord).
+///   6. 3.00s – 4.50s (60% – 90%): Gleam shimmer sweeps across the stamp while loading reaches 100%.
+///   7. 4.50s – 5.00s (90% – 100%): Smooth fade out into the main dashboard as gameplay BGM fades in.
 /// </summary>
 public class LoadingScreenUI : MonoBehaviour
 {
@@ -134,24 +136,68 @@ public class LoadingScreenUI : MonoBehaviour
             videoPlayer.Play();
             videoElement.style.opacity = 1f;
 
-            // ── Synchronized Audio Timeline ──
-            // 0.0s – 4.2s: Continuous mechanical clock ticks every 0.6s
-            StartCoroutine(SynchronizedTicksSFX());
+            // Start the musical intro jingle and duck gameplay BGM until the loading screen finishes
+            AudioManager.Instance?.BeginIntroSequence();
 
-            // 0.35s: Swoop whoosh when CV flies into place
-            StartCoroutine(DelayedSFX("sfx_intro_whoosh", 0.35f));
-
-            // 1.85s: Rubber stamp slam THWACK + heavy haptic impact
-            StartCoroutine(DelayedSFX("sfx_stamp_slam", 1.85f, true));
+            // ── Exact SVG-Locked Audio & Haptic Timeline (5.0s = 150 frames @ 30fps) ──
+            // Driven by videoPlayer.time (with unscaledDeltaTime fallback) for zero frame drift:
+            //   0.40s (8%  | Frame 12): Cartoon CV swoops in (sfx_intro_whoosh)
+            //   0.80s (16% | Frame 24): 5 dossier lines draw (sfx_pencil_sketch)
+            //   1.20s (24% | Frame 36): SVG Clock Tick 1 -> 5°  (sfx_clock_tick + LightImpact)
+            //   1.70s (34% | Frame 51): SVG Clock Tick 2 -> 10° (sfx_clock_tick + LightImpact)
+            //   2.20s (44% | Frame 66): SVG Clock Tick 3 -> 15° (sfx_clock_tick + LightImpact)
+            //   2.70s (54% | Frame 81): SVG Clock Tick 4 -> 20° Lock + "HIRED!" Stamp Slam (sfx_stamp_slam + HeavyImpact)
+            bool playedWhoosh = false;
+            bool playedSketch = false;
+            bool[] playedTick = new bool[4];
+            float[] svgTickTimes = { 1.20f, 1.70f, 2.20f, 2.70f };
+            bool playedStampSlam = false;
 
             float elapsed = 0f;
             float totalLength = (float)clip.length;
-            if (totalLength <= 0f) totalLength = 6.0f;
+            if (totalLength <= 0f) totalLength = 5.0f;
 
             while (elapsed < totalLength)
             {
                 if (isDismissing) yield break;
                 elapsed += Time.unscaledDeltaTime;
+
+                float currentVideoTime = (videoPlayer != null && videoPlayer.isPlaying && videoPlayer.time > 0.001)
+                    ? (float)videoPlayer.time
+                    : elapsed;
+
+                if (!playedWhoosh && currentVideoTime >= 0.40f)
+                {
+                    playedWhoosh = true;
+                    AudioManager.Instance?.PlaySFX("sfx_intro_whoosh", 0.90f);
+                }
+
+                if (!playedSketch && currentVideoTime >= 0.80f)
+                {
+                    playedSketch = true;
+                    AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.82f);
+                }
+
+                for (int i = 0; i < svgTickTimes.Length; i++)
+                {
+                    if (!playedTick[i] && currentVideoTime >= svgTickTimes[i])
+                    {
+                        playedTick[i] = true;
+                        AudioManager.Instance?.PlayClockTick(i == 3 ? 0.96f : 0.90f);
+                        if (i < 3)
+                        {
+                            HapticManager.LightImpact();
+                        }
+                    }
+                }
+
+                if (!playedStampSlam && currentVideoTime >= 2.70f)
+                {
+                    playedStampSlam = true;
+                    AudioManager.Instance?.PlaySFX("sfx_stamp_slam", 1.0f);
+                    HapticManager.HeavyImpact();
+                }
+
                 yield return null;
             }
 
@@ -160,45 +206,8 @@ public class LoadingScreenUI : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance?.BeginIntroSequence();
             yield return StartCoroutine(FallbackStaticSequence());
-        }
-    }
-
-    private IEnumerator PlaySketchSFX(float duration)
-    {
-        AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.80f);
-        yield return new WaitForSecondsRealtime(duration);
-    }
-
-    private IEnumerator DelayedSFX(string clipName, float delay, bool triggerHaptic = false)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        if (!isDismissing)
-        {
-            AudioManager.Instance?.PlaySFX(clipName, 0.95f);
-            if (triggerHaptic)
-            {
-                HapticManager.HeavyImpact();
-            }
-        }
-    }
-
-    private IEnumerator SynchronizedTicksSFX()
-    {
-        float[] tickTimes = { 0.0f, 0.6f, 1.2f, 1.8f, 2.4f, 3.0f, 3.6f, 4.2f };
-        float elapsed = 0f;
-        int tickIdx = 0;
-
-        while (tickIdx < tickTimes.Length)
-        {
-            if (isDismissing) yield break;
-            elapsed += Time.unscaledDeltaTime;
-            if (elapsed >= tickTimes[tickIdx])
-            {
-                AudioManager.Instance?.PlayClick();
-                tickIdx++;
-            }
-            yield return null;
         }
     }
 
@@ -267,6 +276,8 @@ public class LoadingScreenUI : MonoBehaviour
     private IEnumerator FadeOutAndDestroy(float duration)
     {
         isDismissing = true;
+        AudioManager.Instance?.EndIntroSequence(0.6f);
+
         float elapsed = 0f;
         float startOpacity = rootContainer != null ? rootContainer.style.opacity.value : 1f;
 

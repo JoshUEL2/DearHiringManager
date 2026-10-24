@@ -1,152 +1,194 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="100%" height="100%">
   <defs>
-    <!-- Background Radial Glow: Deep Slate Blue (#18233A -> #0C1326 -> #050811) -->
-    <radialGradient id="bgVignette" cx="50%" cy="46%" r="68%">
-      <stop offset="0%" stop-color="#18233a" />
+    <!-- Background Radial Glow: Deep Slate Blue (#1c2942 -> #0c1326 -> #050811) -->
+    <radialGradient id="bgVignette" cx="50%" cy="44%" r="70%">
+      <stop offset="0%" stop-color="#1c2942" />
       <stop offset="55%" stop-color="#0c1326" />
       <stop offset="100%" stop-color="#050811" />
     </radialGradient>
 
+    <!-- Cyan Title Gradient matching Official Marketing Poster -->
+    <linearGradient id="cyanTitleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Loading Bar Fill Gradient -->
+    <linearGradient id="loadBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+
     <!-- Subtle Tech Grid -->
     <pattern id="cyanGrid" width="60" height="60" patternUnits="userSpaceOnUse">
-      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.04" />
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.045" />
     </pattern>
 
     <!-- Hard Comic Drop Shadows -->
+    <filter id="titleShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.85" />
+    </filter>
+
     <filter id="cvShadow" x="-25%" y="-20%" width="150%" height="150%">
-      <feDropShadow dx="12" dy="24" stdDeviation="18" flood-color="#000000" flood-opacity="0.80" />
+      <feDropShadow dx="10" dy="22" stdDeviation="16" flood-color="#000000" flood-opacity="0.82" />
     </filter>
 
     <filter id="stampShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.90" />
+      <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.90" />
     </filter>
 
     <filter id="studioGlow" x="-25%" y="-25%" width="150%" height="150%">
-      <feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#38bdf8" flood-opacity="0.25"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#38bdf8" flood-opacity="0.28"/>
     </filter>
 
     <!-- Gleam Sweep Gradient -->
     <linearGradient id="gleamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0" />
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.75" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.78" />
       <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
     </linearGradient>
 
+    <!-- Correctly aligned to local stamp rect (0, 0, 350, 110) -->
     <clipPath id="stampClip">
-      <rect x="-175" y="-55" width="350" height="110" rx="18" />
+      <rect x="0" y="0" width="350" height="110" rx="18" />
     </clipPath>
 
     <style>
-      /* ── Master Scene Fade (0.0s - 4.8s) ── */
+      /* ── Master Scene Fade (5.0s total) ── */
       @keyframes sceneMaster {
         0%       { opacity: 0; }
-        6.25%    { opacity: 1; }   /* 0.3s fully visible */
-        87.5%    { opacity: 1; }   /* 4.2s start fade */
-        100%     { opacity: 0; }   /* 4.8s black */
+        6.0%     { opacity: 1; }   /* 0.30s fully visible */
+        90.0%    { opacity: 1; }   /* 4.50s start fade */
+        100%     { opacity: 0; }   /* 5.00s black */
       }
       .scene-master {
-        animation: sceneMaster 4.8s ease-in-out forwards;
+        animation: sceneMaster 5.0s ease-in-out forwards;
       }
 
-      /* ── 1. STUDIO LOGO (Continuous Ticking, 8 ticks @ 0.6s intervals) ── */
+      /* ── TOP GAME TITLE LOCKUP ("DEAR HIRING MANAGER") ── */
+      @keyframes titleDropIn {
+        0%         { opacity: 0; transform: translate(540px, 160px) scale(0.82); }
+        5.5%       { opacity: 1; transform: translate(540px, 215px) scale(1.04); }
+        8.0%, 100% { opacity: 1; transform: translate(540px, 210px) scale(1.0); }
+      }
+      .title-lockup {
+        animation: titleDropIn 5.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* ── CARTOON CV SWOOP IN (0.40s - 0.80s | 8% - 16%) ── */
+      @keyframes cvIn {
+        0%, 8.0%    { transform: scale(2.4) rotate(-14deg); opacity: 0; }
+        13.5%       { transform: scale(1.04) rotate(2deg); opacity: 1; }
+        15.0%       { transform: scale(0.98) rotate(-1deg); opacity: 1; }
+        16.0%, 100% { transform: scale(1.0) rotate(0deg); opacity: 1; }
+      }
+      .cv-container {
+        animation: cvIn 5.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        transform-origin: 0 0;
+      }
+
+      /* ── STAGGERED DOSSIER LINES (0.80s - 1.15s | 16% - 23%) ── */
+      @keyframes lineDraw1 { 0%, 16.0% { transform: scaleX(0); opacity: 0.2; } 19.5%, 100% { transform: scaleX(1); opacity: 1; } }
+      @keyframes lineDraw2 { 0%, 17.2% { transform: scaleX(0); opacity: 0.2; } 20.5%, 100% { transform: scaleX(1); opacity: 1; } }
+      @keyframes lineDraw3 { 0%, 18.4% { transform: scaleX(0); opacity: 0.2; } 21.5%, 100% { transform: scaleX(1); opacity: 1; } }
+      @keyframes lineDraw4 { 0%, 19.6% { transform: scaleX(0); opacity: 0.2; } 22.5%, 100% { transform: scaleX(1); opacity: 1; } }
+      @keyframes lineDraw5 { 0%, 20.8% { transform: scaleX(0); opacity: 0.2; } 23.5%, 100% { transform: scaleX(1); opacity: 1; } }
+
+      .line-1 { animation: lineDraw1 5.0s ease-out forwards; transform-origin: left; }
+      .line-2 { animation: lineDraw2 5.0s ease-out forwards; transform-origin: left; }
+      .line-3 { animation: lineDraw3 5.0s ease-out forwards; transform-origin: left; }
+      .line-4 { animation: lineDraw4 5.0s ease-out forwards; transform-origin: left; }
+      .line-5 { animation: lineDraw5 5.0s ease-out forwards; transform-origin: left; }
+
+      /* ── "HIRED!" STAMP SLAM (Windup 51%, Impact at 54.0% = 2.70s = Frame 81) ── */
+      @keyframes stampSlam {
+        0%, 51.0%   { transform: scale(3.2) rotate(-28deg); opacity: 0; }
+        54.0%       { transform: scale(0.92) rotate(-10deg); opacity: 1; }
+        56.0%       { transform: scale(1.04) rotate(-10deg); opacity: 1; }
+        58.0%, 100% { transform: scale(1.0) rotate(-10deg); opacity: 1; }
+      }
+      .stamp-group {
+        animation: stampSlam 5.0s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        transform-origin: 0 0;
+      }
+
+      /* Impact Burst Lines at 54.0% (2.70s) */
+      @keyframes impactBurst {
+        0%, 53.5%   { transform: scale(0.5); opacity: 0; }
+        54.5%       { transform: scale(1.15); opacity: 1; }
+        59.5%, 100% { transform: scale(1.55); opacity: 0; }
+      }
+      .impact-lines {
+        animation: impactBurst 5.0s ease-out forwards;
+        transform-origin: 0 0;
+      }
+
+      /* Gleam sweep across stamp during hero lock (3.00s - 3.65s | 60% - 73%) */
+      @keyframes gleamSweep {
+        0%, 60.0%   { transform: translateX(-140px) skewX(-25deg); opacity: 0; }
+        61.0%       { opacity: 0.85; }
+        72.0%       { transform: translateX(460px) skewX(-25deg); opacity: 0.85; }
+        73.0%, 100% { transform: translateX(460px) skewX(-25deg); opacity: 0; }
+      }
+      .gleam-bar {
+        animation: gleamSweep 5.0s ease-in-out forwards;
+      }
+
+      /* ── "DEVELOPED BY" ATTRIBUTION (Properly sized in root space!) ── */
+      @keyframes attributionAppear {
+        0%         { opacity: 0; transform: translate(540px, 1135px); }
+        7.0%, 100% { opacity: 1; transform: translate(540px, 1120px); }
+      }
+      .studio-attribution-group {
+        animation: attributionAppear 5.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* ── 24 HOUR STUDIOS LOGO & EXACT 4-TICK SVG ROTATION ── */
       @keyframes studioAppear {
-        0%   { opacity: 0; transform: translate(540px, 1500px) scale(0.20); }
-        8%   { opacity: 1; transform: translate(540px, 1480px) scale(0.215); }
-        100% { opacity: 1; transform: translate(540px, 1480px) scale(0.215); }
+        0%         { opacity: 0; transform: translate(540px, 1410px) scale(0.195); }
+        7.0%, 100% { opacity: 1; transform: translate(540px, 1390px) scale(0.21); }
       }
       .studio-wrapper {
-        animation: studioAppear 4.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: studioAppear 5.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
 
-      /* Clock hand ticking every 0.6s with micro-recoil */
+      /*
+       * Exact 4-Tick Rotation matching StudioLogo_Animation.svg (5 deg, 10 deg, 15 deg, 20 deg):
+       *   Tick 1 @ 24.0% (1.20s, Frame 36): 0 deg  -> 5 deg
+       *   Tick 2 @ 34.0% (1.70s, Frame 51): 5 deg  -> 10 deg
+       *   Tick 3 @ 44.0% (2.20s, Frame 66): 10 deg -> 15 deg
+       *   Tick 4 @ 54.0% (2.70s, Frame 81): 15 deg -> 20 deg (Locks in sync with HIRED! stamp!)
+       */
       @keyframes studioClockTick {
-        0.00%  { transform: rotate(0deg); }
-        12.49% { transform: rotate(0deg); }
-        12.50% { transform: rotate(6.4deg); }
-        13.10% { transform: rotate(6.0deg); }
-        24.99% { transform: rotate(6.0deg); }
-        25.00% { transform: rotate(12.4deg); }
-        25.60% { transform: rotate(12.0deg); }
-        37.49% { transform: rotate(12.0deg); }
-        37.50% { transform: rotate(18.4deg); }
-        38.10% { transform: rotate(18.0deg); }
-        49.99% { transform: rotate(18.0deg); }
-        50.00% { transform: rotate(24.4deg); }
-        50.60% { transform: rotate(24.0deg); }
-        62.49% { transform: rotate(24.0deg); }
-        62.50% { transform: rotate(30.4deg); }
-        63.10% { transform: rotate(30.0deg); }
-        74.99% { transform: rotate(30.0deg); }
-        75.00% { transform: rotate(36.4deg); }
-        75.60% { transform: rotate(36.0deg); }
-        87.49% { transform: rotate(36.0deg); }
-        87.50% { transform: rotate(42.4deg); }
-        88.10% { transform: rotate(42.0deg); }
-        100%   { transform: rotate(42.0deg); }
+        0.00%, 23.99%  { transform: rotate(0deg); }
+        24.00%         { transform: rotate(5.6deg); }
+        24.80%, 33.99% { transform: rotate(5.0deg); }
+        34.00%         { transform: rotate(10.6deg); }
+        34.80%, 43.99% { transform: rotate(10.0deg); }
+        44.00%         { transform: rotate(15.6deg); }
+        44.80%, 53.99% { transform: rotate(15.0deg); }
+        54.00%         { transform: rotate(20.8deg); }
+        54.80%, 100%   { transform: rotate(20.0deg); }
       }
       .studio-rot-clock {
-        animation: studioClockTick 4.8s forwards;
+        animation: studioClockTick 5.0s forwards;
         transform-origin: 1277.97px 1454.18px;
       }
 
-      .studio-attribution {
-        animation: studioAppear 4.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      /* ── LOADING PROGRESS BAR FILL (Synced to intro milestones) ── */
+      @keyframes loadProgressFill {
+        0%    { width: 16px; }
+        8%    { width: 90px; }
+        16%   { width: 170px; }
+        24%   { width: 250px; }
+        34%   { width: 330px; }
+        44%   { width: 410px; }
+        54%   { width: 508px; }
+        100%  { width: 508px; }
       }
-
-      /* ── 2. CARTOON CV SLAM (0.35s - 0.85s) ── */
-      @keyframes cvIn {
-        0%, 7.29%   { transform: scale(2.6) rotate(-16deg); opacity: 0; }
-        14.5%       { transform: scale(1.04) rotate(2deg); opacity: 1; }
-        16.5%       { transform: scale(0.98) rotate(-1deg); opacity: 1; }
-        18.75%, 100% { transform: scale(1.0) rotate(0deg); opacity: 1; }
-      }
-      .cv-container {
-        animation: cvIn 4.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        transform-origin: 0 0;
-      }
-
-      /* Line reveal (0.85s - 1.25s) */
-      @keyframes lineDraw {
-        0%, 17.7%   { transform: scaleX(0); opacity: 0.2; }
-        26.0%, 100% { transform: scaleX(1); opacity: 1; }
-      }
-      .line-anim {
-        animation: lineDraw 4.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        transform-origin: left;
-      }
-
-      /* ── 3. "HIRED!" STAMP SLAM (1.80s - 2.15s) ── */
-      @keyframes stampSlam {
-        0%, 37.5%   { transform: scale(3.2) rotate(-28deg); opacity: 0; }
-        42.0%       { transform: scale(0.92) rotate(-10deg); opacity: 1; }
-        44.5%       { transform: scale(1.04) rotate(-10deg); opacity: 1; }
-        47.0%, 100% { transform: scale(1.0) rotate(-10deg); opacity: 1; }
-      }
-      .stamp-group {
-        animation: stampSlam 4.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        transform-origin: 0 0;
-      }
-
-      /* Impact Lines */
-      @keyframes impactBurst {
-        0%, 40.5%   { transform: scale(0.2); opacity: 0; }
-        42.5%       { transform: scale(1.25); opacity: 1; }
-        47.0%, 100% { transform: scale(1.7); opacity: 0; }
-      }
-      .impact-lines {
-        animation: impactBurst 4.8s ease-out forwards;
-        transform-origin: 0 0;
-      }
-
-      /* Gleam sweep across stamp during hero lock (2.5s - 3.2s) */
-      @keyframes gleamSweep {
-        0%, 52.0%   { transform: translateX(-260px) skewX(-25deg); opacity: 0; }
-        53.0%       { opacity: 0.8; }
-        65.0%       { transform: translateX(280px) skewX(-25deg); opacity: 0.8; }
-        66.0%, 100% { transform: translateX(280px) skewX(-25deg); opacity: 0; }
-      }
-      .gleam-bar {
-        animation: gleamSweep 4.8s ease-in-out forwards;
+      .loading-bar-fill {
+        animation: loadProgressFill 5.0s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
     </style>
   </defs>
@@ -154,18 +196,62 @@
   <!-- Deep Slate Vignette Backdrop -->
   <rect width="1080" height="1920" fill="url(#bgVignette)" />
   <rect width="1080" height="1920" fill="url(#cyanGrid)" />
+  <!-- Subtle ambient light halo behind hero area -->
+  <circle cx="540" cy="640" r="420" fill="#38BDF8" fill-opacity="0.045" />
 
   <!-- Master Animated Scene Container -->
   <g class="scene-master">
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- TOP / UPPER CENTER: DEAR HIRING MANAGER CARTOON CV ANIMATION   -->
+    <!-- 1. TOP TITLE LOCKUP: "DEAR HIRING MANAGER"                      -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <g transform="translate(540, 680) scale(1.36)">
+    <g class="title-lockup" filter="url(#titleShadow)">
+      <!-- Subtitle Pill -->
+      <rect x="-220" y="-115" width="440" height="38" rx="19" fill="#0f172a" fill-opacity="0.85" stroke="#38BDF8" stroke-width="2.5" />
+      <text x="0" y="-90"
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            font-size="16"
+            font-weight="800"
+            fill="#38BDF8"
+            text-anchor="middle"
+            letter-spacing="3.5">
+        A SATIRICAL WORKPLACE ODYSSEY
+      </text>
+
+      <!-- Main Stacked Game Title -->
+      <text x="0" y="-8"
+            font-family="'Franklin Gothic Heavy', 'Impact', 'Arial Black', sans-serif"
+            font-size="84"
+            font-weight="900"
+            fill="#FFFFFF"
+            stroke="#0b1226"
+            stroke-width="12"
+            paint-order="stroke fill"
+            text-anchor="middle"
+            letter-spacing="3">
+        DEAR HIRING
+      </text>
+      <text x="0" y="74"
+            font-family="'Franklin Gothic Heavy', 'Impact', 'Arial Black', sans-serif"
+            font-size="88"
+            font-weight="900"
+            fill="url(#cyanTitleGrad)"
+            stroke="#0b1226"
+            stroke-width="12"
+            paint-order="stroke fill"
+            text-anchor="middle"
+            letter-spacing="4">
+        MANAGER
+      </text>
+    </g>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- 2. CENTER HERO: CARTOON CV DOCUMENT + "HIRED!" STAMP            -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <g transform="translate(540, 695) scale(1.20)">
 
       <!-- Main Animated Cartoon CV Document -->
       <g class="cv-container">
-        <!-- Main Paper Shadow & Body (Origin centered) -->
         <g transform="translate(-190, -255)" filter="url(#cvShadow)">
           <!-- Main CV Paper -->
           <path d="M 0 32
@@ -190,32 +276,30 @@
             <path d="M 52 118 C 52 96, 64 90, 81 90 C 98 90, 110 96, 110 118 Z"/>
           </g>
 
-          <!-- Candidate Header Bars -->
-          <rect x="146" y="46" width="180" height="22" rx="11" fill="#0b1226"/>
-          <rect x="146" y="80" width="120" height="16" rx="8" fill="#64748b"/>
+          <!-- Candidate Header Bars (Sized cleanly to left of dog-ear fold) -->
+          <rect x="144" y="48" width="116" height="22" rx="11" fill="#0b1226"/>
+          <rect x="144" y="82" width="84" height="16" rx="8" fill="#64748b"/>
 
-          <!-- CV Experience Section Lines (simulated text) -->
+          <!-- CV Experience Section Lines (staggered animated reveal) -->
           <g fill="#94a3b8">
-            <rect x="36" y="160" width="308" height="18" rx="9" class="line-anim"/>
-            <rect x="36" y="196" width="260" height="18" rx="9" class="line-anim"/>
-            <rect x="36" y="232" width="290" height="18" rx="9" class="line-anim"/>
-            <rect x="36" y="268" width="220" height="18" rx="9" class="line-anim"/>
-            <rect x="36" y="304" width="270" height="18" rx="9" class="line-anim"/>
+            <rect x="36" y="160" width="308" height="18" rx="9" class="line-1"/>
+            <rect x="36" y="196" width="260" height="18" rx="9" class="line-2"/>
+            <rect x="36" y="232" width="290" height="18" rx="9" class="line-3"/>
+            <rect x="36" y="268" width="220" height="18" rx="9" class="line-4"/>
+            <rect x="36" y="304" width="270" height="18" rx="9" class="line-5"/>
           </g>
         </g>
       </g>
 
-      <!-- Impact Burst Lines on Stamp Landing -->
-      <g transform="translate(0, 115)" class="impact-lines" stroke="#38bdf8" stroke-width="6.5" stroke-linecap="round">
-        <line x1="-190" y1="-75" x2="-235" y2="-95"/>
-        <line x1="190"  y1="-75" x2="235"  y2="-95"/>
-        <line x1="-200" y1="55"  x2="-245" y2="75"/>
-        <line x1="200"  y1="55"  x2="245"  y2="75"/>
-        <line x1="0"    y1="125" x2="0"    y2="170"/>
-        <line x1="0"    y1="-135"x2="0"    y2="-180"/>
+      <!-- Exterior Radial Impact Burst Lines on Stamp Landing (T = 2.70s / 54%) -->
+      <g transform="translate(0, 115)" class="impact-lines" stroke="#38bdf8" stroke-width="7" stroke-linecap="round">
+        <line x1="-205" y1="-65" x2="-255" y2="-88"/>
+        <line x1="205"  y1="-65" x2="255"  y2="-88"/>
+        <line x1="-210" y1="50"  x2="-260" y2="72"/>
+        <line x1="210"  y1="50"  x2="260"  y2="72"/>
       </g>
 
-      <!-- Bold Red HIRED! Stamp Slam (slams clean on CV without any star clipping) -->
+      <!-- Bold Red HIRED! Stamp Slam -->
       <g transform="translate(0, 115)">
         <g class="stamp-group">
           <g transform="translate(-175, -55)" filter="url(#stampShadow)">
@@ -235,9 +319,9 @@
                   stroke-width="2.5">
               HIRED!
             </text>
-            <!-- Gleam Shimmer Sweep -->
+            <!-- Gleam Shimmer Sweep (Clipped strictly inside stamp rect 0..350) -->
             <g clip-path="url(#stampClip)">
-              <rect class="gleam-bar" x="-60" y="-20" width="100" height="160" fill="url(#gleamGrad)" />
+              <rect class="gleam-bar" x="-60" y="-20" width="95" height="160" fill="url(#gleamGrad)" />
             </g>
           </g>
         </g>
@@ -246,24 +330,26 @@
     </g>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- BOTTOM / LOWER CENTER: 24 HOUR STUDIOS (Thicker & Rounded)       -->
+    <!-- 3. LOWER STUDIO CREDIT: "DEVELOPED BY" + 24 HOUR STUDIOS        -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- Attribution Header -->
-    <text class="studio-attribution" x="540" y="1250"
-          font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-          font-size="22"
-          font-weight="700"
-          fill="#64748b"
-          letter-spacing="8"
-          text-anchor="middle">
-      DEVELOPED BY
-    </text>
+    <g class="studio-attribution-group">
+      <line x1="-235" y1="-9" x2="-165" y2="-9" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+      <text x="0" y="0"
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            font-size="25"
+            font-weight="800"
+            fill="#94A3B8"
+            letter-spacing="7"
+            text-anchor="middle">
+        DEVELOPED BY
+      </text>
+      <line x1="165" y1="-9" x2="235" y2="-9" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+    </g>
 
     <!-- 24 Hour Studios Logo Container with Thicker Rounded Strokes -->
     <g class="studio-wrapper" filter="url(#studioGlow)">
-      <!-- Translated to center of artwork (798, 949) with 10px rounded stroke expansion -->
       <g transform="translate(-798, -949)" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
-        <!-- Static 24 Hour Studios Typography & Geometric Dial -->
+        <!-- Static 24 Hour Studios Typography & Geometric Frame -->
         <g id="Static-Layer">
 <path d="M908.52,610.13c33.66-127.82,1.61-267.74-84.14-368.31-73.4-86.08-178.2-138.9-291.82-144.97-66.7-3.56-133.45,8.65-194.17,36.16-93.31,42.28-167.55,118.29-208.38,212.14-22.53,51.79-33.37,107.85-33.64,163.98-.02,3.41-3.75,5.26-5.78,5.28-3.03.04-6.42-2.05-6.42-5.83-.03-35.36,3.8-70.31,12.59-104.67,18.33-71.66,54.95-136.38,105.73-189.66l12.18-12.17c64.18-61.23,145.9-101.83,234.13-113.94,51.49-7.07,107.46-5.14,157.93,6.74,101.29,23.86,190.48,83.99,250.48,169.02,69.38,98.32,92.78,221.6,66.25,339.01-13.95,61.72-42.99,117.47-81.11,167.7L225.93,1582.9c-2.24,2.95-5.5,3.38-7.92,2.54-2.23-.77-5.59-5.27-3.42-8.12l628.11-828.38c31.34-41.34,52.73-89.08,65.83-138.82Z" pathLength="1"  />
 <path d="M826.65,424.93c-22.76-88.16-79.43-159.85-158.64-204.2-27.62-15.46-56.56-25.75-87.4-32.73-48.35-10.94-97.7-10.24-145.99.89-48.81,11.25-93.54,32.92-132.4,64.54-77.04,62.7-120.92,154.63-121.63,254.15-.03,4.01-2.21,6.26-5.63,6.57-2.94.27-6.66-1.95-6.65-5.86.05-26.39,2.53-52.12,8.61-77.94,14.06-59.68,43.95-113.43,85.94-157.64,4.42-4.65,7.97-8.22,12.71-12.63,63.67-59.32,147.3-93.42,234.95-92.09,29.9.45,58.86,3.74,87.17,11.31,115.66,30.96,206.15,119.64,239.11,234.84,15.79,55.18,17.07,114.29,4.2,170.69-11.14,48.79-33.93,93.08-64.12,132.79L118.33,1583.78c-2.37,3.11-6.9,2.58-8.97.55-2.39-2.35-2.77-5.66-.31-8.89l664.19-873.87c26.97-35.49,45.16-76.45,55.38-119.47,12.39-52.14,11.41-105.38-1.96-157.17Z" pathLength="1"  />
@@ -288,7 +374,7 @@
 <rect x="48.54" y="1878.87" width="784.19" height="6.65"  pathLength="1"  />
 </g>
 
-        <!-- Rotating Clock Hands (ticking every 0.6s) -->
+        <!-- Rotating Clock / HOUR Arm (Ticks 5 -> 10 -> 15 -> 20 deg) -->
         <g class="studio-rot-clock">
           <g id="Rotating-Layer" class="rot-anim">
 <path d="M1232.91,1633.7c.78-.19,1.19-.62,1.69,0,.39.48.71.61,1.88,0,.3,1.68-1.01-.14.38,0,.39.04.28-2.22.56-1.96,1.38,1.24,4.01-3.28,4.01-.75l-.04,263.6c0,4.05-3.69,5.74-6.4,5.55-2.63-.19-5.76-1.83-5.76-5.6l-.02-265.43c0-.95,1.08,6.06,2,5.84.01,0,1.68-1.23,1.69-1.24Z" pathLength="1"  />
@@ -325,6 +411,37 @@
 </g>
         </g>
       </g>
+    </g>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- 4. BOTTOM LOADING SCREEN PROGRESS BAR & STATUS                  -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <g transform="translate(540, 1735)">
+      <text x="0" y="-22"
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            font-size="20"
+            font-weight="800"
+            fill="#38BDF8"
+            letter-spacing="5"
+            text-anchor="middle">
+        PREPARING WORKPLACE SIMULATION...
+      </text>
+
+      <!-- Progress Bar Track -->
+      <rect x="-260" y="0" width="520" height="22" rx="11" fill="#0F172A" stroke="#334155" stroke-width="3" />
+      <!-- Animated Progress Fill -->
+      <rect x="-254" y="5" width="508" height="12" rx="6" fill="url(#loadBarGrad)" class="loading-bar-fill" />
+
+      <!-- Tap to Skip Hint -->
+      <text x="0" y="56"
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            font-size="16"
+            font-weight="600"
+            fill="#64748B"
+            letter-spacing="3.5"
+            text-anchor="middle">
+        TAP ANYWHERE TO SKIP
+      </text>
     </g>
 
   </g>

@@ -188,6 +188,18 @@ public class AudioManager : MonoBehaviour
         if (sfxWarningShift == null) sfxWarningShift = minigameFailClip;
         if (sfxScrubPlate1 == null) sfxScrubPlate1 = GenerateClickClip();
         if (sfxScrubPlate2 == null) sfxScrubPlate2 = GenerateClickClip();
+
+        // Pre-cache Intro Jingle & SFX for zero-latency playback during LoadingScreenUI
+        string[] introClips = { "sfx_intro_jingle", "sfx_clock_tick", "sfx_intro_whoosh", "sfx_pencil_sketch", "sfx_stamp_slam" };
+        foreach (string cName in introClips)
+        {
+            AudioClip loaded = Resources.Load<AudioClip>($"Audio/SFX/{cName}");
+            if (loaded != null)
+            {
+                _clipCache[cName] = loaded;
+                _clipCache[$"Audio/SFX/{cName}"] = loaded;
+            }
+        }
     }
 
     private void StartBaseBGM()
@@ -625,6 +637,43 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Ducks gameplay BGM during the intro loading screen and starts the musical intro jingle.
+    /// </summary>
+    public void BeginIntroSequence()
+    {
+        if (musicSource != null)
+        {
+            if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+            musicSource.volume = 0f;
+        }
+        PlaySFX("sfx_intro_jingle", 0.88f);
+    }
+
+    /// <summary>
+    /// Smoothly restores the base lo-fi gameplay BGM when the intro loading screen finishes or is skipped.
+    /// </summary>
+    public void EndIntroSequence(float fadeDuration = 0.6f)
+    {
+        RestoreMusic(fadeDuration);
+    }
+
+    /// <summary>
+    /// Plays the high-precision mechanical clock escapement tick for the 24 Hour Studios emblem.
+    /// </summary>
+    public void PlayClockTick(float volumeScale = 0.90f)
+    {
+        if (isMuted || sfxSource == null) return;
+        if (_clipCache.TryGetValue("sfx_clock_tick", out AudioClip tickClip) && tickClip != null)
+        {
+            sfxSource.PlayOneShot(tickClip, Mathf.Clamp01(volumeScale * sfxVolume * masterVolume));
+        }
+        else
+        {
+            PlaySFX("sfx_clock_tick", volumeScale);
+        }
+    }
+
+    /// <summary>
     /// Generic SFX player: loads any clip by resource name from Audio/SFX/
     /// and plays it once at the standard SFX volume.
     /// e.g. PlaySFX("sfx_pencil_sketch")  loads "Audio/SFX/sfx_pencil_sketch"
@@ -633,7 +682,18 @@ public class AudioManager : MonoBehaviour
     {
         if (isMuted || sfxSource == null) return;
         string resourcePath = clipName.Contains("/") ? clipName : $"Audio/SFX/{clipName}";
-        AudioClip clip = Resources.Load<AudioClip>(resourcePath);
+        if (!_clipCache.TryGetValue(clipName, out AudioClip clip) || clip == null)
+        {
+            if (!_clipCache.TryGetValue(resourcePath, out clip) || clip == null)
+            {
+                clip = Resources.Load<AudioClip>(resourcePath);
+                if (clip != null)
+                {
+                    _clipCache[clipName] = clip;
+                    _clipCache[resourcePath] = clip;
+                }
+            }
+        }
         if (clip == null)
         {
             Debug.LogWarning($"AudioManager.PlaySFX: clip not found at '{resourcePath}'");
