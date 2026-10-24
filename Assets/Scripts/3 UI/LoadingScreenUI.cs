@@ -6,20 +6,16 @@ using System.Linq;
 
 /// <summary>
 /// Plays the unified master cinematic intro sequence:
-///   1. 0.0s – 1.4s: 24 Hour Studios logo original pencil sketch in crisp white on dark slate.
-///                   - sfx_pencil_sketch plays during drawing.
-///   2. 1.5s – 2.5s: Mechanical clock hand rotation.
-///                   - 4 crisp synchronized clock ticks click.
-///   3. 2.7s – 3.1s: Dear Hiring Manager Cartoon CV swoops & slams down directly on top of the logo.
-///                   - sfx_intro_whoosh plays on swoop.
-///                   - Candidate details draw out and 5 stars pop into place.
-///   4. 3.6s – 3.95s: Red "HIRED!" stamp drops and slams onto the CV.
-///                   - sfx_stamp_slam THWACK + Heavy Haptic impact.
-///                   - Impact burst lines radiate outward.
-///   5. 3.95s – 5.6s: Complete marketing logo document sits proud in center.
-///   6. 5.6s – 6.0s: Smooth fade to black → Game Dashboard loads!
-///
-/// Tap or any keypress skips immediately.
+///   1. 0.0s – 4.8s: Simultaneous composition featuring:
+///                   - Cartoon CV Hero Logo (top/center) swoops in, details draw, 5-star rating pops,
+///                     and bold red "HIRED!" stamp slams on top with impact burst lines.
+///                   - 24 Hour Studios emblem (smaller below) ticking mechanically every 0.6s.
+///                   - Hero lock holds both logos together in golden-ratio balance.
+///   2. Synchronized SFX & haptics:
+///                   - Continuous clock ticks (0.0s, 0.6s, 1.2s, 1.8s, 2.4s, 3.0s, 3.6s, 4.2s).
+///                   - Swoop whoosh at 0.35s.
+///                   - Rubber stamp slam THWACK + heavy haptic impact at 1.85s.
+///   3. Tap or any keypress skips immediately.
 /// </summary>
 public class LoadingScreenUI : MonoBehaviour
 {
@@ -139,17 +135,14 @@ public class LoadingScreenUI : MonoBehaviour
             videoElement.style.opacity = 1f;
 
             // ── Synchronized Audio Timeline ──
-            // 0.0s – 1.35s: Sketching SFX as studio logo is drawn
-            StartCoroutine(PlaySketchSFX(1.35f));
-
-            // 1.5s – 2.5s: 4 mechanical clock ticks
+            // 0.0s – 4.2s: Continuous mechanical clock ticks every 0.6s
             StartCoroutine(SynchronizedTicksSFX());
 
-            // 2.7s: Swoop whoosh when CV slams on top
-            StartCoroutine(DelayedSFX("sfx_intro_whoosh", 2.70f));
+            // 0.35s: Swoop whoosh when CV flies into place
+            StartCoroutine(DelayedSFX("sfx_intro_whoosh", 0.35f));
 
-            // 3.9s: Rubber stamp slam THWACK + haptic impact
-            StartCoroutine(DelayedSFX("sfx_stamp_slam", 3.90f, true));
+            // 1.85s: Rubber stamp slam THWACK + heavy haptic impact
+            StartCoroutine(DelayedSFX("sfx_stamp_slam", 1.85f, true));
 
             float elapsed = 0f;
             float totalLength = (float)clip.length;
@@ -192,7 +185,7 @@ public class LoadingScreenUI : MonoBehaviour
 
     private IEnumerator SynchronizedTicksSFX()
     {
-        float[] tickTimes = { 1.55f, 1.85f, 2.15f, 2.45f };
+        float[] tickTimes = { 0.0f, 0.6f, 1.2f, 1.8f, 2.4f, 3.0f, 3.6f, 4.2f };
         float elapsed = 0f;
         int tickIdx = 0;
 
