@@ -208,7 +208,7 @@ public class AudioManager : MonoBehaviour
         {
             currentBgmIndex = 0;
             musicSource.clip = bgmPlaylist[currentBgmIndex];
-            musicSource.volume = isMuted ? 0f : (musicVolume * masterVolume);
+            musicSource.volume = (isMuted || LoadingScreenUI.IsIntroPlaying) ? 0f : (musicVolume * masterVolume);
             musicSource.Play();
         }
     }
@@ -227,7 +227,7 @@ public class AudioManager : MonoBehaviour
         if (musicSource != null)
         {
             musicSource.mute = isMuted;
-            musicSource.volume = musicVolume * masterVolume;
+            musicSource.volume = LoadingScreenUI.IsIntroPlaying ? 0f : (musicVolume * masterVolume);
         }
         if (ambienceSource != null)
         {
