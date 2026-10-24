@@ -570,6 +570,9 @@ public class GameUIManager : MonoBehaviour
     private Texture2D _blurGradientTextureDefault;
     private Texture2D _blurGradientTextureDark;
     private Texture2D _blurGradientTextureLight;
+    private Texture2D _terminalFadeTextureDefault;
+    private Texture2D _terminalFadeTextureDark;
+    private Texture2D _terminalFadeTextureLight;
 
     public Texture2D GetBlurTextureForTheme(GameTheme theme)
     {
@@ -591,6 +594,26 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
+    public Texture2D GetTerminalFadeTextureForTheme(GameTheme theme)
+    {
+        switch (theme)
+        {
+            case GameTheme.Light:
+                if (_terminalFadeTextureLight == null)
+                    _terminalFadeTextureLight = GenerateTerminalFadeTexture(new Color(241f / 255f, 245f / 255f, 249f / 255f));
+                return _terminalFadeTextureLight;
+            case GameTheme.Dark:
+                if (_terminalFadeTextureDark == null)
+                    _terminalFadeTextureDark = GenerateTerminalFadeTexture(new Color(10f / 255f, 17f / 255f, 40f / 255f));
+                return _terminalFadeTextureDark;
+            case GameTheme.Default:
+            default:
+                if (_terminalFadeTextureDefault == null)
+                    _terminalFadeTextureDefault = GenerateTerminalFadeTexture(new Color(7f / 255f, 9f / 255f, 14f / 255f));
+                return _terminalFadeTextureDefault;
+        }
+    }
+
     private Texture2D GenerateThemeGradientTexture(Color baseColor)
     {
         int w = 256;
@@ -599,29 +622,52 @@ public class GameUIManager : MonoBehaviour
         tex.wrapMode = TextureWrapMode.Clamp;
         tex.filterMode = FilterMode.Bilinear;
 
-        // BottomNavBlurShield height is 440px (y=0 at bottom, y=440px at top).
-        // bottom-nav-container top edge is at ~295px from the bottom.
-        // We want the fade to happen JUST ABOVE the bottom bar (from 440px down to 350px)
-        // and reach 100% solid opacity (alpha = 1.0) at ~348px from the bottom (~55px above the bottom bar)
-        // so dashboard text fades away completely above the bottom bar and never goes behind it.
+        // BottomNavBlurShield height is 410px.
+        // TerminalCard ends at 310px from the bottom (top edge of bottom-nav-container is at ~285px).
+        // From 410px down to 310px (~25% of shield height), text fades smoothly into the background.
+        // From 310px down to 0px, shield is 100% solid opaque (alpha = 1.0).
         Color[] pixels = new Color[w * h];
         for (int y = 0; y < h; y++)
         {
-            float t = (float)y / (h - 1); // 0 at bottom (0px), 1 at top (440px)
-            float normalizedDistFromTop = 1.0f - t; // 0 at top (440px), 1 at bottom (0px)
+            float t = (float)y / (h - 1); // 0 at bottom (0px), 1 at top (410px)
+            float normalizedDistFromTop = 1.0f - t;
             float alpha;
-            if (normalizedDistFromTop < 0.21f)
+            if (normalizedDistFromTop < 0.25f)
             {
-                // Smooth fade zone strictly above the bottom bar (440px down to ~348px from bottom)
-                float fadeT = normalizedDistFromTop / 0.21f;
+                float fadeT = normalizedDistFromTop / 0.25f;
                 alpha = Mathf.SmoothStep(0f, 1f, fadeT);
             }
             else
             {
-                // 100% solid opaque from ~348px all the way to 0px (completely above & behind the bottom bar)
                 alpha = 1.0f;
             }
 
+            Color c = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+            for (int x = 0; x < w; x++)
+            {
+                pixels[y * w + x] = c;
+            }
+        }
+
+        tex.SetPixels(pixels);
+        tex.Apply();
+        return tex;
+    }
+
+    private Texture2D GenerateTerminalFadeTexture(Color baseColor)
+    {
+        int w = 128;
+        int h = 128;
+        Texture2D tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Bilinear;
+
+        // y=0 is bottom of TerminalCard (100% opaque), y=h-1 is top of fade (0% transparent)
+        Color[] pixels = new Color[w * h];
+        for (int y = 0; y < h; y++)
+        {
+            float t = (float)y / (h - 1); // 0 at bottom, 1 at top
+            float alpha = Mathf.SmoothStep(1.0f, 0.0f, t);
             Color c = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
             for (int x = 0; x < w; x++)
             {
@@ -638,10 +684,18 @@ public class GameUIManager : MonoBehaviour
     {
         if (root == null) return;
         var shield = root.Q<VisualElement>("BottomNavBlurShield");
-        if (shield == null) return;
+        if (shield != null)
+        {
+            shield.pickingMode = PickingMode.Ignore;
+            shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(CurrentTheme));
+        }
 
-        shield.pickingMode = PickingMode.Ignore;
-        shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(CurrentTheme));
+        var terminalFade = root.Q<VisualElement>("TerminalBottomFade");
+        if (terminalFade != null)
+        {
+            terminalFade.pickingMode = PickingMode.Ignore;
+            terminalFade.style.backgroundImage = new StyleBackground(GetTerminalFadeTextureForTheme(CurrentTheme));
+        }
     }
 
     private void RegisterGlobalButtonClickSFX(VisualElement root)
@@ -1565,6 +1619,12 @@ public class GameUIManager : MonoBehaviour
             if (shield != null)
             {
                 shield.style.backgroundImage = new StyleBackground(GetBlurTextureForTheme(theme));
+            }
+
+            var terminalFade = r.Q<VisualElement>("TerminalBottomFade");
+            if (terminalFade != null)
+            {
+                terminalFade.style.backgroundImage = new StyleBackground(GetTerminalFadeTextureForTheme(theme));
             }
         }
 

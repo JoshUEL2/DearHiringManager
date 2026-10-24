@@ -170,13 +170,19 @@ public class SafeAreaHelper : MonoBehaviour
 
             state.basePaddingTop = container.resolvedStyle.paddingTop >= 0f ? container.resolvedStyle.paddingTop : 0f;
             state.basePaddingBottom = container.resolvedStyle.paddingBottom >= 0f ? container.resolvedStyle.paddingBottom : 0f;
+            if (container.Q<VisualElement>("TerminalCard") != null && state.basePaddingBottom < 310f)
+            {
+                state.basePaddingBottom = 310f;
+            }
             state.basePaddingLeft = container.resolvedStyle.paddingLeft >= 0f ? container.resolvedStyle.paddingLeft : 0f;
             state.basePaddingRight = container.resolvedStyle.paddingRight >= 0f ? container.resolvedStyle.paddingRight : 0f;
             state.hasBaseValues = true;
         }
 
-        container.style.paddingTop = state.basePaddingTop + topPad;
-        container.style.paddingBottom = state.basePaddingBottom + bottomPad;
+        if (topPad > 0f)
+            container.style.paddingTop = state.basePaddingTop + topPad;
+        if (bottomPad > 0f)
+            container.style.paddingBottom = state.basePaddingBottom + bottomPad;
 
         if (leftPad > 0f)
             container.style.paddingLeft = state.basePaddingLeft + leftPad;
@@ -210,7 +216,8 @@ public class SafeAreaHelper : MonoBehaviour
             state.hasBaseValue = true;
         }
 
-        nav.style.bottom = state.baseBottom + bottomPad;
+        if (bottomPad > 0f)
+            nav.style.bottom = state.baseBottom + bottomPad;
     }
 
     public static float GetScaleFactor(UIDocument doc)

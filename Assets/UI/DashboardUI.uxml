@@ -2,7 +2,7 @@
     
     <ui:Style src="styles.uss" />
 
-    <ui:VisualElement class="screen-container" style="padding-bottom: 360px;">
+    <ui:VisualElement class="screen-container" style="padding-bottom: 320px;">
         
         <!-- TOP CARD ROOT -->
         <ui:VisualElement name="TopCardRoot" class="card top-card-root" style="margin-bottom: 20px; border-radius: 0 0 24px 24px; border-width: 0 0 3px 0; padding: 0; flex-direction: column; overflow: hidden;">
@@ -40,8 +40,9 @@
         <ui:VisualElement name="TerminalCard" class="card terminal-card" style="flex-grow: 1; margin-bottom: 0; overflow: hidden; border-width: 2px 2px 0 2px; border-radius: 20px 20px 0 0; padding: 30px 30px 0 30px;">
             <ui:ScrollView name="TerminalScrollView" style="flex-grow: 1;">
                 <ui:VisualElement style="flex-grow: 1;" />
-                <ui:Label name="LogText" text="" enable-rich-text="true" style="font-size: 24px; white-space: normal; padding-bottom: 80px;" />
+                <ui:Label name="LogText" text="" enable-rich-text="true" style="font-size: 24px; white-space: normal; padding-bottom: 70px;" />
             </ui:ScrollView>
+            <ui:VisualElement name="TerminalBottomFade" class="terminal-bottom-fade" />
         </ui:VisualElement>
     </ui:VisualElement>
 
