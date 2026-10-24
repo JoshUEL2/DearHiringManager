@@ -599,26 +599,26 @@ public class GameUIManager : MonoBehaviour
         tex.wrapMode = TextureWrapMode.Clamp;
         tex.filterMode = FilterMode.Bilinear;
 
+        // BottomNavBlurShield height is 440px (y=0 at bottom, y=440px at top).
+        // bottom-nav-container top edge is at ~295px from the bottom.
+        // We want the fade to happen JUST ABOVE the bottom bar (from 440px down to 350px)
+        // and reach 100% solid opacity (alpha = 1.0) at ~348px from the bottom (~55px above the bottom bar)
+        // so dashboard text fades away completely above the bottom bar and never goes behind it.
         Color[] pixels = new Color[w * h];
         for (int y = 0; y < h; y++)
         {
-            float t = (float)y / (h - 1); // 0 at bottom, 1 at top
-            float normalizedDistFromTop = 1.0f - t; // 0 at top, 1 at bottom
+            float t = (float)y / (h - 1); // 0 at bottom (0px), 1 at top (440px)
+            float normalizedDistFromTop = 1.0f - t; // 0 at top (440px), 1 at bottom (0px)
             float alpha;
-            if (normalizedDistFromTop < 0.25f)
+            if (normalizedDistFromTop < 0.21f)
             {
-                // Soft gradual entrance
-                alpha = Mathf.Pow(normalizedDistFromTop / 0.25f, 2f) * 0.45f;
-            }
-            else if (normalizedDistFromTop < 0.65f)
-            {
-                // Smoothstep ramp to dense opacity
-                float midT = (normalizedDistFromTop - 0.25f) / 0.40f;
-                alpha = Mathf.Lerp(0.45f, 0.98f, Mathf.SmoothStep(0f, 1f, midT));
+                // Smooth fade zone strictly above the bottom bar (440px down to ~348px from bottom)
+                float fadeT = normalizedDistFromTop / 0.21f;
+                alpha = Mathf.SmoothStep(0f, 1f, fadeT);
             }
             else
             {
-                // 100% solid barrier behind the nav bar and buttons
+                // 100% solid opaque from ~348px all the way to 0px (completely above & behind the bottom bar)
                 alpha = 1.0f;
             }
 

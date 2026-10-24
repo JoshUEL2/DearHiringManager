@@ -19,6 +19,7 @@ public class SafeAreaHelper : MonoBehaviour
     private class ContainerState
     {
         public bool hasBaseValues;
+        public bool registeredGeometryCallback;
         public float basePaddingTop;
         public float basePaddingBottom;
         public float basePaddingLeft;
@@ -28,6 +29,7 @@ public class SafeAreaHelper : MonoBehaviour
     private class NavState
     {
         public bool hasBaseValue;
+        public bool registeredGeometryCallback;
         public float baseBottom = 40f;
     }
 
@@ -154,26 +156,23 @@ public class SafeAreaHelper : MonoBehaviour
 
         if (!state.hasBaseValues)
         {
-            state.basePaddingTop = container.style.paddingTop.keyword == StyleKeyword.Null
-                ? (container.resolvedStyle.paddingTop > 0 ? container.resolvedStyle.paddingTop : 0f)
-                : container.style.paddingTop.value.value;
-
-            state.basePaddingBottom = container.style.paddingBottom.keyword == StyleKeyword.Null
-                ? (container.resolvedStyle.paddingBottom > 0 ? container.resolvedStyle.paddingBottom : 0f)
-                : container.style.paddingBottom.value.value;
-
-            state.basePaddingLeft = container.style.paddingLeft.keyword == StyleKeyword.Null
-                ? (container.resolvedStyle.paddingLeft > 0 ? container.resolvedStyle.paddingLeft : 0f)
-                : container.style.paddingLeft.value.value;
-
-            state.basePaddingRight = container.style.paddingRight.keyword == StyleKeyword.Null
-                ? (container.resolvedStyle.paddingRight > 0 ? container.resolvedStyle.paddingRight : 0f)
-                : container.style.paddingRight.value.value;
-
-            if (container.resolvedStyle.height > 0 || state.basePaddingTop > 0 || state.basePaddingBottom > 0)
+            // Do not read resolvedStyle or overwrite inline styles before UI Toolkit layout has resolved.
+            // Overwriting container.style.paddingBottom on Frame 0 clobbers UXML inline styles (e.g. padding-bottom: 360px).
+            if (float.IsNaN(container.resolvedStyle.height) || container.resolvedStyle.height <= 0f)
             {
-                state.hasBaseValues = true;
+                if (!state.registeredGeometryCallback)
+                {
+                    state.registeredGeometryCallback = true;
+                    container.RegisterCallback<GeometryChangedEvent>(_ => ApplySafeArea());
+                }
+                return;
             }
+
+            state.basePaddingTop = container.resolvedStyle.paddingTop >= 0f ? container.resolvedStyle.paddingTop : 0f;
+            state.basePaddingBottom = container.resolvedStyle.paddingBottom >= 0f ? container.resolvedStyle.paddingBottom : 0f;
+            state.basePaddingLeft = container.resolvedStyle.paddingLeft >= 0f ? container.resolvedStyle.paddingLeft : 0f;
+            state.basePaddingRight = container.resolvedStyle.paddingRight >= 0f ? container.resolvedStyle.paddingRight : 0f;
+            state.hasBaseValues = true;
         }
 
         container.style.paddingTop = state.basePaddingTop + topPad;
@@ -197,14 +196,18 @@ public class SafeAreaHelper : MonoBehaviour
 
         if (!state.hasBaseValue)
         {
-            state.baseBottom = nav.style.bottom.keyword == StyleKeyword.Null
-                ? (nav.resolvedStyle.bottom > 0 ? nav.resolvedStyle.bottom : 40f)
-                : nav.style.bottom.value.value;
-
-            if (nav.resolvedStyle.height > 0 || state.baseBottom > 0)
+            if (float.IsNaN(nav.resolvedStyle.height) || nav.resolvedStyle.height <= 0f)
             {
-                state.hasBaseValue = true;
+                if (!state.registeredGeometryCallback)
+                {
+                    state.registeredGeometryCallback = true;
+                    nav.RegisterCallback<GeometryChangedEvent>(_ => ApplySafeArea());
+                }
+                return;
             }
+
+            state.baseBottom = nav.resolvedStyle.bottom > 0f ? nav.resolvedStyle.bottom : 40f;
+            state.hasBaseValue = true;
         }
 
         nav.style.bottom = state.baseBottom + bottomPad;

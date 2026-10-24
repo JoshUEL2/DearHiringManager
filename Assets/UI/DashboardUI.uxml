@@ -37,10 +37,10 @@
         <ui:Label name="DashboardTitle" text="DASHBOARD" class="header-text" style="margin: 0; margin-bottom: 20px;" />
 
         <!-- TERMINAL LOG -->
-        <ui:VisualElement name="TerminalCard" class="card terminal-card" style="flex-grow: 1; margin-bottom: 0; overflow: hidden; border-width: 2px; border-radius: 20px; padding: 30px;">
+        <ui:VisualElement name="TerminalCard" class="card terminal-card" style="flex-grow: 1; margin-bottom: 0; overflow: hidden; border-width: 2px 2px 0 2px; border-radius: 20px 20px 0 0; padding: 30px 30px 0 30px;">
             <ui:ScrollView name="TerminalScrollView" style="flex-grow: 1;">
                 <ui:VisualElement style="flex-grow: 1;" />
-                <ui:Label name="LogText" text="" enable-rich-text="true" style="font-size: 24px; white-space: normal;" />
+                <ui:Label name="LogText" text="" enable-rich-text="true" style="font-size: 24px; white-space: normal; padding-bottom: 80px;" />
             </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>

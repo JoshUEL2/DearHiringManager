@@ -209,7 +209,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 420px;
+    height: 440px;
     background-color: transparent;
     border-top-width: 0;
     -unity-background-scale-mode: stretch-to-fill;
@@ -1535,8 +1535,12 @@
     background-color: #07090E;
     color: #F8FAFC;
 }
-.theme-default .card, .theme-default .terminal-card {
+.theme-default .card {
     background-color: #0E121B;
+    border-color: #242E46;
+}
+.theme-default .terminal-card {
+    background-color: #07090E;
     border-color: #242E46;
 }
 .theme-default .top-card-root {
@@ -1629,8 +1633,12 @@
     background-color: #F1F5F9;
     color: #0F172A;
 }
-.theme-light .card, .theme-light .terminal-card {
+.theme-light .card {
     background-color: #FFFFFF;
+    border-color: #CBD5E1;
+}
+.theme-light .terminal-card {
+    background-color: #F1F5F9;
     border-color: #CBD5E1;
 }
 .theme-light .top-card-root {
