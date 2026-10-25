@@ -144,7 +144,7 @@ if ($SkipGitHub) {
         git add -A
         $status = git status --porcelain
         if ($status) {
-            git commit -m "Release v$Version: Production Android ARM64 build & assets"
+            git commit -m "Release v${Version}: Production Android ARM64 build & assets"
             Write-Success "Committed local changes for v$Version."
         } else {
             Write-Info "Working tree clean, nothing new to commit."

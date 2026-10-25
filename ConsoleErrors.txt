@@ -532,3 +532,98 @@ UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.Asset
 
 
 ---
+[Error] Invalid CSS property separator: "{"
+UnityEngine.Debug:LogError (object)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseProperty (System.Collections.Generic.List`1<string>,string&,string&)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseProperties (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGPropertySheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseSelector (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGStyleSheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:Parse (string)
+Unity.VectorGraphics.SVGDocument:style ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:defs ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:svg ()
+Unity.VectorGraphics.SVGDocument:Import ()
+Unity.VectorGraphics.SVGParser:ImportSVG (System.IO.TextReader,Unity.VectorGraphics.ViewportOptions,single,single,int,int)
+Unity.VectorGraphics.Editor.SVGImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Error] Invalid CSS selector closing bracket: "transform"
+UnityEngine.Debug:LogError (object)
+Unity.VectorGraphics.SVGStyleSheetUtils:ParseSelector (System.Collections.Generic.List`1<string>,Unity.VectorGraphics.SVGStyleSheet)
+Unity.VectorGraphics.SVGStyleSheetUtils:Parse (string)
+Unity.VectorGraphics.SVGDocument:style ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:defs ()
+Unity.VectorGraphics.SVGDocument:ParseChildren (Unity.VectorGraphics.XmlReaderIterator/Node,string)
+Unity.VectorGraphics.SVGDocument:svg ()
+Unity.VectorGraphics.SVGDocument:Import ()
+Unity.VectorGraphics.SVGParser:ImportSVG (System.IO.TextReader,Unity.VectorGraphics.ViewportOptions,single,single,int,int)
+Unity.VectorGraphics.Editor.SVGImporter:OnImportAsset (UnityEditor.AssetImporters.AssetImportContext)
+UnityEditor.AssetImporters.ScriptedImporter:GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext)
+
+---
+[Exception] XmlException: An error occurred while parsing EntityName. Line 147, position 35.
+System.Xml.XmlTextReaderImpl.Throw (System.Exception e) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.Throw (System.String res, System.Int32 lineNo, System.Int32 linePos) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.HandleEntityReference (System.Boolean isInAttributeValue, System.Xml.XmlTextReaderImpl+EntityExpandType expandType, System.Int32& charRefEndPos) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.ParseText (System.Int32& startPos, System.Int32& endPos, System.Int32& outOrChars) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.FinishPartialValue () (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.get_Value () (at <df085f64309540e49b54f5a4286787d8>:0)
+Unity.VectorGraphics.XmlReaderIterator.ReadTextWithinElement () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.style () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.ParseChildren (Unity.VectorGraphics.XmlReaderIterator+Node node, System.String nodeName) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.defs () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.ParseChildren (Unity.VectorGraphics.XmlReaderIterator+Node node, System.String nodeName) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.svg () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.Import () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGParser.ImportSVG (System.IO.TextReader textReader, Unity.VectorGraphics.ViewportOptions viewportOptions, System.Single dpi, System.Single pixelsPerUnit, System.Int32 windowWidth, System.Int32 windowHeight) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.Editor.SVGImporter.OnImportAsset (UnityEditor.AssetImporters.AssetImportContext ctx) (at <2a18e009d2834655a9876e1cc84ffe43>:0)
+UnityEditor.AssetImporters.ScriptedImporter.GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext ctx) (at <b69798a175fc402fb7a30c358b62aa3a>:0)
+
+---
+[Error] Asset import failed, "Assets/Resources/DearHiringManager_MasterIntro.svg" > XmlException: An error occurred while parsing EntityName. Line 147, position 35.
+System.Xml.XmlTextReaderImpl.Throw (System.Exception e) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.Throw (System.String res, System.Int32 lineNo, System.Int32 linePos) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.HandleEntityReference (System.Boolean isInAttributeValue, System.Xml.XmlTextReaderImpl+EntityExpandType expandType, System.Int32& charRefEndPos) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.ParseText (System.Int32& startPos, System.Int32& endPos, System.Int32& outOrChars) (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.FinishPartialValue () (at <df085f64309540e49b54f5a4286787d8>:0)
+System.Xml.XmlTextReaderImpl.get_Value () (at <df085f64309540e49b54f5a4286787d8>:0)
+Unity.VectorGraphics.XmlReaderIterator.ReadTextWithinElement () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.style () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.ParseChildren (Unity.VectorGraphics.XmlReaderIterator+Node node, System.String nodeName) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.defs () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.ParseChildren (Unity.VectorGraphics.XmlReaderIterator+Node node, System.String nodeName) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.svg () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGDocument.Import () (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.SVGParser.ImportSVG (System.IO.TextReader textReader, Unity.VectorGraphics.ViewportOptions viewportOptions, System.Single dpi, System.Single pixelsPerUnit, System.Int32 windowWidth, System.Int32 windowHeight) (at <c4075404e4e141e9bdc42d6bbab0cec3>:0)
+Unity.VectorGraphics.Editor.SVGImporter.OnImportAsset (UnityEditor.AssetImporters.AssetImportContext ctx) (at <2a18e009d2834655a9876e1cc84ffe43>:0)
+UnityEditor.AssetImporters.ScriptedImporter.GenerateAssetData (UnityEditor.AssetImporters.AssetImportContext ctx) (at <b69798a175fc402fb7a30c358b62aa3a>:0)
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
+[Error] EnvironmentDependencyValues requested are different than current active one (requested -> active):
+
+
+---
+[Error]   graphicsApiMask: 2099200 -> 2361344
+
+
+---
