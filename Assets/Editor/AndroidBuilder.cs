@@ -23,8 +23,8 @@ public static class AndroidBuilder
         PlayerSettings.companyName = "24-Hour Studios";
         PlayerSettings.productName = "Dear Hiring Manager";
         PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.TwentyFourHourStudios.DearHiringManager");
-        PlayerSettings.bundleVersion = "1.0.0";
-        PlayerSettings.Android.bundleVersionCode = 1;
+        PlayerSettings.bundleVersion = "1.0.1";
+        PlayerSettings.Android.bundleVersionCode = 2;
         PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel26;
         PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;

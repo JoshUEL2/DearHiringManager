@@ -191,7 +191,7 @@ if ($SkipItch) {
                 Write-Warn "Butler credentials not yet saved. You can authenticate once with:"
                 Write-Warn "  & `"$ButlerPath`" login"
                 Write-Info "Invoking automated web publisher fallback..."
-                python "$ProjectDir\publish_to_itch.py"
+                python "$ProjectDir\Tools\Automation\update_itch_listing.py"
             }
         } else {
             Write-Info "[DRY-RUN] Would push APK to Itch.io: $ItchTarget"
@@ -199,7 +199,7 @@ if ($SkipItch) {
     } else {
         Write-Info "Deploying via automated Playwright web session..."
         if (-not $DryRun) {
-            python "$ProjectDir\publish_to_itch.py"
+            python "$ProjectDir\Tools\Automation\update_itch_listing.py"
         }
     }
 }
