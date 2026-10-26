@@ -95,12 +95,34 @@ public class AudioManager : MonoBehaviour
     private Coroutine musicFadeCoroutine;
     private Coroutine ambienceFadeCoroutine;
 
+#if UNITY_IOS && !UNITY_EDITOR
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    private static extern void _iOS_ConfigureAudioSession();
+#endif
+
     private void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Configure mobile audio session to ensure playback even with silent switch / mute switch active
+            AudioSettings.mobile.stopAudioOutputOnMute = false;
+            AudioSettings.mobile.muteOtherAudioSources = false;
+            AudioListener.volume = 1f;
+
+#if UNITY_IOS && !UNITY_EDITOR
+            try
+            {
+                _iOS_ConfigureAudioSession();
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"[AudioManager] iOS audio session init warning: {ex.Message}");
+            }
+#endif
+
             InitializeAudioSources();
             LoadAudioClips();
             LoadSettings();
@@ -543,14 +565,8 @@ public class AudioManager : MonoBehaviour
         float vol = Mathf.Lerp(0.4f, 1.0f, Mathf.Clamp01((stressIntensity - 0.8f) / 0.2f)) * sfxVolume * masterVolume;
         heartbeatSource.PlayOneShot(heartbeatClip, vol);
 
-        if (stressIntensity > 0.92f)
-        {
-            HapticManager.HeavyImpact();
-        }
-        else
-        {
-            HapticManager.LightImpact();
-        }
+        // Keep rapid heartbeat frequency, but deliver subtle tactile pulse rather than violent motor shake
+        HapticManager.HeartbeatPulse();
     }
 
     private int _sweepCounter = 0;

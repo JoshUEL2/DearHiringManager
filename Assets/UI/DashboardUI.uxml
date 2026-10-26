@@ -12,9 +12,13 @@
 
             <!-- ROW 1: Notch-safe icons -->
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; padding: 18px 30px 0 30px;">
-                <ui:Button name="BtnOpenSettings" text="≡" style="font-size: 52px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0; -unity-font-style: bold;" />
+                <ui:Button name="BtnOpenSettings" class="top-icon-btn" style="background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 10px 18px; margin: 0;">
+                    <ui:VisualElement class="top-bar-icon-img top-icon-settings" />
+                </ui:Button>
                 <ui:VisualElement style="width: 120px;" />
-                <ui:Button name="BtnOpenMigration" text="⌂" style="font-size: 48px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0;" />
+                <ui:Button name="BtnOpenMigration" class="top-icon-btn" style="background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 10px 18px; margin: 0;">
+                    <ui:VisualElement class="top-bar-icon-img top-icon-migration" />
+                </ui:Button>
             </ui:VisualElement>
 
             <!-- ROW 2: Name (left) + Job (right), full width -->
@@ -54,22 +58,22 @@
         <!-- Nav Buttons -->
         <ui:VisualElement class="nav-bar-row">
             <ui:Button name="BtnCareers" class="nav-button">
-                <ui:Label text="💼" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-careers" />
                 <ui:Label text="Careers" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnHustles" class="nav-button">
-                <ui:Label text="⚡" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-hustles" />
                 <ui:Label text="Hustles" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnAdvanceWeek" class="advance-week-btn">
                 <ui:Label text="+ Week" class="advance-week-label" />
             </ui:Button>
             <ui:Button name="BtnEducation" class="nav-button">
-                <ui:Label text="🎓" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-education" />
                 <ui:Label text="Education" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnActivities" class="nav-button">
-                <ui:Label text="☕" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-activities" />
                 <ui:Label text="Activities" class="nav-button-label" />
             </ui:Button>
         </ui:VisualElement>

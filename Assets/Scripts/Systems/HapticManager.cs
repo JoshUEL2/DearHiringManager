@@ -22,6 +22,15 @@ public class HapticManager : MonoBehaviour
     private static AndroidJavaObject vibrator;
     private static AndroidJavaClass vibrationEffectClass;
     private static bool androidInitialized = false;
+#elif UNITY_IOS && !UNITY_EDITOR
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    private static extern void _iOS_TriggerImpact(int style);
+
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    private static extern void _iOS_TriggerSelection();
+
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    private static extern void _iOS_TriggerNotification(int type);
 #endif
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -73,7 +82,7 @@ public class HapticManager : MonoBehaviour
 #endif
 
     /// <summary>
-    /// Light impact: subtle vibration for button taps, tab switches, and interactions.
+    /// Light impact: subtle Taptic vibration for button taps, tab switches, and interactions.
     /// </summary>
     public static void LightImpact()
     {
@@ -82,7 +91,7 @@ public class HapticManager : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         TryAndroidVibrate(15, 60);
 #elif UNITY_IOS && !UNITY_EDITOR
-        Handheld.Vibrate();
+        _iOS_TriggerImpact(0); // UIImpactFeedbackStyleLight
 #elif UNITY_STANDALONE || UNITY_EDITOR
         // Desktop / Editor: haptic no-op
 #else
@@ -91,7 +100,39 @@ public class HapticManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Medium impact: rewarding vibration for minigame wins, paycheck arrivals, or achievements.
+    /// Selection click: extremely subtle, crisp haptic for dial ticks, item drags, or list scrolling.
+    /// </summary>
+    public static void SelectionClick()
+    {
+        if (!_hapticsEnabled) return;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        TryAndroidVibrate(8, 30);
+#elif UNITY_IOS && !UNITY_EDITOR
+        _iOS_TriggerSelection();
+#elif UNITY_STANDALONE || UNITY_EDITOR
+        // Desktop / Editor: haptic no-op
+#endif
+    }
+
+    /// <summary>
+    /// Subtle pulse specifically for high-stress heartbeat - maintains rapid rhythm without jarring motor shake.
+    /// </summary>
+    public static void HeartbeatPulse()
+    {
+        if (!_hapticsEnabled) return;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        TryAndroidVibrate(12, 45);
+#elif UNITY_IOS && !UNITY_EDITOR
+        _iOS_TriggerSelection();
+#elif UNITY_STANDALONE || UNITY_EDITOR
+        // Desktop / Editor: haptic no-op
+#endif
+    }
+
+    /// <summary>
+    /// Medium impact: rewarding Taptic vibration for minigame wins, paycheck arrivals, or achievements.
     /// </summary>
     public static void MediumImpact()
     {
@@ -100,7 +141,7 @@ public class HapticManager : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         TryAndroidVibrate(40, 150);
 #elif UNITY_IOS && !UNITY_EDITOR
-        Handheld.Vibrate();
+        _iOS_TriggerImpact(1); // UIImpactFeedbackStyleMedium
 #elif UNITY_STANDALONE || UNITY_EDITOR
         // Desktop / Editor: haptic no-op
 #else
@@ -109,7 +150,7 @@ public class HapticManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Heavy impact: intense vibration for arrests, job termination, heart attacks, or stress critical warnings.
+    /// Heavy impact: intense Taptic vibration for arrests, job termination, or critical failures.
     /// </summary>
     public static void HeavyImpact()
     {
@@ -118,11 +159,27 @@ public class HapticManager : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         TryAndroidVibrate(100, 255);
 #elif UNITY_IOS && !UNITY_EDITOR
-        Handheld.Vibrate();
+        _iOS_TriggerImpact(2); // UIImpactFeedbackStyleHeavy
 #elif UNITY_STANDALONE || UNITY_EDITOR
         // Desktop / Editor: haptic no-op
 #else
         Handheld.Vibrate();
+#endif
+    }
+
+    /// <summary>
+    /// Haptic notification (0 = Success, 1 = Warning, 2 = Error).
+    /// </summary>
+    public static void NotificationFeedback(int type)
+    {
+        if (!_hapticsEnabled) return;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (type == 0) TryAndroidVibrate(35, 120);
+        else if (type == 1) TryAndroidVibrate(60, 180);
+        else TryAndroidVibrate(100, 255);
+#elif UNITY_IOS && !UNITY_EDITOR
+        _iOS_TriggerNotification(type);
 #endif
     }
 

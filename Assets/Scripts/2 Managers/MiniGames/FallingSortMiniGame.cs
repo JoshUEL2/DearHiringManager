@@ -59,8 +59,8 @@ public class FallingSortMiniGame : IMiniGame
 
         if (sortScoreText != null) sortScoreText.text = $"Sorted: 0 / {config.sortTarget}";
 
-        container.style.minWidth = 600; // Force popup to expand for comfortable sorting!
-        container.style.minHeight = 560;
+        container.style.minWidth = 660; // Force popup to expand for comfortable sorting!
+        container.style.minHeight = 740;
 
         if (isButtonSort)
         {
@@ -110,7 +110,7 @@ public class FallingSortMiniGame : IMiniGame
             var bin = new VisualElement();
             bin.style.flexGrow = 1;
             bin.style.flexBasis = new StyleLength(new Length(0, LengthUnit.Pixel));
-            bin.style.height = 120;
+            bin.style.height = 140;
             bin.style.marginRight = 10;
             bin.style.marginLeft = 10;
             
@@ -148,10 +148,10 @@ public class FallingSortMiniGame : IMiniGame
             var label = new Label(config.binLabels[i]);
             label.pickingMode = PickingMode.Ignore;
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
-            label.style.fontSize = 26;
+            label.style.fontSize = 28;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
             label.style.color = Color.white;
-            label.style.marginTop = 40;
+            label.style.marginTop = 50;
             bin.Add(label);
 
             binsRow.Add(bin);
@@ -206,7 +206,7 @@ public class FallingSortMiniGame : IMiniGame
                 var crate = new VisualElement();
                 crate.pickingMode = PickingMode.Position;
                 crate.style.position = Position.Absolute;
-                crate.style.width = 100; crate.style.height = 100;
+                crate.style.width = 124; crate.style.height = 124;
                 crate.style.backgroundColor = new StyleColor(new Color(0.15f, 0.15f, 0.18f)); 
                 crate.style.borderTopWidth = 6; crate.style.borderBottomWidth = 6; crate.style.borderLeftWidth = 6; crate.style.borderRightWidth = 6;
                 crate.style.borderTopColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f));
@@ -218,7 +218,7 @@ public class FallingSortMiniGame : IMiniGame
 
                 var label = new Label(emojiText);
                 label.pickingMode = PickingMode.Ignore;
-                label.style.fontSize = 65;
+                label.style.fontSize = 76;
                 crate.Add(label);
                 
                 float zoneW = (fallZone != null && !float.IsNaN(fallZone.layout.width) && fallZone.layout.width > 120f) 

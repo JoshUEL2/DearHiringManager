@@ -29,6 +29,16 @@ public static class IOSBuilder
         PlayerSettings.allowedAutorotateToLandscapeLeft = false;
         PlayerSettings.allowedAutorotateToLandscapeRight = false;
 
+        // Configure App Icon for iOS & Standalone
+        Texture2D icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Art/Icons/AppIcon_1024x1024.png");
+        if (icon != null)
+        {
+            Texture2D[] iconList = new Texture2D[] { icon };
+            PlayerSettings.SetIcons(NamedBuildTarget.Unknown, iconList, IconKind.Application);
+            PlayerSettings.SetIcons(NamedBuildTarget.iOS, iconList, IconKind.Application);
+            Debug.Log("[IOSBuilder] Assigned 1024x1024 AppIcon to iOS build settings.");
+        }
+
         // Scenes to include
         string[] scenes = new string[] { "Assets/Scenes/Game.unity" };
 

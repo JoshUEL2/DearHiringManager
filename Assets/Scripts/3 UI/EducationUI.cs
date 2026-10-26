@@ -127,11 +127,11 @@ public class EducationUI
                 pediment.style.alignItems = Align.Center;
                 pediment.style.justifyContent = Justify.Center;
                 pediment.style.paddingTop = 30; pediment.style.paddingBottom = 30;
-                pediment.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.28f, 0.8f));
-                pediment.style.borderBottomWidth = 1;
-                pediment.style.borderBottomColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f, 0.4f));
+                pediment.style.backgroundColor = new StyleColor(new Color(0.03f, 0.16f, 0.11f, 0.95f)); // Dark Emerald
+                pediment.style.borderBottomWidth = 2;
+                pediment.style.borderBottomColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 0.6f)); // #10B981
                 
-                Label trackHeader = new Label($"🏛️ {currentTrack}");
+                Label trackHeader = new Label(currentTrack);
                 trackHeader.style.color = new StyleColor(new Color(0.9f, 0.95f, 1f));
                 trackHeader.style.fontSize = 32;
                 trackHeader.style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -176,8 +176,8 @@ public class EducationUI
                 card.AddToClassList("extra"); // Green border
                 card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.3f, 0.15f, 0.6f));
             } else if (isEnrolled) {
-                card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.35f, 0.5f, 0.6f));
-                card.style.borderLeftColor = new StyleColor(new Color(0.2f, 0.8f, 0.9f));
+                card.style.backgroundColor = new StyleColor(new Color(0.04f, 0.20f, 0.14f, 0.8f));
+                card.style.borderLeftColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f));
             } else if (!isPrereqMet) {
                 card.style.opacity = 0.5f;
                 card.style.backgroundColor = new StyleColor(new Color(0.1f, 0.1f, 0.1f, 0.6f));

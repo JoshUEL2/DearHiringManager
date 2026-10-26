@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="SprintLaneContainer" style="display: none; align-items: center; margin-bottom: 30px;">
-                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 10px;">
-                        <ui:Label name="SprintDistanceText" text="Distance: 0 / 12" style="font-size: 28px; color: #2ECC71; -unity-font-style: bold;" />
-                        <ui:Label name="SprintTimerText" text="" style="font-size: 28px; color: #F1C40F; -unity-font-style: bold;" />
-                    </ui:VisualElement>
-                    <!-- Obstacle indicator -->
-                    <ui:VisualElement name="SprintLaneDisplay" style="width: 100%; height: 200px; background-color: #0F172A; border-radius: 10px; border-width: 2px; border-color: #334155; margin-bottom: 15px; align-items: center; justify-content: center;">
-                        <ui:Label name="SprintObstacleText" text="⬆ HIGH OBSTACLE" style="font-size: 40px; color: #E74C3C; -unity-font-style: bold;" />
-                    </ui:VisualElement>
-                    <!-- Distance progress bar -->
-                    <ui:VisualElement style="width: 100%; height: 20px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #2ECC71; margin-bottom: 20px; overflow: hidden;">
-                        <ui:VisualElement name="SprintProgressBar" style="width: 0%; height: 100%; background-color: #2ECC71; border-radius: 8px;" />
-                    </ui:VisualElement>
-                    <!-- Jump / Duck buttons -->
-                    <ui:VisualElement style="flex-direction: row; justify-content: center;">
-                        <ui:Button name="BtnSprintJump" text="⬆ JUMP" class="popup-button" style="width: 280px; margin-right: 20px; background-color: #2ECC71; font-size: 34px;" />
-                        <ui:Button name="BtnSprintDuck" text="⬇ DUCK" class="popup-button" style="width: 280px; margin-left: 20px; background-color: #0EA5E9; font-size: 34px;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+    <ui:VisualElement name="SprintLaneContainer" style="display: none; align-items: center; margin-bottom: 20px; width: 100%;">
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100%; margin-bottom: 12px; padding-left: 10px; padding-right: 10px;">
+            <ui:Label name="SprintDistanceText" text="Distance: 0 / 12" style="font-size: 30px; color: #2ECC71; -unity-font-style: bold;" />
+            <ui:Label name="SprintTimerText" text="" style="font-size: 30px; color: #F1C40F; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        <!-- Obstacle indicator -->
+        <ui:VisualElement name="SprintLaneDisplay" style="width: 100%; height: 220px; background-color: #0F172A; border-radius: 14px; border-width: 3px; border-color: #334155; margin-bottom: 18px; align-items: center; justify-content: center;">
+            <ui:Label name="SprintObstacleText" text="&#8593; HIGH OBSTACLE" style="font-size: 42px; color: #EF4444; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        <!-- Distance progress bar -->
+        <ui:VisualElement style="width: 100%; height: 26px; background-color: #0F172A; border-radius: 12px; border-width: 2px; border-color: #2ECC71; margin-bottom: 25px; overflow: hidden;">
+            <ui:VisualElement name="SprintProgressBar" style="width: 0%; height: 100%; background-color: #2ECC71; border-radius: 10px;" />
+        </ui:VisualElement>
+        <!-- Jump / Duck buttons (Large Thumb Friendly) -->
+        <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%;">
+            <ui:Button name="BtnSprintJump" text="&#8593; JUMP" class="popup-button" style="width: 320px; height: 95px; margin-right: 15px; background-color: #2ECC71; font-size: 36px; border-radius: 20px;" />
+            <ui:Button name="BtnSprintDuck" text="&#8595; DUCK" class="popup-button" style="width: 320px; height: 95px; margin-left: 15px; background-color: #0EA5E9; font-size: 36px; border-radius: 20px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

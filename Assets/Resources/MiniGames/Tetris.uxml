@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="TetrisContainer" style="display: none; align-items: center; margin-bottom: 30px; flex-direction: column; justify-content: center; width: 100%;">
-                    
-                    <ui:Label name="TetrisScoreText" text="Stacked: 0 / 10" style="font-size: 28px; color: #2ECC71; -unity-font-style: bold; margin-bottom: 20px;" />
+    <ui:VisualElement name="TetrisContainer" style="display: none; align-items: center; margin-bottom: 20px; flex-direction: column; justify-content: center; width: 100%;">
+        
+        <ui:Label name="TetrisScoreText" text="Stacked: 0 / 10" style="font-size: 32px; color: #2ECC71; -unity-font-style: bold; margin-bottom: 20px;" />
 
-                    <!-- Tetris Playfield (10x15 grid) -->
-                    <ui:VisualElement name="TetrisGrid" style="width: 308px; height: 458px; background-color: #0F172A; border-width: 4px; border-color: #1E293B; flex-wrap: wrap; flex-direction: row; position: relative; overflow: hidden;" />
-                    
-                    <!-- Controls Below Playfield -->
-                    <ui:VisualElement style="margin-top: 20px; flex-direction: row; justify-content: center;">
-                        <ui:Button name="BtnTetrisLeft" text="◀" class="popup-button" style="width: 120px; height: 60px; font-size: 30px; margin-right: 20px;" />
-                        <ui:Button name="BtnTetrisRight" text="▶" class="popup-button" style="width: 120px; height: 60px; font-size: 30px; margin-left: 20px;" />
-                        <ui:Button name="BtnTetrisRotate" style="display: none;" />
-                        <ui:Button name="BtnTetrisDrop" style="display: none;" />
-                    </ui:VisualElement>
+        <!-- Tetris Playfield (10x15 grid) -->
+        <ui:VisualElement name="TetrisGrid" style="width: 320px; height: 480px; background-color: #0F172A; border-width: 4px; border-color: #1E293B; border-radius: 12px; flex-wrap: wrap; flex-direction: row; position: relative; overflow: hidden;" />
+        
+        <!-- Controls Below Playfield (Large Thumb Friendly) -->
+        <ui:VisualElement style="margin-top: 24px; flex-direction: row; justify-content: center; width: 100%;">
+            <ui:Button name="BtnTetrisLeft" text="&#9664;" class="popup-button" style="width: 170px; height: 90px; font-size: 44px; margin-right: 20px; border-radius: 20px; background-color: #38BDF8;" />
+            <ui:Button name="BtnTetrisRight" text="&#9654;" class="popup-button" style="width: 170px; height: 90px; font-size: 44px; margin-left: 20px; border-radius: 20px; background-color: #38BDF8;" />
+            <ui:Button name="BtnTetrisRotate" style="display: none;" />
+            <ui:Button name="BtnTetrisDrop" style="display: none;" />
+        </ui:VisualElement>
 
-                </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="RecycleBottlesContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #1F2937; border-radius: 10px; border-width: 6px; border-color: #374151; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: center;">
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    <ui:Label text="RIP OPEN THE BAG! (SWIPE 3 TIMES)" name="RbInstructionText" style="font-size: 20px; color: white; position: absolute; top: 10px;" />
-                    
-                    <ui:VisualElement name="RbBag" style="width: 300px; height: 300px; background-color: #111827; border-radius: 150px; border-width: 2px; border-color: #374151; justify-content: center; align-items: center;">
-                        <ui:Label text="🗑️" style="font-size: 100px;" />
-                    </ui:VisualElement>
-                    
-                    <ui:VisualElement name="RbItemsContainer" style="position: absolute; width: 100%; height: 100%; display: none;">
-                        <ui:Button name="BtnRbItem0" text="🍾" style="position: absolute; top: 50px; left: 50px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                        <ui:Button name="BtnRbItem1" text="🍾" style="position: absolute; top: 150px; left: 200px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                        <ui:Button name="BtnRbItem2" text="🍾" style="position: absolute; top: 250px; left: 80px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                        <ui:Button name="BtnRbTrash0" text="🐀" style="position: absolute; top: 80px; left: 250px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                        <ui:Button name="BtnRbTrash1" text="🐟" style="position: absolute; top: 200px; left: 30px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                        <ui:Button name="BtnRbTrash2" text="🦴" style="position: absolute; top: 280px; left: 220px; font-size: 50px; background-color: transparent; border-width: 0;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+    <ui:VisualElement name="RecycleBottlesContainer" style="display: none; width: 100%; min-width: 480px; height: 560px; min-height: 560px; flex-direction: column; background-color: #0F172A; border-radius: 16px; border-width: 4px; border-color: #334155; margin-top: 10px; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: center;">
+        <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+        <ui:Label text="RIP OPEN THE BAG! (SWIPE 3 TIMES)" name="RbInstructionText" style="font-size: 26px; color: #F8FAFC; -unity-font-style: bold; position: absolute; top: 16px;" />
+        
+        <ui:VisualElement name="RbBag" style="width: 320px; height: 320px; background-color: #111827; border-radius: 160px; border-width: 3px; border-color: #374151; justify-content: center; align-items: center; margin-top: 40px;">
+            <ui:Label text="🗑️" style="font-size: 110px;" />
+        </ui:VisualElement>
+        
+        <ui:VisualElement name="RbItemsContainer" style="position: absolute; width: 100%; height: 100%; display: none;">
+            <ui:Button name="BtnRbItem0" text="🍾" style="position: absolute; top: 80px; left: 60px; font-size: 70px; background-color: transparent; border-width: 0; padding: 10px;" />
+            <ui:Button name="BtnRbItem1" text="🍾" style="position: absolute; top: 220px; left: 240px; font-size: 70px; background-color: transparent; border-width: 0; padding: 10px;" />
+            <ui:Button name="BtnRbItem2" text="🍾" style="position: absolute; top: 360px; left: 90px; font-size: 70px; background-color: transparent; border-width: 0; padding: 10px;" />
+            <ui:Button name="BtnRbTrash0" text="🐀" style="position: absolute; top: 100px; left: 320px; font-size: 65px; background-color: transparent; border-width: 0; padding: 10px;" />
+            <ui:Button name="BtnRbTrash1" text="🐟" style="position: absolute; top: 280px; left: 40px; font-size: 65px; background-color: transparent; border-width: 0; padding: 10px;" />
+            <ui:Button name="BtnRbTrash2" text="🦴" style="position: absolute; top: 400px; left: 300px; font-size: 65px; background-color: transparent; border-width: 0; padding: 10px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

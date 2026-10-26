@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="BalanceMeterContainer" style="display: none; align-items: center; margin-bottom: 30px;">
-                    <ui:Label name="BalanceStatusText" text="Keep it steady!" style="font-size: 30px; color: #F1C40F; -unity-font-style: bold; margin-bottom: 15px;" />
-                    <!-- Meter track with needle and center zone -->
-                    <ui:VisualElement name="BalanceMeterTrack" style="width: 100%; height: 60px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #475569; margin-bottom: 20px; overflow: hidden; position: relative;">
-                        <ui:VisualElement name="BalanceCenterZone" style="position: absolute; left: 35%; width: 30%; height: 100%; background-color: rgba(46, 204, 113, 0.3); border-left-width: 2px; border-right-width: 2px; border-color: #2ECC71;" />
-                        <ui:VisualElement name="BalanceNeedle" style="position: absolute; left: 50%; width: 8px; height: 100%; background-color: #38BDF8; border-radius: 4px;" />
-                    </ui:VisualElement>
-                    <!-- Time in zone progress bar -->
-                    <ui:Label text="TIME IN ZONE" style="font-size: 22px; color: #94A3B8; margin-bottom: 5px;" />
-                    <ui:VisualElement style="width: 100%; height: 20px; background-color: #1E293B; border-radius: 10px; border-width: 2px; border-color: #2ECC71; margin-bottom: 20px; overflow: hidden;">
-                        <ui:VisualElement name="BalanceTimeBar" style="width: 0%; height: 100%; background-color: #2ECC71; border-radius: 8px;" />
-                    </ui:VisualElement>
-                    <!-- Nudge buttons -->
-                    <ui:VisualElement style="flex-direction: row; justify-content: center;">
-                        <ui:Button name="BtnNudgeLeft" text="◀ PUSH LEFT" class="popup-button" style="width: 280px; margin-right: 20px; background-color: #0EA5E9;" />
-                        <ui:Button name="BtnNudgeRight" text="PUSH RIGHT ▶" class="popup-button" style="width: 280px; margin-left: 20px; background-color: #0EA5E9;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+    <ui:VisualElement name="BalanceMeterContainer" style="display: none; align-items: center; margin-bottom: 20px; width: 100%;">
+        <ui:Label name="BalanceStatusText" text="Keep it steady!" style="font-size: 34px; color: #F1C40F; -unity-font-style: bold; margin-bottom: 18px;" />
+        <!-- Meter track with needle and center zone -->
+        <ui:VisualElement name="BalanceMeterTrack" style="width: 100%; height: 74px; background-color: #0F172A; border-radius: 14px; border-width: 3px; border-color: #334155; margin-bottom: 24px; overflow: hidden; position: relative;">
+            <ui:VisualElement name="BalanceCenterZone" style="position: absolute; left: 35%; width: 30%; height: 100%; background-color: rgba(46, 204, 113, 0.35); border-left-width: 3px; border-right-width: 3px; border-color: #2ECC71;" />
+            <ui:VisualElement name="BalanceNeedle" style="position: absolute; left: 50%; width: 12px; height: 100%; background-color: #38BDF8; border-radius: 6px;" />
+        </ui:VisualElement>
+        <!-- Time in zone progress bar -->
+        <ui:Label text="TIME IN ZONE" style="font-size: 24px; color: #94A3B8; margin-bottom: 8px;" />
+        <ui:VisualElement style="width: 100%; height: 26px; background-color: #0F172A; border-radius: 12px; border-width: 2px; border-color: #2ECC71; margin-bottom: 25px; overflow: hidden;">
+            <ui:VisualElement name="BalanceTimeBar" style="width: 0%; height: 100%; background-color: #2ECC71; border-radius: 10px;" />
+        </ui:VisualElement>
+        <!-- Nudge buttons (Large Thumb Friendly) -->
+        <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%;">
+            <ui:Button name="BtnNudgeLeft" text="&#9664; PUSH LEFT" class="popup-button" style="width: 320px; height: 90px; margin-right: 15px; font-size: 30px; border-radius: 20px; background-color: #0EA5E9;" />
+            <ui:Button name="BtnNudgeRight" text="PUSH RIGHT &#9654;" class="popup-button" style="width: 320px; height: 90px; margin-left: 15px; font-size: 30px; border-radius: 20px; background-color: #0EA5E9;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

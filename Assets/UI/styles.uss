@@ -724,11 +724,11 @@
 
 /* TicketSwipe Post-It and Fixes */
 .ts-btn-row {
-    flex-direction: row; justify-content: space-between; width: 400px;
+    flex-direction: row; justify-content: space-between; width: 440px;
 }
 .ts-btn {
-    width: 32%; height: 70px; margin: 0; border-radius: 12px; border-width: 2px;
-    font-size: 18px; -unity-font-style: bold; color: white; white-space: normal;
+    width: 32%; height: 86px; margin: 0; border-radius: 16px; border-width: 2px;
+    font-size: 22px; -unity-font-style: bold; color: white; white-space: normal;
     transition-property: scale, background-color; transition-duration: 0.1s;
 }
 
@@ -1732,3 +1732,76 @@
     color: #000000;
 }
 
+/* ============================================================== */
+/* SLEEK MODERN ANIMATED CLOSE BUTTON                              */
+/* ============================================================== */
+.modern-close-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 27px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #F8FAFC;
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: link;
+    transition-property: scale, rotate, background-color, border-color, color;
+    transition-duration: 0.18s;
+}
+
+.modern-close-btn:hover {
+    scale: 1.12;
+    rotate: 90deg;
+    background-color: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.6);
+    color: #FF8080;
+}
+
+.modern-close-btn:active {
+    scale: 0.92;
+    rotate: 90deg;
+    background-color: rgba(239, 68, 68, 0.45);
+    border-color: #EF4444;
+    color: #FFFFFF;
+}
+
+
+/* Navigation & Top Bar Icon Elements */
+.nav-button-icon-img {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 4px;
+    -unity-background-scale-mode: scale-to-fit;
+    align-self: center;
+}
+.nav-icon-careers {
+    background-image: url("project://database/Assets/Art/Icons/Nav_Careers.png");
+}
+.nav-icon-hustles {
+    background-image: url("project://database/Assets/Art/Icons/Nav_Hustles.png");
+}
+.nav-icon-education {
+    background-image: url("project://database/Assets/Art/Icons/Nav_Education.png");
+}
+.nav-icon-activities {
+    background-image: url("project://database/Assets/Art/Icons/Nav_Activities.png");
+}
+
+.top-bar-icon-img {
+    width: 34px;
+    height: 34px;
+    -unity-background-scale-mode: scale-to-fit;
+    align-self: center;
+}
+.top-icon-settings {
+    background-image: url("project://database/Assets/Art/Icons/Top_Settings.png");
+}
+.top-icon-migration {
+    background-image: url("project://database/Assets/Art/Icons/Top_Migration.png");
+}

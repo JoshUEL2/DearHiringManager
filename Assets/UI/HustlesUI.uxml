@@ -4,21 +4,25 @@
 
         <!-- TOP CARD -->
         <!-- TOP CARD ROOT -->
-        <ui:VisualElement name="TopCardRoot" class="card top-card-root" style="margin-bottom: 20px; border-radius: 0 0 24px 24px; border-width: 0 0 3px 0; border-color: rgba(56, 189, 248, 0.4); padding: 0; flex-direction: column; background-color: rgba(10, 17, 40, 0.95); overflow: hidden;">
+        <ui:VisualElement name="TopCardRoot" class="card top-card-root" style="margin-bottom: 20px; border-radius: 0 0 24px 24px; border-width: 0 0 3px 0; border-color: #242E46; padding: 0; flex-direction: column; background-color: #0E121B; overflow: hidden;">
             
             <!-- Animated watermark layer -->
             <ui:VisualElement name="WatermarkContainer" style="position: absolute; left: -200px; top: -200px; right: -200px; bottom: -200px; overflow: hidden;" />
 
             <!-- ROW 1: Notch-safe icons -->
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; padding: 18px 30px 0 30px;">
-                <ui:Button name="BtnOpenSettings" text="≡" style="font-size: 52px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0; -unity-font-style: bold;" />
+                <ui:Button name="BtnOpenSettings" class="top-icon-btn" style="background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 10px 18px; margin: 0;">
+                    <ui:VisualElement class="top-bar-icon-img top-icon-settings" />
+                </ui:Button>
                 <ui:VisualElement style="width: 120px;" />
-                <ui:Button name="BtnOpenMigration" text="⌂" style="font-size: 48px; color: #CBD5E1; background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 4px 16px; margin: 0;" />
+                <ui:Button name="BtnOpenMigration" class="top-icon-btn" style="background-color: rgba(255,255,255,0.08); border-width: 1px; border-color: rgba(255,255,255,0.15); border-radius: 14px; padding: 10px 18px; margin: 0;">
+                    <ui:VisualElement class="top-bar-icon-img top-icon-migration" />
+                </ui:Button>
             </ui:VisualElement>
 
             <!-- ROW 2: Name (left) + Job (right), full width -->
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-end; padding: 14px 30px 0 30px;">
-                <ui:Button name="BtnViewCV" class="id-card-name-btn" text="PlayerName" style="font-size: 52px; color: #F8FAFC; -unity-font-style: bold; background-color: transparent; border-width: 0; border-bottom-width: 2px; border-color: rgba(56, 189, 248, 0.4); padding: 0 0 4px 0; margin: 0; -unity-text-align: middle-left;" />
+                <ui:Button name="BtnViewCV" class="id-card-name-btn" text="PlayerName" style="font-size: 52px; color: #F8FAFC; -unity-font-style: bold; background-color: transparent; border-width: 0; border-bottom-width: 2px; border-color: #242E46; padding: 0 0 4px 0; margin: 0; -unity-text-align: middle-left;" />
                 <ui:Label name="JobText" text="Unemployed" style="font-size: 32px; color: #38BDF8; -unity-font-style: bold; margin: 0; padding: 0 0 6px 0;" />
             </ui:VisualElement>
 
@@ -33,7 +37,7 @@
             <ui:VisualElement name="DistrictAccentBar" style="height: 4px; background-color: #38BDF8; border-radius: 0 0 24px 24px;" />
         </ui:VisualElement>
 
-        <ui:VisualElement name="DynamicMiddleWrapper" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #0A1128; padding-top: 20px; padding-left: 20px; padding-right: 20px;">
+        <ui:VisualElement name="DynamicMiddleWrapper" class="section-content-container section-content-hidden" style="flex-grow: 1; background-color: #07090E; padding-top: 20px; padding-left: 20px; padding-right: 20px;">
             <!-- DRAG HEADER -->
             <ui:VisualElement name="DragHeader" style="align-items: center; margin-bottom: 20px;">
                 <!-- Drag Handle Pill -->
@@ -41,7 +45,7 @@
                 
                 <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
                     <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin: 0;" />
-                    <ui:Button name="BtnCloseMenu" text="✕" style="background-color: transparent; color: #E74C3C; font-size: 50px; -unity-font-style: bold; border-width: 0; padding: 0; margin: 0; cursor: link;" />
+                    <ui:Button name="BtnCloseMenu" text="&#215;" class="modern-close-btn" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
@@ -58,22 +62,22 @@
         <!-- Nav Buttons -->
         <ui:VisualElement class="nav-bar-row">
             <ui:Button name="BtnCareers" class="nav-button">
-                <ui:Label text="💼" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-careers" />
                 <ui:Label text="Careers" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnHustles" class="nav-button">
-                <ui:Label text="⚡" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-hustles" />
                 <ui:Label text="Hustles" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnAdvanceWeek" class="advance-week-btn">
                 <ui:Label text="+ Week" class="advance-week-label" />
             </ui:Button>
             <ui:Button name="BtnEducation" class="nav-button">
-                <ui:Label text="🎓" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-education" />
                 <ui:Label text="Education" class="nav-button-label" />
             </ui:Button>
             <ui:Button name="BtnActivities" class="nav-button">
-                <ui:Label text="☕" class="nav-button-icon" />
+                <ui:VisualElement class="nav-button-icon-img nav-icon-activities" />
                 <ui:Label text="Activities" class="nav-button-label" />
             </ui:Button>
         </ui:VisualElement>
