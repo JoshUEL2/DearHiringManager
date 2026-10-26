@@ -58,8 +58,8 @@
             </ui:VisualElement>
 
             <!-- Main Selection Bracket Overlay -->
-            <ui:VisualElement style="position: absolute; width: 350px; height: 75px; border-color: #FCD34D; border-width: 3px; border-left-width: 0; border-right-width: 0; top: 85px; pointer-events: none;" />
-            <ui:VisualElement style="position: absolute; width: 360px; height: 85px; top: 80px; left: -15px; border-color: #B45309; border-width: 2px; pointer-events: none; border-radius: 8px;" />
+            <ui:VisualElement style="position: absolute; width: 350px; height: 75px; border-color: #FCD34D; border-width: 3px; border-left-width: 0; border-right-width: 0; top: 85px; picking-mode: ignore;" />
+            <ui:VisualElement style="position: absolute; width: 360px; height: 85px; top: 80px; left: -15px; border-color: #B45309; border-width: 2px; picking-mode: ignore; border-radius: 8px;" />
 
         </ui:VisualElement>
         

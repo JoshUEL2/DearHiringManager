@@ -107,9 +107,7 @@ public class AudioManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // Configure mobile audio session to ensure playback even with silent switch / mute switch active
-            AudioSettings.mobile.stopAudioOutputOnMute = false;
-            AudioSettings.mobile.muteOtherAudioSources = false;
+            // Configure audio listener volume
             AudioListener.volume = 1f;
 
 #if UNITY_IOS && !UNITY_EDITOR

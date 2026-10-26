@@ -35,11 +35,11 @@
             <ui:VisualElement style="position: absolute; top: 10px; right: 10px; width: 30px; height: 25px; background-color: #FCD34D; border-radius: 4px;" />
             
             <!-- Overlaid APPROVED/REJECTED Stamp on the Pass -->
-            <ui:Label name="FpPassStampOverlay" text="" style="position: absolute; width: 100%; height: 100%; -unity-text-align: middle-center; font-size: 38px; -unity-font-style: bold; color: transparent; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); rotate: -10deg; pointer-events: none;" />
+            <ui:Label name="FpPassStampOverlay" text="" style="position: absolute; width: 100%; height: 100%; -unity-text-align: middle-center; font-size: 38px; -unity-font-style: bold; color: transparent; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); rotate: -10deg; picking-mode: ignore;" />
         </ui:VisualElement>
         
         <!-- The Holographic Stamp Zone (Laser Scanner) -->
-        <ui:VisualElement name="FpStampZone" style="position: absolute; top: 150px; left: 50%; translate: -50% 0; width: 240px; height: 160px; border-left-width: 6px; border-right-width: 6px; border-color: #06B6D4; background-color: rgba(6, 182, 212, 0.15); align-items: center; justify-content: center; pointer-events: none;">
+        <ui:VisualElement name="FpStampZone" style="position: absolute; top: 150px; left: 50%; translate: -50% 0; width: 240px; height: 160px; border-left-width: 6px; border-right-width: 6px; border-color: #06B6D4; background-color: rgba(6, 182, 212, 0.15); align-items: center; justify-content: center; picking-mode: ignore;">
             <!-- Center Target Line -->
             <ui:VisualElement style="width: 2px; height: 100%; background-color: #22D3EE; opacity: 0.8;" />
             

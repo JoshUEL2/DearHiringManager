@@ -214,7 +214,7 @@
     border-width: 0;
     -unity-background-scale-mode: stretch-to-fill;
     background-size: 100% 100%;
-    pointer-events: none;
+    picking-mode: ignore;
 }
 
 .bottom-nav-blur-shield {
@@ -227,7 +227,7 @@
     border-top-width: 0;
     -unity-background-scale-mode: stretch-to-fill;
     background-size: 100% 100%;
-    pointer-events: none;
+    picking-mode: ignore;
     transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
     translate: 0 0;
     opacity: 1;
