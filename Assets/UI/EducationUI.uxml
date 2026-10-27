@@ -44,7 +44,9 @@
                 
                 <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
                     <ui:Label text="EDUCATION PORTAL" class="header-text" style="color: #10B981; margin: 0; margin-top: 10px;" />
-                    <ui:Button name="BtnCloseMenu" text="&#215;" class="modern-close-btn" />
+                    <ui:Button name="BtnCloseMenu" class="modern-close-btn">
+                        <ui:VisualElement class="modern-close-icon" />
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
 

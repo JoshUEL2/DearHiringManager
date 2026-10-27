@@ -3,11 +3,13 @@
     <ui:Style src="styles.uss" />
 
     <!-- Full screen dark overlay -->
-    <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(5, 8, 14, 0.90); justify-content: center; align-items: center; display: none;">
+    <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(5, 8, 14, 0.90); justify-content: center; align-items: center; display: none; opacity: 0; transition-property: opacity; transition-duration: 0.22s;">
         <!-- Terminal Window / MiniGame Container -->
-        <ui:VisualElement name="MiniGameCard" class="popup-card" style="padding: 28px 24px; width: 95%; max-width: 980px; max-height: 94%; margin-top: 20px; position: relative;">
+        <ui:VisualElement name="MiniGameCard" class="popup-card" style="padding: 28px 24px; width: 95%; max-width: 980px; max-height: 94%; margin-top: 20px; position: relative; scale: 0.88 0.88; opacity: 0; transition-property: scale, opacity; transition-duration: 0.24s; transition-timing-function: ease-out-back;">
             <!-- Modern Animated Abort Button (Top Right) -->
-            <ui:Button name="BtnAbortMinigame" text="&#215;" class="modern-close-btn" style="position: absolute; right: 20px; top: 20px;" />
+            <ui:Button name="BtnAbortMinigame" class="modern-close-btn" style="position: absolute; right: 20px; top: 20px;">
+                <ui:VisualElement class="modern-close-icon" />
+            </ui:Button>
 
             <!-- Header -->
             <ui:Label name="OperationNameText" text="[Name]" style="font-size: 40px; -unity-font-style: bold; color: #38BDF8; margin-bottom: 8px; padding-right: 60px; -unity-text-align: middle-center;" />

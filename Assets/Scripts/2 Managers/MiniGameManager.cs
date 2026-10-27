@@ -57,7 +57,7 @@ public partial class MiniGameManager : MonoBehaviour
         AddConfigFull("Clean fryer grease vats", scrapeGrillConfig);
         AddConfigFull("Empty waste bin", new MiniGameConfig { type = GameType.IncineratorToss, instructions = "Time the tosses into the furnace!"});
         AddConfigFull("Unclog toilets", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to plunge the toilet!"});
-        AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🥩 Beef","🍗 Chicken","🐟 Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!"});
+        AddConfigFull("Emergency deep freeze sorting", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"Beef","Chicken","Fish"}, binLabels = new string[]{"Beef","Chicken","Fish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Sort the freezer before it melts!"});
         AddConfigFull("Deep clean grease traps", new MiniGameConfig { type = GameType.PumpSystem, instructions = "Pump to empty the grease traps!"});
 
         // =============================================
@@ -65,7 +65,7 @@ public partial class MiniGameManager : MonoBehaviour
         // =============================================
         var sortIronCopperConfig = new MiniGameConfig { 
             type = GameType.FallingSort, 
-            fallingItems = new string[] { "🔩 Iron Scrap", "⚙️ Iron Cog", "🥉 Copper Wire", "🪈 Copper Pipe" }, 
+            fallingItems = new string[] { "Iron Scrap", "Iron Cog", "Copper Wire", "Copper Pipe" }, 
             binLabels = new string[] { "Iron", "Copper" }, 
             sortTarget = 10, 
             sortTimeLimit = 25f, 
@@ -93,7 +93,7 @@ public partial class MiniGameManager : MonoBehaviour
         // FAST FOOD SHIFT MANAGER (6 tasks)
         // =============================================
         AddConfigFull("Check fryer oil temperature", new MiniGameConfig { type = GameType.PumpSystem, pumpIsBalanceMode = true, pumpBalanceTargetMin = 0.6f, pumpBalanceTargetMax = 0.8f, pumpBalanceHoldTime = 3f, instructions = "Pump to maintain 170°C - 220°C for 3 seconds!"});
-        AddConfigFull("Restock condiment stations", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🍯 Mustard","🥫 Ketchup","🧂 Relish"}, binLabels = new string[]{"Mustard","Ketchup","Relish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Restock the falling condiments!"});
+        AddConfigFull("Restock condiment stations", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"Mustard","Ketchup","Relish"}, binLabels = new string[]{"Mustard","Ketchup","Relish"}, sortTarget = 10, sortTimeLimit = 30f, instructions = "Restock the falling condiments!"});
         AddConfigFull("Handle customer complaint", new MiniGameConfig { type = GameType.DialogueChain, rapportThreshold = 0.75f, 
 dialogueScenarios = new string[]{"Customer: My chips are COLD!", "Customer: I WAITED 20 MINUTES!", "Customer: There's a HAIR in my burger!", "Customer: I want to speak to YOUR MANAGER!"}, 
 dialogueOptions = new string[][]{
@@ -261,7 +261,7 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         // =============================================
         // LEGAL SIDE HUSTLES (4 tasks)
         // =============================================
-        AddConfigFull("Collect Recycled Bottles", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"🍾 Glass Bottle","🥤 Plastic Cup","🥫 Metal Can"}, binLabels = new string[]{"🍾 Glass","🥤 Plastic","🥫 Metal"}, sortTarget = 10, sortTimeLimit = 20f, instructions = "Sort the recyclables!"});
+        AddConfigFull("Collect Recycled Bottles", new MiniGameConfig { type = GameType.FallingSort, fallingItems = new string[]{"Glass Bottle","Plastic Cup","Metal Can"}, binLabels = new string[]{"Glass","Plastic","Metal"}, sortTarget = 10, sortTimeLimit = 20f, instructions = "Sort the recyclables!"});
         AddConfigFull("Executive Lawn Care", new MiniGameConfig { type = GameType.MowGreens, timeLimit = 15f, instructions = "Mow the grass, avoid obstacles!"});
         AddConfigFull("Walk Purebred Pedigree Dogs", new MiniGameConfig { type = GameType.WalkDogs, timeLimit = 15f, instructions = "Keep all 3 leashes in the green zone!"});
         AddConfigFull("Deliver Fast Food Order", new MiniGameConfig { type = GameType.RetroRacer, timeLimit = 20f, instructions = "Dodge traffic and deliver the food!"});
@@ -482,19 +482,28 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
 
         if (operationNameText != null) operationNameText.text = game.name;
         if (instructionsText != null) instructionsText.text = currentConfig.instructions;
+
+        var card = overlay?.Q<VisualElement>("MiniGameCard");
         if (overlay != null)
         {
             overlay.style.display = DisplayStyle.Flex;
-            overlay.style.opacity = 1;
+            overlay.style.opacity = 0f;
             overlay.pickingMode = PickingMode.Position;
         }
-        var card = overlay?.Q<VisualElement>("MiniGameCard");
         if (card != null)
         {
             card.style.display = DisplayStyle.Flex;
-            card.style.opacity = 1;
-            card.style.scale = new StyleScale(new Scale(new Vector3(1, 1, 1)));
+            card.style.opacity = 0f;
+            card.style.scale = new StyleScale(new Scale(new Vector3(0.85f, 0.85f, 1f)));
         }
+        overlay?.schedule.Execute(() => {
+            if (overlay != null) overlay.style.opacity = 1f;
+            if (card != null)
+            {
+                card.style.opacity = 1f;
+                card.style.scale = new StyleScale(new Scale(new Vector3(1f, 1f, 1f)));
+            }
+        }).StartingIn(20);
 
         GameType typeToSetup = currentConfig.type;
         
@@ -607,8 +616,12 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         if (overlay.style.display == DisplayStyle.None) return;
         overlay.style.opacity = 0;
         var card = overlay.Q<VisualElement>("MiniGameCard");
-        if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
-        await Task.Delay(300);
+        if (card != null)
+        {
+            card.style.scale = new StyleScale(new Scale(new Vector3(0.85f, 0.85f, 1f)));
+            card.style.opacity = 0f;
+        }
+        await Task.Delay(260);
 
         isPlaying = false;
         if (activeGameRoutine != null) StopCoroutine(activeGameRoutine);
@@ -690,8 +703,12 @@ dialogueCorrectIndices = new int[]{2,1,0}, instructions = "Network at the dive b
         if (overlay.style.display == DisplayStyle.None) return;
         overlay.style.opacity = 0;
         var card = overlay.Q<VisualElement>("MiniGameCard");
-        if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
-        await Task.Delay(300);
+        if (card != null)
+        {
+            card.style.scale = new StyleScale(new Scale(new Vector3(0.85f, 0.85f, 1f)));
+            card.style.opacity = 0f;
+        }
+        await Task.Delay(260);
 
         if (!hasWon) return;
 

@@ -96,6 +96,8 @@ public class GameUIManager : MonoBehaviour
         
         btnRandomizeBackstory = creationRoot.Q<Button>("BtnRandomizeBackstory");
         btnRandomizeBackstory.clicked += OnRandomizeBackstoryClicked;
+        var btnReroll = creationRoot.Q<Button>("BtnRerollBackstory");
+        if (btnReroll != null) btnReroll.clicked += OnRandomizeBackstoryClicked;
 
         beginButton = creationRoot.Q<Button>("BeginButton");
         beginButton.clicked += OnBeginClicked;
@@ -132,6 +134,7 @@ public class GameUIManager : MonoBehaviour
         settingsOverlay = dashboardRoot.Q<VisualElement>("SettingsOverlay");
         dashboardRoot.Query<Button>("BtnOpenSettings").ForEach(btn => btn.clicked += OpenSettings);
         btnCloseSettings = dashboardRoot.Q<Button>("BtnCloseSettings");
+        var btnCloseSettingsTop = dashboardRoot.Q<Button>("BtnCloseSettingsTop");
         btnWipeHistory = dashboardRoot.Q<Button>("BtnWipeHistory");
         
         
@@ -145,11 +148,13 @@ public class GameUIManager : MonoBehaviour
 
         
         if (btnCloseSettings != null) btnCloseSettings.clicked += CloseSettings;
+        if (btnCloseSettingsTop != null) btnCloseSettingsTop.clicked += CloseSettings;
         if (btnWipeHistory != null) btnWipeHistory.clicked += PurgeAllData;
         
         var btnExpandHistory = dashboardRoot.Q<Button>("BtnExpandHistory");
         var expandedOverlay = dashboardRoot.Q<VisualElement>("ExpandedHistoryOverlay");
         var btnCloseExpanded = dashboardRoot.Q<Button>("BtnCloseExpandedHistory");
+        var btnCloseExpandedTop = dashboardRoot.Q<Button>("BtnCloseExpandedHistoryTop");
         
         if (btnExpandHistory != null && expandedOverlay != null) {
             btnExpandHistory.clicked += () => {
@@ -165,16 +170,19 @@ public class GameUIManager : MonoBehaviour
                 expandedOverlay.BringToFront();
             };
         }
-        if (btnCloseExpanded != null && expandedOverlay != null) {
-            btnCloseExpanded.clicked += () => {
-                var card = expandedOverlay.Q<VisualElement>("ExpandedHistoryCard");
-                if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
-                expandedOverlay.style.opacity = 0f;
-                expandedOverlay.schedule.Execute(() => {
-                    expandedOverlay.style.display = DisplayStyle.None;
-                }).StartingIn(300);
-            };
-        }
+        System.Action closeExpandedAction = () => {
+            if (expandedOverlay == null) return;
+            AudioManager.Instance?.PlayClick();
+            HapticManager.LightImpact();
+            var card = expandedOverlay.Q<VisualElement>("ExpandedHistoryCard");
+            if (card != null) card.style.scale = new StyleScale(new Scale(new Vector3(1, 0, 1)));
+            expandedOverlay.style.opacity = 0f;
+            expandedOverlay.schedule.Execute(() => {
+                expandedOverlay.style.display = DisplayStyle.None;
+            }).StartingIn(300);
+        };
+        if (btnCloseExpanded != null) btnCloseExpanded.clicked += () => closeExpandedAction();
+        if (btnCloseExpandedTop != null) btnCloseExpandedTop.clicked += () => closeExpandedAction();
         if (btnToggleTheme != null) btnToggleTheme.clicked += ToggleTheme;
         
         if (btnToggleDevConsole != null) 
@@ -865,10 +873,10 @@ public class GameUIManager : MonoBehaviour
 
     private void OnRandomizeBackstoryClicked()
     {
+        if (string.IsNullOrWhiteSpace(nameInput.value)) return;
+
         AudioManager.Instance?.PlayClick();
         HapticManager.LightImpact();
-
-        if (string.IsNullOrWhiteSpace(nameInput.value)) return;
 
         var backstories = GameManager.Instance.gameDatabase.backstories.FindAll(b => b != null);
         if (backstories.Count == 0) return;
@@ -895,8 +903,43 @@ public class GameUIManager : MonoBehaviour
         var luckCorpText = creationRoot.Q<Label>("LuckCorpText");
         if (luckCorpText != null) luckCorpText.text = $"{(selectedBackstory.startingCorpLuck * 100):F0}%";
 
-        step1Container.style.display = DisplayStyle.None;
-        step2Container.style.display = DisplayStyle.Flex;
+        var dossierCard = creationRoot.Q<VisualElement>("DossierCard");
+
+        if (step1Container.style.display != DisplayStyle.None)
+        {
+            // Transition from Step 1 -> Step 2
+            step1Container.style.opacity = 0f;
+            step1Container.style.scale = new StyleScale(new Scale(new Vector3(0.92f, 0.92f, 1f)));
+            step1Container.schedule.Execute(() => {
+                step1Container.style.display = DisplayStyle.None;
+                step2Container.style.display = DisplayStyle.Flex;
+                step2Container.style.opacity = 0f;
+                step2Container.style.scale = new StyleScale(new Scale(new Vector3(0.86f, 0.86f, 1f)));
+                if (dossierCard != null) dossierCard.style.scale = new StyleScale(new Scale(new Vector3(0.92f, 0.92f, 1f)));
+
+                step2Container.schedule.Execute(() => {
+                    step2Container.style.opacity = 1f;
+                    step2Container.style.scale = new StyleScale(new Scale(new Vector3(1f, 1f, 1f)));
+                    if (dossierCard != null) dossierCard.style.scale = new StyleScale(new Scale(new Vector3(1f, 1f, 1f)));
+                    AudioManager.Instance?.PlayStampPass(true);
+                }).StartingIn(30);
+            }).StartingIn(150);
+        }
+        else
+        {
+            // Rerolling within Step 2
+            if (dossierCard != null)
+            {
+                dossierCard.style.scale = new StyleScale(new Scale(new Vector3(0.92f, 0.92f, 1f)));
+                dossierCard.schedule.Execute(() => {
+                    dossierCard.style.scale = new StyleScale(new Scale(new Vector3(1.03f, 1.03f, 1f)));
+                    AudioManager.Instance?.PlayStampPass(true);
+                    dossierCard.schedule.Execute(() => {
+                        dossierCard.style.scale = new StyleScale(new Scale(new Vector3(1f, 1f, 1f)));
+                    }).StartingIn(120);
+                }).StartingIn(50);
+            }
+        }
     }
 
     private void OnBeginClicked()

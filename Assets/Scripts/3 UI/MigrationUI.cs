@@ -32,12 +32,14 @@ public class MigrationUI : MonoBehaviour
         btnMoveSuburbs = root.Q<Button>("BtnMoveSuburbs");
         btnMoveFinancial = root.Q<Button>("BtnMoveFinancial");
         btnClosePortal = root.Q<Button>("BtnClosePortal");
+        var btnClosePortalTop = root.Q<Button>("BtnClosePortalTop");
 
         btnMoveSlums.clicked += () => MigrateTo("Slums");
         btnMoveSuburbs.clicked += () => MigrateTo("Suburbs");
         btnMoveFinancial.clicked += () => MigrateTo("Financial District");
         
-        btnClosePortal.clicked += ClosePortal;
+        if (btnClosePortal != null) btnClosePortal.clicked += ClosePortal;
+        if (btnClosePortalTop != null) btnClosePortalTop.clicked += ClosePortal;
 
         var card = migrationOverlay.Q<VisualElement>("MigrationCard");
         if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
@@ -50,6 +52,8 @@ public class MigrationUI : MonoBehaviour
 
     public void OpenPortal()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
         var data = GameManager.Instance.currentData;
         currentDistrictText.text = $"Current District: {data.zone}";
         
@@ -81,6 +85,8 @@ public class MigrationUI : MonoBehaviour
 
     private void ClosePortal()
     {
+        AudioManager.Instance?.PlayClick();
+        HapticManager.LightImpact();
         var card = migrationOverlay.Q<VisualElement>("MigrationCard");
         if (card != null) card.style.scale = new UnityEngine.UIElements.StyleScale(new UnityEngine.UIElements.Scale(new UnityEngine.Vector3(1, 0, 1)));
         migrationOverlay.style.opacity = 0f;

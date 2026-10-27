@@ -4,12 +4,17 @@
 
     <ui:VisualElement class="screen-container" style="justify-content: flex-start; align-items: center; padding: 40px; padding-bottom: 80px;">
         
+        <!-- Official Game Brand Logo -->
+        <ui:VisualElement name="GameLogoContainer" style="align-items: center; justify-content: center; margin-top: 15px; margin-bottom: 5px;">
+            <ui:VisualElement name="GameLogoImage" style="width: 130px; height: 130px; border-radius: 30px; background-image: url('project://database/Assets/Art/Icons/AppIcon_512x512.png'); -unity-background-scale-mode: scale-to-fit; border-width: 2px; border-color: rgba(56, 189, 248, 0.35);" />
+        </ui:VisualElement>
+
         <!-- Header Section -->
-        <ui:Label text="CITIZEN REGISTRY OFFICE" class="header-text" style="color: #F1C40F; font-size: 60px; -unity-font-style: bold; margin-top: 40px; margin-bottom: 10px; -unity-text-align: middle-center;" />
-        <ui:Label text="Official Citizen Database Integration v2.84" class="sub-text" style="color: #94A3B8; font-size: 32px; margin-bottom: 60px; -unity-text-align: middle-center;" />
+        <ui:Label text="CITIZEN REGISTRY OFFICE" class="header-text" style="color: #F1C40F; font-size: 56px; -unity-font-style: bold; margin-top: 10px; margin-bottom: 10px; -unity-text-align: middle-center;" />
+        <ui:Label text="Official Citizen Database Integration v2.84" class="sub-text" style="color: #94A3B8; font-size: 30px; margin-bottom: 40px; -unity-text-align: middle-center;" />
         
         <!-- Step 1: Name Input -->
-        <ui:VisualElement name="Step1Container" style="width: 100%; align-items: center; flex-grow: 1;">
+        <ui:VisualElement name="Step1Container" style="width: 100%; align-items: center; flex-grow: 1; transition-property: opacity, scale; transition-duration: 0.22s;">
             
             <ui:Label text="CITIZEN INITIALIZATION" style="color: #38BDF8; font-size: 32px; -unity-font-style: bold; margin-bottom: 15px; -unity-text-align: middle-center;" />
             
@@ -23,12 +28,12 @@
         </ui:VisualElement>
 
         <!-- Step 2: Backstory Reveal (Hidden by default) -->
-        <ui:VisualElement name="Step2Container" style="width: 100%; display: none; align-items: center; flex-grow: 1;">
+        <ui:VisualElement name="Step2Container" style="width: 100%; display: none; align-items: center; flex-grow: 1; opacity: 0; scale: 0.88 0.88; transition-property: opacity, scale; transition-duration: 0.28s; transition-timing-function: ease-out-back;">
             
             <ui:Label text="YOUR RANDOMIZED BIOGRAPHY" style="color: #38BDF8; font-size: 32px; -unity-font-style: bold; margin-bottom: 15px; -unity-text-align: middle-center;" />
             
             <!-- Main Content Card -->
-            <ui:VisualElement class="card" style="border-color: #F1C40F; border-width: 4px; border-radius: 30px; padding: 40px; background-color: rgba(26, 36, 54, 0.9); flex-shrink: 1;">
+            <ui:VisualElement name="DossierCard" class="card" style="border-color: #F1C40F; border-width: 4px; border-radius: 30px; padding: 40px; background-color: rgba(26, 36, 54, 0.9); flex-shrink: 1; transition-property: scale; transition-duration: 0.22s;">
                 
                 <ui:Label text="Greeting, citizen!" name="GreetingText" style="color: #FFFFFF; font-size: 50px; -unity-font-style: bold; margin-bottom: 20px;" />
                 <ui:Label name="BackstoryTitleText" text="Assigned Biography: [Title]" style="color: #F1C40F; font-size: 38px; -unity-font-style: bold; margin-bottom: 20px; white-space: normal;" />
@@ -73,7 +78,10 @@
             </ui:VisualElement>
             
             <ui:VisualElement style="flex-grow: 1;" />
-            <ui:Button name="BeginButton" text="BEGIN" class="action-button" style="background-color: #2ECC71; color: #0A1128; font-size: 42px; padding: 30px; border-radius: 20px; width: 100%; margin-top: 20px;" />
+            <ui:VisualElement class="row" style="width: 100%; margin-top: 20px;">
+                <ui:Button name="BtnRerollBackstory" text="REROLL" class="action-button" style="background-color: #38BDF8; color: #082F49; font-size: 34px; padding: 26px; border-radius: 20px; width: 35%; margin-right: 15px;" />
+                <ui:Button name="BeginButton" text="BEGIN CAREER" class="action-button" style="background-color: #2ECC71; color: #052E16; font-size: 38px; padding: 26px; border-radius: 20px; flex-grow: 1;" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
     </ui:VisualElement>

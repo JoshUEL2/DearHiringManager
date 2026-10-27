@@ -45,13 +45,17 @@
                 
                 <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
                     <ui:Label text="ACTIVITIES PORTAL" class="header-text" style="color: #38BDF8; margin: 0;" />
-                    <ui:Button name="BtnCloseMenu" text="&#215;" class="modern-close-btn" />
+                    <ui:Button name="BtnCloseMenu" class="modern-close-btn">
+                        <ui:VisualElement class="modern-close-icon" />
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <ui:VisualElement class="row" style="margin-bottom: 20px;">
-                <ui:Button name="BtnTabStress" text="Wellness" class="apply-button" style="flex-grow: 1;" />
-                <ui:Button name="BtnTabMixers" text="Networking" class="apply-button" style="flex-grow: 1;" />
+            <!-- Tactile Sliding Segmented Switcher -->
+            <ui:VisualElement class="segmented-control-container">
+                <ui:VisualElement name="SegmentedIndicator" class="segmented-indicator" />
+                <ui:Button name="BtnTabStress" text="Wellness" class="segmented-tab-btn segmented-tab-active" />
+                <ui:Button name="BtnTabMixers" text="Networking" class="segmented-tab-btn" />
             </ui:VisualElement>
 
             <ui:VisualElement name="WellnessContainer" style="flex-grow: 1; display: flex;">

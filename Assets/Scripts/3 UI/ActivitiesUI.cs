@@ -25,14 +25,28 @@ public class ActivitiesUI
         wellnessScrollView = root.Q<ScrollView>("WellnessScrollView");
         mixersScrollView = root.Q<ScrollView>("MixersScrollView");
 
-        root.Q<Button>("BtnTabStress")?.RegisterCallback<ClickEvent>(ev => {
+        var indicator = root.Q<VisualElement>("SegmentedIndicator");
+        var btnStress = root.Q<Button>("BtnTabStress");
+        var btnMixers = root.Q<Button>("BtnTabMixers");
+
+        btnStress?.RegisterCallback<ClickEvent>(ev => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.SelectionChanged();
             wellnessContainer.style.display = DisplayStyle.Flex;
             mixersContainer.style.display = DisplayStyle.None;
+            if (indicator != null) indicator.style.translate = new Translate(new Length(0, LengthUnit.Percent), 0, 0);
+            btnStress.AddToClassList("segmented-tab-active");
+            btnMixers?.RemoveFromClassList("segmented-tab-active");
         });
 
-        root.Q<Button>("BtnTabMixers")?.RegisterCallback<ClickEvent>(ev => {
+        btnMixers?.RegisterCallback<ClickEvent>(ev => {
+            AudioManager.Instance?.PlayClick();
+            HapticManager.SelectionChanged();
             wellnessContainer.style.display = DisplayStyle.None;
             mixersContainer.style.display = DisplayStyle.Flex;
+            if (indicator != null) indicator.style.translate = new Translate(new Length(100, LengthUnit.Percent), 0, 0);
+            btnMixers.AddToClassList("segmented-tab-active");
+            btnStress?.RemoveFromClassList("segmented-tab-active");
         });
 
         PopulateWellness();

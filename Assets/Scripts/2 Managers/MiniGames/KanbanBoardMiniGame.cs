@@ -110,16 +110,16 @@ public class KanbanBoardMiniGame : IMiniGame
         {
             var ticket = new VisualElement();
             ticket.style.width = new Length(95, LengthUnit.Percent); // Fills almost entire column
-            ticket.style.height = 65; // Massive touch target for mobile
-            ticket.style.marginBottom = 10;
+            ticket.style.height = 80; // Generous thumb touch target for iPhone
+            ticket.style.marginBottom = 12;
             ticket.style.flexShrink = 0; // Prevent vertical squishing!
             
             // Ticket Styling
             ticket.style.backgroundColor = new StyleColor(new Color(0.18f, 0.22f, 0.31f)); // Slightly lighter than column
-            ticket.style.borderTopLeftRadius = 8;
-            ticket.style.borderTopRightRadius = 8;
-            ticket.style.borderBottomLeftRadius = 8;
-            ticket.style.borderBottomRightRadius = 8;
+            ticket.style.borderTopLeftRadius = 12;
+            ticket.style.borderTopRightRadius = 12;
+            ticket.style.borderBottomLeftRadius = 12;
+            ticket.style.borderBottomRightRadius = 12;
             
             // Accent left border
             ticket.style.borderLeftWidth = 6;
@@ -136,7 +136,7 @@ public class KanbanBoardMiniGame : IMiniGame
             string prefix = ticketPrefixes[Random.Range(0, ticketPrefixes.Length)];
             var label = new Label($"{prefix}{Random.Range(100, 999)}");
             label.style.color = new StyleColor(Color.white);
-            label.style.fontSize = 20;
+            label.style.fontSize = 24;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
             ticket.Add(label);
 

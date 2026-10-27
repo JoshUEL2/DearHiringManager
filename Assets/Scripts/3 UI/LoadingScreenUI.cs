@@ -384,25 +384,19 @@ public class LoadingScreenUI : MonoBehaviour
 
             UpdateStageFitScale();
 
-            // ── 1. AUDIO & HAPTIC MILESTONES (Locked to the exact same elapsed clock) ──
+            // ── 1. AUDIO & HAPTIC MILESTONES (Minimal & Sleek) ──
             if (!playedWhoosh && elapsed >= 0.40f)
             {
                 playedWhoosh = true;
-                AudioManager.Instance?.PlaySFX("sfx_intro_whoosh", 0.90f);
+                AudioManager.Instance?.PlaySFX("sfx_intro_whoosh", 0.75f);
             }
 
-            if (!playedSketch && elapsed >= 0.80f)
-            {
-                playedSketch = true;
-                AudioManager.Instance?.PlaySFX("sfx_pencil_sketch", 0.82f);
-            }
-
+            // Silent subtle haptics for clean line animations without audio clutter
             for (int i = 0; i < 4; i++)
             {
                 if (!playedTick[i] && elapsed >= svgTickTimes[i])
                 {
                     playedTick[i] = true;
-                    AudioManager.Instance?.PlayClockTick(i == 3 ? 0.96f : 0.90f);
                     if (i < 3)
                     {
                         HapticManager.LightImpact();

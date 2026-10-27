@@ -45,7 +45,9 @@
                 
                 <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-between; align-items: center;">
                     <ui:Label text="SIDE HUSTLES PORTAL" class="header-text" style="color: #38BDF8; margin: 0;" />
-                    <ui:Button name="BtnCloseMenu" text="&#215;" class="modern-close-btn" />
+                    <ui:Button name="BtnCloseMenu" class="modern-close-btn">
+                        <ui:VisualElement class="modern-close-icon" />
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
 

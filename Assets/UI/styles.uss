@@ -535,28 +535,28 @@
 }
 
 .code-slot {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     margin: 6px;
     background-color: #1E293B;
     border-width: 3px;
     border-color: #38BDF8;
-    border-radius: 10px;
-    font-size: 36px;
+    border-radius: 16px;
+    font-size: 38px;
     -unity-font-style: bold;
     color: #FFFFFF;
     -unity-text-align: middle-center;
 }
 
 .code-symbol-btn {
-    width: 80px;
-    height: 80px;
-    margin: 5px;
+    width: 92px;
+    height: 92px;
+    margin: 6px;
     background-color: #1E293B;
     border-width: 2px;
     border-color: #475569;
-    border-radius: 8px;
-    font-size: 30px;
+    border-radius: 14px;
+    font-size: 34px;
     -unity-font-style: bold;
     color: #FFFFFF;
     -unity-text-align: middle-center;
@@ -575,15 +575,15 @@
 }
 
 .order-item {
-    min-width: 140px;
-    height: 80px;
-    margin: 6px;
-    padding: 10px;
+    min-width: 160px;
+    height: 90px;
+    margin: 8px;
+    padding: 12px;
     background-color: #1E293B;
     border-width: 2px;
     border-color: #475569;
-    border-radius: 10px;
-    font-size: 24px;
+    border-radius: 16px;
+    font-size: 28px;
     -unity-font-style: bold;
     color: #FFFFFF;
     -unity-text-align: middle-center;
@@ -602,13 +602,13 @@
 }
 
 .drag-item {
-    padding: 15px;
-    margin-bottom: 8px;
+    padding: 22px;
+    margin-bottom: 12px;
     background-color: #1E293B;
     border-width: 2px;
     border-color: #475569;
-    border-radius: 10px;
-    font-size: 24px;
+    border-radius: 16px;
+    font-size: 28px;
     -unity-font-style: bold;
     color: #FFFFFF;
 }
@@ -1742,16 +1742,13 @@
     background-color: rgba(255, 255, 255, 0.08);
     border-width: 1.5px;
     border-color: rgba(255, 255, 255, 0.18);
-    color: #F8FAFC;
-    font-size: 32px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
     padding: 0;
     margin: 0;
     align-items: center;
     justify-content: center;
     cursor: link;
-    transition-property: scale, rotate, background-color, border-color, color;
+    transform-origin: center center;
+    transition-property: scale, rotate, background-color, border-color;
     transition-duration: 0.18s;
 }
 
@@ -1760,7 +1757,6 @@
     rotate: 90deg;
     background-color: rgba(239, 68, 68, 0.25);
     border-color: rgba(239, 68, 68, 0.6);
-    color: #FF8080;
 }
 
 .modern-close-btn:active {
@@ -1768,9 +1764,107 @@
     rotate: 90deg;
     background-color: rgba(239, 68, 68, 0.45);
     border-color: #EF4444;
-    color: #FFFFFF;
 }
 
+.modern-close-icon {
+    width: 22px;
+    height: 22px;
+    background-image: url("project://database/Assets/Art/Icons/Close_X.png");
+    -unity-background-scale-mode: scale-to-fit;
+    align-self: center;
+    picking-mode: ignore;
+}
+
+/* ============================================================== */
+/* SEGMENTED SWITCHER (WELLNESS / NETWORKING)                     */
+/* ============================================================== */
+.segmented-control-container {
+    width: 100%;
+    height: 64px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-width: 1.5px;
+    border-color: #242E46;
+    border-radius: 32px;
+    position: relative;
+    flex-direction: row;
+    padding: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.segmented-indicator {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: 50%;
+    background-color: rgba(56, 189, 248, 0.22);
+    border-width: 1.5px;
+    border-color: #38BDF8;
+    border-radius: 28px;
+    transition-property: translate;
+    transition-duration: 0.24s;
+    transition-timing-function: ease-out-cubic;
+    picking-mode: ignore;
+}
+
+.segmented-tab-btn {
+    flex-grow: 1;
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    border-width: 0;
+    font-size: 26px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+    color: #94A3B8;
+    transition-property: color;
+    transition-duration: 0.18s;
+    cursor: link;
+}
+
+.segmented-tab-btn.segmented-tab-active {
+    color: #F8FAFC;
+}
+
+/* ============================================================== */
+/* REMASTERED SIMULATION SETTINGS SHEET                           */
+/* ============================================================== */
+.settings-section-card {
+    background-color: #121724;
+    border-color: #242E46;
+    border-width: 1.5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.settings-section-title {
+    font-size: 22px;
+    color: #38BDF8;
+    -unity-font-style: bold;
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+}
+
+.settings-action-btn {
+    height: 56px;
+    min-height: 56px;
+    border-radius: 16px;
+    padding: 12px 20px;
+    font-size: 26px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    cursor: link;
+    transition-property: scale, background-color, border-color;
+    transition-duration: 0.15s;
+}
+
+.settings-action-btn:active {
+    scale: 0.97;
+}
 
 /* Navigation & Top Bar Icon Elements */
 .nav-button-icon-img {

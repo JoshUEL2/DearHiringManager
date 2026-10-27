@@ -60,8 +60,16 @@ public class WhackGridMiniGame : IMiniGame
             var btn = new Button();
             btn.style.width = new Length(30, LengthUnit.Percent);
             btn.style.height = new Length(30, LengthUnit.Percent);
-            btn.style.marginTop = 2; btn.style.marginBottom = 2; btn.style.marginLeft = 2; btn.style.marginRight = 2;
-            btn.style.fontSize = 32;
+            btn.style.marginTop = 4; btn.style.marginBottom = 4; btn.style.marginLeft = 4; btn.style.marginRight = 4;
+            btn.style.fontSize = 34;
+            btn.style.borderTopLeftRadius = 18;
+            btn.style.borderTopRightRadius = 18;
+            btn.style.borderBottomLeftRadius = 18;
+            btn.style.borderBottomRightRadius = 18;
+            btn.style.borderLeftWidth = 2;
+            btn.style.borderRightWidth = 2;
+            btn.style.borderTopWidth = 2;
+            btn.style.borderBottomWidth = 2;
             int idx = i;
             btn.clicked += () => OnWhackCellClicked(idx);
             whackGrid.Add(btn);
