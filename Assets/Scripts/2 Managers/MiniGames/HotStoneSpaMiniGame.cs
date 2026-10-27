@@ -60,7 +60,7 @@ public class HotStoneSpaMiniGame : IMiniGame
                 stones[i].style.right = StyleKeyword.Auto;
                 
                 stones[i].style.bottom = 20f + Random.Range(-10f, 10f);
-                float lx = 40f + (i * 60f) + Random.Range(-10f, 10f);
+                float lx = 35f + (i * 85f);
                 stones[i].style.left = lx;
             }
         }
@@ -135,11 +135,11 @@ public class HotStoneSpaMiniGame : IMiniGame
             
             Vector2 targetCenter = slots[i].worldBound.center;
             
-            if (Vector2.Distance(sCenter, targetCenter) < 50f) {
+            if (Vector2.Distance(sCenter, targetCenter) < 75f) {
                 stonePlaced[stoneIdx] = true;
                 stones[stoneIdx].style.backgroundColor = new StyleColor(new Color(0.82f, 0.33f, 0f)); // #D35400
                 AudioManager.Instance?.PlayActivityWellness("stone");
-                MiniGameFeedback.PlaySuccess(stones[stoneIdx], "SOOTHING! ♨️", container);
+                MiniGameFeedback.PlaySuccess(stones[stoneIdx], "SOOTHING!", container);
                 // Center the stone roughly in the slot
                 stones[stoneIdx].style.left = stones[stoneIdx].resolvedStyle.left + (targetCenter.x - sCenter.x);
                 stones[stoneIdx].style.top = stones[stoneIdx].resolvedStyle.top + (targetCenter.y - sCenter.y);

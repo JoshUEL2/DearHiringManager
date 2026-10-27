@@ -206,13 +206,13 @@ public class EducationUI
             statsRow.style.flexDirection = FlexDirection.Row;
             statsRow.style.marginTop = 15;
 
-            Label durationLabel = new Label($"⏳ {course.weeks} Weeks");
+            Label durationLabel = new Label($"TERM: {course.weeks} WKS");
             durationLabel.style.fontSize = 22;
             durationLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             durationLabel.style.color = new StyleColor(new Color(0.94f, 0.77f, 0.06f));
             durationLabel.style.marginRight = 25;
 
-            Label costLabel = new Label($"💰 -${course.cost}/wk");
+            Label costLabel = new Label($"TUITION: -${course.cost}/wk");
             costLabel.style.fontSize = 22;
             costLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             costLabel.style.color = new StyleColor(new Color(0.9f, 0.3f, 0.23f));
@@ -230,23 +230,28 @@ public class EducationUI
 
             Button actionBtn = new Button();
             actionBtn.AddToClassList("btn-task-stunning");
-            actionBtn.style.width = 240;
-            actionBtn.style.paddingTop = 15; actionBtn.style.paddingBottom = 15;
+            actionBtn.style.minWidth = 240;
+            actionBtn.style.fontSize = 26;
+            actionBtn.style.unityFontStyleAndWeight = FontStyle.Bold;
+            actionBtn.style.paddingTop = 16; actionBtn.style.paddingBottom = 16;
+            actionBtn.style.paddingLeft = 24; actionBtn.style.paddingRight = 24;
+            actionBtn.style.borderTopLeftRadius = 14; actionBtn.style.borderTopRightRadius = 14;
+            actionBtn.style.borderBottomLeftRadius = 14; actionBtn.style.borderBottomRightRadius = 14;
 
             if (isCompleted)
             {
-                actionBtn.text = "🎓 GRADUATED";
+                actionBtn.text = "GRADUATED";
                 actionBtn.SetEnabled(false);
                 actionBtn.AddToClassList("extra"); 
             }
             else if (isEnrolled)
             {
-                actionBtn.text = "📚 STUDYING";
+                actionBtn.text = "STUDYING";
                 actionBtn.SetEnabled(false);
             }
             else if (!isPrereqMet)
             {
-                actionBtn.text = "🔒 LOCKED";
+                actionBtn.text = "LOCKED";
                 actionBtn.SetEnabled(false);
                 actionBtn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.2f)); 
                 actionBtn.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));

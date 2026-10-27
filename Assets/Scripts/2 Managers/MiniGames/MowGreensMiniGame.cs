@@ -13,7 +13,7 @@ public class MowGreensMiniGame : IMiniGame
     private VisualElement mgGrid;
     private Label mgTimeLabel;
     private Label mgProgressLabel;
-    private Label mgTractor;
+    private VisualElement mgTractor;
     
     private int mgTilesCut = 0;
     private bool[] mgCutStatus;
@@ -32,7 +32,7 @@ public class MowGreensMiniGame : IMiniGame
         mgGrid = root.Q<VisualElement>("MgGrid");
         mgTimeLabel = root.Q<Label>("MgTimeText");
         mgProgressLabel = root.Q<Label>("MgProgressLabel");
-        mgTractor = root.Q<Label>("MgTractor");
+        mgTractor = root.Q<VisualElement>("MgTractor");
         
         if (mgGrid != null)
         {
@@ -119,8 +119,8 @@ public class MowGreensMiniGame : IMiniGame
             for (int i = 0; i < 36; i++)
             {
                 VisualElement tile = new VisualElement();
-                tile.style.width = 60;
-                tile.style.height = 60;
+                tile.style.width = 75;
+                tile.style.height = 75;
                 tile.style.borderTopWidth = 2;
                 tile.style.borderBottomWidth = 2;
                 tile.style.borderLeftWidth = 2;
@@ -129,27 +129,31 @@ public class MowGreensMiniGame : IMiniGame
                 tile.style.borderBottomColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
                 tile.style.borderLeftColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f)); 
                 tile.style.borderRightColor = new StyleColor(new Color(0.1f, 0.4f, 0.2f));
+                tile.style.position = Position.Relative;
                 
+                VisualElement icon = new VisualElement();
+                icon.AddToClassList("mg-icon");
+
                 if (mgIsObstacle[i])
                 {
                     tile.style.backgroundColor = new StyleColor(new Color(0.08f, 0.5f, 0.3f));
-                    Label icon = new Label(Random.value > 0.5f ? "☕" : "📄");
-                    icon.style.fontSize = 32;
-                    icon.style.unityTextAlign = TextAnchor.MiddleCenter;
-                    icon.style.position = Position.Absolute;
-                    icon.style.top = 0; icon.style.bottom = 0; icon.style.left = 0; icon.style.right = 0;
-                    tile.Add(icon);
+                    icon.AddToClassList(Random.value > 0.5f ? "mg-icon-coffee" : "mg-icon-paper");
+                    icon.style.width = 44;
+                    icon.style.height = 44;
                 }
                 else
                 {
                     tile.style.backgroundColor = new StyleColor(new Color(0.08f, 0.6f, 0.3f));
-                    Label icon = new Label("🌿");
-                    icon.style.fontSize = 24;
-                    icon.style.unityTextAlign = TextAnchor.MiddleCenter;
-                    icon.style.position = Position.Absolute;
-                    icon.style.top = 0; icon.style.bottom = 0; icon.style.left = 0; icon.style.right = 0;
-                    tile.Add(icon);
+                    icon.AddToClassList("mg-icon-grass");
+                    icon.style.width = 42;
+                    icon.style.height = 42;
                 }
+
+                icon.style.position = Position.Absolute;
+                icon.style.top = Length.Percent(50);
+                icon.style.left = Length.Percent(50);
+                icon.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent), 0));
+                tile.Add(icon);
 
                 mgGrid.Insert(mgGrid.childCount - 1, tile);
             }
@@ -177,8 +181,8 @@ public class MowGreensMiniGame : IMiniGame
         float adjustedX = localPos.x - 4f;
         float adjustedY = localPos.y - 4f;
         
-        int col = (int)(adjustedX / 60f);
-        int row = (int)(adjustedY / 60f);
+        int col = (int)(adjustedX / 75f);
+        int row = (int)(adjustedY / 75f);
         
         if (col >= 0 && col < 6 && row >= 0 && row < 6)
         {
@@ -188,12 +192,14 @@ public class MowGreensMiniGame : IMiniGame
             {
                 mgGrid.ElementAt(index).style.backgroundColor = new StyleColor(Color.red);
                 AudioManager.Instance?.PlayBuzzer();
+                HapticManager.HeavyImpact();
                 manager.EndGame(false);
             }
             else if (!mgCutStatus[index])
             {
                 mgCutStatus[index] = true;
                 AudioManager.Instance?.PlayLawnMower();
+                HapticManager.SelectionChanged();
                 VisualElement tile = mgGrid.ElementAt(index);
                 tile.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f));
                 tile.Clear();

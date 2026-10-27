@@ -15,7 +15,7 @@ public class CorporateGolfMiniGame : IMiniGame
     private VisualElement cgHole;
     private VisualElement cgSandTrap;
     private VisualElement cgAimLine;
-    private Label cgCeo;
+    private VisualElement cgCeo;
     
     private Vector2 cgBallPos;
     private Vector2 cgBallVel;
@@ -39,7 +39,7 @@ public class CorporateGolfMiniGame : IMiniGame
             cgHole = cgContainer.Q<VisualElement>("CgHole");
             cgSandTrap = cgContainer.Q<VisualElement>("CgSandTrap");
             cgAimLine = cgContainer.Q<VisualElement>("CgAimLine");
-            cgCeo = cgContainer.Q<Label>("CgCeo");
+            cgCeo = cgContainer.Q<VisualElement>("CgCeo");
         }
     }
 
@@ -54,11 +54,11 @@ public class CorporateGolfMiniGame : IMiniGame
         cgBallVel = Vector2.zero;
         
         if (cgTimeLabel != null) cgTimeLabel.text = $"TIME: {timer:F1}s";
-        if (cgCeo != null) cgCeo.text = "👨‍💼";
+        if (cgCeo != null) cgCeo.style.unityBackgroundImageTintColor = Color.white;
         
         if (cgPlayArea != null && cgBall != null)
         {
-            cgBallPos = new Vector2(178, 380);
+            cgBallPos = new Vector2(206, 600);
             cgBall.style.left = cgBallPos.x;
             cgBall.style.top = cgBallPos.y;
             cgBall.style.bottom = new StyleLength(StyleKeyword.Null);
@@ -127,7 +127,7 @@ public class CorporateGolfMiniGame : IMiniGame
         float distance = dragVector.magnitude;
         if (distance > 150f) { dragVector = dragVector.normalized * 150f; distance = 150f; }
         
-        Vector2 ballCenter = cgBallPos + new Vector2(12f, 12f);
+        Vector2 ballCenter = cgBallPos + new Vector2(14f, 14f);
         
         cgAimLine.style.left = ballCenter.x - 4f;
         cgAimLine.style.top = ballCenter.y;
@@ -161,7 +161,7 @@ public class CorporateGolfMiniGame : IMiniGame
             
             if (timer <= 0f)
             {
-                if (cgCeo != null) cgCeo.text = "😡";
+                if (cgCeo != null) cgCeo.style.unityBackgroundImageTintColor = Color.red;
                 manager.EndGame(false);
                 yield break;
             }
@@ -175,9 +175,9 @@ public class CorporateGolfMiniGame : IMiniGame
                 cgBallVel = Vector2.MoveTowards(cgBallVel, Vector2.zero, 500f * Time.deltaTime);
                 
                 if (cgBallPos.x < 0) { cgBallPos.x = 0; cgBallVel.x *= -0.7f; }
-                if (cgBallPos.x > 356) { cgBallPos.x = 356; cgBallVel.x *= -0.7f; } 
+                if (cgBallPos.x > 410) { cgBallPos.x = 410; cgBallVel.x *= -0.7f; } 
                 if (cgBallPos.y < 0) { cgBallPos.y = 0; cgBallVel.y *= -0.7f; }
-                if (cgBallPos.y > 416) { cgBallPos.y = 416; cgBallVel.y *= -0.7f; } 
+                if (cgBallPos.y > 670) { cgBallPos.y = 670; cgBallVel.y *= -0.7f; } 
                 
                 if (cgBallVel.sqrMagnitude < 5f)
                 {
@@ -190,7 +190,7 @@ public class CorporateGolfMiniGame : IMiniGame
                     
                     if (ballRect.Overlaps(holeRect))
                     {
-                        if (cgCeo != null) cgCeo.text = "😡";
+                        if (cgCeo != null) cgCeo.style.unityBackgroundImageTintColor = Color.red;
                         AudioManager.Instance?.PlayBuzzer();
                         MiniGameFeedback.PlayError(cgHole, "YOU BEAT THE CEO!", cgPlayArea ?? cgContainer);
                         yield return new WaitForSeconds(1f);
@@ -199,7 +199,7 @@ public class CorporateGolfMiniGame : IMiniGame
                     }
                     else if (ballRect.Overlaps(sandRect))
                     {
-                        if (cgCeo != null) cgCeo.text = "🤑";
+                        if (cgCeo != null) cgCeo.style.unityBackgroundImageTintColor = Color.green;
                         AudioManager.Instance?.PlayScorePop();
                         MiniGameFeedback.PlaySuccess(cgSandTrap, "CEO WON! PROMOTED!", cgPlayArea ?? cgContainer);
                         yield return new WaitForSeconds(1f);

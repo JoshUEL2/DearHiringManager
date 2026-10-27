@@ -25,9 +25,9 @@
 
             <!-- Action Buttons -->
             <ui:VisualElement class="ts-btn-row">
-                <ui:Button name="BtnTsSpam" text="🗑️ SPAM" class="ts-btn ts-btn-spam" />
-                <ui:Button name="BtnTsResolve" text="✅ RESOLVE" class="ts-btn ts-btn-resolve" />
-                <ui:Button name="BtnTsEscalate" text="⚠️ ESCALATE" class="ts-btn ts-btn-escalate" />
+                <ui:Button name="BtnTsSpam" text="SPAM" class="ts-btn ts-btn-spam" />
+                <ui:Button name="BtnTsResolve" text="RESOLVE" class="ts-btn ts-btn-resolve" />
+                <ui:Button name="BtnTsEscalate" text="ESCALATE" class="ts-btn ts-btn-escalate" />
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -35,13 +35,13 @@
         <ui:VisualElement class="ts-post-it">
             <ui:Label text="TICKET GUIDE" class="ts-post-it-title" />
             
-            <ui:Label text="🗑️ SPAM / DELETE" class="ts-post-it-header" style="color: #DC2626;" />
+            <ui:Label text="SPAM / DELETE" class="ts-post-it-header" style="color: #DC2626;" />
             <ui:Label text="Obvious phishing, junk mail, 'Nigerian Princes'." class="ts-post-it-desc" />
             
-            <ui:Label text="✅ RESOLVE / LEGIT" class="ts-post-it-header" style="color: #16A34A;" />
+            <ui:Label text="RESOLVE / LEGIT" class="ts-post-it-header" style="color: #16A34A;" />
             <ui:Label text="Basic user errors (Forgot password, etc)." class="ts-post-it-desc" />
             
-            <ui:Label text="⚠️ ESCALATE" class="ts-post-it-header" style="color: #D97706;" />
+            <ui:Label text="ESCALATE" class="ts-post-it-header" style="color: #D97706;" />
             <ui:Label text="Critical infrastructure failures (Fires, Ransomware)." class="ts-post-it-desc" />
         </ui:VisualElement>
 

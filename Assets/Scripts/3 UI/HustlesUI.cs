@@ -214,13 +214,16 @@ public class HustlesUI
         {
             case "Collect Recycled Bottles":
                 bg.style.backgroundColor = new StyleColor(new Color(0.08f, 0.1f, 0.14f));
-                string[] emojis = { "🍾", "🥤", "🥫" };
+                string[] bottleIcons = { "mg-icon-bottle", "mg-icon-can", "mg-icon-bottle" };
                 VisualElement[] fallingItems = new VisualElement[3];
                 float[] itemY = new float[3];
                 for(int i=0; i<3; i++) {
-                    Label item = new Label(emojis[i]);
+                    VisualElement item = new VisualElement();
+                    item.AddToClassList("mg-icon");
+                    item.AddToClassList(bottleIcons[i]);
                     item.style.position = Position.Absolute;
-                    item.style.fontSize = 45; 
+                    item.style.width = 42; 
+                    item.style.height = 42; 
                     item.style.left = Length.Percent(70 + (i * 10)); 
                     itemY[i] = -50 - (i * 90);
                     bg.Add(item);
@@ -252,9 +255,12 @@ public class HustlesUI
                     tiles[i] = tile;
                 }
                 bg.Add(grid);
-                Label tractor = new Label("🚜");
+                VisualElement tractor = new VisualElement();
+                tractor.AddToClassList("mg-icon");
+                tractor.AddToClassList("mg-icon-tractor");
                 tractor.style.position = Position.Absolute;
-                tractor.style.fontSize = 35;
+                tractor.style.width = 38;
+                tractor.style.height = 38;
                 bg.Add(tractor);
                 int currentTile = 0;
                 float tTime = 0;
@@ -286,14 +292,17 @@ public class HustlesUI
                 sweetSpot.style.top = 0; sweetSpot.style.bottom = 0;
                 sweetSpot.style.backgroundColor = new StyleColor(new Color(0f, 1f, 0f, 0.15f));
                 bg.Add(sweetSpot);
-                Label human = new Label("🧍");
-                human.style.position = Position.Absolute; human.style.fontSize = 50;
+                VisualElement human = new VisualElement();
+                human.AddToClassList("mg-icon");
+                human.AddToClassList("mg-icon-person");
+                human.style.position = Position.Absolute;
+                human.style.width = 46;
+                human.style.height = 46;
                 human.style.left = Length.Percent(80); human.style.top = Length.Percent(40);
                 human.style.translate = new StyleTranslate(new Translate(Length.Percent(-50), Length.Percent(-50), 0));
                 bg.Add(human);
-                string[] dogEmojis = { "🐕", "🐩", "🦮", "🐕‍🦺", "🐕" };
                 VisualElement[] leashes = new VisualElement[5];
-                Label[] dogs = new Label[5];
+                VisualElement[] dogs = new VisualElement[5];
                 float[] dogDistances = new float[5];
                 float[] dogAngles = new float[5];
                 for(int i=0; i<5; i++) {
@@ -303,8 +312,12 @@ public class HustlesUI
                     leash.style.left = Length.Percent(80); leash.style.top = Length.Percent(45);
                     bg.Add(leash);
                     leashes[i] = leash;
-                    Label dog = new Label(dogEmojis[i]);
-                    dog.style.position = Position.Absolute; dog.style.fontSize = 35;
+                    VisualElement dog = new VisualElement();
+                    dog.AddToClassList("mg-icon");
+                    dog.AddToClassList("mg-icon-dog");
+                    dog.style.position = Position.Absolute;
+                    dog.style.width = 34;
+                    dog.style.height = 34;
                     dog.style.left = Length.Percent(80); dog.style.top = Length.Percent(45);
                     bg.Add(dog);
                     dogs[i] = dog;
@@ -340,17 +353,25 @@ public class HustlesUI
                     stripes[i] = stripe;
                 }
                 
-                Label[] obstacles = new Label[2];
+                VisualElement[] obstacles = new VisualElement[2];
                 float[] obsY = new float[2];
                 for(int i=0; i<2; i++) {
-                    obstacles[i] = new Label("🚘");
-                    obstacles[i].style.position = Position.Absolute; obstacles[i].style.fontSize = 40;
+                    obstacles[i] = new VisualElement();
+                    obstacles[i].AddToClassList("mg-icon");
+                    obstacles[i].AddToClassList(i == 0 ? "mg-icon-car" : "mg-icon-cone");
+                    obstacles[i].style.position = Position.Absolute;
+                    obstacles[i].style.width = 38;
+                    obstacles[i].style.height = 38;
                     obsY[i] = -100 - (i*150);
                     bg.Add(obstacles[i]);
                 }
                 
-                Label playerBike = new Label("🛵");
-                playerBike.style.position = Position.Absolute; playerBike.style.bottom = 10; playerBike.style.left = Length.Percent(80); playerBike.style.fontSize = 50;
+                VisualElement playerBike = new VisualElement();
+                playerBike.AddToClassList("mg-icon");
+                playerBike.AddToClassList("mg-icon-scooter");
+                playerBike.style.position = Position.Absolute; playerBike.style.bottom = 10; playerBike.style.left = Length.Percent(80);
+                playerBike.style.width = 46;
+                playerBike.style.height = 46;
                 bg.Add(playerBike);
                 
                 float roadY = 0;

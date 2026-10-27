@@ -9,12 +9,12 @@ public class RetroRacerMiniGame : IMiniGame
     private VisualElement rootElement;
 
     private VisualElement rrContainer;
-    private Label rrPlayer;
+    private VisualElement rrPlayer;
     private Label rrDistanceLabel;
-    private Label rrFoodLabel;
+    private VisualElement[] rrFoodPips = new VisualElement[3];
     private Label rrTimeLabel;
     private VisualElement[] rrRoadLines = new VisualElement[8];
-    private Label[] rrObstacleElements = new Label[8];
+    private VisualElement[] rrObstacleElements = new VisualElement[8];
     private bool[] rrObstacleActive = new bool[8];
     private Vector2[] rrObstaclePos = new Vector2[8];
     private int rrBlocks = 0;
@@ -34,15 +34,19 @@ public class RetroRacerMiniGame : IMiniGame
         rrContainer = root.Q<VisualElement>("RetroRacerContainer");
         if (rrContainer != null)
         {
-            rrPlayer = rrContainer.Q<Label>("RrPlayer");
+            rrPlayer = rrContainer.Q<VisualElement>("RrPlayer");
             rrDistanceLabel = rrContainer.Q<Label>("RrDistanceLabel");
-            rrFoodLabel = rrContainer.Q<Label>("RrFoodLabel");
             rrTimeLabel = rrContainer.Q<Label>("RrTimeLabel");
+
+            for (int i = 0; i < 3; i++)
+            {
+                rrFoodPips[i] = rrContainer.Q<VisualElement>($"RrFoodPip{i}");
+            }
 
             for (int i = 0; i < 8; i++)
             {
                 rrRoadLines[i] = rrContainer.Q<VisualElement>($"RrLine{i}");
-                rrObstacleElements[i] = rrContainer.Q<Label>($"RrObs{i}");
+                rrObstacleElements[i] = rrContainer.Q<VisualElement>($"RrObs{i}");
             }
 
             rrContainer.RegisterCallback<PointerDownEvent>(OnRrPointerDown);
@@ -66,10 +70,10 @@ public class RetroRacerMiniGame : IMiniGame
         
         if (rrPlayer != null)
         {
-            rrPlayer.text = "🛵";
             rrPlayer.style.left = new Length(50f, LengthUnit.Percent);
             rrPlayer.style.rotate = new Rotate(Angle.Degrees(0f));
             rrPlayer.style.opacity = 1f;
+            rrPlayer.style.unityBackgroundImageTintColor = Color.white;
         }
 
         if (rrDistanceLabel != null) rrDistanceLabel.text = "DISTANCE: 0";
@@ -92,14 +96,21 @@ public class RetroRacerMiniGame : IMiniGame
 
     private void UpdateFoodDisplay()
     {
-        if (rrFoodLabel != null)
+        for (int i = 0; i < 3; i++)
         {
-            int safeBurgers = Mathf.Clamp(foodHealth, 0, 3);
-            string display = "";
-            for (int i = 0; i < safeBurgers; i++) display += "🍔";
-            for (int i = 0; i < (3 - safeBurgers); i++) display += "❌";
-            rrFoodLabel.text = $"FOOD: {display}";
-            rrFoodLabel.style.color = foodHealth > 1 ? new StyleColor(new Color(0.2f, 0.85f, 0.4f)) : new StyleColor(new Color(0.95f, 0.3f, 0.2f));
+            if (rrFoodPips[i] != null)
+            {
+                if (i < foodHealth)
+                {
+                    rrFoodPips[i].style.opacity = 1f;
+                    rrFoodPips[i].style.unityBackgroundImageTintColor = Color.white;
+                }
+                else
+                {
+                    rrFoodPips[i].style.opacity = 0.25f;
+                    rrFoodPips[i].style.unityBackgroundImageTintColor = new Color(0.4f, 0.4f, 0.4f, 0.5f);
+                }
+            }
         }
     }
 
@@ -176,7 +187,7 @@ public class RetroRacerMiniGame : IMiniGame
             if (timer <= 0f)
             {
                 AudioManager.Instance?.PlayVictoryFanfare();
-                MiniGameFeedback.PlaySuccess(rrPlayer, "DELIVERED! 🛵", rrContainer);
+                MiniGameFeedback.PlaySuccess(rrPlayer, "DELIVERED!", rrContainer);
                 manager.MarkWinReady();
                 yield break;
             }
@@ -247,7 +258,12 @@ public class RetroRacerMiniGame : IMiniGame
                         if (rrObstacleElements[i] != null) {
                             rrObstacleElements[i].style.display = DisplayStyle.Flex;
                             float r = Random.value;
-                            rrObstacleElements[i].text = r < 0.45f ? "🚕" : (r < 0.75f ? "🚧" : "🛢️");
+                            rrObstacleElements[i].RemoveFromClassList("mg-icon-car");
+                            rrObstacleElements[i].RemoveFromClassList("mg-icon-cone");
+                            if (r < 0.6f)
+                                rrObstacleElements[i].AddToClassList("mg-icon-car");
+                            else
+                                rrObstacleElements[i].AddToClassList("mg-icon-cone");
                         }
                         break;
                     }
@@ -287,14 +303,14 @@ public class RetroRacerMiniGame : IMiniGame
 
                         AudioManager.Instance?.PlayBuzzer();
                         HapticManager.HeavyImpact();
-                        MiniGameFeedback.PlayError(rrPlayer, "CRASH! 💥", rrContainer);
+                        MiniGameFeedback.PlayError(rrPlayer, "CRASH!", rrContainer);
                         MiniGameFeedback.Shake(rrContainer, 16f, 250);
 
                         if (rrPlayer != null)
                         {
-                            rrPlayer.text = "💥";
+                            rrPlayer.style.unityBackgroundImageTintColor = Color.red;
                             rrPlayer.schedule.Execute(() => {
-                                if (rrPlayer != null) rrPlayer.text = "🛵";
+                                if (rrPlayer != null) rrPlayer.style.unityBackgroundImageTintColor = Color.white;
                             }).StartingIn(350);
                         }
 
@@ -319,7 +335,7 @@ public class RetroRacerMiniGame : IMiniGame
                         rrObstacleElements[i].style.left = new Length(currentX, LengthUnit.Percent);
                         rrObstacleElements[i].style.top = new Length(screenY * 100f, LengthUnit.Percent);
                         
-                        float scale = Mathf.Lerp(0.2f, 3.4f, screenY);
+                        float scale = Mathf.Lerp(0.3f, 2.5f, screenY);
                         rrObstacleElements[i].style.scale = new StyleScale(new Scale(new Vector3(scale, scale, 1f)));
                     }
                 }

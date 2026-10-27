@@ -152,7 +152,7 @@ public class DragCenterMiniGame : IMiniGame
         cssTooltip.style.display = DisplayStyle.None;
         
         // Update to the "X" and neon color
-        draggableIcon.text = "✖";
+        draggableIcon.text = "X";
         draggableIcon.style.color = new StyleColor(new Color(0.9f, 0.9f, 0.9f));
         
         draggableIcon.style.left = new Length(Random.Range(10f, 90f), LengthUnit.Percent);
@@ -205,7 +205,7 @@ public class DragCenterMiniGame : IMiniGame
 
     private IEnumerator SpawnGhostTrail(float x, float y)
     {
-        Label ghost = new Label("✖");
+        Label ghost = new Label("X");
         ghost.style.position = Position.Absolute;
         ghost.style.left = new Length(x, LengthUnit.Percent);
         ghost.style.top = new Length(y, LengthUnit.Percent);
@@ -316,7 +316,7 @@ public class DragCenterMiniGame : IMiniGame
             AudioManager.Instance?.PlayCenterDivSnap();
             Color winCol = new Color(0.13f, 0.77f, 0.36f);
             if (scoreValueText != null) scoreValueText.style.color = new StyleColor(winCol);
-            draggableIcon.text = "✓";
+            draggableIcon.text = "OK";
             draggableIcon.style.color = new StyleColor(winCol);
             
             flashOverlay.style.backgroundColor = new StyleColor(new Color(0.13f, 0.77f, 0.36f, 0.4f));

@@ -23,7 +23,7 @@ public class KanbanBoardMiniGame : IMiniGame
     private int kanbanTicketsDone = 0;
     
     // Aesthetic prefixes
-    private string[] ticketPrefixes = { "🔴 BUG-", "🔵 TSK-", "🟣 EPC-", "🟠 OPT-" };
+    private string[] ticketPrefixes = { "BUG-", "TSK-", "EPC-", "OPT-" };
 
     public void Initialize(MiniGameManager manager, VisualElement root, MiniGameConfig config)
     {
@@ -233,9 +233,9 @@ public class KanbanBoardMiniGame : IMiniGame
                 ticket.style.borderLeftColor = new StyleColor(new Color(0.05f, 0.4f, 0.15f)); 
                 
                 var label = ticket.Q<Label>();
-                if (!label.text.StartsWith("✅")) 
+                if (!label.text.StartsWith("[DONE] ")) 
                 {
-                    label.text = "✅ " + label.text;
+                    label.text = "[DONE] " + label.text;
                     label.style.color = new StyleColor(Color.black); // Contrast
                 }
                 

@@ -47,14 +47,21 @@ public class OrderQueueMiniGame : IMiniGame
             danceStage.style.borderBottomLeftRadius = 20; danceStage.style.borderBottomRightRadius = 20;
             danceStage.style.overflow = Overflow.Hidden;
             
-            Label discoBall = new Label("🪩");
+            VisualElement discoBall = new VisualElement();
             discoBall.style.position = Position.Absolute;
             discoBall.style.top = 10;
-            discoBall.style.fontSize = 40;
+            discoBall.style.width = 44;
+            discoBall.style.height = 44;
+            discoBall.style.backgroundColor = new StyleColor(new Color(0.9f, 0.95f, 1f));
+            discoBall.style.borderTopLeftRadius = 22; discoBall.style.borderTopRightRadius = 22;
+            discoBall.style.borderBottomLeftRadius = 22; discoBall.style.borderBottomRightRadius = 22;
             danceStage.Add(discoBall);
             
-            dancerAvatar = new Label("🕺");
-            dancerAvatar.style.fontSize = 80;
+            dancerAvatar = new Label();
+            dancerAvatar.AddToClassList("mg-icon");
+            dancerAvatar.AddToClassList("mg-icon-person");
+            dancerAvatar.style.width = 72;
+            dancerAvatar.style.height = 72;
             dancerAvatar.style.position = Position.Absolute;
             dancerAvatar.style.top = 70;
             danceStage.Add(dancerAvatar);

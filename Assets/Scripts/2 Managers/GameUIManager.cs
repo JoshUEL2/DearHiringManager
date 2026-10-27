@@ -1439,12 +1439,14 @@ public class GameUIManager : MonoBehaviour
                     existing.style.top = -400;
                     wmContainer.Add(existing);
                     
-                    // Animate: drift diagonally
-                    float offset = 0f;
+                    // Animate: smooth continuous floating ambient drift without jumps or modulo hitching
+                    float animTime = 0f;
                     existing.schedule.Execute(() => {
-                        offset = (offset + 0.5f) % 120f;
-                        existing.style.translate = new StyleTranslate(new Translate(offset, offset));
-                    }).Every(33); // ~30fps
+                        animTime += 0.016f;
+                        float dx = Mathf.Sin(animTime * 0.35f) * 35f;
+                        float dy = Mathf.Cos(animTime * 0.25f) * 20f;
+                        existing.style.translate = new StyleTranslate(new Translate(dx, dy));
+                    }).Every(16); // 60fps ProMotion fluid
                 }
                 existing.text = wmBlock;
             }
@@ -1466,7 +1468,7 @@ public class GameUIManager : MonoBehaviour
             root.Query<Label>("PlayerInitials").ForEach(l => l.text = !string.IsNullOrEmpty(playerName) ? playerName.Substring(0, 1).ToUpper() : "X");
             root.Query<Label>("IDCardWeek").ForEach(l => l.text = $"VALID: WK {data.currentWeek}");
             root.Query<Label>("PhoneTime").ForEach(l => l.text = $"WEEK {data.currentWeek}");
-            root.Query<Label>("DistrictSignal").ForEach(l => l.text = $"📶 {data.zone.ToString().ToUpper()} - 3G");
+            root.Query<Label>("DistrictSignal").ForEach(l => l.text = $"● 3G | {data.zone.ToString().ToUpper()}");
             root.Query<Label>("LedgerDate").ForEach(l => l.text = $"DATE: WEEK {data.currentWeek}");
             root.Query<Label>("TickerWeek").ForEach(l => l.text = $"WK:{data.currentWeek:D2}");
 

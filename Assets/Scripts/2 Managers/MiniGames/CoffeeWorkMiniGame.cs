@@ -47,9 +47,9 @@ public class CoffeeWorkMiniGame : IMiniGame
         if (cwBtnType != null)
         {
             if (manager.currentGame != null && manager.currentGame.name == "Debug CSS at 3 AM")
-                cwBtnType.text = "⌨️ DEBUG CSS";
+                cwBtnType.text = "DEBUG CSS";
             else
-                cwBtnType.text = "⌨️ TYPE SLIDES";
+                cwBtnType.text = "TYPE SLIDES";
         }
 
         manager.StartCoroutine(CoffeeWorkRoutine());

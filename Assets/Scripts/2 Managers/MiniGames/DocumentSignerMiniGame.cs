@@ -33,7 +33,7 @@ public class DocumentSignerMiniGame : IMiniGame
                     AudioManager.Instance?.PlayStampPass(true);
                     if (dsTimerText != null) dsTimerText.text = "SIGNED!";
                     isPlaying = false;
-                    MiniGameFeedback.PlaySuccess(btnStampApproval, "APPROVED! ✍️", container);
+                    MiniGameFeedback.PlaySuccess(btnStampApproval, "APPROVED!", container);
                     manager.MarkWinReady();
                 }
             };

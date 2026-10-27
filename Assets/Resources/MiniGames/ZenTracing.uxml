@@ -16,7 +16,7 @@
                 
                 <!-- Target Bubble -->
                 <ui:VisualElement name="ZtTarget" style="position: absolute; width: 44px; height: 44px; background-color: #60A5FA; border-radius: 22px; border-width: 3px; border-color: #BFDBFE; justify-content: center; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.4);" picking-mode="Ignore">
-                    <ui:Label text="🫧" style="font-size: 24px; margin-top: -2px;" />
+                    <ui:Label text="END" style="font-size: 24px; margin-top: -2px;" />
                 </ui:VisualElement>
 
                 <!-- Sponge -->

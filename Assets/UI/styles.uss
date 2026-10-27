@@ -1895,3 +1895,57 @@
 .top-icon-migration {
     background-image: url("project://database/Assets/Art/Icons/Top_Migration.png");
 }
+
+/* ============================================================== */
+/* MINIGAME & PORTAL RETINA SPRITE ICONS                         */
+/* ============================================================== */
+.mg-icon {
+    -unity-background-scale-mode: scale-to-fit;
+    align-self: center;
+}
+.mg-icon-person {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Person.png");
+}
+.mg-icon-dog {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Dog.png");
+}
+.mg-icon-scooter {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Scooter.png");
+}
+.mg-icon-car {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Car.png");
+}
+.mg-icon-cloud {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Cloud.png");
+}
+.mg-icon-sun {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Sun.png");
+}
+.mg-icon-burger {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Burger.png");
+}
+.mg-icon-cone {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_TrafficCone.png");
+}
+.mg-icon-tractor {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Tractor.png");
+}
+.mg-icon-grass {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Grass.png");
+}
+.mg-icon-bottle {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Bottle.png");
+}
+.mg-icon-can {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Can.png");
+}
+.mg-icon-lock {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Lock.png");
+}
+.mg-icon-coffee {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Coffee.png");
+}
+.mg-icon-paper {
+    background-image: url("project://database/Assets/Art/Icons/Minigames/Icon_Paper.png");
+}
+

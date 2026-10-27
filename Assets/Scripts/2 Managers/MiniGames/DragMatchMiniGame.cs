@@ -198,7 +198,7 @@ public class DragMatchMiniGame : IMiniGame
             generatorPanel.style.borderLeftWidth = 0; generatorPanel.style.borderRightWidth = 0;
             
             var bolt = generatorPanel.Q<Label>();
-            if (bolt != null) { bolt.text = "✏️"; bolt.style.color = new StyleColor(Color.black); }
+            if (bolt != null) { bolt.text = ""; bolt.style.color = new StyleColor(Color.black); }
         }
         else
         {
@@ -240,7 +240,7 @@ public class DragMatchMiniGame : IMiniGame
                 cheatSheet.style.backgroundColor = new StyleColor(new Color(0.98f, 0.96f, 0.9f)); // Paper background just for the bottom
                 
                 // Add High Voltage Stamp
-                var warningText = new Label("⚠️ HIGH VOLTAGE ⚠️");
+                var warningText = new Label("DANGER: HIGH VOLTAGE");
                 warningText.style.position = Position.Absolute;
                 warningText.style.bottom = 35;
                 warningText.style.right = 0;

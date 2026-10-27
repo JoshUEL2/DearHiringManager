@@ -22,6 +22,6 @@
                     </ui:VisualElement>
 
                     <!-- Backspace Button -->
-                    <ui:Button name="FbBackspaceBtn" text="⌫ BACKSPACE" style="height: 80px; font-size: 32px; background-color: #EF4444; color: white; border-radius: 10px; -unity-font-style: bold; border-width: 0;" />
+                    <ui:Button name="FbBackspaceBtn" text="BACKSPACE" style="height: 80px; font-size: 32px; background-color: #EF4444; color: white; border-radius: 10px; -unity-font-style: bold; border-width: 0;" />
                 </ui:VisualElement>
 </ui:UXML>

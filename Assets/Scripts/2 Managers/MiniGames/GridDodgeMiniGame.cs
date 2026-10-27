@@ -122,13 +122,17 @@ public class GridDodgeMiniGame : IMiniGame
     private void SetPlayerIcon()
     {
         bool isTrash = config.instructions.ToLower().Contains("leaky");
+        playerIcon.text = "";
+        playerIcon.AddToClassList("mg-icon");
+        playerIcon.RemoveFromClassList("mg-icon-can");
+        playerIcon.RemoveFromClassList("mg-icon-person");
+        playerIcon.RemoveFromClassList("mg-icon-tractor");
         
-        if (isTrash) playerIcon.text = "🗑️";
-        else if (IsPark) playerIcon.text = "🚶";
-        else playerIcon.text = "🏗️"; 
+        if (isTrash) playerIcon.AddToClassList("mg-icon-can");
+        else if (IsPark) playerIcon.AddToClassList("mg-icon-person");
+        else playerIcon.AddToClassList("mg-icon-tractor"); 
         
         playerIcon.style.backgroundColor = new StyleColor(Color.clear);
-        playerIcon.style.fontSize = 45;
     }
 
     private void OnDrawFactoryFloor(MeshGenerationContext ctx)
@@ -331,7 +335,7 @@ public class GridDodgeMiniGame : IMiniGame
             else
             {
                 healthText.style.display = DisplayStyle.Flex;
-                healthText.text = $"❤️ {health}";
+                healthText.text = $"HP: {health}";
             }
         }
         

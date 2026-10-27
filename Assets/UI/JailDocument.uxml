@@ -1,61 +1,61 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor-extension-mode="False">
     <ui:Style src="styles.uss" />
 
-    <ui:VisualElement class="screen-container" style="background-color: #0B111A; justify-content: space-between; padding: 40px; padding-bottom: 40px;">
+    <ui:VisualElement class="screen-container" style="background-color: #070B12; justify-content: space-between; padding: 40px; padding-bottom: 40px;">
         
         <!-- Header Section -->
-        <ui:VisualElement style="align-items: center; margin-bottom: 30px;">
-            <ui:Label name="LockIcon" text="🔒" style="font-size: 100px; margin-bottom: 10px;" />
-            <ui:Label text="STATE PENITENTIARY" class="header-text" style="color: #E2E8F0; font-size: 40px; letter-spacing: 5px; margin-bottom: 10px; white-space: nowrap; flex-shrink: 0;" />
+        <ui:VisualElement style="align-items: center; margin-bottom: 25px;">
+            <ui:VisualElement name="LockIcon" class="mg-icon mg-icon-lock" style="width: 100px; height: 100px; margin-bottom: 14px; -unity-background-image-tint-color: #F59E0B;" />
+            <ui:Label text="STATE PENITENTIARY" class="header-text" style="color: #F3F4F6; font-size: 42px; letter-spacing: 5px; margin-bottom: 10px; white-space: nowrap; flex-shrink: 0;" />
             <ui:Label text="CHARGES: Attempted Illegal Side Hustle" class="sub-text" style="color: #EF4444; font-size: 26px; -unity-font-style: bold; white-space: nowrap; flex-shrink: 0;" />
         </ui:VisualElement>
 
         <!-- Sentence Card -->
-        <ui:VisualElement class="card" style="background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 20px; align-items: center; padding: 30px; margin-bottom: 30px;">
-            <ui:Label text="SENTENCE REMAINING" class="sub-text" style="color: #94A3B8; font-size: 24px; letter-spacing: 3px; margin-bottom: 15px;" />
-            <ui:Label name="JailWeeksText" text="0 WEEKS" class="header-text" style="color: #F59E0B; font-size: 56px;" />
+        <ui:VisualElement class="card" style="background-color: #0F172A; border-color: #1E293B; border-width: 2px; border-radius: 20px; align-items: center; padding: 28px; margin-bottom: 25px;">
+            <ui:Label text="SENTENCE REMAINING" class="sub-text" style="color: #94A3B8; font-size: 24px; letter-spacing: 3px; margin-bottom: 12px;" />
+            <ui:Label name="JailWeeksText" text="0 WEEKS" class="header-text" style="color: #F59E0B; font-size: 60px;" />
         </ui:VisualElement>
 
         <!-- Prison Yard Activities -->
-        <ui:VisualElement style="flex-grow: 1; margin-bottom: 30px;">
-            <ui:Label text="Prison Yard Activities (Max 1 of each per week):" style="font-size: 26px; -unity-font-style: bold; color: #94A3B8; margin-bottom: 15px;" />
+        <ui:VisualElement style="flex-grow: 1; margin-bottom: 25px;">
+            <ui:Label text="Prison Yard Activities (Max 1 of each per week):" style="font-size: 26px; -unity-font-style: bold; color: #94A3B8; margin-bottom: 16px;" />
             
             <ui:ScrollView style="flex-grow: 1;">
-                <ui:VisualElement class="job-card" style="background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 16px; padding: 25px; margin-bottom: 15px;">
-                    <ui:VisualElement class="row" style="margin-bottom: 10px;">
+                <ui:VisualElement class="job-card" style="background-color: #0F172A; border-color: #1E293B; border-width: 2px; border-radius: 16px; padding: 24px; margin-bottom: 16px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between; align-items: center;">
                         <ui:Label text="Yard Workout" style="color: #F8FAFC; font-size: 32px; -unity-font-style: bold;" />
-                        <ui:Button name="BtnWorkout" text="PUMP IRON" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 10px; font-size: 24px; padding: 10px 20px;" />
+                        <ui:Button name="BtnWorkout" text="PUMP IRON" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 14px; font-size: 26px; padding: 14px 28px; min-height: 56px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                     <ui:Label text="Lift cement blocks to maintain your physique. (+0.5% Manual Luck)" style="color: #38BDF8; font-size: 24px; white-space: normal;" />
                 </ui:VisualElement>
 
-                <ui:VisualElement class="job-card" style="background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 16px; padding: 25px; margin-bottom: 15px;">
-                    <ui:VisualElement class="row" style="margin-bottom: 10px;">
+                <ui:VisualElement class="job-card" style="background-color: #0F172A; border-color: #1E293B; border-width: 2px; border-radius: 16px; padding: 24px; margin-bottom: 16px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between; align-items: center;">
                         <ui:Label text="Read Tech Docs" style="color: #F8FAFC; font-size: 32px; -unity-font-style: bold;" />
-                        <ui:Button name="BtnTechDocs" text="STUDY" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 10px; font-size: 24px; padding: 10px 20px;" />
+                        <ui:Button name="BtnTechDocs" text="STUDY" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 14px; font-size: 26px; padding: 14px 28px; min-height: 56px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                     <ui:Label text="Memorize smuggled coding documentation. (+0.5% Tech Luck)" style="color: #38BDF8; font-size: 24px; white-space: normal;" />
                 </ui:VisualElement>
 
-                <ui:VisualElement class="job-card" style="background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 16px; padding: 25px; margin-bottom: 15px;">
-                    <ui:VisualElement class="row" style="margin-bottom: 10px;">
+                <ui:VisualElement class="job-card" style="background-color: #0F172A; border-color: #1E293B; border-width: 2px; border-radius: 16px; padding: 24px; margin-bottom: 16px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between; align-items: center;">
                         <ui:Label text="Socialize" style="color: #F8FAFC; font-size: 32px; -unity-font-style: bold;" />
-                        <ui:Button name="BtnSocial" text="NETWORK" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 10px; font-size: 24px; padding: 10px 20px;" />
+                        <ui:Button name="BtnSocial" text="NETWORK" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 14px; font-size: 26px; padding: 14px 28px; min-height: 56px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                     <ui:Label text="De-escalate disputes and build prison alliances. (+0.5% Hospitality Luck)" style="color: #38BDF8; font-size: 24px; white-space: normal;" />
                 </ui:VisualElement>
 
-                <ui:VisualElement class="job-card" style="background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 16px; padding: 25px; margin-bottom: 15px;">
-                    <ui:VisualElement class="row" style="margin-bottom: 10px;">
+                <ui:VisualElement class="job-card" style="background-color: #0F172A; border-color: #1E293B; border-width: 2px; border-radius: 16px; padding: 24px; margin-bottom: 16px;">
+                    <ui:VisualElement class="row" style="margin-bottom: 10px; justify-content: space-between; align-items: center;">
                         <ui:Label text="C-Suite Cellmates" style="color: #F8FAFC; font-size: 32px; -unity-font-style: bold;" />
-                        <ui:Button name="BtnBribe" text="CHAT" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 10px; font-size: 24px; padding: 10px 20px;" />
+                        <ui:Button name="BtnBribe" text="CHAT" class="apply-button" style="background-color: #F59E0B; color: #000000; border-radius: 14px; font-size: 26px; padding: 14px 28px; min-height: 56px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                     <ui:Label text="Discuss hostile takeovers with a disgraced hedge fund manager. (+0.5% Corporate Luck)" style="color: #38BDF8; font-size: 24px; white-space: normal;" />
                 </ui:VisualElement>
             </ui:ScrollView>
         </ui:VisualElement>
 
-        <ui:Button name="BtnServeWeek" text="SERVE WEEK IN CELLS" style="background-color: #B45309; color: #FFFFFF; -unity-font-style: bold; height: 90px; width: 100%; font-size: 36px; border-radius: 12px; border-width: 4px; border-color: #78350F; margin-top: 10px; transition-property: scale, background-color; transition-duration: 0.2s;" />
+        <ui:Button name="BtnServeWeek" text="SERVE WEEK IN CELLS" style="background-color: #B45309; color: #FFFFFF; -unity-font-style: bold; height: 96px; width: 100%; font-size: 34px; border-radius: 16px; border-width: 4px; border-color: #78350F; margin-top: 10px; transition-property: scale, background-color; transition-duration: 0.2s;" />
         
     </ui:VisualElement>
 </ui:UXML>

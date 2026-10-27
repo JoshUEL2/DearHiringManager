@@ -127,7 +127,7 @@ public class ChartAdjusterMiniGame : IMiniGame
                     caStatusText.style.color = new StyleColor(Color.green);
                 }
                 isPlaying = false;
-                MiniGameFeedback.PlaySuccess(caOurBar, "STOCKS SOAR! 📈", container);
+                MiniGameFeedback.PlaySuccess(caOurBar, "STOCKS SOAR!", container);
                 AudioManager.Instance?.PlayVictoryFanfare();
                 manager.MarkWinReady();
                 yield break;

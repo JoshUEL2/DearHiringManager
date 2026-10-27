@@ -68,12 +68,12 @@ public class WalkDogsMiniGame : IMiniGame
                     wdLeashElements[i] = leash;
                     
                     // Create Dog
-                    Label dog = new Label(dogEmojis[i]);
+                    VisualElement dog = new VisualElement();
+                    dog.AddToClassList("mg-icon");
+                    dog.AddToClassList("mg-icon-dog");
                     dog.style.position = Position.Absolute;
-                    dog.style.fontSize = 40;
-                    dog.style.width = 50;
-                    dog.style.height = 50;
-                    dog.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    dog.style.width = 64;
+                    dog.style.height = 64;
                     
                     // Random starting stats
                     wdDogAngles[i] = Random.Range(0f, 360f);
@@ -156,8 +156,8 @@ public class WalkDogsMiniGame : IMiniGame
                     float centerY = containerHeight / 2f;
                     
                     if (wdDogElements[i] != null) {
-                        wdDogElements[i].style.left = centerX + x - 25f; // offset half dog width
-                        wdDogElements[i].style.top = centerY + y - 25f;
+                        wdDogElements[i].style.left = centerX + x - 32f;
+                        wdDogElements[i].style.top = centerY + y - 32f;
                         
                         // Flip sprite horizontally if running left
                         if (x < 0) {

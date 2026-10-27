@@ -5,7 +5,7 @@
         <!-- Top HUD -->
         <ui:VisualElement class="grid-dodge-hud">
             <ui:VisualElement class="grid-dodge-health">
-                <ui:Label name="GridHealthText" text="❤️ 3" class="grid-dodge-health-text" />
+                <ui:Label name="GridHealthText" text="HP: 3" class="grid-dodge-health-text" />
             </ui:VisualElement>
         </ui:VisualElement>
 

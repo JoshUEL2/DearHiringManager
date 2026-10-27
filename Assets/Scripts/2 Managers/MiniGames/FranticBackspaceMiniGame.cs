@@ -83,7 +83,7 @@ public class FranticBackspaceMiniGame : IMiniGame
                     fbTimerText.style.color = new StyleColor(Color.green);
                 }
                 AudioManager.Instance?.PlayScorePop();
-                MiniGameFeedback.PlaySuccess(fbPlayerText, "CRISIS AVERTED! 😅", container);
+                MiniGameFeedback.PlaySuccess(fbPlayerText, "CRISIS AVERTED!", container);
                 yield return new WaitForSeconds(1.0f);
                 manager.MarkWinReady();
                 yield break;

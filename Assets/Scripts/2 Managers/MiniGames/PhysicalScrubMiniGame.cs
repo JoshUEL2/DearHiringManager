@@ -89,7 +89,7 @@ public class PhysicalScrubMiniGame : IMiniGame
             if (timeLeft > 0)
             {
                 timeLeft -= Time.deltaTime;
-                timerLabel.text = $"⏱️ {Mathf.CeilToInt(timeLeft)}s";
+                timerLabel.text = $"TIME: {Mathf.CeilToInt(timeLeft)}s";
                 if (timeLeft <= 0)
                 {
                     AudioManager.Instance?.PlayMinigameFail();

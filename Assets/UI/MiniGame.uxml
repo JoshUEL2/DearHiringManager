@@ -5,17 +5,17 @@
     <!-- Full screen dark overlay -->
     <ui:VisualElement name="Overlay" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(5, 8, 14, 0.90); justify-content: center; align-items: center; display: none; opacity: 0; transition-property: opacity; transition-duration: 0.22s;">
         <!-- Terminal Window / MiniGame Container -->
-        <ui:VisualElement name="MiniGameCard" class="popup-card" style="padding: 28px 24px; width: 95%; max-width: 980px; max-height: 94%; margin-top: 20px; position: relative; scale: 0.88 0.88; opacity: 0; transition-property: scale, opacity; transition-duration: 0.24s; transition-timing-function: ease-out-back;">
+        <ui:VisualElement name="MiniGameCard" class="popup-card" style="padding: 32px 28px; width: 95%; max-width: 980px; min-height: 850px; max-height: 94%; margin-top: 10px; position: relative; scale: 0.88 0.88; opacity: 0; transition-property: scale, opacity; transition-duration: 0.24s; transition-timing-function: ease-out-back;">
             <!-- Modern Animated Abort Button (Top Right) -->
             <ui:Button name="BtnAbortMinigame" class="modern-close-btn" style="position: absolute; right: 20px; top: 20px;">
                 <ui:VisualElement class="modern-close-icon" />
             </ui:Button>
 
             <!-- Header -->
-            <ui:Label name="OperationNameText" text="[Name]" style="font-size: 40px; -unity-font-style: bold; color: #38BDF8; margin-bottom: 8px; padding-right: 60px; -unity-text-align: middle-center;" />
-            <ui:Label name="InstructionsText" text="[Instructions go here]" style="font-size: 26px; color: #E2E8F0; white-space: normal; margin-bottom: 24px; padding-left: 20px; padding-right: 20px; -unity-text-align: middle-center;" />
+            <ui:Label name="OperationNameText" text="[Name]" style="font-size: 46px; -unity-font-style: bold; color: #38BDF8; margin-bottom: 12px; padding-right: 60px; -unity-text-align: middle-center;" />
+            <ui:Label name="InstructionsText" text="[Instructions go here]" style="font-size: 28px; color: #E2E8F0; white-space: normal; margin-bottom: 24px; padding-left: 20px; padding-right: 20px; -unity-text-align: middle-center;" />
 
-            <ui:ScrollView style="flex-grow: 1; min-height: 560px; max-height: 1050px; width: 100%;" />
+            <ui:ScrollView style="flex-grow: 1; min-height: 720px; max-height: 1200px; width: 100%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

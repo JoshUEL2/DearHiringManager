@@ -156,11 +156,11 @@ public class CareerUI
         var data = GameManager.Instance.currentData;
 
         bool regDone = GameManager.Instance.completedRegularTaskThisWeek;
-        if (regularTasksStatus != null) regularTasksStatus.text = regDone ? "✓ MET" : "⚠️ PENDING";
+        if (regularTasksStatus != null) regularTasksStatus.text = regDone ? "MET" : "PENDING";
         if (regularTasksStatus != null) regularTasksStatus.style.color = new StyleColor(regDone ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f));
 
         bool extDone = data.completedExtraTaskThisWeek == 1;
-        if (extraTasksStatus != null) extraTasksStatus.text = extDone ? "✓ DONE THIS WEEK" : "⚠️ PENDING";
+        if (extraTasksStatus != null) extraTasksStatus.text = extDone ? "DONE THIS WEEK" : "PENDING";
         if (extraTasksStatus != null) extraTasksStatus.style.color = new StyleColor(extDone ? new Color(0.22f, 0.74f, 0.97f) : new Color(0.9f, 0.3f, 0.24f));
 
         // Regular Tasks
@@ -331,11 +331,11 @@ public class CareerUI
             checkRow.style.alignItems = Align.Center;
 
             Label checkIcon = new Label();
-            checkIcon.text = meets ? "[+]" : "[-]";
+            checkIcon.text = meets ? "●" : "✕";
             checkIcon.style.color = meets ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f);
             checkIcon.style.fontSize = 28; checkIcon.style.unityFontStyleAndWeight = FontStyle.Bold;
 
-            Label checkText = new Label(meets ? $"[Y] Eligible to Apply ({chance:F0}% Chance)" : "[X] Credentials block!");
+            Label checkText = new Label(meets ? $"Eligible to Apply ({chance:F0}% Chance)" : "Prerequisites Not Met");
             checkText.style.color = meets ? new Color(0.18f, 0.8f, 0.44f) : new Color(0.9f, 0.3f, 0.24f);
             checkText.style.fontSize = 24; checkText.style.unityFontStyleAndWeight = FontStyle.Bold; checkText.style.marginLeft = 10;
 
@@ -344,6 +344,17 @@ public class CareerUI
             Button applyBtn = new Button();
             applyBtn.text = "Apply";
             applyBtn.AddToClassList("btn-do-task-blue");
+            applyBtn.style.fontSize = 28;
+            applyBtn.style.unityFontStyleAndWeight = FontStyle.Bold;
+            applyBtn.style.paddingTop = 16;
+            applyBtn.style.paddingBottom = 16;
+            applyBtn.style.paddingLeft = 32;
+            applyBtn.style.paddingRight = 32;
+            applyBtn.style.borderTopLeftRadius = 14;
+            applyBtn.style.borderTopRightRadius = 14;
+            applyBtn.style.borderBottomLeftRadius = 14;
+            applyBtn.style.borderBottomRightRadius = 14;
+            applyBtn.style.minWidth = 160;
             if (!meets) applyBtn.style.backgroundColor = new StyleColor(Color.gray);
             
             var localJob = job;

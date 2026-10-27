@@ -10,6 +10,6 @@
                         <ui:Button name="SeqBtn4" text="—" class="popup-button" style="width: 160px; margin: 8px; background-color: #1E293B; border-color: #475569; border-width: 2px; display: none;" />
                         <ui:Button name="SeqBtn5" text="—" class="popup-button" style="width: 160px; margin: 8px; background-color: #1E293B; border-color: #475569; border-width: 2px; display: none;" />
                     </ui:VisualElement>
-                    <ui:Button name="BtnReplayPattern" text="🔄 Replay Pattern" style="font-size: 26px; color: #38BDF8; background-color: transparent; border-width: 0; -unity-font-style: bold;" />
+                    <ui:Button name="BtnReplayPattern" text="REPLAY PATTERN" style="font-size: 26px; color: #38BDF8; background-color: transparent; border-width: 0; -unity-font-style: bold;" />
                 </ui:VisualElement>
 </ui:UXML>

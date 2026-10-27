@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="WalkDogsContainer" style="display: none; width: 100%; min-width: 400px; height: 500px; background-color: #4ADE80; border-radius: 10px; border-width: 8px; border-color: #166534; margin-bottom: 20px; position: relative; overflow: hidden; padding: 0;">
+    <ui:VisualElement name="WalkDogsContainer" style="display: none; width: 100%; min-width: 440px; height: 720px; background-color: #22C55E; border-radius: 20px; border-width: 8px; border-color: #15803D; margin-bottom: 20px; position: relative; overflow: hidden; padding: 0;">
         
         <!-- Header Text -->
-        <ui:Label text="YANK THE LEASHES!" style="font-size: 28px; color: white; -unity-font-style: bold; position: absolute; top: 15px; left: 50%; translate: -50% 0; text-shadow: 2px 2px 0 rgba(0,0,0,0.3); z-index: 20;" />
+        <ui:Label text="YANK THE LEASHES!" style="font-size: 34px; color: white; -unity-font-style: bold; position: absolute; top: 20px; left: 50%; translate: -50% 0; text-shadow: 2px 2px 0 rgba(0,0,0,0.3); z-index: 20;" />
         
-        <ui:Label name="WdTimeText" text="TIME: 15.0s" style="font-size: 20px; color: #1e40af; -unity-font-style: bold; position: absolute; top: 50px; left: 50%; translate: -50% 0; z-index: 20; background-color: rgba(255,255,255,0.5); padding: 5px 15px; border-radius: 10px;" />
+        <ui:Label name="WdTimeText" text="TIME: 15.0s" style="font-size: 26px; color: #1E3A8A; -unity-font-style: bold; position: absolute; top: 68px; left: 50%; translate: -50% 0; z-index: 20; background-color: rgba(255,255,255,0.7); padding: 8px 20px; border-radius: 14px;" />
 
         <!-- Play Area containing the Human, Dogs, and Leashes -->
         <ui:VisualElement name="WdPlayArea" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; picking-mode: Ignore;">
             <!-- The human in the exact center -->
-            <ui:Label name="WdHuman" text="🧍" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; font-size: 60px; z-index: 10;" />
+            <ui:VisualElement name="WdHuman" class="mg-icon mg-icon-person" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 70px; height: 70px; z-index: 10;" />
         </ui:VisualElement>
 
     </ui:VisualElement>

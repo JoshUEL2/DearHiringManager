@@ -67,11 +67,12 @@ public class IncineratorTossMiniGame : IMiniGame
         drawArea.generateVisualContent += OnDrawGame;
         container.Add(drawArea);
 
-        bagLabel = new Label("🗑️");
+        bagLabel = new Label();
+        bagLabel.AddToClassList("mg-icon");
+        bagLabel.AddToClassList("mg-icon-can");
         bagLabel.style.position = Position.Absolute;
-        bagLabel.style.fontSize = 50;
-        bagLabel.style.color = Color.white;
-        bagLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+        bagLabel.style.width = 52;
+        bagLabel.style.height = 52;
         drawArea.Add(bagLabel);
     }
 
@@ -135,7 +136,7 @@ public class IncineratorTossMiniGame : IMiniGame
     {
         while (manager != null && manager.isPlaying)
         {
-            uiText.text = $"❤️ {health}   Bags: {bagsTossed}/{targetBags}";
+            uiText.text = $"HP: {health}   Bags: {bagsTossed}/{targetBags}";
 
             doorTimer += Time.deltaTime * doorCycleSpeed;
             // Sine wave for door state: open, hold, close, hold

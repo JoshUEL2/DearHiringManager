@@ -50,11 +50,11 @@ public class JailSystem : IWeeklySystem
                 data.rent = 50.0;
                 data.food = 25.0;
                 data.jobTitle = "Unemployed";
-                manager.activeNewsFeed = $"🚨 RELEASED FROM JAIL! You served your sentence and stepped out onto the Slums streets. Billed weekly rent/food: -${totalExpenseJail:F0}.";
+                manager.activeNewsFeed = $"[RELEASED] You served your sentence You served your sentence and stepped out onto the Slums streets. Billed weekly rent/food: -${totalExpenseJail:F0}.";
             }
             else
             {
-                manager.activeNewsFeed = $"🔒 PRISON JOURNAL: Serving week behind bars. Sentenced remaining: {data.jailWeeksRemaining} weeks. Billed home expenses: -${totalExpenseJail:F0}.";
+                manager.activeNewsFeed = $"[PRISON JOURNAL] Serving week behind bars. Sentenced remaining: {data.jailWeeksRemaining} weeks. Billed home expenses: -${totalExpenseJail:F0}.";
             }
 
             return false; // Halt normal processing for this week

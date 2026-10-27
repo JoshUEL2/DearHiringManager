@@ -91,7 +91,7 @@ public class IceShatterMiniGame : IMiniGame
                     node.style.borderLeftColor = new Color(0.8f, 0.9f, 1f);
                     node.style.borderRightColor = new Color(0.8f, 0.9f, 1f);
                     
-                    node.text = "❄️";
+                    node.text = "✦";
                     node.style.fontSize = 24;
                     node.style.color = Color.white;
                     node.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -100,7 +100,7 @@ public class IceShatterMiniGame : IMiniGame
                         if (!manager.isPlaying) return;
                         isBodyTemp = Mathf.Clamp(isBodyTemp + 12f, 0f, 100f);
                         AudioManager.Instance?.PlayIceShatter();
-                        MiniGameFeedback.PlaySuccess(node, "SHATTER! ❄️", container);
+                        MiniGameFeedback.PlaySuccess(node, "SHATTER!", container);
                         node.style.backgroundColor = Color.white;
                         node.text = ""; 
                         node.style.scale = new StyleScale(new Scale(new Vector3(0.3f, 0.3f, 1f)));

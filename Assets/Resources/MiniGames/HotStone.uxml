@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-<ui:VisualElement name="HotStoneContainer" style="display: none; width: 100%; min-width: 400px; height: 400px; flex-direction: column; background-color: #8B5A2B; border-radius: 10px; border-width: 6px; border-color: #5C4033; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: center;">
-                    <!-- Spacer to force width in ScrollView -->
-                    <ui:VisualElement style="flex-grow: 1; width: 100%;" />
-                    
-                    <!-- The Back (Oval) -->
-                    <ui:VisualElement style="width: 200px; height: 360px; background-color: #E3C5A5; border-radius: 100px; position: absolute; justify-content: space-evenly; align-items: center; padding-top: 20px; padding-bottom: 20px;">
-                        <!-- 5 Target Slots -->
-                        <ui:VisualElement name="HsSlot0" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(139, 90, 43, 0.3); border-width: 2px; border-color: rgba(92, 64, 51, 0.5);" />
-                        <ui:VisualElement name="HsSlot1" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(139, 90, 43, 0.3); border-width: 2px; border-color: rgba(92, 64, 51, 0.5);" />
-                        <ui:VisualElement name="HsSlot2" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(139, 90, 43, 0.3); border-width: 2px; border-color: rgba(92, 64, 51, 0.5);" />
-                        <ui:VisualElement name="HsSlot3" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(139, 90, 43, 0.3); border-width: 2px; border-color: rgba(92, 64, 51, 0.5);" />
-                        <ui:VisualElement name="HsSlot4" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(139, 90, 43, 0.3); border-width: 2px; border-color: rgba(92, 64, 51, 0.5);" />
-                    </ui:VisualElement>
+    <ui:VisualElement name="HotStoneContainer" style="display: none; width: 100%; min-width: 440px; height: 720px; flex-direction: column; background-color: #5C3A21; border-radius: 20px; border-width: 8px; border-color: #3D2615; margin-bottom: 20px; position: relative; overflow: hidden; align-items: center; justify-content: center;">
+        <!-- Spacer to force width in ScrollView -->
+        <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+        
+        <!-- The Back (Oval) -->
+        <ui:VisualElement style="width: 320px; height: 560px; background-color: #E3C5A5; border-radius: 160px; position: absolute; justify-content: space-evenly; align-items: center; padding-top: 30px; padding-bottom: 30px; border-width: 4px; border-color: rgba(139, 90, 43, 0.4);">
+            <!-- 5 Target Slots -->
+            <ui:VisualElement name="HsSlot0" style="width: 76px; height: 76px; border-radius: 38px; background-color: rgba(139, 90, 43, 0.35); border-width: 3px; border-color: rgba(92, 64, 51, 0.6);" />
+            <ui:VisualElement name="HsSlot1" style="width: 76px; height: 76px; border-radius: 38px; background-color: rgba(139, 90, 43, 0.35); border-width: 3px; border-color: rgba(92, 64, 51, 0.6);" />
+            <ui:VisualElement name="HsSlot2" style="width: 76px; height: 76px; border-radius: 38px; background-color: rgba(139, 90, 43, 0.35); border-width: 3px; border-color: rgba(92, 64, 51, 0.6);" />
+            <ui:VisualElement name="HsSlot3" style="width: 76px; height: 76px; border-radius: 38px; background-color: rgba(139, 90, 43, 0.35); border-width: 3px; border-color: rgba(92, 64, 51, 0.6);" />
+            <ui:VisualElement name="HsSlot4" style="width: 76px; height: 76px; border-radius: 38px; background-color: rgba(139, 90, 43, 0.35); border-width: 3px; border-color: rgba(92, 64, 51, 0.6);" />
+        </ui:VisualElement>
 
-                    <!-- The 5 Stones (Draggable) -->
-                    <ui:VisualElement name="HsStone0" style="width: 40px; height: 40px; border-radius: 20px; background-color: #2F4F4F; position: absolute; bottom: 20px; left: 40px;" />
-                    <ui:VisualElement name="HsStone1" style="width: 40px; height: 40px; border-radius: 20px; background-color: #2F4F4F; position: absolute; bottom: 30px; left: 100px;" />
-                    <ui:VisualElement name="HsStone2" style="width: 40px; height: 40px; border-radius: 20px; background-color: #2F4F4F; position: absolute; bottom: 15px; right: 100px;" />
-                    <ui:VisualElement name="HsStone3" style="width: 40px; height: 40px; border-radius: 20px; background-color: #2F4F4F; position: absolute; bottom: 40px; right: 40px;" />
-                    <ui:VisualElement name="HsStone4" style="width: 40px; height: 40px; border-radius: 20px; background-color: #2F4F4F; position: absolute; bottom: 10px; right: 160px;" />
-                    
-                    <!-- Timer -->
-                    <ui:Label name="HsTimerText" text="15.0s" style="position: absolute; top: 10px; right: 10px; font-size: 24px; color: white; -unity-font-style: bold;" />
-                </ui:VisualElement>
+        <!-- The 5 Stones (Draggable) -->
+        <ui:VisualElement name="HsStone0" style="width: 76px; height: 76px; border-radius: 38px; background-color: #2F4F4F; position: absolute; bottom: 25px; left: 30px; border-width: 2px; border-color: rgba(255,255,255,0.25);" />
+        <ui:VisualElement name="HsStone1" style="width: 76px; height: 76px; border-radius: 38px; background-color: #2F4F4F; position: absolute; bottom: 35px; left: 120px; border-width: 2px; border-color: rgba(255,255,255,0.25);" />
+        <ui:VisualElement name="HsStone2" style="width: 76px; height: 76px; border-radius: 38px; background-color: #2F4F4F; position: absolute; bottom: 20px; right: 120px; border-width: 2px; border-color: rgba(255,255,255,0.25);" />
+        <ui:VisualElement name="HsStone3" style="width: 76px; height: 76px; border-radius: 38px; background-color: #2F4F4F; position: absolute; bottom: 45px; right: 30px; border-width: 2px; border-color: rgba(255,255,255,0.25);" />
+        <ui:VisualElement name="HsStone4" style="width: 76px; height: 76px; border-radius: 38px; background-color: #2F4F4F; position: absolute; bottom: 15px; left: 210px; border-width: 2px; border-color: rgba(255,255,255,0.25);" />
+        
+        <!-- Timer -->
+        <ui:Label name="HsTimerText" text="15.0s" style="position: absolute; top: 15px; right: 20px; font-size: 30px; color: white; -unity-font-style: bold; background-color: rgba(0,0,0,0.5); padding: 6px 16px; border-radius: 12px;" />
+    </ui:VisualElement>
 </ui:UXML>

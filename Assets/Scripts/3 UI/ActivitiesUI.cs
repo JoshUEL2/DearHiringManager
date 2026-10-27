@@ -116,7 +116,7 @@ public class ActivitiesUI
         card.Add(fadeOverlay);
 
         VisualElement contentWrapper = new VisualElement();
-        contentWrapper.style.width = Length.Percent(60);
+        contentWrapper.style.width = Length.Percent(70);
         contentWrapper.style.paddingLeft = 30; contentWrapper.style.paddingRight = 30;
         contentWrapper.style.paddingTop = 30; contentWrapper.style.paddingBottom = 30;
         contentWrapper.style.flexGrow = 1;
@@ -172,12 +172,12 @@ public class ActivitiesUI
         performBtn.text = "ATTEND";
         performBtn.style.backgroundColor = new StyleColor(new Color(0.22f, 0.74f, 0.97f));
         performBtn.style.color = new StyleColor(Color.white);
-        performBtn.style.fontSize = 24;
+        performBtn.style.fontSize = 28;
         performBtn.style.unityFontStyleAndWeight = FontStyle.Bold;
-        performBtn.style.paddingLeft = 20; performBtn.style.paddingRight = 20;
-        performBtn.style.paddingTop = 15; performBtn.style.paddingBottom = 15;
-        performBtn.style.borderTopLeftRadius = 12; performBtn.style.borderTopRightRadius = 12;
-        performBtn.style.borderBottomLeftRadius = 12; performBtn.style.borderBottomRightRadius = 12;
+        performBtn.style.paddingLeft = 28; performBtn.style.paddingRight = 28;
+        performBtn.style.paddingTop = 16; performBtn.style.paddingBottom = 16;
+        performBtn.style.borderTopLeftRadius = 14; performBtn.style.borderTopRightRadius = 14;
+        performBtn.style.borderBottomLeftRadius = 14; performBtn.style.borderBottomRightRadius = 14;
         performBtn.clicked += onClick;
         
         bottomRow.Add(performBtn);
