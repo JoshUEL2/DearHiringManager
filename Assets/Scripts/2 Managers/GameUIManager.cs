@@ -96,8 +96,6 @@ public class GameUIManager : MonoBehaviour
         
         btnRandomizeBackstory = creationRoot.Q<Button>("BtnRandomizeBackstory");
         btnRandomizeBackstory.clicked += OnRandomizeBackstoryClicked;
-        var btnReroll = creationRoot.Q<Button>("BtnRerollBackstory");
-        if (btnReroll != null) btnReroll.clicked += OnRandomizeBackstoryClicked;
 
         beginButton = creationRoot.Q<Button>("BeginButton");
         beginButton.clicked += OnBeginClicked;
