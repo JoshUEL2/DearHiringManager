@@ -214,7 +214,6 @@
     border-width: 0;
     -unity-background-scale-mode: stretch-to-fill;
     background-size: 100% 100%;
-    picking-mode: ignore;
 }
 
 .bottom-nav-blur-shield {
@@ -227,7 +226,6 @@
     border-top-width: 0;
     -unity-background-scale-mode: stretch-to-fill;
     background-size: 100% 100%;
-    picking-mode: ignore;
     transition: translate 0.4s ease-in-out, opacity 0.4s ease-in-out;
     translate: 0 0;
     opacity: 1;
@@ -1772,7 +1770,6 @@
     background-image: url("project://database/Assets/Art/Icons/Close_X.png");
     -unity-background-scale-mode: scale-to-fit;
     align-self: center;
-    picking-mode: ignore;
 }
 
 /* ============================================================== */
@@ -1805,7 +1802,6 @@
     transition-property: translate;
     transition-duration: 0.24s;
     transition-timing-function: ease-out-cubic;
-    picking-mode: ignore;
 }
 
 .segmented-tab-btn {

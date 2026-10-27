@@ -116,6 +116,11 @@ public class HapticManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Alias for SelectionClick - crisp haptic for tab and segmented control changes.
+    /// </summary>
+    public static void SelectionChanged() => SelectionClick();
+
+    /// <summary>
     /// Subtle pulse specifically for high-stress heartbeat - maintains rapid rhythm without jarring motor shake.
     /// </summary>
     public static void HeartbeatPulse()

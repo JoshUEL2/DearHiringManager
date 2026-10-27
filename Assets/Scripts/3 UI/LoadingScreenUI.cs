@@ -367,7 +367,6 @@ public class LoadingScreenUI : MonoBehaviour
         AudioManager.Instance?.BeginIntroSequence();
 
         bool playedWhoosh = false;
-        bool playedSketch = false;
         bool[] playedTick = new bool[4];
         float[] svgTickTimes = { 1.20f, 1.70f, 2.20f, 2.70f };
         bool playedStampSlam = false;

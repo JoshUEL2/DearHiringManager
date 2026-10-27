@@ -31,7 +31,7 @@ public class ActivitiesUI
 
         btnStress?.RegisterCallback<ClickEvent>(ev => {
             AudioManager.Instance?.PlayClick();
-            HapticManager.SelectionChanged();
+            HapticManager.SelectionClick();
             wellnessContainer.style.display = DisplayStyle.Flex;
             mixersContainer.style.display = DisplayStyle.None;
             if (indicator != null) indicator.style.translate = new Translate(new Length(0, LengthUnit.Percent), 0, 0);
@@ -41,7 +41,7 @@ public class ActivitiesUI
 
         btnMixers?.RegisterCallback<ClickEvent>(ev => {
             AudioManager.Instance?.PlayClick();
-            HapticManager.SelectionChanged();
+            HapticManager.SelectionClick();
             wellnessContainer.style.display = DisplayStyle.None;
             mixersContainer.style.display = DisplayStyle.Flex;
             if (indicator != null) indicator.style.translate = new Translate(new Length(100, LengthUnit.Percent), 0, 0);
